@@ -4,32 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <title>About Me</title>
     <style>
         body {
             background-color: #f9f9f9; /* Almost white background */
             color: #333; /* Dark grey text */
-            font-family: "Host Grotesk", Arial, sans-serif;
-            font-size: 14px; /* Small font size */
+            font-family: "Hanken Grotesk", Arial, sans-serif;
+            font-size: 15px; /* Small font size */
+            font-weight: 300;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         h1 {
-            color: #555; /* Slightly darker grey for the headline */
+            color: #333; /* Slightly darker grey for the headline */
             font-size: 24px;
             margin-bottom: 20px;
         }
         p {
             margin-bottom: 15px;
         }
+        a {
+            color: #333;
+        }
+        a:hover {
+            color: #868686;
+        }
+        .content {
+            padding: 36px 40px 36px 40px;
+            width: 600px;
+            text-align: left;
+        }
         .contact, .projects, footer {
             margin-top: 30px;
         }
+        .profile {
+            margin-left: -15px;
+        }
         .contact h2, .projects h2 {
-            color: #555;
+            color: #333;
             font-size: 18px;
             margin-bottom: 10px;
         }
@@ -43,38 +58,56 @@
             color: #777; /* Light grey for footer text */
             font-size: 12px;
         }
-        .yellow {
-            background-color: #FFE500;
-            color: #333;
+        /* Mobile breakpoint (max-width 768px) */
+        @media (max-width: 680px) {
+            .content {
+                width: 90%; /* Full width on small screens */
+                padding: 20px;
+            }
+            .profile {
+            margin-left: -5px;
+        }
         }
     </style>
 </head>
 <body>
-    <img src="images/adamcernik@3x.png" width="120"/>
-    <h1>Adam Černík</h1>
-    <p>I’m a <span class="yellow">UX & Product Designer with over 15 years of experience</span> in crafting digital experiences that blend usability, aesthetics, and business impact. Most recently, I’ve been working independently, helping businesses refine their digital products through strategic UX and design consulting. Before that, I led design at Deutsche Bank, shaping the mobile banking experience and contributing to one of the first Apple Pay integrations in Europe. I also played a key role at Austrian Railways (ÖBB) and ORF, designing digital platforms used by millions. Prior to that, I worked with various startups and enterprises, focusing on interaction design, user research, and prototyping, ensuring products are not just functional but truly intuitive. Now, I’m working with select clients across Germany, Austria, and beyond, offering UX strategy, product design, and digital transformation expertise.</p>
+    <div class="content">
+    <img src="images/adamcernik@3x.png" width="120" class="profile"/>
+    <br><br>
+    <span>Adam Černík</span><br>
+    <span>Software Design & Creative</span><br>
+    <span>Prague, Czechia | Vienna, Austria</span>
+    <br><br>
 
-    <p>This page reflects my design philosophy—I create only what’s needed and communicate only what truly matters.</p>
+    <p>I’m a UX & Product Designer with over 15 years of experience crafting digital experiences that seamlessly blend usability, aesthetics, and business impact. Currently, I work independently, partnering with businesses to refine their digital products through strategic UX and design consulting.</p>
+
+    <p>Previously, I was part of the design team at Deutsche Bank, where I played a significant role in shaping the mobile banking experience and contributed to one of the first Apple Pay integrations in Europe. My career also includes impactful roles at Austrian Railways (ÖBB) and ORF, where I designed digital platforms used by millions of users. Earlier, I collaborated with various startups and enterprises, focusing on interaction design, user research, and prototyping to ensure products are not only functional but also truly intuitive.</p>
+        
+    <p>Today, I work with select clients across Germany, Austria, and beyond, offering expertise in UX strategy, product design, and digital transformation to help businesses achieve their goals through thoughtful, user-centered design.</p>
+
+    <p>This page reflects my design philosophy—I design with purpose, creating only what’s needed and communicating only what truly matters. Every detail is crafted with you in mind.</p>
+
+    <div class="projects">
+        <h2>Recent activities</h2>
+        <ul>
+            <li>My most recent project is incredibly exciting, though, unfortunately, it’s under wraps due to an NDA. Stay tuned for more details once I can share them!</li>
+            <li>I’ve teamed up with the talented team at <a href="https://svejda-goldmann.cz">Švejda Goldmann UX Studio</a> to bring our exceptional design services to Germany and Austria.</li>
+            <li>Always hands-on with software design, creating practical and impactful solutions.</li>
+        </ul>
+    </div>
 
     <div class="contact">
         <h2>Contact</h2>
-        <p>Address: <strong>Prague</strong>, Karlín</p>
-        <p>Email: mail@adamcernik.cz</p>
-        <p>Phone: +420 604 650 511</p>
+        Address: Prague, Karlín<br>
+        Email: <a href="mailto:mail@adamcernik.cz">design@adamcernik.cz</a><br>
+        Phone: +420 604 650 511
     </div>
 
-    <div class="projects">
-        <h2>Projects</h2>
-        <ul>
-            <li>My recent project is really exciting and unfortunately a secret (according to the NDA I signed).
-                <br>Keywords: <i>AI, Startup, Senior People</i></li>
-            <li>Project 2: Description of your second project.</li>
-            <li>Project 3: Description of your third project.</li>
-        </ul>
-    </div>
+
 
     <footer>
         <p>&copy; 2025 Adam Černík. All rights reserved. ID: 71552316</p>
     </footer>
+</div>
 </body>
 </html>
