@@ -222,6 +222,7 @@ p {
 @media (max-width: 680px) {
     body {
         font-family: "Libre Baskerville", serif;
+        font-size: 18px;
     }
     .content {
         width: 90%; /* Full width on small screens */
