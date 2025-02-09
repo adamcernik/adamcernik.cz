@@ -211,7 +211,9 @@ p {
    #MEDIA QUERIES
    ========================================================================== */
 
-/* Responsive styles */
+/**
+ * Responsive styles.
+ */
 
 /* Mobile breakpoint (max-width 680px) */
 @media (max-width: 680px) {
@@ -224,9 +226,14 @@ p {
 }
 }
 
+/* ==========================================================================
+   #Dark mode
+   ========================================================================== */
+
 /* Dark mode */
 
-body.dark-mode a {
+body.dark-mode {
     background-color: #171717;
     color: #d6d6d6;
 }
+
