@@ -1,5 +1,5 @@
-// Get the toggle button and body element
-const toggleButton = document.getElementById('mode-toggle');
+// Get the toggle image and body element
+const toggleImage = document.getElementById('theme-toggle-img');
 const body = document.body;
 
 // Check if dark mode is enabled in localStorage
@@ -8,19 +8,16 @@ const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
 // Apply dark mode if it was previously enabled
 if (isDarkMode) {
     body.classList.add('dark-mode');
-    toggleButton.textContent = 'Switch to Light Mode';
 }
 
-// Toggle between light and dark modes
-toggleButton.addEventListener('click', () => {
+// Toggle between light and dark modes when the image is clicked
+toggleImage.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
 
-    // Update button text and save preference to localStorage
+    // Save preference to localStorage
     if (body.classList.contains('dark-mode')) {
-        toggleButton.textContent = 'Switch to Light Mode';
         localStorage.setItem('darkMode', 'enabled');
     } else {
-        toggleButton.textContent = 'Switch to Dark Mode';
         localStorage.setItem('darkMode', 'disabled');
     }
 });

@@ -23,6 +23,7 @@ html, body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s, color 0.3s;
 }
 h1 {
     color: #333; /* Slightly darker grey for the headline */
@@ -52,8 +53,15 @@ p {
 
 .mode {
     text-align: right;
-    font-size: 12px;
+    font-size: 13px;
 }   
+
+.toggle {
+    border: none;
+    background-color: none;
+    font-size: 18px;
+
+}
 
 ul {
     list-style-type: square;
@@ -77,6 +85,7 @@ img {
     max-width: 100%;
     height: auto;
 }
+
 
 /* ==========================================================================
    #TYPOGRAPHY
@@ -147,33 +156,6 @@ p {
     padding: 1rem;
 }
 
-/* ==========================================================================
-   #COMPONENTS
-   ========================================================================== */
-
-/**
- * Button styles.
- */
-
-.button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: dotted;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: none;
-}
-
-/**
- * Card styles.
- */
-
 .card {
     background-color: #fff;
     border-radius: 8px;
@@ -223,6 +205,7 @@ p {
     body {
         font-family: "Libre Baskerville", serif;
         font-size: 18px;
+        font-weight: 100;
     }
     .content {
         width: 90%; /* Full width on small screens */
@@ -233,25 +216,28 @@ p {
 }
 }
 
-/* ==========================================================================
-   #Dark mode
-   ========================================================================== */
-
 /* Dark mode */
 
 body.dark-mode {
     background-color: #171717;
     color: #d6d6d6;
 }
-
-/* Link color in dark mode */
-body.dark-mode a {
-    color: #797979; /* Example link color (light blue) */
+.dark-mode #theme-toggle-img {
+    filter: brightness(0.9);
 }
 
-/* Optional: Change link color on hover */
+body.dark-mode a {
+    color: #797979;
+}
+
 body.dark-mode a:hover {
-    color: #ffffff; /* Example hover color (lighter blue) */
+    color: #ffffff;
+}
+#theme-toggle-img {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
 body.dark-mode h1,
@@ -261,4 +247,7 @@ body.dark-mode h4,
 body.dark-mode h5,
 body.dark-mode h6 {
     color: #d6d6d6;
+}
+.tap {
+    font-size: 10px;
 }
