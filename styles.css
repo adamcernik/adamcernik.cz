@@ -1,0 +1,278 @@
+
+h1 {
+    color: #333; /* Slightly darker grey for the headline */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+p {
+    margin-bottom: 15px;
+}
+.content {
+    padding: 36px 40px 36px 40px;
+    width: 600px;
+    text-align: left;
+}
+.contact, .projects, footer {
+    margin-top: 30px;
+}
+.profile {
+    margin-left: -15px;
+    margin-top: -15px
+}
+.contact h2, .projects h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.mode {
+    text-align: right;
+    font-size: 12px;
+}    
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+footer {
+    text-align: center;
+    margin-top: 50px;
+    color: #777; /* Light grey for footer text */
+    font-size: 12px;
+}
+/* Mobile breakpoint (max-width 768px) */
+@media (max-width: 680px) {
+    .content {
+        width: 90%; /* Full width on small screens */
+        padding: 20px;
+    }
+    .profile {
+    margin-left: -5px;
+}
+}
+
+/* ==========================================================================
+   #GLOBAL STYLES
+   ========================================================================== */
+
+/**
+ * Global styles and resets.
+ */
+
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: #f9f9f9; /* Almost white background */
+    color: #333; /* Dark grey text */
+    font-family: "Hanken Grotesk", Arial, sans-serif;
+    font-size: 15px; /* Small font size */
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    color: #333; /* Slightly darker grey for the headline */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+p {
+    margin-bottom: 15px;
+}
+.content {
+    padding: 36px 40px 36px 40px;
+    width: 600px;
+    text-align: left;
+}
+.contact, .projects, footer {
+    margin-top: 30px;
+}
+.profile {
+    margin-left: -15px;
+    margin-top: -15px
+}
+.contact h2, .projects h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.mode {
+    text-align: right;
+    font-size: 12px;
+}    
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+footer {
+    text-align: center;
+    margin-top: 50px;
+    color: #777; /* Light grey for footer text */
+    font-size: 12px;
+}
+a {
+    text-decoration: none;
+    color: #333;
+}
+a:hover {
+    color: #868686;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ==========================================================================
+   #TYPOGRAPHY
+   ========================================================================== */
+
+/**
+ * Typography styles.
+ */
+
+h1 {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #333; /* Slightly darker grey for the headline */
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   #LAYOUT
+   ========================================================================== */
+
+/**
+ * Layout styles.
+ */
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem;
+}
+
+.col {
+    flex: 1;
+    padding: 1rem;
+}
+
+/* ==========================================================================
+   #COMPONENTS
+   ========================================================================== */
+
+/**
+ * Button styles.
+ */
+
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/**
+ * Card styles.
+ */
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   #UTILITIES
+   ========================================================================== */
+
+/**
+ * Utility classes.
+ */
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.pt-1 {
+    padding-top: 1rem;
+}
+
+.pb-1 {
+    padding-bottom: 1rem;
+}
+
+/* ==========================================================================
+   #MEDIA QUERIES
+   ========================================================================== */
+
+/**
+ * Responsive styles.
+ */
+
+/* Mobile breakpoint (max-width 768px) */
+@media (max-width: 680px) {
+    .content {
+        width: 90%; /* Full width on small screens */
+        padding: 20px;
+    }
+    .profile {
+    margin-left: -5px;
+}
+}
