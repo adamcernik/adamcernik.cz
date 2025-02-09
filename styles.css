@@ -250,11 +250,11 @@ body.dark-mode a:hover {
     color: #ffffff; /* Example hover color (lighter blue) */
 }
 
-/* Optional: Change link color for visited links */
-body.dark-mode a:visited {
-    color: #797979; /* Example visited link color (purple) */
-}
-
-body.dark-mode h1 h2 h3 h4 h5 h6 {
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
     color: #d6d6d6;
 }
