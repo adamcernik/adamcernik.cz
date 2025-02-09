@@ -239,4 +239,10 @@ body.dark-mode {
     background-color: #171717;
     color: #d6d6d6;
 }
+a.dark-mode {
+    color: #d6d6d6;
+}
+a:hover.dark-mode {
+    color: #ffffff;
+}
 
