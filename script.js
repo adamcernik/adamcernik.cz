@@ -21,3 +21,35 @@ toggleImage.addEventListener('click', () => {
         localStorage.setItem('darkMode', 'disabled');
     }
 });
+
+
+
+// Get all trigger elements
+const triggers = document.querySelectorAll('.trigger-modal');
+const closeButtons = document.querySelectorAll('.close-btn');
+
+// Add click event to all trigger elements
+triggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+        const modalId = trigger.getAttribute('data-modal-id'); // Get the modal ID
+        const modal = document.getElementById(modalId); // Find the modal
+        modal.style.display = 'flex'; // Show the modal
+    });
+});
+
+// Add click event to all close buttons
+closeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.modal-overlay'); // Find the parent modal
+        modal.style.display = 'none'; // Hide the modal
+    });
+});
+
+// Close modal when clicking outside
+document.querySelectorAll('.modal-overlay').forEach((overlay) => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = 'none'; // Hide the modal
+        }
+    });
+});

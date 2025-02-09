@@ -17,7 +17,7 @@
 html, body {
     background-color: #f9f9f9; /* Almost white background */
     color: #333; /* Dark grey text */
-    font-family: "Hanken Grotesk", Arial, sans-serif;
+    font-family: "Libre Baskerville", Arial, sans-serif;
     font-size: 15px; /* Small font size */
     font-weight: 300;
     line-height: 1.6;
@@ -25,11 +25,7 @@ html, body {
     padding: 0;
     transition: background-color 0.3s, color 0.3s;
 }
-h1 {
-    color: #333; /* Slightly darker grey for the headline */
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+
 p {
     margin-bottom: 15px;
 }
@@ -43,7 +39,6 @@ p {
 }
 .profile {
     margin-left: -15px;
-    margin-top: -15px
 }
 .contact h2, .projects h2 {
     color: #333;
@@ -63,6 +58,51 @@ p {
 
 }
 
+.link-top {
+    margin: 30px;
+}
+
+.tooltip {
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px dotted #bcbdf8;
+    display: inline-block;
+    line-height: 1.2;
+    transition: all 0.3s ease; /* Smooth transition */
+    position: relative; /* Required for positioning the tooltip */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+}
+
+.tooltip:hover {
+    position: relative; /* Required for positioning the tooltip */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+    color: #333;
+    border-bottom: 1px dotted #6B6CE2;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip); /* Dynamically set content from data-tooltip */
+    position: absolute;
+    bottom: 100%; /* Position above the text */
+    left: 50%;
+    transform: translateX(-50%); /* Center the tooltip */
+    background-color: white; /* Tooltip background */
+    color: #333; /* Tooltip text color */
+    padding: 6px 12px; /* Padding for the tooltip */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 14px; /* Tooltip font size */
+    white-space: nowrap; /* Prevent text from wrapping */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+.tooltip:hover::after {
+    opacity: 1; /* Show tooltip */
+    visibility: visible; /* Show tooltip */
+}
+
 ul {
     list-style-type: square;
     padding-left: 20px;
@@ -70,15 +110,15 @@ ul {
 footer {
     text-align: center;
     margin-top: 50px;
-    color: #777; /* Light grey for footer text */
+    color: #777;
     font-size: 12px;
 }
 a {
     text-decoration: none;
-    color: #333;
+    color: #6B6CE2;
 }
 a:hover {
-    color: #868686;
+    color: #4244bf;
 }
 
 img {
@@ -100,36 +140,16 @@ h1 {
     font-weight: bold;
     line-height: 1.2;
     color: #333; /* Slightly darker grey for the headline */
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
-h1 {
-    font-size: 2.5rem;
-}
-
-h2 {
-    font-size: 2rem;
-}
-
-h3 {
-    font-size: 1.75rem;
-}
-
-h4 {
-    font-size: 1.5rem;
-}
-
-h5 {
-    font-size: 1.25rem;
-}
-
-h6 {
-    font-size: 1rem;
-}
-
-p {
-    margin-bottom: 1rem;
-}
+h1 {font-size: 1.5rem; line-height: 2rem; margin-bottom: 10px;}
+h2 {font-size: 2rem;}
+h3 {font-size: 1.75rem;}
+h4 {font-size: 1.5rem;}
+h5 {font-size: 1.25rem;}
+h6 {font-size: 1rem;}
+p {margin-bottom: 1rem;}
 
 /* ==========================================================================
    #LAYOUT
@@ -226,18 +246,11 @@ body.dark-mode {
     filter: brightness(0.9);
 }
 
-body.dark-mode a {
-    color: #797979;
-}
 
-body.dark-mode a:hover {
-    color: #ffffff;
-}
 #theme-toggle-img {
     width: 120px;
     height: 120px;
     cursor: pointer;
-    margin-top: 20px;
 }
 
 body.dark-mode h1,
@@ -250,4 +263,53 @@ body.dark-mode h6 {
 }
 .tap {
     font-size: 10px;
+}
+
+
+
+/* ==========================================================================
+   #BLUR MODAL
+   ========================================================================== */
+
+/* Blurred backdrop */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px); /* Blur the background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above everything */
+}
+
+/* Modal content */
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    z-index: 1001; /* Ensure it's above the overlay */
+}
+
+/* Close button */
+.close-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Trigger button */
+.trigger-modal {
+    cursor: pointer;
 }
