@@ -239,10 +239,22 @@ body.dark-mode {
     background-color: #171717;
     color: #d6d6d6;
 }
-a.dark-mode {
-    color: #d6d6d6;
-}
-a:hover.dark-mode {
-    color: #ffffff;
+
+/* Link color in dark mode */
+body.dark-mode a {
+    color: #797979; /* Example link color (light blue) */
 }
 
+/* Optional: Change link color on hover */
+body.dark-mode a:hover {
+    color: #ffffff; /* Example hover color (lighter blue) */
+}
+
+/* Optional: Change link color for visited links */
+body.dark-mode a:visited {
+    color: #797979; /* Example visited link color (purple) */
+}
+
+body.dark-mode h1 h2 h3 h4 h5 h6 {
+    color: #d6d6d6;
+}
