@@ -220,10 +220,12 @@ p {
 
 /* Mobile breakpoint (max-width 768px) */
 @media (max-width: 680px) {
+    body {
+        font-family: "Libre Baskerville", serif;
+    }
     .content {
         width: 90%; /* Full width on small screens */
         padding: 20px;
-        font-family: "Libre Baskerville", serif;
     }
     .profile {
     margin-left: -5px;
