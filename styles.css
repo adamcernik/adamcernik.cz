@@ -24,55 +24,51 @@ html, body {
     margin: 0;
     padding: 0;
 }
-
 h1 {
     color: #333; /* Slightly darker grey for the headline */
     font-size: 24px;
     margin-bottom: 20px;
 }
-
 p {
     margin-bottom: 15px;
 }
-
 .content {
     padding: 36px 40px 36px 40px;
     width: 600px;
     text-align: left;
 }
-
 .contact, .projects, footer {
     margin-top: 30px;
 }
-
 .profile {
     margin-left: -15px;
     margin-top: -15px
 }
-
 .contact h2, .projects h2 {
     color: #333;
     font-size: 18px;
     margin-bottom: 10px;
-} 
+}
+
+.mode {
+    text-align: right;
+    font-size: 12px;
+}   
 
 ul {
     list-style-type: square;
     padding-left: 20px;
 }
-
 footer {
     text-align: center;
     margin-top: 50px;
     color: #777; /* Light grey for footer text */
     font-size: 12px;
 }
-
 a {
     text-decoration: none;
     color: #333;
 }
-
 a:hover {
     color: #868686;
 }
@@ -81,7 +77,15 @@ img {
     max-width: 100%;
     height: auto;
 }
-¨
+
+/* ==========================================================================
+   #TYPOGRAPHY
+   ========================================================================== */
+
+/**
+ * Typography styles.
+ */
+
 h1 {
     margin-bottom: 1rem;
     font-weight: bold;
@@ -214,7 +218,7 @@ p {
  * Responsive styles.
  */
 
-/* Mobile breakpoint (max-width 680px) */
+/* Mobile breakpoint (max-width 768px) */
 @media (max-width: 680px) {
     .content {
         width: 90%; /* Full width on small screens */
