@@ -1,13 +1,3 @@
-/* ==========================================================================
-   #GLOBAL STYLES
-   ========================================================================== */
-
-/**
- * Global styles and resets.
- */
-
- /* Default light mode */
-
  * {
     margin: 0;
     padding: 0;
@@ -63,7 +53,7 @@ p {
 }
 
 .tooltip {
-    color: #333;
+    color: #000000;
     text-decoration: none;
     border-bottom: 1px dotted #bcbdf8;
     display: inline-block;
@@ -108,17 +98,19 @@ ul {
     padding-left: 20px;
 }
 footer {
-    text-align: center;
     margin-top: 50px;
     color: #777;
     font-size: 12px;
 }
 a {
+    color: #007BFF;
     text-decoration: none;
-    color: #6B6CE2;
+    border-bottom: 1px dotted #4244bf;
+    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
 }
 a:hover {
-    color: #4244bf;
+    color: #000000;
+    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
 }
 
 img {
@@ -246,6 +238,26 @@ body.dark-mode {
     filter: brightness(0.9);
 }
 
+.dark-mode a:hover {
+    color: #fff;
+}
+
+.dark-mode .tooltip {
+    color: #d6d6d6;
+    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
+}
+.dark.mode .tooltip:hover {
+    color: #fff;
+    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
+}
+
+.dark-mode .modal h2 {
+    color: #333!important;
+}
+
+.dark-mode .dark {
+    color: #333!important;
+}
 
 #theme-toggle-img {
     width: 120px;
@@ -294,7 +306,8 @@ body.dark-mode h6 {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 90%;
-    text-align: center;
+    text-align: left;
+    font-size: 15px;
     z-index: 1001; /* Ensure it's above the overlay */
 }
 
