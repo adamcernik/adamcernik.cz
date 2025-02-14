@@ -19,6 +19,14 @@ html, body {
 p {
     margin-bottom: 15px;
 }
+
+small {
+    font-size: 0.5em;
+    color: #333;
+    font-weight: 100;
+    margin-top: 0px;
+    padding-top: 0px;
+}
 .content {
     padding: 36px 40px 36px 40px;
     width: 600px;
@@ -128,14 +136,14 @@ img {
  */
 
 h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-weight: bold;
     line-height: 1.2;
     color: #333; /* Slightly darker grey for the headline */
     margin-bottom: 0px;
 }
 
-h1 {font-size: 1.5rem; line-height: 2rem; margin-bottom: 10px;}
+h1 {font-size: 1.5rem; line-height: 2rem; margin-bottom: 5px;}
 h2 {font-size: 2rem;}
 h3 {font-size: 1.75rem;}
 h4 {font-size: 1.5rem;}
@@ -257,6 +265,9 @@ body.dark-mode {
 
 .dark-mode .dark {
     color: #333!important;
+}
+.dark-mode small {
+    color: #d6d6d6;
 }
 
 #theme-toggle-img {
