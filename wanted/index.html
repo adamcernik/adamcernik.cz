@@ -4,264 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wanted Design Studio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0F172A;
-            --bg-secondary: #1E293B;
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
-            --accent: #38BDF8;
-            --accent-dark: #0EA5E9;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0 3rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        header {
-            margin-bottom: 4rem;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            line-height: 1.2;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            grid-auto-rows: 280px;
-        }
-
-        .tile {
-            background-color: var(--bg-secondary);
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .tile::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .tile:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .tile:hover::before {
-            opacity: 1;
-        }
-
-        .tile.large {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .tile img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .tile:hover img {
-            opacity: 1;
-        }
-
-        .tile-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
-            color: var(--text-primary);
-            transform: translateY(0);
-            transition: transform 0.3s ease;
-        }
-
-        .tile:hover .tile-content {
-            transform: translateY(-5px);
-        }
-
-        .tile-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .tile-content p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: var(--text-primary);
-            padding: 0.75rem 2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
-            border-color: var(--accent);
-        }
-
-        @media (max-width: 1200px) {
-            .bento-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            h1 {
-                font-size: 3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .bento-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tile.large {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            body {
-                padding: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <nav>
             <a href="#" class="logo">Wanted Design</a>
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-links">
                 <a href="#projects">Projects</a>
                 <a href="#services">Services</a>
@@ -269,6 +22,16 @@
                 <a href="#contact">Contact</a>
             </div>
         </nav>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-links">
+                <a href="#projects">Projects</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
 
         <header>
             <h1>Crafting Exceptional<br>Interior Experiences</h1>
@@ -291,6 +54,7 @@
                 <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6" alt="Custom furniture">
                 <div class="tile-content">
                     <h3>Bespoke Furniture</h3>
+                    <p>Handcrafted pieces that blend form and function</p>
                 </div>
             </div>
 
@@ -298,6 +62,7 @@
                 <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7" alt="Interior design">
                 <div class="tile-content">
                     <h3>Modern Interiors</h3>
+                    <p>Contemporary spaces that inspire and delight</p>
                 </div>
             </div>
 
@@ -305,6 +70,7 @@
                 <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8" alt="Shop design">
                 <div class="tile-content">
                     <h3>Retail Solutions</h3>
+                    <p>Innovative retail spaces that drive engagement</p>
                 </div>
             </div>
 
@@ -312,6 +78,7 @@
                 <img src="https://images.unsplash.com/photo-1618221381711-42ca8ab6e908" alt="Sustainable materials">
                 <div class="tile-content">
                     <h3>Sustainable Design</h3>
+                    <p>Eco-conscious solutions for modern retail</p>
                 </div>
             </div>
 
@@ -319,9 +86,393 @@
                 <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221" alt="Concept development">
                 <div class="tile-content">
                     <h3>Concept Development</h3>
+                    <p>From vision to reality, we craft unique experiences</p>
                 </div>
             </div>
         </div>
+
+        <section class="showcase-section">
+            <h2>Our Capabilities</h2>
+            <p class="showcase-subtitle">Explore our diverse range of design solutions</p>
+            
+            <div class="showcase-grid">
+                <!-- Text-only tiles -->
+                <div class="tile text-tile">
+                    <h3>Minimalist Design</h3>
+                    <p>Less is more. We create spaces that breathe and inspire.</p>
+                </div>
+
+                <div class="tile text-tile gradient-bg">
+                    <h3>Custom Solutions</h3>
+                    <p>Every space tells a unique story. Let us help you tell yours.</p>
+                </div>
+
+                <!-- Outlined tiles -->
+                <div class="tile outline-tile">
+                    <span class="accent-text">01</span>
+                    <h3>Research</h3>
+                    <p>Understanding your needs and vision</p>
+                </div>
+
+                <div class="tile outline-tile">
+                    <span class="accent-text">02</span>
+                    <h3>Design</h3>
+                    <p>Creating the perfect solution</p>
+                </div>
+
+                <!-- Image-only tiles -->
+                <div class="tile image-tile">
+                    <img src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e" alt="Minimal furniture">
+                </div>
+
+                <div class="tile image-tile overlay-fade">
+                    <img src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a" alt="Interior detail">
+                </div>
+
+                <!-- Mixed content tiles -->
+                <div class="tile mixed-tile">
+                    <div class="mixed-content">
+                        <h3>Sustainable Design</h3>
+                        <p>Eco-friendly solutions for modern living</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1617104551722-3b2d51366400" alt="Sustainable materials">
+                </div>
+
+                <div class="tile mixed-tile reverse">
+                    <img src="https://images.unsplash.com/photo-1616486232086-63264b34cd5f" alt="Design process">
+                    <div class="mixed-content">
+                        <h3>Process</h3>
+                        <p>Crafted with attention to detail</p>
+                    </div>
+                </div>
+
+                <!-- Feature tiles -->
+                <div class="tile feature-tile">
+                    <div class="feature-content">
+                        <span class="feature-icon">★</span>
+                        <h3>Premium Quality</h3>
+                        <p>Only the finest materials and craftsmanship</p>
+                    </div>
+                </div>
+
+                <!-- Quote tiles -->
+                <div class="tile quote-tile">
+                    <blockquote>
+                        "Design is not just what it looks like and feels like. Design is how it works."
+                    </blockquote>
+                    <cite>— Steve Jobs</cite>
+                </div>
+
+                <!-- Stat tiles -->
+                <div class="tile stat-tile">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+
+                <!-- List tiles -->
+                <div class="tile list-tile">
+                    <h3>Our Services</h3>
+                    <ul>
+                        <li>Interior Design</li>
+                        <li>Custom Furniture</li>
+                        <li>Space Planning</li>
+                    </ul>
+                </div>
+
+                <!-- CTA tiles -->
+                <div class="tile cta-tile">
+                    <h3>Ready to Start?</h3>
+                    <p>Let's create something amazing together</p>
+                    <a href="#contact" class="cta-button">Get in Touch</a>
+                </div>
+
+                <!-- Video thumbnail tile -->
+                <div class="tile video-tile">
+                    <div class="video-overlay">
+                        <span class="play-icon">▶</span>
+                        <span class="video-title">Watch Our Process</span>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1616486232181-c716a6504829" alt="Design process video">
+                </div>
+
+                <!-- Gallery tile -->
+                <div class="tile gallery-tile">
+                    <div class="gallery-grid">
+                        <img src="https://images.unsplash.com/photo-1616486232255-47d4d00dbc04" alt="Gallery 1">
+                        <img src="https://images.unsplash.com/photo-1616486232337-c10d9b92d983" alt="Gallery 2">
+                        <img src="https://images.unsplash.com/photo-1616486232454-a7e6a5e75a63" alt="Gallery 3">
+                        <img src="https://images.unsplash.com/photo-1616486232636-c62f4e98b280" alt="Gallery 4">
+                    </div>
+                </div>
+
+                <!-- Timeline tile -->
+                <div class="tile timeline-tile">
+                    <div class="timeline-item">
+                        <span class="timeline-date">01</span>
+                        <h4>Concept</h4>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">02</span>
+                        <h4>Design</h4>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">03</span>
+                        <h4>Execute</h4>
+                    </div>
+                </div>
+
+                <!-- Contact tile -->
+                <div class="tile contact-tile">
+                    <h3>Get in Touch</h3>
+                    <a href="tel:+1234567890" class="contact-link">+123 456 7890</a>
+                    <a href="mailto:hello@example.com" class="contact-link">hello@example.com</a>
+                </div>
+
+                <!-- Location tile -->
+                <div class="tile location-tile">
+                    <div class="location-content">
+                        <h3>Visit Our Studio</h3>
+                        <p>Prague, Czech Republic</p>
+                        <a href="#" class="direction-link">Get Directions →</a>
+                    </div>
+                </div>
+
+                <!-- Awards tile -->
+                <div class="tile awards-tile">
+                    <h3>Recognition</h3>
+                    <div class="awards-grid">
+                        <div class="award">🏆 Best Design 2023</div>
+                        <div class="award">🎯 Innovation Award</div>
+                        <div class="award">⭐ Top Studio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2>Get in Touch</h2>
+            <p class="contact-subtitle">Let's discuss your next project</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h3>Visit Us</h3>
+                        <p>Prague, Czech Republic</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Contact</h3>
+                        <p>hello@wanteddesign.com</p>
+                        <p>+420 123 456 789</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Follow Us</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-link">Instagram</a>
+                            <a href="#" class="social-link">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder=" " required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="subject" name="subject" placeholder=" " required>
+                        <label for="subject">Subject</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder=" " required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </section>
     </div>
+
+    <!-- Modal -->
+    <div class="modal" id="tileModal">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-body">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Button (for debugging) -->
+    <button id="testModalBtn" style="position: fixed; bottom: 20px; right: 20px; z-index: 9000; padding: 10px 15px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Test Modal
+    </button>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('is-active');
+            mobileMenu.classList.toggle('is-active');
+            body.classList.toggle('no-scroll');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('is-active');
+                mobileMenu.classList.remove('is-active');
+                body.classList.remove('no-scroll');
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('tileModal');
+        const modalClose = modal?.querySelector('.modal-close');
+        const modalBody = modal?.querySelector('.modal-body');
+        
+        console.log('Modal elements:', { modal, modalClose, modalBody });
+
+        if (modal && modalClose && modalBody) {
+            // Function to open modal with content
+            function openModal(content) {
+                console.log('Opening modal with content:', content.substring(0, 50) + '...');
+                modalBody.innerHTML = content;
+                modal.classList.add('is-active');
+                document.body.classList.add('no-scroll');
+            }
+
+            // Function to close modal
+            function closeModal() {
+                console.log('Closing modal');
+                modal.classList.remove('is-active');
+                document.body.classList.remove('no-scroll');
+                setTimeout(() => {
+                    modalBody.innerHTML = '';
+                }, 300);
+            }
+
+            // Close modal when clicking close button
+            modalClose.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+                    closeModal();
+                }
+            });
+
+            // Prevent clicks on links from triggering modal
+            document.querySelectorAll('.tile a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            });
+
+            // Add click handlers to all tiles
+            document.querySelectorAll('.tile').forEach(tile => {
+                tile.addEventListener('click', (e) => {
+                    console.log('Tile clicked:', tile.querySelector('h3')?.textContent);
+                    
+                    // Don't open modal if clicking on a link
+                    if (e.target.closest('a')) {
+                        console.log('Clicked on a link, not opening modal');
+                        return;
+                    }
+
+                    const title = tile.querySelector('h3')?.textContent || 'Project Details';
+                    const image = tile.querySelector('img')?.src;
+                    const description = tile.querySelector('p')?.textContent || '';
+                    const tileClasses = tile.classList;
+
+                    let modalContent = '';
+
+                    // Different content based on tile type
+                    if (tileClasses.contains('video-tile')) {
+                        modalContent = `
+                            <h2>${title}</h2>
+                            <div class="video-container" style="position: relative; padding-bottom: 56.25%; margin-bottom: 2rem;">
+                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 16px;" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <p>${description}</p>
+                        `;
+                    } else if (tileClasses.contains('gallery-tile')) {
+                        const images = Array.from(tile.querySelectorAll('img')).map(img => img.src);
+                        modalContent = `
+                            <h2>${title}</h2>
+                            <div class="gallery-grid" style="grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                                ${images.map(src => `<img src="${src}" alt="Gallery image" style="width: 100%; border-radius: 12px;">`).join('')}
+                            </div>
+                            <p>${description}</p>
+                        `;
+                    } else {
+                        modalContent = `
+                            ${image ? `<img src="${image}" alt="${title}">` : ''}
+                            <h2>${title}</h2>
+                            <p>${description}</p>
+                            <div class="details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Client</span>
+                                    <span class="detail-value">Premium Client</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Year</span>
+                                    <span class="detail-value">2024</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Services</span>
+                                    <span class="detail-value">Interior Design, Custom Furniture</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    openModal(modalContent);
+                });
+            });
+
+            // Test button for modal
+            const testModalBtn = document.getElementById('testModalBtn');
+            if (testModalBtn) {
+                testModalBtn.addEventListener('click', () => {
+                    console.log('Test button clicked');
+                    const testContent = `
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6" alt="Test image">
+                        <h2>Test Modal</h2>
+                        <p>This is a test modal to verify functionality.</p>
+                        <div class="details">
+                            <div class="detail-item">
+                                <span class="detail-label">Test</span>
+                                <span class="detail-value">Value</span>
+                            </div>
+                        </div>
+                    `;
+                    openModal(testContent);
+                });
+            }
+        }
+    </script>
 </body>
 </html>
