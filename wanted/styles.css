@@ -860,6 +860,8 @@ h1 {
     transition: transform 0.3s ease, opacity 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
 }
 
 .modal.is-active .modal-content {
@@ -868,9 +870,9 @@ h1 {
 }
 
 .modal-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    position: fixed;
+    top: 2rem;
+    right: calc(50% - 450px + 1.5rem);
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--text-primary);
@@ -884,6 +886,11 @@ h1 {
     justify-content: center;
     transition: all 0.3s ease;
     z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-close-text {
+    display: none;
 }
 
 .modal-close:hover {
@@ -896,6 +903,7 @@ h1 {
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    flex: 1;
 }
 
 .modal.is-active .modal-body {
@@ -966,5 +974,64 @@ h1 {
 
     .modal-content {
         max-height: 85vh;
+    }
+}
+
+@media (max-width: 950px) {
+    .modal-close {
+        right: 2rem;
+    }
+}
+
+/* Mobile Close Banner */
+@media (max-width: 768px) {
+    .modal-close {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        border-radius: 0;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transform: none;
+        z-index: 20;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .modal-close-text {
+        display: inline-block;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-primary);
+    }
+    
+    .modal-close:hover {
+        background: rgba(15, 23, 42, 0.95);
+        transform: none;
+    }
+    
+    .modal-content {
+        overflow: auto;
+        padding: 0;
+        border-radius: 16px;
+    }
+    
+    .modal-body {
+        padding: 2rem;
+        padding-top: 1.5rem;
+    }
+    
+    .modal {
+        padding: 1rem;
     }
 } 
