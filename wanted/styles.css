@@ -206,18 +206,17 @@ h1 {
 
 .bento-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    grid-auto-rows: 280px;
+    margin: 3rem 0;
 }
 
 .tile {
-    background-color: var(--bg-secondary);
-    border-radius: 24px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    border-radius: 24px;
+    background-color: var(--bg-secondary);
+    aspect-ratio: 1 / 1;
     cursor: pointer;
 }
 
@@ -446,7 +445,7 @@ h1 {
 
 @media (max-width: 1200px) {
     .bento-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
     
     h1 {
@@ -456,33 +455,33 @@ h1 {
 
 @media (max-width: 768px) {
     .bento-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     h1 {
         font-size: 2.5rem;
     }
-
+    
     .nav-links {
         display: none;
     }
-
+    
     .hamburger {
-        display: block;
+        display: flex;
     }
-
+    
     .contact-container {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 3rem;
-        padding: 0 1rem;
     }
-
+    
     .contact-info {
-        order: 2;
+        width: 100%;
     }
-
+    
     .contact-form {
-        order: 1;
+        width: 100%;
     }
 }
 
@@ -1033,5 +1032,164 @@ h1 {
     
     .modal {
         padding: 1rem;
+    }
+}
+
+/* Medium Tiles (50% width) */
+.tile.medium {
+    grid-column: span 2;
+}
+
+.medium-text-tile {
+    background-color: var(--bg-secondary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+}
+
+.medium-text-tile h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.medium-text-tile .subheadline {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.medium-image-tile {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.medium-image-tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.medium-image-tile:hover img {
+    transform: scale(1.05);
+}
+
+.medium-image-tile .content-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0) 100%);
+}
+
+.medium-image-tile h3 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .tile.medium {
+        grid-column: span 1;
+    }
+    
+    .medium-text-tile {
+        padding: 2rem;
+    }
+    
+    .medium-text-tile h3 {
+        font-size: 1.5rem;
+    }
+    
+    .medium-text-tile .subheadline {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+}
+
+/* Split Medium Tile */
+.medium-split-tile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+}
+
+.medium-split-tile .split-image {
+    height: 100%;
+    overflow: hidden;
+}
+
+.medium-split-tile .split-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.medium-split-tile:hover .split-image img {
+    transform: scale(1.05);
+}
+
+.medium-split-tile .split-content {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.medium-split-tile h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.medium-split-tile p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.medium-split-tile.reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.medium-split-tile.reverse .split-image {
+    order: 2;
+}
+
+.medium-split-tile.reverse .split-content {
+    order: 1;
+}
+
+@media (max-width: 768px) {
+    .medium-split-tile {
+        grid-template-columns: 1fr;
+    }
+    
+    .medium-split-tile .split-image {
+        height: 200px;
+    }
+    
+    .medium-split-tile.reverse .split-image {
+        order: 1;
+    }
+    
+    .medium-split-tile.reverse .split-content {
+        order: 2;
     }
 } 
