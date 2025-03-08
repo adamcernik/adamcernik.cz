@@ -30,7 +30,9 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0 3rem;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 100;
 }
 
 .logo {
@@ -38,18 +40,20 @@ nav {
     font-weight: 700;
     color: var(--text-primary);
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
+    position: relative;
+    padding-left: 1.5rem;
+    transition: color 0.3s ease;
 }
 
 .logo::before {
     content: '';
-    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     width: 8px;
     height: 8px;
-    background: var(--accent);
+    background-color: var(--accent);
     border-radius: 50%;
 }
 
@@ -59,26 +63,26 @@ nav {
 }
 
 .nav-links a {
-    color: var(--text-secondary);
+    color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.3s ease;
     position: relative;
-    cursor: pointer;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
 }
 
 .nav-links a::after {
     content: '';
     position: absolute;
+    left: 0;
+    bottom: 0;
     width: 0;
     height: 2px;
-    bottom: -4px;
-    left: 0;
     background-color: var(--accent);
     transition: width 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: var(--text-primary);
+    color: var(--accent);
 }
 
 .nav-links a:hover::after {
@@ -87,43 +91,45 @@ nav {
 
 .hamburger {
     display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
     background: none;
     border: none;
-    padding: 0.5rem;
     cursor: pointer;
-    position: relative;
-    z-index: 1000;
+    padding: 0;
+    z-index: 100;
 }
 
 .hamburger span {
     display: block;
-    width: 24px;
+    width: 100%;
     height: 2px;
     background-color: var(--text-primary);
-    margin: 5px 0;
     transition: all 0.3s ease;
     transform-origin: center;
 }
 
 .hamburger.is-active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
 }
 
 .hamburger.is-active span:nth-child(2) {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateX(-20px);
 }
 
 .hamburger.is-active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 .mobile-menu {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-color: var(--bg-primary);
     display: flex;
     align-items: center;
@@ -131,7 +137,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 999;
+    z-index: 90;
 }
 
 .mobile-menu.is-active {
@@ -142,29 +148,28 @@ nav {
 .mobile-menu-links {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2rem;
-    text-align: center;
 }
 
 .mobile-menu-links a {
     color: var(--text-primary);
-    text-decoration: none;
     font-size: 1.5rem;
+    text-decoration: none;
     position: relative;
-    transition: color 0.3s ease;
-    cursor: pointer;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
 }
 
 .mobile-menu-links a::after {
     content: '';
     position: absolute;
-    left: 50%;
-    bottom: -5px;
+    bottom: 0;
+    left: 0;
     width: 0;
     height: 2px;
     background-color: var(--accent);
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
+    transition: width 0.3s ease;
 }
 
 .mobile-menu-links a:hover {
