@@ -1,148 +1,327 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WANTED - Výroba nábytku a filmové dekorace</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <title>Wanted Design Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --accent: #38BDF8;
+            --accent-dark: #0EA5E9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            grid-auto-rows: 280px;
+        }
+
+        .tile {
+            background-color: var(--bg-secondary);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile:hover::before {
+            opacity: 1;
+        }
+
+        .tile.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .tile:hover img {
+            opacity: 1;
+        }
+
+        .tile-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
+            color: var(--text-primary);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tile:hover .tile-content {
+            transform: translateY(-5px);
+        }
+
+        .tile-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tile-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--text-primary);
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 1200px) {
+            .bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tile.large {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Hero sekce -->
-    <header class="bg-gray-900 text-white py-20">
-        <div class="container mx-auto px-6">
-            <h1 class="text-4xl font-bold mb-4">WANTED</h1>
-            <p class="text-xl max-w-2xl">
-                Specialisté na výrobu atypického nábytku, realizaci interiérů a filmových dekorací. 
-                Od roku 2024 certifikovaný partner Renault Group.
-            </p>
-        </div>
-    </header>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">Wanted Design</a>
+            <div class="nav-links">
+                <a href="#projects">Projects</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
 
-    <!-- Hlavní služby -->
-    <section class="py-16 container mx-auto px-6">
-        <h2 class="text-3xl font-bold mb-12 text-center">Naše služby</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="p-6 bg-gray-50 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">Interiéry</h3>
-                <p>Komplexní realizace interiérů od návrhu po finální instalaci. Specializujeme se na atypický nábytek a fit-out projekty.</p>
-            </div>
-            <div class="p-6 bg-gray-50 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">Filmové dekorace</h3>
-                <p>Výroba filmových dekorací, speciálních rekvizit a kompletní technické zajištění včetně osvětlení a zvuku.</p>
-            </div>
-            <div class="p-6 bg-gray-50 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">Retail Design</h3>
-                <p>Realizace showroomů a prodejních míst. Oficiální partner pro rebranding Renault Group v Evropě.</p>
-            </div>
-        </div>
-    </section>
+        <header>
+            <h1>Crafting Exceptional<br>Interior Experiences</h1>
+            <p class="subtitle">We design and create bespoke furniture and interior solutions for retail spaces that inspire and engage.</p>
+        </header>
 
-    <!-- Naše výhody -->
-    <section class="bg-gray-50 py-16">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-12 text-center">Proč WANTED?</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="flex items-start space-x-4">
-                    <div class="w-6 h-6 text-blue-600 flex-shrink-0">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 3h18v18H3zM15 3v18M3 9h12M3 15h12" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold mb-2">Vlastní doprava</h3>
-                        <p>Zajišťujeme kompletní logistiku včetně instalace</p>
-                    </div>
+        <div class="bento-grid">
+            <!-- Featured Project -->
+            <div class="tile large">
+                <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace" alt="Modern retail interior">
+                <div class="tile-content">
+                    <h3>Boutique Retail Design</h3>
+                    <p>A luxury fashion store transformation in Prague</p>
+                    <a href="#" class="cta-button">View Project</a>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="w-6 h-6 text-blue-600 flex-shrink-0">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 20h20M4 20V4h16v16" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold mb-2">Výrobní zázemí</h3>
-                        <p>Moderní výrobní a skladové prostory v Praze</p>
-                    </div>
+            </div>
+
+            <!-- Regular tiles -->
+            <div class="tile">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6" alt="Custom furniture">
+                <div class="tile-content">
+                    <h3>Bespoke Furniture</h3>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="w-6 h-6 text-blue-600 flex-shrink-0">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3" />
-                            <path d="M19 12c0-3.87-3.13-7-7-7s-7 3.13-7 7" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-bold mb-2">Síť dodavatelů</h3>
-                        <p>Rozsáhlá síť prověřených evropských dodavatelů</p>
-                    </div>
+            </div>
+
+            <div class="tile">
+                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7" alt="Interior design">
+                <div class="tile-content">
+                    <h3>Modern Interiors</h3>
+                </div>
+            </div>
+
+            <div class="tile">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8" alt="Shop design">
+                <div class="tile-content">
+                    <h3>Retail Solutions</h3>
+                </div>
+            </div>
+
+            <div class="tile">
+                <img src="https://images.unsplash.com/photo-1618221381711-42ca8ab6e908" alt="Sustainable materials">
+                <div class="tile-content">
+                    <h3>Sustainable Design</h3>
+                </div>
+            </div>
+
+            <div class="tile">
+                <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221" alt="Concept development">
+                <div class="tile-content">
+                    <h3>Concept Development</h3>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Reference -->
-    <section class="py-16 container mx-auto px-6">
-        <h2 class="text-3xl font-bold mb-12 text-center">Vybrané projekty</h2>
-        <div class="space-y-8">
-            <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">2024</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        The Wheel of Time / Season 3 / South Africa
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        Dacia New Visual Identity - Evropská expanze
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        Renault Store / New One / Rebranding
-                    </li>
-                </ul>
-            </div>
-            <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-bold mb-4">2023</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        The Wheel of Time / Season 3 / Czechia / Slovenia
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        The Crow / Yellow Flower
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-4 h-4 mr-2 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                        Renault & Dacia Complete Rebranding
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Kontakt -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <h2 class="text-2xl font-bold mb-6">Kontaktujte nás</h2>
-            <p class="mb-4">WANTED s.r.o.</p>
-            <p class="mb-4">Praha, Česká republika</p>
-            <button class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded">
-                Spojte se s námi
-            </button>
-        </div>
-    </footer>
+    </div>
 </body>
 </html>
