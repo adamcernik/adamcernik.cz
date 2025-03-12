@@ -165,6 +165,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 0 80px; /* Add padding to make space for the arrows */
         }
         
         .modal-close {
@@ -172,7 +173,7 @@
         }
         
         .modal-nav {
-            position: absolute;
+            position: fixed; /* Change from absolute to fixed */
             top: 50%;
             transform: translateY(-50%);
             width: 50px;
@@ -198,11 +199,11 @@
         }
         
         .modal-nav.prev {
-            left: -70px;
+            left: 20px; /* Fixed distance from left edge */
         }
         
         .modal-nav.next {
-            right: -70px;
+            right: 20px; /* Fixed distance from right edge */
         }
         
         .modal-nav.disabled {
@@ -275,6 +276,7 @@
             
             .modal-content {
                 margin-top: 20px; /* Adjust margin since we don't have the close button */
+                padding: 0 20px; /* Smaller padding on mobile */
             }
             
             .modal-nav {
@@ -293,11 +295,11 @@
             }
             
             .modal-nav.prev {
-                left: calc(50% - 60px);
+                left: 20px; /* Consistent positioning */
             }
             
             .modal-nav.next {
-                right: calc(50% - 60px);
+                right: 20px; /* Consistent positioning */
             }
             
             @supports (padding: max(0px)) {
