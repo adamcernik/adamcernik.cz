@@ -1,446 +1,519 @@
-<div id="viewing-report" class="feature-section">
-    <h3>Viewing Report</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked well:</strong> Content of the report was well-received<br>
-    <strong>Positive feedback:</strong> <span class="user-comment">"tak to je dobrý" (that's good)</span>, <span class="user-comment">"pro soud je to super" (it's great for court)</span><br>
-    <strong>Comments:</strong> User specifically mentioned being most interested in a particular section of the report</p>
-    
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>Positive feedback:</strong> <span class="user-comment">"heeezkýý. To je hezký." (niiiice. That's nice.)</span><br>
-    <strong>Content accuracy:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auris App User Testing Feedback Matrix</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    h1 {
-        color: #2c3e50;
-        border-bottom: 2px solid #3498db;
-        padding-bottom: 10px;
-    }
-    h2 {
-        color: #2c3e50;
-        margin-top: 30px;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 5px;
-    }
-    h3 {
-        color: #3498db;
-        margin-top: 25px;
-    }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px 0;
-        overflow-x: auto;
-        display: block;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px 12px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-        position: sticky;
-        top: 0;
-    }
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-    .success {
-        color: #27ae60;
-        font-weight: bold;
-    }
-    .warning {
-        color: #f39c12;
-        font-weight: bold;
-    }
-    .error {
-        color: #e74c3c;
-        font-weight: bold;
-    }
-    .rating {
-        font-weight: bold;
-    }
-    .back-to-top {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #3498db;
-        color: white;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        line-height: 50px;
-        text-decoration: none;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-    .back-to-top:hover {
-        background-color: #2980b9;
-    }
-    .feature-section {
-        border-left: 3px solid #3498db;
-        padding-left: 15px;
-        margin: 20px 0;
-    }
-    .user-comment {
-        background-color: #f8f9fa;
-        border-left: 3px solid #6c757d;
-        padding: 10px 15px;
-        margin: 10px 0;
-        font-style: italic;
-    }
-    .priority-list {
-        background-color: #fff8e1;
-        padding: 15px;
-        border-radius: 5px;
-        border-left: 4px solid #ffc107;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auris App User Testing Feedback Matrix</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            display: block;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .warning {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .rating {
+            font-weight: bold;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        .back-to-top:hover {
+            background-color: #2980b9;
+        }
+        .feature-section {
+            border-left: 3px solid #3498db;
+            padding-left: 15px;
+            margin: 20px 0;
+            background-color: white;
+            padding: 15px 15px 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .user-comment {
+            background-color: #f8f9fa;
+            border-left: 3px solid #6c757d;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+        .priority-list {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .insights-list {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .user-header {
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            color: #2c3e50;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .filter-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .filter-btn {
+            padding: 8px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .highlight {
+            background-color: #ffffd9;
+            padding: 2px;
+        }
+    </style>
 </head>
 <body>
-<h1>Auris App User Testing Feedback Matrix</h1>
-
-<h2>User Testing Overview</h2>
-<p>This matrix tracks which features were tested by specific users and collects their feedback on each feature.</p>
-
-<h2 id="matrix">User Testing Matrix</h2>
-<table>
-    <thead>
-        <tr>
-            <th>User ID</th>
-            <th><a href="#app-login">App Login</a></th>
-            <th><a href="#creating-visit">Creating Visit</a></th>
-            <th><a href="#opening-visit">Opening Visit</a></th>
-            <th><a href="#starting-visit">Starting Visit</a></th>
-            <th><a href="#menu-navigation">Menu Navigation</a></th>
-            <th><a href="#recording-audio">Recording Audio</a></th>
-            <th><a href="#taking-photos">Taking Photos</a></th>
-            <th><a href="#pausing-visit">Pausing Visit</a></th>
-            <th><a href="#ending-visit">Ending Visit</a></th>
-            <th><a href="#generating-report">Generating Report</a></th>
-            <th><a href="#viewing-report">Viewing Report</a></th>
-            <th><a href="#savingsharing-report">Saving/Sharing Report</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Dr. Jaganjac</td>
-            <td class="warning">! (2/5)</td>
-            <td class="success">✓ (3/5)</td>
-            <td class="warning">! (2/5)</td>
-            <td class="warning">! (2/5)</td>
-            <td class="error">! (1/5)</td>
-            <td class="success">✓ (3/5)</td>
-            <td class="error">✗ (0/5)</td>
-            <td class="success">✓ (3/5)</td>
-            <td class="warning">! (2/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="warning">! (2/5)</td>
-        </tr>
-        <tr>
-            <td>Dr. Vlčková</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="error">! (1/5)</td>
-            <td class="success">✓ (5/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="warning">! (2/5)</td>
-        </tr>
-        <tr>
-            <td>Petra Petrová<br>(Nurse)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="success">✓ (5/5)</td>
-            <td class="warning">! (2/5)</td>
-            <td class="success">✓ (5/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (5/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="success">✓ (4/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="warning">! (3/5)</td>
-            <td class="warning">! (2/5)</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2>Detailed Feedback by Feature</h2>
-<p><em>Last updated: March 12, 2025 with Petra Petrová's test results</em></p>
-
-<div id="app-login" class="feature-section">
-    <h3>App Login</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> Password manager overlapped with the top panel, obscuring UI elements<br>
-    <strong>Comments:</strong> User seemed able to login despite the UI issue</p>
+    <h1>Auris App User Testing Feedback Matrix</h1>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> No issues with login process<br>
-    <strong>Comments:</strong> Successfully logged in without complications</p>
+    <div class="filter-controls">
+        <p><strong>Last updated:</strong> March 15, 2025</p>
+        <p><strong>Total tests:</strong> 4 users (2 doctors, 2 nurses)</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> Permission prompt for microphone appeared in English<br>
-    <strong>Comments:</strong> User confused, asking <span class="user-comment">"Co mám zmáčknout?" (What should I press?)</span> due to language barrier</p>
-</div>
-
-<div id="creating-visit" class="feature-section">
-    <h3>Creating Visit</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>What worked:</strong> Successfully created a visit<br>
-    <strong>Pain points:</strong> After creating the visit, the next steps weren't clear<br>
-    <strong>Comments:</strong> User asked <span class="user-comment">"mám něco zmáčknout, nebo?" (Do I need to press something?)</span> and <span class="user-comment">"mám něco psát?" (Do I need to write something?)</span></p>
+    <h2 id="matrix">User Testing Matrix</h2>
+    <table>
+        <thead>
+            <tr class="sticky-header">
+                <th>User ID</th>
+                <th><a href="#app-login">App Login</a></th>
+                <th><a href="#creating-visit">Creating Visit</a></th>
+                <th><a href="#opening-visit">Opening Visit</a></th>
+                <th><a href="#starting-visit">Starting Visit</a></th>
+                <th><a href="#menu-navigation">Menu Navigation</a></th>
+                <th><a href="#recording-audio">Recording Audio</a></th>
+                <th><a href="#taking-photos">Taking Photos</a></th>
+                <th><a href="#adding-notes">Adding Notes</a></th>
+                <th><a href="#pausing-visit">Pausing Visit</a></th>
+                <th><a href="#ending-visit">Ending Visit</a></th>
+                <th><a href="#generating-report">Generating Report</a></th>
+                <th><a href="#viewing-report">Viewing Report</a></th>
+                <th><a href="#savingsharing-report">Saving/Sharing Report</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dr. Jaganjac<br><small>(Doctor, Android)</small></td>
+                <td class="warning">! (2/5)</td>
+                <td class="success">✓ (3/5)</td>
+                <td class="warning">! (2/5)</td>
+                <td class="warning">! (2/5)</td>
+                <td class="error">! (1/5)</td>
+                <td class="success">✓ (3/5)</td>
+                <td class="error">✗ (0/5)</td>
+                <td>-</td>
+                <td class="success">✓ (3/5)</td>
+                <td class="warning">! (2/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="warning">! (2/5)</td>
+            </tr>
+            <tr>
+                <td>Dr. Vlčková<br><small>(Doctor, iPhone)</small></td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="error">! (1/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="warning">! (2/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="warning">! (2/5)</td>
+            </tr>
+            <tr>
+                <td>Petra Petrová<br><small>(Nurse)</small></td>
+                <td class="warning">! (3/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="warning">! (2/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="warning">! (2/5)</td>
+            </tr>
+            <tr>
+                <td>Kristýna<br><small>(Nurse)</small></td>
+                <td class="success">✓ (5/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td>-</td>
+                <td class="success">✓ (4/5)</td>
+                <td>-</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="success">✓ (5/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td class="warning">! (3/5)</td>
+                <td class="success">✓ (4/5)</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> Successfully created visit without issues<br>
-    <strong>Comments:</strong> User had no problems creating a new visit</p>
+    <h2>Key Insights</h2>
+    <div class="insights-list">
+        <ol>
+            <li><strong>Device differences matter:</strong> Android users experienced more issues (especially with photo functionality) than iPhone users</li>
+            <li><strong>Role differences:</strong> Nurses seem to adapt more quickly to the recording interface than doctors</li>
+            <li><strong>Common pain points:</strong> Report generation wait time and ending visit flow are consistent issues across all users</li>
+            <li><strong>Different expectations:</strong> Users have varying expectations of AI capabilities - from simple transcription to advanced summarization</li>
+            <li><strong>Workflow integration:</strong> Users naturally integrate the app into their existing workflows (e.g., pausing to take photos of documents)</li>
+            <li><strong>Positive surprises:</strong> Auto-description features for photos and audio received enthusiastic responses</li>
+        </ol>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">5/5</span><br>
-    <strong>What worked:</strong> Creating a visit was seamless and intuitive<br>
-    <strong>Comments:</strong> No issues observed; user created the visit without any hesitation</p>
-</div>
-
-<div id="opening-visit" class="feature-section">
-    <h3>Opening Visit</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> User didn't realize the visit card was clickable. Instead, opened kebab menu looking for options<br>
-    <strong>Comments:</strong> The "Detail" option in the menu was confusing; user suggested renaming it to "Open" or something clearer</p>
+    <h2>Detailed Feedback by Feature</h2>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> Successfully opened visit without issues<br>
-    <strong>Comments:</strong> No confusion about how to open a visit</p>
+    <div id="app-login" class="feature-section">
+        <h3>App Login</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> Password manager overlapped with the top panel, obscuring UI elements<br>
+        <strong>Comments:</strong> User seemed able to login despite the UI issue</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> No issues with login process<br>
+        <strong>Comments:</strong> Successfully logged in without complications</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>Issues:</strong> Permission prompt for microphone appeared in English<br>
+        <strong>Comments:</strong> User confused, asking <span class="user-comment">"Co mám zmáčknout?" (What should I press?)</span> due to language barrier</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Successfully entered login credentials without any issues<br>
+        <strong>Comments:</strong> Typed everything correctly and logged in seamlessly</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> Struggled to find the button to enter a new report (took ~10 seconds)<br>
-    <strong>Behavior:</strong> Initially tried clicking on the recording card, then found kebab menu but worried about deleting: <span class="user-comment">"ne, smazat to nechci" (no, I don't want to delete it)</span><br>
-    <strong>Comments:</strong> Button placement and visibility need improvement</p>
-</div>
-
-<div id="starting-visit" class="feature-section">
-    <h3>Starting Visit</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> User didn't know how to start the visit; commented <span class="user-comment">"nemám nikde abych zmáčkl nějaký začátek" (I don't have anywhere to press some start button)</span><br>
-    <strong>Comments:</strong> Needed prompting to understand how to start recording the visit</p>
+    <div id="creating-visit" class="feature-section">
+        <h3>Creating Visit</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>What worked:</strong> Successfully created a visit<br>
+        <strong>Pain points:</strong> After creating the visit, the next steps weren't clear<br>
+        <strong>Comments:</strong> User asked <span class="user-comment">"mám něco zmáčknout, nebo?" (Do I need to press something?)</span> and <span class="user-comment">"mám něco psát?" (Do I need to write something?)</span></p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully created visit without issues<br>
+        <strong>Comments:</strong> User had no problems creating a new visit</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Creating a visit was seamless and intuitive<br>
+        <strong>Comments:</strong> No issues observed; user created the visit without any hesitation</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Created visit without hesitation using the button<br>
+        <strong>Uncertainty:</strong> Asked out loud whether it would start recording immediately<br>
+        <strong>Comments:</strong> Praised the simplicity and clarity but wasn't 100% sure if recording would start automatically</p>
+    </div>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> Successfully started visit recording<br>
-    <strong>User behavior:</strong> Asked for patient consent before starting recording, explaining it helps with writing the report<br>
-    <strong>Comments:</strong> Experienced initial issue where app wasn't recording, but quickly resolved it without difficulty</p>
+    <div id="opening-visit" class="feature-section">
+        <h3>Opening Visit</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> User didn't realize the visit card was clickable. Instead, opened kebab menu looking for options<br>
+        <strong>Comments:</strong> The "Detail" option in the menu was confusing; user suggested renaming it to "Open" or something clearer</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully opened visit without issues<br>
+        <strong>Comments:</strong> No confusion about how to open a visit</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> Struggled to find the button to enter a new report (took ~10 seconds)<br>
+        <strong>Behavior:</strong> Initially tried clicking on the recording card, then found kebab menu but worried about deleting: <span class="user-comment">"ne, smazat to nechci" (no, I don't want to delete it)</span><br>
+        <strong>Comments:</strong> Button placement and visibility need improvement</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> Not tested</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">5/5</span><br>
-    <strong>What worked:</strong> Recording button was intuitive and easy to use<br>
-    <strong>Feedback:</strong> Red recording bar at the top provided clear visual feedback that recording was in progress<br>
-    <strong>Comments:</strong> User rated the recording button 5/5; the recording mode was very obvious and clear</p>
-</div>
-
-<div id="menu-navigation" class="feature-section">
-    <h3>Menu Navigation</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">1/5</span><br>
-    <strong>Issues:</strong> Side menu was difficult to collapse; slide gesture didn't work<br>
-    <strong>Comments:</strong> User attempted to slide the menu back but couldn't figure out how to close it</p>
+    <div id="starting-visit" class="feature-section">
+        <h3>Starting Visit</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> User didn't know how to start the visit; commented <span class="user-comment">"nemám nikde abych zmáčkl nějaký začátek" (I don't have anywhere to press some start button)</span><br>
+        <strong>Comments:</strong> Needed prompting to understand how to start recording the visit</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully started visit recording<br>
+        <strong>User behavior:</strong> Asked for patient consent before starting recording, explaining it helps with writing the report<br>
+        <strong>Comments:</strong> Experienced initial issue where app wasn't recording, but quickly resolved it without difficulty</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Recording button was intuitive and easy to use<br>
+        <strong>Feedback:</strong> Red recording bar at the top provided clear visual feedback that recording was in progress<br>
+        <strong>Comments:</strong> User rated the recording button 5/5; the recording mode was very obvious and clear</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>Concerns:</strong> Wondered if the app records everything being said<br>
+        <strong>Questions:</strong> Asked if recording should only be started when discussing medical topics<br>
+        <strong>Comments:</strong> Wasn't aware that AI could filter out non-medical conversation</p>
+    </div>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> Successfully navigated menus including kebab menu<br>
-    <strong>Comments:</strong> Found and used "vygenerovaná zpráva" option in kebab menu without difficulty</p>
-</div>
-
-<div id="recording-audio" class="feature-section">
-    <h3>Recording Audio</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>What worked:</strong> Successfully granted microphone permissions<br>
-    <strong>Comments:</strong> Initially confused about microphone function: <span class="user-comment">"tu je mikrofon, jakože já něco mluvím" (here is a microphone, as if I'm saying something)</span></p>
+    <div id="menu-navigation" class="feature-section">
+        <h3>Menu Navigation</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">1/5</span><br>
+        <strong>Issues:</strong> Side menu was difficult to collapse; slide gesture didn't work<br>
+        <strong>Comments:</strong> User attempted to slide the menu back but couldn't figure out how to close it</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully navigated menus including kebab menu<br>
+        <strong>Comments:</strong> Found and used "vygenerovaná zpráva" option in kebab menu without difficulty</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully navigated menu options<br>
+        <strong>Comments:</strong> No major issues observed with menu navigation</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> Not tested specifically</p>
+    </div>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">1/5</span><br>
-    <strong>Critical issue:</strong> Recording stuck after iPhone went to sleep during the visit<br>
-    <strong>Bug details:</strong> After phone woke up, app showed recording in progress but timer was frozen and mic icon showed paused state with shadow animation stuck<br>
-    <strong>Impact:</strong> Potentially lost recording data during visit</p>
+    <div id="recording-audio" class="feature-section">
+        <h3>Recording Audio</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>What worked:</strong> Successfully granted microphone permissions<br>
+        <strong>Comments:</strong> Initially confused about microphone function: <span class="user-comment">"tu je mikrofon, jakože já něco mluvím" (here is a microphone, as if I'm saying something)</span></p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">1/5</span><br>
+        <strong>Critical issue:</strong> Recording stuck after iPhone went to sleep during the visit<br>
+        <strong>Bug details:</strong> After phone woke up, app showed recording in progress but timer was frozen and mic icon showed paused state with shadow animation stuck<br>
+        <strong>Impact:</strong> Potentially lost recording data during visit</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Audio recording functioned perfectly<br>
+        <strong>Positive feedback:</strong> The automatic description of the audio recording was impressive to the user<br>
+        <strong>Comments:</strong> User was very pleased with this functionality</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>Behavior:</strong> Spoke clearly and deliberately during recording<br>
+        <strong>Comments:</strong> Seemed to expect transcription rather than AI processing<br>
+        <strong>Concerns:</strong> Worried about recording "filler conversation" rather than just medical information</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">5/5</span><br>
-    <strong>What worked:</strong> Audio recording functioned perfectly<br>
-    <strong>Positive feedback:</strong> The automatic description of the audio recording was impressive to the user<br>
-    <strong>Comments:</strong> User was very pleased with this functionality</p>
-</div>
-
-<div id="taking-photos" class="feature-section">
-    <h3>Taking Photos</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">0/5</span><br>
-    <strong>Issues:</strong> Unable to take photos on Android<br>
-    <strong>Error message:</strong> <span class="user-comment">"tato aplikace má přístup pouze k fotkám, které vyberete" (this application has access only to photos that you select)</span><br>
-    <strong>Comments:</strong> Critical bug - photo functionality completely failed on Android</p>
+    <div id="taking-photos" class="feature-section">
+        <h3>Taking Photos</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">0/5</span><br>
+        <strong>Issues:</strong> Unable to take photos on Android<br>
+        <strong>Error message:</strong> <span class="user-comment">"tato aplikace má přístup pouze k fotkám, které vyberete" (this application has access only to photos that you select)</span><br>
+        <strong>Comments:</strong> Critical bug - photo functionality completely failed on Android</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Successfully took photos of documentation without issues<br>
+        <strong>Comments:</strong> Photo functionality worked smoothly on iPhone</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully took photos during the test<br>
+        <strong>Positive reaction:</strong> Users were amused by auto-description feature: <span class="user-comment">"Žena v ordinaci" (Woman in the office)</span><br>
+        <strong>Comments:</strong> Photo feature worked well with auto-description adding a delightful element</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Easily took photos of documents<br>
+        <strong>Positive reaction:</strong> <span class="user-comment">"Jo, super, teďka je to vidět, jó hezký, ježiš, to se mi líbí"</span> (Yeah, great, now it's visible, nice, wow, I like this)<br>
+        <strong>Workflow:</strong> Paused recording before taking photos of documents, then resumed recording afterward</p>
+    </div>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">5/5</span><br>
-    <strong>What worked:</strong> Successfully took photos of documentation without issues<br>
-    <strong>Comments:</strong> Photo functionality worked smoothly on iPhone</p>
+    <div id="adding-notes" class="feature-section">
+        <h3>Adding Notes</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> Not tested</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> Unclear purpose of notes feature<br>
+        <strong>Comments:</strong> <span class="user-comment">"Něco na zapsání. Tak třeba nevim, jméno, že bych si tam mohla zapsat? MOhla bych si zapsat něco, co tady jsme neřekli"</span> (Something for writing. Maybe like, I don't know, a name that I could write down? I could write something that we didn't say here)</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully added notes<br>
+        <strong>Comments:</strong> Found the feature intuitive</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">5/5</span><br>
+        <strong>What worked:</strong> Immediately found and used notes feature after adding photos<br>
+        <strong>Comments:</strong> <span class="user-comment">"a tady si může člověk napsat poznámky… třeba nějaký úvod k tomu… třeba co je to za pacienta"</span> (and here one can write notes... maybe some introduction... like what kind of patient this is)<br>
+        <strong>Feedback:</strong> Wrote detailed notes but questioned: <span class="user-comment">"Proč bych to psala, když to můžu říct?"</span> (Why would I write it when I can say it?)<br>
+        <strong>Workflow question:</strong> Wondered if notes should be made before patient arrives</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked:</strong> Successfully took photos during the test<br>
-    <strong>Positive reaction:</strong> Users were amused by auto-description feature: <span class="user-comment">"Žena v ordinaci" (Woman in the office)</span><br>
-    <strong>Comments:</strong> Photo feature worked well with auto-description adding a delightful element</p>
-</div>
-
-</div>
-
-<div id="ending-visit" class="feature-section">
-    <h3>Ending Visit</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> User didn't notice the "End" button<br>
-    <strong>Workaround:</strong> Eventually accessed report generation through kebab menu and ended visit from popup<br>
-    <strong>Comments:</strong> Flow for ending visit not intuitive</p>
+    <div id="pausing-visit" class="feature-section">
+        <h3>Pausing Visit</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>What worked:</strong> User found and used the pause button<br>
+        <strong>Comments:</strong> Used pause when trying to end the visit</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Pause functionality worked as expected<br>
+        <strong>Comments:</strong> No issues noted with pausing the visit</p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Pause functionality worked properly<br>
+        <strong>Comments:</strong> No issues observed with pausing the recording</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Used pause feature multiple times during the visit<br>
+        <strong>Workflow:</strong> Specifically paused before taking photos of documents<br>
+        <strong>Comments:</strong> <span class="user-comment">"malý moment, takže já si dám pauzu"</span> (one moment, so I'll pause)</p>
+    </div>
     
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> User concerned about accidentally deleting data<br>
-    <strong>Comments:</strong> When prompted to end visit, expressed concern: <span class="user-comment">"jo aha, já jsem nedala tady ukončit. Doufám, že to nesmažu" (oh, I didn't press end here. I hope I don't delete it)</span></p>
+    <div id="ending-visit" class="feature-section">
+        <h3>Ending Visit</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">2/5</span><br>
+        <strong>Issues:</strong> User didn't notice the "End" button<br>
+        <strong>Workaround:</strong> Eventually accessed report generation through kebab menu and ended visit from popup<br>
+        <strong>Comments:</strong> Flow for ending visit not intuitive</p>
+        
+        <p><strong class="user-header">Dr. Vlčková</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>Issues:</strong> User concerned about accidentally deleting data<br>
+        <strong>Comments:</strong> When prompted to end visit, expressed concern: <span class="user-comment">"jo aha, já jsem nedala tady ukončit. Doufám, že to nesmažu" (oh, I didn't press end here. I hope I don't delete it)</span></p>
+        
+        <p><strong class="user-header">Petra Petrová</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>Issues:</strong> Asked <span class="user-comment">"Kde se to vypíná?" (Where do you turn it off?)</span><br>
+        <strong>Comments:</strong> The endpoint of the workflow wasn't immediately obvious</p>
+        
+        <p><strong class="user-header">Kristýna</strong><br>
+        <strong>Rating:</strong> <span class="rating">4/5</span><br>
+        <strong>What worked:</strong> Successfully ended visit by first pausing and then clicking "UKONČIT" (End) button<br>
+        <strong>Issue:</strong> Took about 10 seconds to find report access after ending visit<br>
+        <strong>Comments:</strong> Did not immediately notice sticky report button at top of screen</p>
+    </div>
     
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> Asked <span class="user-comment">"Kde se to vypíná?" (Where do you turn it off?)</span><br>
-    <strong>Comments:</strong> The endpoint of the workflow wasn't immediately obvious</p>
-</div>
-
-<div id="generating-report" class="feature-section">
-    <h3>Generating Report</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> Wait time for report generation caused uncertainty<br>
-    <strong>Behavior:</strong> After ~10 seconds, user started tapping on the spinner looking for refresh<br>
-    <strong>Comments:</strong> User expected feedback on progress or estimated wait time</p>
-    
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> Long wait time for report generation (about 1 minute)<br>
-    <strong>Concern:</strong> Worried about phone calls interrupting the process: <span class="user-comment">"když mi do toho někdo zavolá, což se mi dost často stává?" (what if someone calls me, which happens quite often?)</span><br>
-    <strong>Comments:</strong> User compared the waiting experience to "standing at a red light and writing"</p>
-    
-    <p><strong>User:</strong> Petra Petrová (Nurse)<br>
-    <strong>Rating:</strong> <span class="rating">3/5</span><br>
-    <strong>Issues:</strong> Unclear how long report generation would take<br>
-    <strong>Behavior:</strong> Users seemed uncertain during wait time, carefully placing the phone down<br>
-    <strong>Comments:</strong> Need for clearer progress indication during generation process</p>
-</div>
-
-<div id="viewing-report" class="feature-section">
-    <h3>Viewing Report</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>What worked well:</strong> Content of the report was well-received<br>
-    <strong>Positive feedback:</strong> <span class="user-comment">"tak to je dobrý" (that's good)</span>, <span class="user-comment">"pro soud je to super" (it's great for court)</span><br>
-    <strong>Comments:</strong> User specifically mentioned being most interested in a particular section of the report</p>
-    
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">4/5</span><br>
-    <strong>Positive feedback:</strong> <span class="user-comment">"heeezkýý. To je hezký." (niiiice. That's nice.)</span><br>
-    <strong>Content accuracy:</strong> Noted some inaccuracies: <span class="user-comment">"Až na to že obstipaci nemá. I když má laktulózu" (Except that she doesn't have constipation. Even though she has lactulose)</span> and <span class="user-comment">"páli při močení na zadní straně chodidla" (burning during urination on the back of the foot)</span><br>
-    <strong>Report sections:</strong> Positive about social history (SPA) section, noted would need to manually add medical history (OA) from previous records<br>
-    <strong>Feature request:</strong> Asked if templated sections were available: <span class="user-comment">"to je předvyplněný? Můžu to vybrat?" (is this pre-filled? Can I select it?)</span></p>
-</div>
-
-<div id="savingsharing-report" class="feature-section">
-    <h3>Saving/Sharing Report</h3>
-    <p><strong>User:</strong> Dr. Jaganjac<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> User expected to find a generated file in "my files"<br>
-    <strong>User needs:</strong> <span class="user-comment">"chci vytisnout a uložit do unisu" (I want to print and save to unis)</span><br>
-    <strong>Comments:</strong> User expected export functionality to save report as a file</p>
-    
-    <p><strong>User:</strong> Dr. Vlčková<br>
-    <strong>Rating:</strong> <span class="rating">2/5</span><br>
-    <strong>Issues:</strong> User wasn't clear on how to export or save the report<br>
-    <strong>Comments:</strong> Wants to see evidence that something was created/saved from the visit</p>
-</div>
-
-<h2>General Observations</h2>
-<h3>Dr. Jaganjac</h3>
-<ul>
-    <li>User has 26 patients per morning session (8:00 - 12:30)</li>
-    <li>Keeps patient photos on phone, particularly for court purposes</li>
-    <li>Writing reports typically takes about 2 minutes</li>
-    <li>Types with two fingers but relatively quickly</li>
-    <li>Made note that he writes in shorthand <span class="user-comment">"abych příště věděl co bylo" (so I know next time what happened)</span></li>
-</ul>
-
-<h3>Dr. Vlčková</h3>
-<ul>
-    <li>Wears phone on a lanyard around neck during visits</li>
-    <li>Asks for patient consent before recording, explaining it helps with report writing</li>
-    <li>Has structured questioning pattern (sleep, breathing, anxiety, fears)</li>
-    <li>Often remembers additional questions during visit (e.g., "I forgot to ask - how do you sleep?")</li>
-    <li>Concerned about phone calls interrupting the recording process</li>
-    <li>Reviews patient reports in advance and copies relevant medical history</li>
-    <li>Prefers accessing generated reports immediately after visit</li>
-</ul>
-
-<h2>Priority Issues to Address</h2>
-<div class="priority-list">
-    <ol>
-        <li><strong class="error">Critical:</strong> Photo functionality not working on Android</li>
-        <li><strong class="error">Critical:</strong> Recording functionality fails after iPhone sleep (stuck recording state)</li>
-        <li><strong class="error">High:</strong> Side menu navigation and collapse functionality</li>
-        <li><strong class="error">High:</strong> Unclear visit opening/starting process</li>
-        <li><strong class="warning">Medium:</strong> Visit card clickability not obvious</li>
-        <li><strong class="warning">Medium:</strong> Ending visit flow not intuitive</li>
-        <li><strong class="warning">Medium:</strong> Report saving/export functionality</li>
-        <li><strong class="warning">Medium:</strong> Adding notes functionality unclear (purpose and destination of notes)</li>
-        <li><strong class="warning">Medium:</strong> Handling interruptions (phone calls) during recording/report generation</li>
-        <li><strong>Low:</strong> Password manager UI overlap</li>
-        <li><strong>Low:</strong> Report accuracy (occasional inaccuracies in generated content)</li>
-    </ol>
-</div>
-
-<h2>New Feature Opportunities</h2>
-<div class="priority-list">
-    <ol>
-        <li><strong class="success">High:</strong> Templates for common report sections (OA, obj, etc.)</li>
-        <li><strong class="success">Medium:</strong> Progress indicator during report generation</li>
-        <li><strong class="success">Medium:</strong> Clearer note-taking functionality with purpose indicators</li>
-        <li><strong class="success">Medium:</strong> Auto-recovery from interruptions (calls, device sleep)</li>
-        <li><strong class="success">Low:</strong> Integration with electronic health record systems</li>
-    </ol>
-</div>
-
-<a href="#matrix" class="back-to-top">↑</a>
-</body>
-</html>
+    <div id="generating-report" class="feature-section">
+        <h3>Generating Report</h3>
+        <p><strong class="user-header">Dr. Jaganjac</strong><br>
+        <strong>Rating:</strong> <span class="rating">3/5</span><br>
+        <strong>Issues:</strong> Wait time for report generation caused uncertainty<br>
+        <strong>Behavior:</strong> After ~10 seconds, user started tapping on the spinner looking for refresh<br
