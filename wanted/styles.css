@@ -220,6 +220,8 @@ h1 {
     background-color: var(--bg-secondary);
     aspect-ratio: 1 / 1;
     cursor: pointer;
+    border: 2px solid rgba(56, 189, 248, 0.1);
+    transition: border-color 0.3s ease;
 }
 
 .tile::before {
@@ -235,8 +237,9 @@ h1 {
 }
 
 .tile:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent);
+    transform: none;
+    box-shadow: none;
 }
 
 .tile:hover::before {
@@ -495,6 +498,68 @@ h1 {
         width: 100%;
         align-self: center;
     }
+    
+    .service-number {
+        top: 0.75rem;
+        left: 1rem;
+        font-size: 1.2rem;
+    }
+    
+    .service-image-placeholder {
+        width: 70px;
+        height: 70px;
+        margin: 1.5rem 0 0.75rem;
+        align-self: center;
+    }
+    
+    .placeholder-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .service-title {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        line-height: 1.2;
+        max-width: 100%;
+        word-break: break-word;
+        text-align: left;
+        align-self: flex-start;
+    }
+    
+    .service-item:first-child {
+        width: 240px;
+        height: 160px;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        padding: 1rem;
+    }
+    
+    .service-item:first-child .service-image-placeholder {
+        width: 60px;
+        height: 60px;
+        margin: 0.5rem 0;
+        align-self: center;
+    }
+    
+    .service-item:first-child .placeholder-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .service-item:first-child .service-title {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        text-align: center;
+        align-self: center;
+    }
+    
+    .service-item:first-child .service-description {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
@@ -594,7 +659,7 @@ h1 {
 }
 
 .image-tile:hover img {
-    transform: scale(1.05);
+    transform: none;
 }
 
 .overlay-fade img {
@@ -1113,7 +1178,7 @@ h1 {
 }
 
 .medium-image-tile:hover img {
-    transform: scale(1.05);
+    transform: none;
 }
 
 .medium-image-tile .content-overlay {
@@ -1171,7 +1236,7 @@ h1 {
 }
 
 .medium-split-tile:hover .split-image img {
-    transform: scale(1.05);
+    transform: none;
 }
 
 .medium-split-tile .split-content {
@@ -1242,7 +1307,7 @@ h1 {
 }
 
 .map-tile:hover img {
-    transform: scale(1.05);
+    transform: none;
 }
 
 .no-padding {
@@ -1283,7 +1348,7 @@ h1 {
 }
 
 .movie-item:hover img {
-    transform: scale(1.1);
+    transform: none;
 }
 
 .movie-overlay {
@@ -1306,5 +1371,363 @@ h1 {
     .movie-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
+    }
+}
+
+/* Aristotle Quote Tile */
+.aristotle-quote-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.aristotle-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--accent);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2);
+}
+
+.aristotle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.aristotle-quote-tile blockquote {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.aristotle-quote-tile cite {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 500;
+}
+
+.aristotle-quote-tile::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 6rem;
+    line-height: 1;
+    color: rgba(56, 189, 248, 0.1);
+    font-family: serif;
+}
+
+/* Services Carousel */
+.services-carousel-tile {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    width: 100%;
+    grid-column: 1 / -1;
+    min-height: auto;
+    height: auto;
+    border: none;
+    cursor: default;
+}
+
+/* Override the medium class constraints for services-carousel-tile */
+.tile.services-carousel-tile.medium {
+    grid-column: 1 / -1;
+    width: 100%;
+    aspect-ratio: auto;
+    height: auto;
+    background-color: transparent;
+    margin-bottom: 1.5rem;
+}
+
+.services-carousel-tile:hover {
+    border-color: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Keep the services-header styles for reference but they won't be used */
+.services-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.services-header h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, #ECA677 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.services-carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 320px;
+    padding: 0;
+    margin: 0 40px;
+}
+
+.services-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    width: 100%;
+    height: 320px;
+}
+
+.services-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.service-item {
+    flex: 0 0 auto;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-secondary);
+    border-radius: 24px;
+    padding: 1.5rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid rgba(56, 189, 248, 0.1);
+}
+
+/* Add styles for the first service item to make it 50% width */
+.service-item:first-child {
+    width: 560px; /* Double the width of regular service items */
+    background: linear-gradient(135deg, var(--bg-secondary), rgba(56, 189, 248, 0.1));
+    flex-direction: row;
+    text-align: left;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.service-item:first-child .service-image-placeholder {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    margin: 0;
+}
+
+.service-item:first-child .placeholder-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.service-item:first-child .service-title {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-top: 0;
+}
+
+.service-item:first-child .service-description {
+    display: block;
+    color: var(--text-secondary);
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-color: var(--accent);
+}
+
+.service-number {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.8;
+}
+
+.service-image-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    background-color: rgba(56, 189, 248, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.placeholder-icon {
+    width: 50px;
+    height: 50px;
+    color: var(--accent);
+}
+
+.service-title {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.carousel-nav:hover {
+    background-color: transparent;
+    color: var(--accent);
+}
+
+.carousel-nav.disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.carousel-nav.prev {
+    left: -40px;
+}
+
+.carousel-nav.next {
+    right: -40px;
+}
+
+.carousel-nav svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2px;
+}
+
+@media (max-width: 768px) {
+    .services-carousel-container {
+        margin: 0;
+        padding: 0 36px;
+        height: auto;
+        min-height: 180px;
+    }
+    
+    .services-carousel {
+        height: auto;
+        min-height: 180px;
+        padding: 0.5rem 0;
+        gap: 1.5rem;
+        overflow-y: visible;
+    }
+    
+    .service-item {
+        width: 240px;
+        height: 160px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .service-item:first-child {
+        width: 240px;
+        height: 160px;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        padding: 1rem;
+    }
+    
+    .service-number {
+        top: 0.5rem;
+        left: 0.75rem;
+        font-size: 1rem;
+    }
+    
+    .service-image-placeholder {
+        width: 60px;
+        height: 60px;
+        margin: 0.5rem 0;
+        align-self: center;
+    }
+    
+    .placeholder-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .service-title {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        line-height: 1.2;
+        max-width: 100%;
+        word-break: break-word;
+        text-align: left;
+        align-self: flex-start;
+    }
+    
+    .service-item:first-child .service-title {
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        text-align: center;
+        align-self: center;
+    }
+    
+    .service-item:first-child .service-description {
+        display: none;
+    }
+    
+    .carousel-nav {
+        width: 36px;
+        height: 36px;
+        background-color: rgba(15, 23, 42, 0.5);
+        border-radius: 50%;
+    }
+    
+    .carousel-nav.prev {
+        left: 0px;
+    }
+    
+    .carousel-nav.next {
+        right: 0px;
+    }
+    
+    .carousel-nav:hover {
+        background-color: rgba(56, 189, 248, 0.3);
     }
 } 
