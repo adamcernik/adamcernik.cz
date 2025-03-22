@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Adam Černík - Přiznání 2024</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --bg-color: #f8fafc;
+            --bg-section: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .password-form {
+            background-color: var(--bg-section);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+        }
+        
+        .password-form h2 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+        }
+        
+        .password-submit {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .password-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-size: 1.75rem;
+        }
+
+        .section {
+            margin-bottom: 1rem;
+            background-color: var(--bg-section);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-header:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .section-header span {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .section-content-inner {
+            padding: 1rem;
+        }
+
+        .document-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .document-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .document-item:first-child {
+            padding-top: 0;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .document-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .document-download {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .document-download:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .coming-soon {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.875rem;
+        }
+
+        .download-all {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .download-all:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .total-amount {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .amount-box {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--bg-section);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .amount-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        .amount-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .overview-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .overview-link .document-download {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="password-overlay">
+        <div class="password-form">
+            <h2>Zadejte heslo</h2>
+            <input type="password" class="password-input" placeholder="Zadejte heslo">
+            <button class="password-submit">Potvrdit</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Adam Černík - Přiznání 2024</h1>
+        
+        <div class="total-amount">
+            <div class="amount-box">
+                <div class="amount-label">Celková částka k úhradě</div>
+                <div class="amount-value">754 279,20 Kč</div>
+            </div>
+            <div class="overview-link">
+                <a href="prehled.html" class="document-download">Zobrazit přehled faktur</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Ke stažení</h2>
+                <span>▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-content-inner">
+                    <a href="2024/zip/faktury2024.zip" class="download-all" download>Stáhnout vše (10 faktur)</a>
+                    
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 568/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/faktura-568.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 569/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/faktura-569.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 570/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/faktura-570.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 571/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/faktura-571.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 572/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/faktura-572.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 601/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/jiriadamcernik-601.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 602/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/jiriadamcernik-602.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 603/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/jiriadamcernik-603.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Faktura č. 604/2024</div>
+                            <div class="document-description">Faktura za služby designu a produkce</div>
+                        </div>
+                        <a href="2024/faktury/jiriadamcernik-604.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Sleva na děti</h2>
+                <span>▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-content-inner">
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Čestné prohlášení</div>
+                            <div class="document-description">Čestné prohlášení pro uplatnění slevy na děti</div>
+                        </div>
+                        <a href="2024/dokumenty/cestne-prohlaseni.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Zaplacené zálohy</h2>
+                <span>▼</span>
+            </div>
+            <div class="section-content">
+                <div class="section-content-inner">
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Předpisy záloh a plateb OSVČ</div>
+                            <div class="document-description">Přehled předepsaných a zaplacených záloh na dani</div>
+                        </div>
+                        <a href="2024/dokumenty/predpisy-zaloh-a-plateb-osvc.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Platební povinnosti OSVČ</div>
+                            <div class="document-description">Přehled platebních povinností pro OSVČ</div>
+                        </div>
+                        <a href="2024/dokumenty/platebniPovinnostiOsvc.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-title">Seznam plateb OSVČ</div>
+                            <div class="document-description">Kompletní seznam plateb OSVČ za rok 2024</div>
+                        </div>
+                        <a href="2024/dokumenty/seznamPlatebOsvc.pdf" class="document-download" download>Stáhnout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordOverlay = document.querySelector('.password-overlay');
+            const mainContent = document.querySelector('.main-content');
+            const passwordInput = document.querySelector('.password-input');
+            const passwordSubmit = document.querySelector('.password-submit');
+            
+            if (sessionStorage.getItem('authenticated') === 'true') {
+                showMainContent();
+            }
+            
+            passwordSubmit.addEventListener('click', function() {
+                if (passwordInput.value === 'priznani2024') {
+                    sessionStorage.setItem('authenticated', 'true');
+                    showMainContent();
+                } else {
+                    passwordInput.value = '';
+                    passwordInput.placeholder = 'Nesprávné heslo, zkuste znovu';
+                    passwordInput.focus();
+                    setTimeout(() => {
+                        passwordInput.placeholder = 'Zadejte heslo';
+                    }, 2000);
+                }
+            });
+            
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    passwordSubmit.click();
+                }
+            });
+            
+            function showMainContent() {
+                passwordOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+            }
+
+            // Toggle sections
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.addEventListener('click', toggleSection);
+            });
+
+            function toggleSection() {
+                const section = this.closest('.section');
+                const content = section.querySelector('.section-content');
+                const arrow = section.querySelector('.section-header span');
+                
+                const isActive = content.classList.contains('active');
+                
+                content.classList.toggle('active');
+                arrow.textContent = isActive ? '▼' : '▲';
+            }
+        });
+    </script>
+</body>
+</html>
+

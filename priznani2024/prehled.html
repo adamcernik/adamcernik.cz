@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Přehled faktur - Jiří Adam Černík (2024)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        td:first-child, th:first-child {
+            text-align: center;
+        }
+        td:last-child, th:last-child {
+            text-align: left;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #eaf2f8;
+        }
+        .final-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .note {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Zpět</a>
+    <h1>Přehled faktur - Jiří Adam Černík (2024)</h1>
+    
+    <h2>Faktury v EUR (přepočteno na CZK)</h2>
+    <table>
+        <tr>
+            <th>Číslo faktury</th>
+            <th>Datum</th>
+            <th>Částka (EUR)</th>
+            <th>Kurz</th>
+            <th>Částka (CZK)</th>
+            <th>Odběratel</th>
+        </tr>
+        <tr>
+            <td>568</td>
+            <td>02.04.2024</td>
+            <td>5 043</td>
+            <td>24,7</td>
+            <td>124 562,10</td>
+            <td>NOUS Wissensmanagement FlexCo</td>
+        </tr>
+        <tr>
+            <td>569</td>
+            <td>02.05.2024</td>
+            <td>5 156</td>
+            <td>24,8</td>
+            <td>127 868,80</td>
+            <td>NOUS Wissensmanagement FlexCo</td>
+        </tr>
+        <tr>
+            <td>571</td>
+            <td>01.06.2024</td>
+            <td>4 150</td>
+            <td>24,9</td>
+            <td>103 335,00</td>
+            <td>NOUS Wissensmanagement FlexCo</td>
+        </tr>
+        <tr>
+            <td>602</td>
+            <td>12.08.2024</td>
+            <td>1 723</td>
+            <td>25,1</td>
+            <td>43 247,30</td>
+            <td>NOUS Wissensmanagement FlexCo</td>
+        </tr>
+        <tr class="total-row">
+            <td colspan="2">Celkem</td>
+            <td>16 072</td>
+            <td></td>
+            <td>399 013,20</td>
+            <td></td>
+        </tr>
+    </table>
+    
+    <h2>Faktury v CZK</h2>
+    <table>
+        <tr>
+            <th>Číslo faktury</th>
+            <th>Datum</th>
+            <th>Částka (CZK)</th>
+            <th>Odběratel</th>
+        </tr>
+        <tr>
+            <td>570</td>
+            <td>31.05.2024</td>
+            <td>12 315,00</td>
+            <td>Studio STKI s.r.o.</td>
+        </tr>
+        <tr>
+            <td>572</td>
+            <td>21.07.2024</td>
+            <td>7 389,00</td>
+            <td>Studio STKI s.r.o.</td>
+        </tr>
+        <tr>
+            <td>601</td>
+            <td>31.07.2024</td>
+            <td>93 806,00</td>
+            <td>Oddin.gg s.r.o.</td>
+        </tr>
+        <tr>
+            <td>602</td>
+            <td>26.08.2024</td>
+            <td>10 000,00</td>
+            <td>Poketo edu s.r.o.</td>
+        </tr>
+        <tr>
+            <td>603</td>
+            <td>31.08.2024</td>
+            <td>121 396,00</td>
+            <td>Oddin.gg s.r.o.</td>
+        </tr>
+        <tr>
+            <td>604</td>
+            <td>30.09.2024</td>
+            <td>110 360,00</td>
+            <td>Oddin.gg s.r.o.</td>
+        </tr>
+        <tr class="total-row">
+            <td colspan="2">Celkem</td>
+            <td>355 266,00</td>
+            <td></td>
+        </tr>
+    </table>
+    
+    <h2>Celková bilance</h2>
+    <table>
+        <tr>
+            <th style="text-align: left;">Kategorie</th>
+            <th>Částka (CZK)</th>
+        </tr>
+        <tr>
+            <td style="text-align: left;">Faktury v EUR (přepočteno)</td>
+            <td>399 013,20</td>
+        </tr>
+        <tr>
+            <td style="text-align: left;">Faktury v CZK</td>
+            <td>355 266,00</td>
+        </tr>
+        <tr class="total-row final-total">
+            <td style="text-align: left;">CELKOVÝ PŘÍJEM</td>
+            <td>754 279,20</td>
+        </tr>
+    </table>
+    
+    <p class="note">Poznámka: Přepočet EUR na CZK byl proveden dle přibližných kurzů platných v době vystavení faktur.</p>
+</body>
+</html>
