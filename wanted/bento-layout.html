@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Bento Layout</title>
+    <meta name="description" content="WANTED s.f.o. - Film Production Support and Services">
+    <title>WANTED - Film Production Support</title>
     <style>
         :root {
             --primary: #1A2A3A;
@@ -292,78 +293,118 @@
             }
         }
 
-        @media (max-width: 640px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .big, .rect {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-
+        @media (max-width: 768px) {
             body {
                 padding: 1rem;
+                padding-top: 140px; /* Account for header height + some spacing */
             }
 
-            .tile {
-                min-height: 250px;
+            .header {
+                background: var(--dark-bg);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                height: 129px; /* Fixed height to prevent layout shifts */
             }
 
-            .full-image, .big.full-image {
-                min-height: 400px;
+            .nav-menu {
+                position: fixed;
+                top: 129px; /* Header height */
+                right: -100%;
+                flex-direction: column;
+                background: rgba(26, 42, 58, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                width: 100%;
+                max-width: 300px;
+                height: calc(100vh - 129px);
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+                border-radius: 0;
+                overscroll-behavior: contain; /* Prevent body scroll when menu is open */
             }
 
-            .rect {
-                min-height: 300px;
+            .nav-menu.active {
+                right: 0;
+                box-shadow: -4px 0 30px rgba(0, 0, 0, 0.2);
             }
 
-            /* Adjust movie grid for mobile */
+            /* Prevent body scroll when menu is open */
+            body.menu-open {
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+                padding-top: 120px;
+            }
+
+            .header {
+                padding: 1rem;
+                height: 104px;
+            }
+
+            .logo {
+                height: 72px;
+                width: auto;
+                will-change: transform; /* Optimize animations */
+            }
+
+            .nav-menu {
+                top: 104px;
+                height: calc(100vh - 104px);
+            }
+
+            /* Improve touch targets on mobile */
+            .nav-menu a,
+            .language-option,
+            .menu-toggle {
+                min-height: 44px;
+                padding: 0.75rem;
+                display: flex;
+                align-items: center;
+            }
+
+            /* Optimize movie grid for mobile */
             .movie-grid {
                 grid-template-columns: repeat(3, 1fr);
                 grid-template-rows: repeat(4, 1fr);
                 min-height: 500px;
+                gap: 0.25rem; /* Smaller gap on mobile */
             }
 
             .movie-content {
-                padding: 2rem 1.75rem 1.75rem;
-            }
-            
-            .movie-content .headline {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
+                padding: 1.5rem;
             }
 
-            .movie-content .text {
-                font-size: 0.95rem;
-                line-height: 1.5;
+            /* Optimize resources tile for mobile */
+            .resources-tile {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
-            .quote {
-                min-height: 280px;
+            .resources-images {
+                min-height: 180px;
+                gap: 0.25rem;
             }
 
-            .content-overlay {
-                padding: 2rem 1.75rem 1.75rem;
-            }
-            
-            .content-overlay .headline {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
+            /* Improve performance */
+            .tile {
+                will-change: transform;
+                backface-visibility: hidden;
+                transform: translateZ(0);
             }
 
-            .content-overlay .text {
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-
-            .tile.gradient:not(.rect) {
-                min-height: 300px;
-            }
-
-            .headline {
-                font-size: 1.3rem;
+            /* Reduce motion if user prefers */
+            @media (prefers-reduced-motion: reduce) {
+                .tile,
+                .logo,
+                .nav-menu,
+                .movie-item img {
+                    transition: none !important;
+                    animation: none !important;
+                }
             }
         }
 
@@ -376,6 +417,13 @@
             height: 100%;
             width: 100%;
             position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            .movie-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
         }
 
         .movie-item {
@@ -514,55 +562,50 @@
         .menu-toggle {
             display: none;
             flex-direction: column;
-            gap: 6px;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            padding: 8px;
+            background: none;
+            border: none;
             cursor: pointer;
-            padding: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1002;
         }
 
         .menu-toggle span {
             display: block;
-            width: 25px;
+            width: 24px;
             height: 2px;
+            margin: 2px 0;
             background: var(--text-color);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease,
+                       opacity 0.3s ease;
+            transform-origin: center;
+        }
+
+        .menu-toggle:hover span {
+            background: var(--accent-gold);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
         }
 
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
-            }
-
-            .nav-menu {
-                position: fixed;
-                top: 129px;
-                right: -100%;
-                flex-direction: column;
-                background: rgba(26, 42, 58, 0.85);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                width: 100%;
-                max-width: 300px;
-                height: calc(100vh - 129px);
-                padding: 2rem;
-                gap: 1.5rem;
-                transition: right 0.3s ease;
-                border-radius: 0;
-            }
-
-            .nav-menu.active {
-                right: 0;
-            }
-
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
             }
         }
 
@@ -623,6 +666,7 @@
         .language-select {
             position: relative;
             margin-left: 1rem;
+            z-index: 1001; /* Ensure dropdown appears above other elements */
         }
 
         .language-current {
@@ -634,15 +678,28 @@
             padding: 0.5rem;
             font-size: 1rem;
             font-weight: 500;
+            background: none;
+            border: none;
+            transition: color 0.3s ease;
         }
 
-        .language-current:hover {
+        .language-current:hover,
+        .language-current:focus {
             color: var(--accent-gold);
+            outline: none;
+        }
+
+        .language-current svg {
+            transition: transform 0.3s ease;
+        }
+
+        .language-select.active .language-current svg {
+            transform: rotate(180deg);
         }
 
         .language-dropdown {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 0.5rem);
             right: 0;
             background: rgba(26, 42, 58, 0.95);
             backdrop-filter: blur(10px);
@@ -651,26 +708,35 @@
             padding: 0.5rem;
             display: none;
             min-width: 160px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             border: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .language-select.active .language-dropdown {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .language-option {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             border-radius: 0.5rem;
+            color: var(--text-color);
         }
 
-        .language-option:hover {
+        .language-option:hover,
+        .language-option:focus {
             background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-gold);
+            outline: none;
         }
 
         .language-option img {
@@ -681,10 +747,23 @@
         }
 
         @media (max-width: 768px) {
+            .language-select {
+                width: 100%;
+                margin: 0;
+            }
+
+            .language-current {
+                width: 100%;
+                justify-content: space-between;
+                padding: 0.75rem;
+            }
+
             .language-dropdown {
                 position: static;
-                margin-top: 0.5rem;
                 width: 100%;
+                margin-top: 0.5rem;
+                box-shadow: none;
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
         }
 
@@ -856,32 +935,47 @@
         .resources-images img:hover {
             opacity: 0.8;
         }
+
+        @media (max-width: 1024px) {
+            .resources-tile {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .resources-content {
+                padding-right: 0;
+            }
+
+            .resources-images {
+                min-height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
-            <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo">
-            <nav>
-                <div class="menu-toggle">
+            <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo" width="96" height="96">
+            <nav role="navigation" aria-label="Main navigation">
+                <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
-                <div class="nav-menu">
+                </button>
+                <div class="nav-menu" id="nav-menu">
                     <a href="#about">About Us</a>
                     <a href="#services">Services</a>
                     <a href="#production">Production</a>
                     <a href="#history">History</a>
                     <a href="#contact">Contact</a>
                     <div class="language-select">
-                        <div class="language-current">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="language-dropdown">
                             <span>EN</span>
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                        </div>
-                        <div class="language-dropdown">
+                        </button>
+                        <div class="language-dropdown" id="language-dropdown" role="menu">
                             <div class="language-option" data-lang="cz">
                                 <img src="images/flags/cz.png" alt="Czech">
                                 <span>Česky</span>
@@ -1116,13 +1210,31 @@
             const items = document.querySelectorAll('.movie-item');
             items.forEach(item => {
                 const images = item.querySelectorAll('img');
-                let currentIndex = 0;
+                if (images.length < 2) return; // Skip if not enough images
                 
-                setInterval(() => {
+                let currentIndex = 0;
+                const interval = 3000 + Math.random() * 2000;
+                
+                // Preload images
+                images.forEach(img => {
+                    const preload = new Image();
+                    preload.src = img.src;
+                });
+                
+                const fadeInterval = setInterval(() => {
                     images[currentIndex].classList.remove('active');
                     currentIndex = (currentIndex + 1) % images.length;
                     images[currentIndex].classList.add('active');
-                }, 3000 + Math.random() * 2000);
+                }, interval);
+
+                // Cleanup on page hide/unload
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        clearInterval(fadeInterval);
+                    } else {
+                        fadeMovies();
+                    }
+                });
             });
         }
 
@@ -1134,54 +1246,74 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
             let lastScroll = 0;
+            let scrollTimeout;
             
-            // Header scroll behavior
+            // Header scroll behavior with debounce
             window.addEventListener('scroll', () => {
-                const currentScroll = window.pageYOffset;
-                
-                // Don't hide header if mobile menu is open
-                if (navMenu.classList.contains('active')) {
-                    return;
+                if (scrollTimeout) {
+                    window.cancelAnimationFrame(scrollTimeout);
                 }
-                
-                // Show header and remove scrolled state if at the top
-                if (currentScroll <= 0) {
-                    header.classList.remove('hidden');
-                    header.classList.remove('scrolled');
-                    return;
-                }
-                
-                // Add scrolled state as soon as we scroll down
-                if (currentScroll > 0) {
-                    header.classList.add('scrolled');
-                }
-                
-                if (currentScroll > lastScroll) {
-                    // Scrolling down
-                    header.classList.add('hidden');
-                } else {
-                    // Scrolling up
-                    header.classList.remove('hidden');
-                }
-                
-                lastScroll = currentScroll;
-            });
+
+                scrollTimeout = window.requestAnimationFrame(() => {
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Don't hide header if mobile menu is open
+                    if (navMenu.classList.contains('active')) {
+                        return;
+                    }
+                    
+                    // Show header and remove scrolled state if at the top
+                    if (currentScroll <= 0) {
+                        header.classList.remove('hidden');
+                        header.classList.remove('scrolled');
+                        return;
+                    }
+                    
+                    // Add scrolled state as soon as we scroll down
+                    if (currentScroll > 0) {
+                        header.classList.add('scrolled');
+                    }
+                    
+                    if (currentScroll > lastScroll && currentScroll > 100) {
+                        // Scrolling down and not at the top
+                        header.classList.add('hidden');
+                    } else {
+                        // Scrolling up
+                        header.classList.remove('hidden');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }, { passive: true });
 
             // Mobile menu toggle functionality
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
+            function toggleMenu(show) {
+                menuToggle.classList.toggle('active', show);
+                navMenu.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show);
+                
                 // Ensure header is visible when menu is open
-                if (navMenu.classList.contains('active')) {
+                if (show) {
                     header.classList.remove('hidden');
                 }
+            }
+
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                toggleMenu(!isExpanded);
             });
 
             // Close menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
+                    toggleMenu(false);
+                }
+            });
+
+            // Close menu when pressing Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    toggleMenu(false);
                 }
             });
 
@@ -1189,34 +1321,116 @@
             const navLinks = document.querySelectorAll('.nav-menu a');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
+                    toggleMenu(false);
                 });
             });
 
             // Language selector functionality
             const languageSelect = document.querySelector('.language-select');
             const languageCurrent = document.querySelector('.language-current');
+            const languageDropdown = document.querySelector('.language-dropdown');
             const languageOptions = document.querySelectorAll('.language-option');
 
+            function toggleLanguageDropdown(show) {
+                languageSelect.classList.toggle('active', show);
+                languageCurrent.setAttribute('aria-expanded', show);
+                
+                // Ensure the dropdown is visible within the viewport
+                if (show) {
+                    const dropdownRect = languageDropdown.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    
+                    if (dropdownRect.bottom > viewportHeight) {
+                        languageDropdown.style.top = 'auto';
+                        languageDropdown.style.bottom = '100%';
+                    }
+                }
+            }
+
+            // Handle click on language button
             languageCurrent.addEventListener('click', (e) => {
                 e.stopPropagation();
-                languageSelect.classList.toggle('active');
+                const isExpanded = languageCurrent.getAttribute('aria-expanded') === 'true';
+                toggleLanguageDropdown(!isExpanded);
             });
 
+            // Handle language selection
             languageOptions.forEach(option => {
-                option.addEventListener('click', () => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const lang = option.dataset.lang;
                     const langText = option.querySelector('span').textContent;
-                    languageCurrent.querySelector('span').textContent = lang.toUpperCase();
-                    languageSelect.classList.remove('active');
-                    // Here you can add logic to change the website language
+                    const currentLang = languageCurrent.querySelector('span');
+                    currentLang.textContent = lang.toUpperCase();
+                    
+                    // Update active state
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    
+                    toggleLanguageDropdown(false);
+                    
+                    // Update document language
+                    document.documentElement.lang = lang;
+                    
+                    // You can add here a call to your language change function
+                    // changeLanguage(lang);
+                });
+
+                // Keyboard navigation
+                option.setAttribute('role', 'menuitem');
+                option.setAttribute('tabindex', '0');
+                option.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        option.click();
+                    }
                 });
             });
 
-            // Close language dropdown when clicking outside
-            document.addEventListener('click', () => {
-                languageSelect.classList.remove('active');
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!languageSelect.contains(e.target)) {
+                    toggleLanguageDropdown(false);
+                }
+            });
+
+            // Handle keyboard navigation
+            languageDropdown.addEventListener('keydown', (e) => {
+                const options = Array.from(languageOptions);
+                const currentIndex = options.indexOf(document.activeElement);
+                
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        if (currentIndex < options.length - 1) {
+                            options[currentIndex + 1].focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        if (currentIndex > 0) {
+                            options[currentIndex - 1].focus();
+                        }
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        toggleLanguageDropdown(false);
+                        languageCurrent.focus();
+                        break;
+                }
+            });
+
+            // Set initial language based on browser preference
+            const browserLang = navigator.language.split('-')[0];
+            const availableLangs = ['en', 'cz', 'de', 'fr', 'pl', 'hu'];
+            const defaultLang = availableLangs.includes(browserLang) ? browserLang : 'en';
+            
+            document.documentElement.lang = defaultLang;
+            languageCurrent.querySelector('span').textContent = defaultLang.toUpperCase();
+            languageOptions.forEach(option => {
+                if (option.dataset.lang === defaultLang) {
+                    option.classList.add('active');
+                }
             });
         });
     </script>
