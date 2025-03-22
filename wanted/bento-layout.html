@@ -17,7 +17,7 @@
             --light-tile: #2c4054;
             --border-color: rgba(212, 175, 55, 0.1);
             --text-color: #ffffff;
-            --gradient-dark: linear-gradient(to bottom, var(--primary) 0%, #233446 100%);
+            --gradient-dark: linear-gradient(to bottom, #111922 0%, #1a2735 100%);
             --gradient-tile: linear-gradient(135deg, var(--primary) 0%, #233446 100%);
             --gradient-accent: linear-gradient(135deg, var(--secondary) 0%, #b42840 100%);
             --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);
@@ -36,7 +36,8 @@
             min-height: 100vh;
             padding: 2rem;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 50%),
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 70%),
+                radial-gradient(circle at 0% 50%, rgba(26, 42, 58, 0.1), transparent 50%),
                 var(--gradient-dark);
             padding-top: 9rem;
         }
@@ -340,38 +341,39 @@
                 padding-top: 120px;
             }
 
-            .header {
-                padding: 1rem;
-                height: 104px;
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
-            .logo {
-                height: 72px;
-                width: auto;
-                will-change: transform; /* Optimize animations */
+            /* Reset all tile sizes to single column */
+            .tile {
+                min-height: 200px;
             }
 
-            .nav-menu {
-                top: 104px;
-                height: calc(100vh - 104px);
+            .big, .rect {
+                grid-column: span 1;
+                grid-row: span 1;
             }
 
-            /* Improve touch targets on mobile */
-            .nav-menu a,
-            .language-option,
-            .menu-toggle {
-                min-height: 44px;
-                padding: 0.75rem;
-                display: flex;
-                align-items: center;
+            .big.full-image {
+                min-height: 400px;
             }
 
-            /* Optimize movie grid for mobile */
+            .full-image {
+                min-height: 300px;
+            }
+
+            .rect {
+                min-height: 250px;
+            }
+
+            /* Adjust movie grid for mobile */
             .movie-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-                min-height: 500px;
-                gap: 0.25rem; /* Smaller gap on mobile */
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+                min-height: 400px;
+                gap: 0.25rem;
             }
 
             .movie-content {
@@ -389,30 +391,98 @@
                 gap: 0.25rem;
             }
 
-            /* Improve performance */
-            .tile {
-                will-change: transform;
-                backface-visibility: hidden;
-                transform: translateZ(0);
+            /* Adjust service tiles for mobile */
+            .service-tile {
+                min-height: 220px;
             }
 
-            /* Reduce motion if user prefers */
-            @media (prefers-reduced-motion: reduce) {
-                .tile,
-                .logo,
-                .nav-menu,
-                .movie-item img {
-                    transition: none !important;
-                    animation: none !important;
-                }
+            .service-content {
+                padding: 1.5rem;
+            }
+
+            .service-title {
+                font-size: 1.25rem;
+            }
+
+            .service-number {
+                font-size: 1rem;
+            }
+
+            /* Adjust quote tile for mobile */
+            .quote-tile {
+                min-height: 250px;
+            }
+
+            .quote-text {
+                font-size: 1.25rem;
+                padding: 1.5rem;
+                padding-bottom: 0;
+            }
+
+            .quote-author {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            /* Adjust content overlays for mobile */
+            .content-overlay {
+                padding: 2rem 1.5rem 1.5rem;
+            }
+
+            .content-overlay .headline {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .content-overlay .text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            /* General text adjustments for mobile */
+            .headline {
+                font-size: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .header {
+                padding: 1rem;
+                height: 104px;
+            }
+
+            .header-content {
+                gap: 1rem;
+            }
+
+            .logo {
+                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
+                width: auto;
+                will-change: transform;
+                order: 0;
+            }
+
+            nav {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                order: 1;
+            }
+
+            .nav-menu {
+                top: 104px;
+                height: calc(100vh - 104px);
             }
         }
 
         /* Movie grid styles */
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
             gap: 0.5rem;
             height: 100%;
             width: 100%;
@@ -423,6 +493,14 @@
             .movie-grid {
                 grid-template-columns: repeat(3, 1fr);
                 grid-template-rows: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+                min-height: 400px;
             }
         }
 
@@ -950,6 +1028,37 @@
                 min-height: 200px;
             }
         }
+
+        /* Add styles for project lists */
+        .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .project-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .project-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .project-list .year {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -1017,16 +1126,17 @@
             </div>
         </div>
 
+        <!-- Prague map tile -->
+        <div class="tile full-image">
+            <h2 class="map-title">Prague</h2>
+            <p class="map-description">We are in the middle of Europe</p>
+            <img src="images/wanted-map.jpg" alt="WANTED Location Map">
+        </div>
+
         <!-- Small tile with headline -->
         <div class="tile gradient">
             <h2 class="headline">Our Competitive Edge</h2>
             <p class="text">Our distinct competitive advantage lies in our ability to execute projects through all divisions of our company. From project development, visualizations, and construction work to the production of custom interior elements and the supply of freestanding furniture—all under unified project management.</p>
-        </div>
-
-        <!-- Small tile with quote -->
-        <div class="tile light">
-            <h2 class="headline">Our Commitment</h2>
-            <p class="text">All our products and materials are sourced from Europe, and we maintain a strong commitment to environmental sustainability.</p>
         </div>
 
         <!-- Resources tile -->
@@ -1047,15 +1157,8 @@
             </div>
         </div>
 
-        <!-- Small tile right of Performance -->
-        <div class="tile full-image">
-            <h2 class="map-title">Prague</h2>
-            <p class="map-description">We are in the middle of Europe</p>
-            <img src="images/wanted-map.jpg" alt="WANTED Location Map">
-        </div>
-
-        <!-- Center rectangular tile with movie grid -->
-        <div class="tile rect gradient">
+        <!-- Center big tile with movie grid -->
+        <div class="tile big gradient">
             <div class="movie-grid">
                 <div class="movie-item">
                     <img src="images/movies/wheeloftime.jpg" alt="Wheel of Time" class="active">
@@ -1117,16 +1220,6 @@
         <div class="tile">
             <h2 class="headline">Design</h2>
             <p class="text">Where form meets function</p>
-        </div>
-
-        <!-- Small tile with image grid -->
-        <div class="tile gradient">
-            <div class="image-grid">
-                <img src="images/008.jpg" alt="Image 008">
-                <img src="images/009.jpg" alt="Image 009">
-                <img src="images/014.jpg" alt="Image 014">
-                <img src="images/019.jpg" alt="Image 019">
-            </div>
         </div>
 
         <!-- Additional tile -->
@@ -1202,6 +1295,34 @@
                 <h2 class="service-title">Rebranding</h2>
                 <p class="text">Complete visual identity transformations for businesses</p>
             </div>
+        </div>
+
+        <!-- Small tile with headline -->
+        <div class="tile gradient">
+            <h2 class="headline">Notable Film Projects</h2>
+            <ul class="project-list">
+                <li>The Wheel of Time <span class="year">(2020-2023)</span></li>
+                <li>Jojo Rabbit <span class="year">(2018)</span></li>
+                <li>The Painted Bird <span class="year">(2018)</span></li>
+                <li>The Zookeeper's Wife <span class="year">(2017)</span></li>
+                <li>Snowpiercer <span class="year">(2013)</span></li>
+                <li>Mission: Impossible - Ghost Protocol <span class="year">(2011)</span></li>
+                <li>Bathory <span class="year">(2008)</span></li>
+                <li>The Chronicles of Narnia: Prince Caspian <span class="year">(2008)</span></li>
+            </ul>
+        </div>
+
+        <!-- Small tile with commercial projects -->
+        <div class="tile light">
+            <h2 class="headline">Commercial Projects</h2>
+            <ul class="project-list">
+                <li>Renault Group <span class="text">(Homologated supplier)</span></li>
+                <li>Dacia New Visual Identity</li>
+                <li>Renault Store rebranding</li>
+                <li>Renault Alpine Store</li>
+                <li>Renault Care Service</li>
+                <li>Various commercial campaigns and promotional events</li>
+            </ul>
         </div>
     </div>
 
