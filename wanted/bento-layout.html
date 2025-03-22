@@ -6,13 +6,20 @@
     <title>Modern Bento Layout</title>
     <style>
         :root {
-            --dark-bg: #121212;
-            --dark-tile: #1a1a1a;
-            --light-tile: #2a2a2a;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --primary: #1A2A3A;
+            --secondary: #9D2235;
+            --accent-gold: #D4AF37;
+            --accent-slate: #607D8B;
+            --background: #F5F5F7;
+            --dark-bg: var(--primary);
+            --dark-tile: #233446;
+            --light-tile: #2c4054;
+            --border-color: rgba(212, 175, 55, 0.1);
             --text-color: #ffffff;
-            --gradient-dark: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-            --gradient-tile: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            --gradient-dark: linear-gradient(to bottom, var(--primary) 0%, #233446 100%);
+            --gradient-tile: linear-gradient(135deg, var(--primary) 0%, #233446 100%);
+            --gradient-accent: linear-gradient(135deg, var(--secondary) 0%, #b42840 100%);
+            --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);
         }
 
         * {
@@ -24,32 +31,47 @@
         body {
             background: var(--gradient-dark);
             color: var(--text-color);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
             min-height: 100vh;
             padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 50%),
+                var(--gradient-dark);
+            padding-top: 9rem;
         }
 
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            gap: 1.5rem;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .tile {
             background: var(--dark-tile);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            border: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             position: relative;
+            backdrop-filter: blur(10px);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .tile:hover {
-            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                       0 16px 48px rgba(0, 0, 0, 0.2);
             transform: translateY(-2px);
+        }
+
+        .tile::before {
+            content: none;
         }
 
         .tile.gradient {
@@ -73,45 +95,69 @@
         /* Content styles */
         .full-image {
             padding: 0;
+            min-height: 300px;
+        }
+
+        .big.full-image {
+            min-height: 500px;
+        }
+
+        .rect {
+            min-height: 250px;
         }
 
         .full-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 1.25rem;
+            transition: transform 0.4s ease;
+        }
+
+        .full-image:hover img {
+            transform: scale(1.05);
         }
 
         .headline {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
         }
 
         .text {
             font-size: 1rem;
-            line-height: 1.5;
-            opacity: 0.8;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
 
         .quote {
             font-style: italic;
             font-size: 1.25rem;
             padding: 2rem;
+            line-height: 1.6;
         }
 
         .quote::before {
             content: '"';
-            font-size: 3rem;
-            opacity: 0.3;
+            font-size: 4rem;
+            opacity: 0.15;
             position: absolute;
             top: 1rem;
             left: 1rem;
+            font-family: Georgia, serif;
+            color: var(--accent-gold);
         }
 
         .image-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            gap: 0.75rem;
             height: 100%;
         }
 
@@ -119,75 +165,1061 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-grid img:hover {
+            opacity: 0.8;
+        }
+
+        /* Additional content styles */
+        .content-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, 
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.85) 20%,
+                rgba(26, 42, 58, 0.7) 40%,
+                rgba(26, 42, 58, 0.4) 70%,
+                rgba(26, 42, 58, 0) 100%
+            );
+            padding: 3.5rem 3rem 3rem;
+            color: var(--text-color);
+            transition: all 0.4s ease;
+        }
+
+        .content-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(212, 175, 55, 0.08) 0%,
+                rgba(26, 42, 58, 0.08) 100%
+            );
+            pointer-events: none;
+        }
+
+        .content-overlay .headline {
+            position: relative;
+            font-size: 2.25rem;
+            margin-bottom: 1.25rem;
+            background: none;
+            -webkit-text-fill-color: var(--text-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-overlay .text {
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 90%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .tile:hover .content-overlay {
+            transform: translateY(-5px);
+            background: linear-gradient(to top, 
+                rgba(26, 42, 58, 0.98) 0%,
+                rgba(26, 42, 58, 0.88) 20%,
+                rgba(26, 42, 58, 0.75) 40%,
+                rgba(26, 42, 58, 0.45) 70%,
+                rgba(26, 42, 58, 0) 100%
+            );
+        }
+
+        /* Adjust tile heights for content */
+        .tile.gradient:not(.rect) {
+            min-height: 280px;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
             .bento-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.25rem;
+            }
+
+            .tile {
+                min-height: 220px;
+            }
+
+            .full-image {
+                min-height: 350px;
+            }
+
+            .big.full-image {
+                min-height: 400px;
+            }
+
+            .rect {
+                min-height: 280px;
+            }
+
+            .image-grid {
+                min-height: 300px;
+            }
+
+            .content-overlay {
+                padding: 2.5rem 2rem 2rem;
+            }
+            
+            .content-overlay .headline {
+                font-size: 1.75rem;
+            }
+
+            .content-overlay .text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .tile.gradient:not(.rect) {
+                min-height: 320px;
+            }
+
+            .headline {
+                font-size: 1.4rem;
+            }
+
+            .text {
+                font-size: 0.95rem;
             }
         }
 
         @media (max-width: 640px) {
             .bento-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
             .big, .rect {
                 grid-column: span 1;
                 grid-row: span 1;
             }
+
+            body {
+                padding: 1rem;
+            }
+
+            .tile {
+                min-height: 250px;
+            }
+
+            .full-image, .big.full-image {
+                min-height: 400px;
+            }
+
+            .rect {
+                min-height: 300px;
+            }
+
+            /* Adjust movie grid for mobile */
+            .movie-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                min-height: 500px;
+            }
+
+            .movie-content {
+                padding: 2rem 1.75rem 1.75rem;
+            }
+            
+            .movie-content .headline {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .movie-content .text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .quote {
+                min-height: 280px;
+            }
+
+            .content-overlay {
+                padding: 2rem 1.75rem 1.75rem;
+            }
+            
+            .content-overlay .headline {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .content-overlay .text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .tile.gradient:not(.rect) {
+                min-height: 300px;
+            }
+
+            .headline {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Movie grid styles */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 0.5rem;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .movie-item {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .movie-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .movie-item img.active {
+            opacity: 1;
+        }
+
+        .movie-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(26, 42, 58, 0.3) 0%,
+                rgba(26, 42, 58, 0.7) 100%
+            );
+            z-index: 2;
+        }
+
+        .movie-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 3;
+            background: linear-gradient(to top,
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.8) 50%,
+                transparent 100%
+            );
+        }
+
+        /* Header styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2rem;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Add keyframes for logo rotation */
+        @keyframes logoSpin {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            height: 96px;
+            width: auto;
+            transition: transform 0.3s ease;
+            animation: logoSpin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .header.scrolled .logo {
+            transform: scale(0.5);
+            transform-origin: left center;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            border-radius: 1rem;
+            background: rgba(26, 42, 58, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 129px;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(26, 42, 58, 0.85);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                width: 100%;
+                max-width: 300px;
+                height: calc(100vh - 129px);
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+                border-radius: 0;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        /* Add styles for the quote tile */
+        .quote-tile {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .quote-tile img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote-tile:hover img {
+            opacity: 0.7;
+        }
+
+        .quote-content {
+            position: relative;
+            z-index: 1;
+            padding: 0;
+            background: linear-gradient(
+                to top,
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.8) 50%,
+                rgba(26, 42, 58, 0.4) 100%
+            );
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            padding: 2rem;
+            padding-bottom: 0;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 500;
+            padding: 0 2rem 2rem;
+        }
+
+        /* Language dropdown styles */
+        .language-select {
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .language-current {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .language-current:hover {
+            color: var(--accent-gold);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(26, 42, 58, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            display: none;
+            min-width: 160px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .language-select.active .language-dropdown {
+            display: block;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 0.5rem;
+        }
+
+        .language-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-option img {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .language-dropdown {
+                position: static;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+
+        /* Add keyframes for service tile hover animation */
+        @keyframes serviceImageZoom {
+            0% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.05);
+                filter: brightness(1.2);
+            }
+            100% {
+                transform: scale(1.02);
+                filter: brightness(1.1);
+            }
+        }
+
+        .service-tile {
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .service-tile img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 2.5s ease;
+        }
+
+        .service-tile:hover img {
+            opacity: 1;
+        }
+
+        .service-content {
+            position: relative;
+            z-index: 1;
+            padding: 1.75rem;
+            height: 100%;
+            background: linear-gradient(
+                to top,
+                rgba(26, 42, 58, 0.9) 0%,
+                rgba(26, 42, 58, 0.7) 50%,
+                rgba(26, 42, 58, 0.4) 100%
+            );
+            transition: background 2.5s ease;
+        }
+
+        .service-tile:hover .service-content {
+            background: linear-gradient(
+                to top,
+                rgba(26, 42, 58, 0.6) 0%,
+                rgba(26, 42, 58, 0.3) 50%,
+                rgba(26, 42, 58, 0.1) 100%
+            );
+        }
+
+        .service-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        /* Service tile color progression with timing */
+        .service-01 .service-content { background: linear-gradient(to top, #2c4054dd, #2c405499); transition: background 2.5s ease; }
+        .service-02 .service-content { background: linear-gradient(to top, #283b4edd, #283b4e99); transition: background 2.5s ease; }
+        .service-03 .service-content { background: linear-gradient(to top, #243648dd, #24364899); transition: background 2.5s ease; }
+        .service-04 .service-content { background: linear-gradient(to top, #203142dd, #20314299); transition: background 2.5s ease; }
+        .service-05 .service-content { background: linear-gradient(to top, #1c2c3cdd, #1c2c3c99); transition: background 2.5s ease; }
+        .service-06 .service-content { background: linear-gradient(to top, #182736dd, #18273699); transition: background 2.5s ease; }
+
+        .service-tile:hover .service-01 .service-content { background: linear-gradient(to top, #2c405488, #2c405455); }
+        .service-tile:hover .service-02 .service-content { background: linear-gradient(to top, #283b4e88, #283b4e55); }
+        .service-tile:hover .service-03 .service-content { background: linear-gradient(to top, #24364888, #24364855); }
+        .service-tile:hover .service-04 .service-content { background: linear-gradient(to top, #20314288, #20314255); }
+        .service-tile:hover .service-05 .service-content { background: linear-gradient(to top, #1c2c3c88, #1c2c3c55); }
+        .service-tile:hover .service-06 .service-content { background: linear-gradient(to top, #18273688, #18273655); }
+
+        /* Add styles for resource list */
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .resource-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .resource-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Add styles for map title overlay */
+        .map-title {
+            position: absolute;
+            top: 1.75rem;
+            left: 1.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            z-index: 2;
+            background: linear-gradient(90deg, var(--accent-gold), #e5c14c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .map-description {
+            position: absolute;
+            bottom: 1.75rem;
+            left: 1.75rem;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Add styles for resources tile */
+        .resources-tile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .resources-content {
+            padding-right: 1rem;
+        }
+
+        .resources-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            height: 100%;
+        }
+
+        .resources-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .resources-images img:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-content">
+            <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo">
+            <nav>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-menu">
+                    <a href="#about">About Us</a>
+                    <a href="#services">Services</a>
+                    <a href="#production">Production</a>
+                    <a href="#history">History</a>
+                    <a href="#contact">Contact</a>
+                    <div class="language-select">
+                        <div class="language-current">
+                            <span>EN</span>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="language-dropdown">
+                            <div class="language-option" data-lang="cz">
+                                <img src="images/flags/cz.png" alt="Czech">
+                                <span>Česky</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                <img src="images/flags/gb.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="de">
+                                <img src="images/flags/de.png" alt="German">
+                                <span>Deutsch</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                <img src="images/flags/fr.png" alt="French">
+                                <span>Français</span>
+                            </div>
+                            <div class="language-option" data-lang="pl">
+                                <img src="images/flags/pl.png" alt="Polish">
+                                <span>Polski</span>
+                            </div>
+                            <div class="language-option" data-lang="hu">
+                                <img src="images/flags/hu.png" alt="Hungarian">
+                                <span>Magyar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
     <div class="bento-grid">
-        <!-- Big tile with full image -->
+        <!-- Big tile with full image and content -->
         <div class="tile big full-image">
-            <img src="https://source.unsplash.com/random/800x800?nature" alt="Nature">
+            <img src="images/slides/2.jpg" alt="WANTED Headquarters">
+            <div class="content-overlay">
+                <h2 class="headline">Who We Are</h2>
+                <p class="text">WANTED s.f.o. was established in Prague, where we maintain our headquarters and production facilities. Since our founding, we have experienced significant growth in the quality and scope of our services, establishing ourselves firmly in the film industry, fit-out projects, custom furniture manufacturing, comprehensive interior design implementation, and sales support products.</p>
+            </div>
         </div>
 
         <!-- Small tile with headline -->
         <div class="tile gradient">
-            <h2 class="headline">Featured Story</h2>
+            <h2 class="headline">Our Competitive Edge</h2>
+            <p class="text">Our distinct competitive advantage lies in our ability to execute projects through all divisions of our company. From project development, visualizations, and construction work to the production of custom interior elements and the supply of freestanding furniture—all under unified project management.</p>
         </div>
 
         <!-- Small tile with quote -->
-        <div class="tile light quote">
-            The best way to predict the future is to create it.
-        </div>
-
-        <!-- Rectangle tile with headline and text -->
-        <div class="tile rect">
-            <h2 class="headline">Latest Updates</h2>
-            <p class="text">Discover the newest features and improvements in our latest release. We've been working hard to make your experience better.</p>
-        </div>
-
-        <!-- Small tile with text only -->
         <div class="tile light">
-            <p class="text">Simplicity is the ultimate sophistication. Design is not just what it looks like and feels like. Design is how it works.</p>
+            <h2 class="headline">Our Commitment</h2>
+            <p class="text">All our products and materials are sourced from Europe, and we maintain a strong commitment to environmental sustainability.</p>
+        </div>
+
+        <!-- Resources tile -->
+        <div class="tile rect light resources-tile">
+            <div class="resources-content">
+                <h2 class="headline">Our Resources</h2>
+                <ul class="resource-list">
+                    <li>Own transportation fleet</li>
+                    <li>Storage and production facilities</li>
+                    <li>Extensive network of verified suppliers</li>
+                    <li>Hands-on film set experience</li>
+                    <li>Qualified and dedicated personnel</li>
+                </ul>
+            </div>
+            <div class="resources-images">
+                <img src="images/about/onas-2.jpg" alt="WANTED Resources 1">
+                <img src="images/about/onas.jpg" alt="WANTED Resources 2">
+            </div>
+        </div>
+
+        <!-- Small tile right of Performance -->
+        <div class="tile full-image">
+            <h2 class="map-title">Prague</h2>
+            <p class="map-description">We are in the middle of Europe</p>
+            <img src="images/wanted-map.jpg" alt="WANTED Location Map">
+        </div>
+
+        <!-- Center rectangular tile with movie grid -->
+        <div class="tile rect gradient">
+            <div class="movie-grid">
+                <div class="movie-item">
+                    <img src="images/movies/wheeloftime.jpg" alt="Wheel of Time" class="active">
+                    <img src="images/movies/jojo.jpg" alt="Jojo">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/bathory.JPG" alt="Bathory" class="active">
+                    <img src="images/movies/sarlatan.jpg" alt="Sarlatan">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/paintedbird.jpg" alt="Painted Bird" class="active">
+                    <img src="images/movies/modelar.jpg" alt="Modelar">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/zatopek.jpg" alt="Zatopek" class="active">
+                    <img src="images/movies/e-o.jpg" alt="EO">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/lastknights.jpg" alt="Last Knights" class="active">
+                    <img src="images/movies/musketeers.jpg" alt="Musketeers">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/snowpiercer.jpg" alt="Snowpiercer" class="active">
+                    <img src="images/movies/redtails.jpg" alt="Red Tails">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/bezvedomi.jpg" alt="Bezvedomi" class="active">
+                    <img src="images/movies/lidice.jpg" alt="Lidice">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/principslasti.jpg" alt="Princip Slasti" class="active">
+                    <img src="images/movies/catcherwasaspy.jpg" alt="Catcher Was a Spy">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/betlemske-svetlo.jpeg" alt="Betlemske Svetlo" class="active">
+                    <img src="images/movies/hanna.jpg" alt="Hanna">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/mi.jpg" alt="MI" class="active">
+                    <img src="images/movies/missing.jpg" alt="Missing">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/red_baron.jpg" alt="Red Baron" class="active">
+                    <img src="images/movies/caspian.jpg" alt="Caspian">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/vinari.jpg" alt="Vinari" class="active">
+                    <img src="images/movies/svetpodhlavou.jpg" alt="Svet pod hlavou">
+                </div>
+            </div>
+            <div class="movie-overlay"></div>
+            <div class="movie-content">
+                <h2 class="headline">Film & TV Production Support</h2>
+                <p class="text">WANTED s.f.o. has contributed to the creation of numerous acclaimed films and television series. Our expertise in props, decorations, and set design has helped bring stories to life across various genres and productions.</p>
+            </div>
+        </div>
+
+        <!-- Small tile right -->
+        <div class="tile">
+            <h2 class="headline">Design</h2>
+            <p class="text">Where form meets function</p>
         </div>
 
         <!-- Small tile with image grid -->
         <div class="tile gradient">
             <div class="image-grid">
-                <img src="https://source.unsplash.com/random/300x300?tech" alt="Tech 1">
-                <img src="https://source.unsplash.com/random/300x300?design" alt="Design 1">
-                <img src="https://source.unsplash.com/random/300x300?art" alt="Art 1">
-                <img src="https://source.unsplash.com/random/300x300?minimal" alt="Minimal 1">
+                <img src="images/008.jpg" alt="Image 008">
+                <img src="images/009.jpg" alt="Image 009">
+                <img src="images/014.jpg" alt="Image 014">
+                <img src="images/019.jpg" alt="Image 019">
             </div>
         </div>
 
-        <!-- Additional tiles to fill the grid -->
-        <div class="tile">
-            <h2 class="headline">Explore</h2>
-            <p class="text">Dive into our collection of resources and inspiration.</p>
+        <!-- Additional tile -->
+        <div class="tile light">
+            <h2 class="headline">Explore More</h2>
+            <p class="text">Discover our complete range</p>
         </div>
 
-        <div class="tile light full-image">
-            <img src="https://source.unsplash.com/random/400x400?abstract" alt="Abstract">
+        <!-- Final tile with full image -->
+        <div class="tile full-image">
+            <img src="images/022.jpg" alt="Image 022">
+        </div>
+
+        <!-- Add the Aristotle quote tile to the bento grid -->
+        <div class="tile quote-tile">
+            <img src="images/aristotle.png" alt="Aristotle">
+            <div class="quote-content">
+                <div class="quote-text">"Pleasure in the job puts perfection in the work"</div>
+                <div class="quote-author">— Aristotle</div>
+            </div>
+        </div>
+
+        <!-- Service tiles -->
+        <div class="tile service-tile service-01">
+            <img src="images/references/008.jpg" alt="Props & Decorations">
+            <div class="service-content">
+                <div class="service-number">01</div>
+                <h2 class="service-title">Props & Decorations</h2>
+                <p class="text">Custom-made film props, set decorations, and specialty items</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-02">
+            <img src="images/references/009.jpg" alt="Events">
+            <div class="service-content">
+                <div class="service-number">02</div>
+                <h2 class="service-title">Events</h2>
+                <p class="text">Comprehensive event planning and execution services</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-03">
+            <img src="images/references/010.jpg" alt="Promotional Campaigns">
+            <div class="service-content">
+                <div class="service-number">03</div>
+                <h2 class="service-title">Promotional Campaigns</h2>
+                <p class="text">Creative brand activations and promotional materials</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-04">
+            <img src="images/references/011.jpg" alt="Video Productions">
+            <div class="service-content">
+                <div class="service-number">04</div>
+                <h2 class="service-title">Video Productions</h2>
+                <p class="text">Support for music videos and commercial shoots</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-05">
+            <img src="images/references/012.jpg" alt="Films & TV Series">
+            <div class="service-content">
+                <div class="service-number">05</div>
+                <h2 class="service-title">Films & TV Series</h2>
+                <p class="text">Full production support for film and television projects</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-06">
+            <img src="images/references/013.jpg" alt="Rebranding">
+            <div class="service-content">
+                <div class="service-number">06</div>
+                <h2 class="service-title">Rebranding</h2>
+                <p class="text">Complete visual identity transformations for businesses</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        function fadeMovies() {
+            const items = document.querySelectorAll('.movie-item');
+            items.forEach(item => {
+                const images = item.querySelectorAll('img');
+                let currentIndex = 0;
+                
+                setInterval(() => {
+                    images[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.add('active');
+                }, 3000 + Math.random() * 2000);
+            });
+        }
+
+        // Header scroll behavior
+        document.addEventListener('DOMContentLoaded', () => {
+            fadeMovies();
+
+            const header = document.querySelector('.header');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            let lastScroll = 0;
+            
+            // Header scroll behavior
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                // Don't hide header if mobile menu is open
+                if (navMenu.classList.contains('active')) {
+                    return;
+                }
+                
+                // Show header and remove scrolled state if at the top
+                if (currentScroll <= 0) {
+                    header.classList.remove('hidden');
+                    header.classList.remove('scrolled');
+                    return;
+                }
+                
+                // Add scrolled state as soon as we scroll down
+                if (currentScroll > 0) {
+                    header.classList.add('scrolled');
+                }
+                
+                if (currentScroll > lastScroll) {
+                    // Scrolling down
+                    header.classList.add('hidden');
+                } else {
+                    // Scrolling up
+                    header.classList.remove('hidden');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Mobile menu toggle functionality
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                // Ensure header is visible when menu is open
+                if (navMenu.classList.contains('active')) {
+                    header.classList.remove('hidden');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Language selector functionality
+            const languageSelect = document.querySelector('.language-select');
+            const languageCurrent = document.querySelector('.language-current');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            languageCurrent.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageSelect.classList.toggle('active');
+            });
+
+            languageOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.dataset.lang;
+                    const langText = option.querySelector('span').textContent;
+                    languageCurrent.querySelector('span').textContent = lang.toUpperCase();
+                    languageSelect.classList.remove('active');
+                    // Here you can add logic to change the website language
+                });
+            });
+
+            // Close language dropdown when clicking outside
+            document.addEventListener('click', () => {
+                languageSelect.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
+
