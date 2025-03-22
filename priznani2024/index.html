@@ -33,62 +33,6 @@
             padding: 2rem 1rem;
         }
 
-        .password-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .password-form {
-            background-color: var(--bg-section);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-        }
-        
-        .password-form h2 {
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-        
-        .password-input {
-            width: 100%;
-            padding: 0.75rem;
-            margin: 1rem 0;
-            border: 1px solid var(--border-color);
-            border-radius: 0.25rem;
-            font-size: 1rem;
-        }
-        
-        .password-submit {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        .password-submit:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .main-content {
-            display: none;
-        }
-
         h1 {
             text-align: center;
             margin-bottom: 2rem;
@@ -240,14 +184,6 @@
     </style>
 </head>
 <body>
-    <div class="password-overlay">
-        <div class="password-form">
-            <h2>Zadejte heslo</h2>
-            <input type="password" class="password-input" placeholder="Zadejte heslo">
-            <button class="password-submit">Potvrdit</button>
-        </div>
-    </div>
-
     <div class="main-content">
         <h1>Adam Černík - Přiznání 2024</h1>
         
@@ -390,40 +326,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const passwordOverlay = document.querySelector('.password-overlay');
-            const mainContent = document.querySelector('.main-content');
-            const passwordInput = document.querySelector('.password-input');
-            const passwordSubmit = document.querySelector('.password-submit');
-            
-            if (sessionStorage.getItem('authenticated') === 'true') {
-                showMainContent();
-            }
-            
-            passwordSubmit.addEventListener('click', function() {
-                if (passwordInput.value === 'priznani2024') {
-                    sessionStorage.setItem('authenticated', 'true');
-                    showMainContent();
-                } else {
-                    passwordInput.value = '';
-                    passwordInput.placeholder = 'Nesprávné heslo, zkuste znovu';
-                    passwordInput.focus();
-                    setTimeout(() => {
-                        passwordInput.placeholder = 'Zadejte heslo';
-                    }, 2000);
-                }
-            });
-            
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    passwordSubmit.click();
-                }
-            });
-            
-            function showMainContent() {
-                passwordOverlay.style.display = 'none';
-                mainContent.style.display = 'block';
-            }
-
             // Toggle sections
             document.querySelectorAll('.section-header').forEach(header => {
                 header.addEventListener('click', toggleSection);
