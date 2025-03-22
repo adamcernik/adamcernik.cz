@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Bento Layout</title>
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --dark-tile: #1a1a1a;
+            --light-tile: #2a2a2a;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --gradient-dark: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+            --gradient-tile: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--gradient-dark);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tile {
+            background: var(--dark-tile);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tile:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tile.gradient {
+            background: var(--gradient-tile);
+        }
+
+        .tile.light {
+            background: var(--light-tile);
+        }
+
+        /* Tile sizes */
+        .big {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .rect {
+            grid-column: span 2;
+        }
+
+        /* Content styles */
+        .full-image {
+            padding: 0;
+        }
+
+        .full-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .headline {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .text {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.25rem;
+            padding: 2rem;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 3rem;
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            height: 100%;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .big, .rect {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bento-grid">
+        <!-- Big tile with full image -->
+        <div class="tile big full-image">
+            <img src="https://source.unsplash.com/random/800x800?nature" alt="Nature">
+        </div>
+
+        <!-- Small tile with headline -->
+        <div class="tile gradient">
+            <h2 class="headline">Featured Story</h2>
+        </div>
+
+        <!-- Small tile with quote -->
+        <div class="tile light quote">
+            The best way to predict the future is to create it.
+        </div>
+
+        <!-- Rectangle tile with headline and text -->
+        <div class="tile rect">
+            <h2 class="headline">Latest Updates</h2>
+            <p class="text">Discover the newest features and improvements in our latest release. We've been working hard to make your experience better.</p>
+        </div>
+
+        <!-- Small tile with text only -->
+        <div class="tile light">
+            <p class="text">Simplicity is the ultimate sophistication. Design is not just what it looks like and feels like. Design is how it works.</p>
+        </div>
+
+        <!-- Small tile with image grid -->
+        <div class="tile gradient">
+            <div class="image-grid">
+                <img src="https://source.unsplash.com/random/300x300?tech" alt="Tech 1">
+                <img src="https://source.unsplash.com/random/300x300?design" alt="Design 1">
+                <img src="https://source.unsplash.com/random/300x300?art" alt="Art 1">
+                <img src="https://source.unsplash.com/random/300x300?minimal" alt="Minimal 1">
+            </div>
+        </div>
+
+        <!-- Additional tiles to fill the grid -->
+        <div class="tile">
+            <h2 class="headline">Explore</h2>
+            <p class="text">Dive into our collection of resources and inspiration.</p>
+        </div>
+
+        <div class="tile light full-image">
+            <img src="https://source.unsplash.com/random/400x400?abstract" alt="Abstract">
+        </div>
+    </div>
+</body>
+</html>
