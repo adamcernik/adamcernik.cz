@@ -1,0 +1,143 @@
+/* Mobile menu fixes */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(26, 42, 58, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1001;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.mobile-nav.active {
+    display: flex;
+}
+
+/* Create a centered container for all menu content */
+.mobile-nav-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    gap: 4rem;
+}
+
+/* Menu styles for mobile */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 300px;
+    background: rgba(35, 52, 70, 0.3);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.mobile-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 1rem 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    transition: color 0.3s ease;
+    text-align: center;
+}
+
+.mobile-menu a:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu a:hover {
+    color: var(--accent-gold);
+}
+
+/* Language selector styles */
+.mobile-nav .language-select {
+    width: 80%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-nav .language-current {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    background: rgba(35, 52, 70, 0.3);
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.mobile-nav .language-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 0.75rem;
+    background: rgba(35, 52, 70, 0.3);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    display: none;
+}
+
+.mobile-nav .language-select.active .language-dropdown {
+    display: block;
+}
+
+.mobile-nav .language-option {
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.mobile-nav .language-option:last-child {
+    border-bottom: none;
+}
+
+/* Adjust mobile header so it doesn't interfere with menu */
+.header {
+    z-index: 999 !important;
+}
+
+.mobile-toggle {
+    z-index: 1010 !important;
+}
+
+@media (max-width: 640px) {
+    .mobile-menu a {
+        font-size: 1.1rem;
+        padding: 0.75rem 0;
+    }
+    
+    .mobile-nav .language-current {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+    
+    .mobile-nav .language-option {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+} 
