@@ -942,86 +942,7 @@
                 padding: 0.5rem 0;
             }
             
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.5rem;
-                background: transparent;
-                border-radius: 0;
-                padding: 0.75rem 1rem;
-                width: 100%;
-                justify-content: center;
-                border: none;
-                border-bottom: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-            }
-            
-            
-            .mobile-nav .language-dropdown {
-                position: static;
-                width: 100%;
-                display: none;
-                margin-top: 0.75rem;
-                background: transparent;
-                border-radius: 0;
-                border: none;
-                box-shadow: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                padding: 0.5rem;
-            }
-            
-            .mobile-nav .language-select.active .language-dropdown {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 0.75rem;
-                border-radius: 0.5rem;
-                background: none;
-                justify-content: center;
-                width: 100%;
-                border-bottom: none;
-            }
-            
-            .mobile-nav .language-option:last-child {
-                border-bottom: none;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
-            }
-            
-            .mobile-menu {
-                max-width: 260px;
-            }
-            
-            .mobile-menu a {
-                font-size: 1.5rem;
-                padding: 0.5rem 0;
-            }
-            
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.25rem;
-                padding: 0.5rem 1rem;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 0.5rem;
-            }
+            /* Removing duplicate/conflicting language select styles */
         }
 
         /* Add keyframes for service tile hover animation */
@@ -1044,6 +965,11 @@
             position: relative;
             overflow: hidden;
             padding: 0;
+            cursor: pointer;
+        }
+
+        .service-tile[data-modal] {
+            cursor: pointer;
         }
 
         .service-tile img {
@@ -1666,6 +1592,315 @@
                 font-size: 0.85rem;
             }
         }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 42, 58, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark-tile);
+            border-radius: 1.25rem;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .modal-header {
+            position: relative;
+            padding: 0;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1.25rem 1.25rem 0 0;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-header-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top,
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.85) 40%,
+                rgba(26, 42, 58, 0.5) 70%,
+                rgba(26, 42, 58, 0) 100%
+            );
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .modal-subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .modal-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .modal-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Mobile adjustments for modal */
+        @media (max-width: 640px) {
+            .modal {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                height: 160px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-subtitle {
+                font-size: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-section-title {
+                font-size: 1.1rem;
+            }
+            
+            .modal-text {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Mobile language selector adjustments */
+        @media (max-width: 768px) {
+            .mobile-nav-content {
+                position: relative;
+                padding-top: 4rem; /* Increased space at top for dropdown */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .mobile-nav .language-select {
+                position: relative;
+                order: -1;
+                margin-bottom: 3rem; /* Increased bottom margin */
+                width: 100%;
+                max-width: 300px;
+                z-index: 1100; /* Ensure it's above other content */
+            }
+            
+            .mobile-nav .language-current {
+                width: 100%;
+                font-size: 1.5rem;
+                padding: 0.75rem 1rem;
+                justify-content: center;
+                background: rgba(26, 42, 58, 0.5);
+                border-radius: 0.5rem;
+            }
+            
+            .mobile-nav .language-current svg {
+                transform: rotate(180deg);
+            }
+            
+            .mobile-nav .language-select.active .language-current svg {
+                transform: rotate(0deg);
+            }
+            
+            .mobile-nav .language-dropdown {
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+                right: 0;
+                margin-bottom: 0.5rem;
+                padding: 0.75rem 0;
+                z-index: 1110;
+                display: none;
+                height: auto;
+                min-height: 390px; /* Adjusted minimum height */
+                max-height: 70vh; /* Ensure it doesn't exceed viewport height */
+                overflow-y: auto; /* Add scrolling if needed */
+                background: rgba(26, 42, 58, 0.98); /* Darker background */
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.75rem;
+                border: 2px solid var(--accent-gold);
+                transform: translateY(10px);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .mobile-nav .language-select.active .language-dropdown {
+                display: block;
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .mobile-nav .language-option {
+                padding: 1.15rem;
+                margin: 0.25rem 0.75rem;
+                font-size: 1.35rem;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                border-radius: 0.5rem;
+                transition: background 0.2s ease;
+            }
+            
+            .mobile-nav .language-option:hover,
+            .mobile-nav .language-option:focus {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-nav .language-option.active {
+                background: rgba(212, 175, 55, 0.2);
+                color: var(--accent-gold);
+            }
+            
+            .mobile-nav .language-option img {
+                width: 28px;
+                height: 21px;
+                margin-right: 12px;
+            }
+        }
+
+        /* Updated mobile styles for smaller screens */
+        @media (max-width: 640px) {
+            .mobile-nav-content {
+                padding-top: 5rem; /* More space on smaller screens */
+            }
+            
+            .mobile-nav .language-dropdown {
+                padding: 0.5rem 0;
+                min-height: 380px; /* Slightly shorter on very small screens */
+            }
+            
+            .mobile-nav .language-option {
+                padding: 1rem;
+                margin: 0.5rem 0.5rem;
+                font-size: 1.25rem;
+            }
+            
+            .mobile-nav .language-option img {
+                width: 24px;
+                height: 18px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1728,46 +1963,46 @@
             <!-- Mobile Navigation -->
             <div class="mobile-nav" id="mobile-nav">
                 <div class="mobile-nav-content">
+                    <div class="language-select">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="mobile-language-dropdown">
+                            <span>EN</span>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="language-dropdown" id="mobile-language-dropdown" role="menu">
+                            <div class="language-option" data-lang="cz">
+                                <img src="images/flags/cz.png" alt="Czech">
+                                <span>Česky</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                <img src="images/flags/gb.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="de">
+                                <img src="images/flags/de.png" alt="German">
+                                <span>Deutsch</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                <img src="images/flags/fr.png" alt="French">
+                                <span>Français</span>
+                            </div>
+                            <div class="language-option" data-lang="pl">
+                                <img src="images/flags/pl.png" alt="Polish">
+                                <span>Polski</span>
+                            </div>
+                            <div class="language-option" data-lang="hu">
+                                <img src="images/flags/hu.png" alt="Hungarian">
+                                <span>Magyar</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mobile-menu">
                         <a href="#about">About Us</a>
                         <a href="#services">Services</a>
                         <a href="#production">Production</a>
                         <a href="#history">History</a>
                         <a href="#contact">Contact</a>
-                        <div class="language-select">
-                            <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="mobile-language-dropdown">
-                                <span>EN</span>
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <div class="language-dropdown" id="mobile-language-dropdown" role="menu">
-                                <div class="language-option" data-lang="cz">
-                                    <img src="images/flags/cz.png" alt="Czech">
-                                    <span>Česky</span>
-                                </div>
-                                <div class="language-option" data-lang="en">
-                                    <img src="images/flags/gb.png" alt="English">
-                                    <span>English</span>
-                                </div>
-                                <div class="language-option" data-lang="de">
-                                    <img src="images/flags/de.png" alt="German">
-                                    <span>Deutsch</span>
-                                </div>
-                                <div class="language-option" data-lang="fr">
-                                    <img src="images/flags/fr.png" alt="French">
-                                    <span>Français</span>
-                                </div>
-                                <div class="language-option" data-lang="pl">
-                                    <img src="images/flags/pl.png" alt="Polish">
-                                    <span>Polski</span>
-                                </div>
-                                <div class="language-option" data-lang="hu">
-                                    <img src="images/flags/hu.png" alt="Hungarian">
-                                    <span>Magyar</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1830,7 +2065,7 @@
         </div>
 
         <!-- Service tiles -->
-        <div class="tile service-tile service-01">
+        <div class="tile service-tile service-01" data-modal="service-01">
             <img src="images/references/008.jpg" alt="Props & Decorations">
             <div class="service-content">
                 <div class="service-number">01</div>
@@ -1839,7 +2074,7 @@
             </div>
         </div>
 
-        <div class="tile service-tile service-02">
+        <div class="tile service-tile service-02" data-modal="service-02">
             <img src="images/references/009.jpg" alt="Events">
             <div class="service-content">
                 <div class="service-number">02</div>
@@ -1848,7 +2083,7 @@
             </div>
         </div>
 
-        <div class="tile service-tile service-03">
+        <div class="tile service-tile service-03" data-modal="service-03">
             <img src="images/references/010.jpg" alt="Promotional Campaigns">
             <div class="service-content">
                 <div class="service-number">03</div>
@@ -1857,7 +2092,7 @@
             </div>
         </div>
 
-        <div class="tile service-tile service-04">
+        <div class="tile service-tile service-04" data-modal="service-04">
             <img src="images/references/011.jpg" alt="Video Productions">
             <div class="service-content">
                 <div class="service-number">04</div>
@@ -1866,7 +2101,7 @@
             </div>
         </div>
 
-        <div class="tile service-tile service-05">
+        <div class="tile service-tile service-05" data-modal="service-05">
             <img src="images/references/012.jpg" alt="Films & TV Series">
             <div class="service-content">
                 <div class="service-number">05</div>
@@ -1875,7 +2110,7 @@
             </div>
         </div>
 
-        <div class="tile service-tile service-06">
+        <div class="tile service-tile service-06" data-modal="service-06">
             <img src="images/references/013.jpg" alt="Rebranding">
             <div class="service-content">
                 <div class="service-number">06</div>
@@ -1885,7 +2120,7 @@
         </div>
 
         <!-- Service 07 tile -->
-        <div class="tile service-tile service-07">
+        <div class="tile service-tile service-07" data-modal="service-07">
             <img src="images/references/014.jpg" alt="Interior Design">
             <div class="service-content">
                 <div class="service-number">07</div>
@@ -1895,7 +2130,7 @@
         </div>
 
         <!-- Service 08 tile -->
-        <div class="tile service-tile service-08">
+        <div class="tile service-tile service-08" data-modal="service-08">
             <img src="images/references/015.jpg" alt="Exhibition Stands">
             <div class="service-content">
                 <div class="service-number">08</div>
@@ -2084,6 +2319,28 @@
 
     </div>
 
+    <!-- Modal container -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="service-modal">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <img src="" alt="" id="modal-image">
+                <div class="modal-header-content">
+                    <h2 class="modal-title" id="modal-title"></h2>
+                    <div class="modal-subtitle" id="modal-subtitle"></div>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
     <script>
         function fadeMovies() {
             const items = document.querySelectorAll('.movie-item');
@@ -2125,11 +2382,6 @@
             const header = document.querySelector('.header');
             const mobileToggle = document.querySelector('.mobile-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
-            const desktopLanguageSelect = document.querySelector('.desktop-menu .language-select');
-            const mobileLanguageSelect = document.querySelector('.mobile-menu .language-select');
-            const desktopLanguageCurrent = document.querySelector('.desktop-menu .language-current');
-            const mobileLanguageCurrent = document.querySelector('.mobile-menu .language-current');
-            const allLanguageOptions = document.querySelectorAll('.language-option');
             
             // Scroll variables
             let lastScroll = 0;
@@ -2224,72 +2476,97 @@
             });
 
             // Function to toggle language dropdown
-            function toggleLanguageDropdown(selector, show) {
-                const select = selector === 'desktop' ? desktopLanguageSelect : mobileLanguageSelect;
-                const current = selector === 'desktop' ? desktopLanguageCurrent : mobileLanguageCurrent;
+            function setupLanguageSelector(selector, options) {
+                const select = document.querySelector(selector);
+                if (!select) return;
                 
-                select.classList.toggle('active', show);
-                current.setAttribute('aria-expanded', show);
-            }
-
-            // Handle click on desktop language button
-            desktopLanguageCurrent.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isExpanded = desktopLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('desktop', !isExpanded);
-            });
-
-            // Handle click on mobile language button
-            mobileLanguageCurrent.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isExpanded = mobileLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('mobile', !isExpanded);
-            });
-
-            // Handle language selection
-            allLanguageOptions.forEach(option => {
-                option.addEventListener('click', (e) => {
+                const current = select.querySelector('.language-current');
+                const dropdown = select.querySelector('.language-dropdown');
+                const langOptions = dropdown.querySelectorAll('.language-option');
+                
+                current.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const lang = option.dataset.lang;
+                    const isExpanded = current.getAttribute('aria-expanded') === 'true';
                     
-                    // Update all language displays
-                    document.querySelectorAll('.language-current span').forEach(span => {
-                        span.textContent = lang.toUpperCase();
+                    // Close any other open dropdowns
+                    document.querySelectorAll('.language-select').forEach(el => {
+                        if (el !== select) {
+                            el.classList.remove('active');
+                            el.querySelector('.language-current').setAttribute('aria-expanded', 'false');
+                        }
                     });
                     
-                    // Update active states
-                    allLanguageOptions.forEach(opt => opt.classList.remove('active'));
-                    document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
-                        el.classList.add('active');
-                    });
+                    select.classList.toggle('active', !isExpanded);
+                    current.setAttribute('aria-expanded', !isExpanded);
                     
-                    // Close dropdowns
-                    toggleLanguageDropdown('desktop', false);
-                    toggleLanguageDropdown('mobile', false);
-                    
-                    // Update document language
-                    document.documentElement.lang = lang;
-                });
-
-                // Keyboard navigation
-                option.setAttribute('role', 'menuitem');
-                option.setAttribute('tabindex', '0');
-                option.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        option.click();
+                    // If in mobile nav and opening dropdown, ensure language selector is visible
+                    if (selector.includes('.mobile-nav') && !isExpanded) {
+                        // Delay scrolling to allow dropdown to appear first
+                        setTimeout(() => {
+                            // Ensure mobile menu is at the top to give dropdown space
+                            const mobileNav = document.querySelector('.mobile-nav');
+                            mobileNav.scrollTop = 0;
+                            
+                            // Temporarily allow body scrolling
+                            document.body.style.overflow = 'auto';
+                            
+                            // Make sure language selector is at the top of the viewport
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Disable scrolling again after dropdown is positioned
+                            setTimeout(() => {
+                                document.body.style.overflow = 'hidden';
+                            }, 400);
+                        }, 50);
                     }
                 });
-            });
-
-            // Close dropdown when clicking outside
+                
+                // Set initial active state based on current language
+                const currentLang = document.documentElement.lang;
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === currentLang) {
+                        option.classList.add('active');
+                    }
+                    
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.dataset.lang;
+                        
+                        // Update all language displays across mobile and desktop
+                        document.querySelectorAll('.language-current span').forEach(span => {
+                            span.textContent = lang.toUpperCase();
+                        });
+                        
+                        // Update active states
+                        document.querySelectorAll('.language-option').forEach(opt => {
+                            opt.classList.toggle('active', opt.dataset.lang === lang);
+                        });
+                        
+                        // Close dropdown
+                        select.classList.remove('active');
+                        current.setAttribute('aria-expanded', 'false');
+                        
+                        // Update document language
+                        document.documentElement.lang = lang;
+                    });
+                });
+            }
+            
+            // Setup both desktop and mobile language selectors
+            setupLanguageSelector('.desktop-nav .language-select');
+            setupLanguageSelector('.mobile-nav .language-select');
+            
+            // Close dropdowns when clicking outside
             document.addEventListener('click', (e) => {
-                if (!desktopLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('desktop', false);
-                }
-                if (!mobileLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('mobile', false);
-                }
+                document.querySelectorAll('.language-select').forEach(select => {
+                    if (!select.contains(e.target)) {
+                        select.classList.remove('active');
+                        select.querySelector('.language-current').setAttribute('aria-expanded', 'false');
+                    }
+                });
             });
 
             // Set initial language based on browser preference
@@ -2304,6 +2581,312 @@
             document.querySelectorAll(`[data-lang="${defaultLang}"]`).forEach(el => {
                 el.classList.add('active');
             });
+
+            // Service Modal Functionality
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modal = document.getElementById('service-modal');
+            const modalClose = document.getElementById('modal-close');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const modalBody = document.getElementById('modal-body');
+            
+            // Modal content data
+            const modalData = {
+                'service-01': {
+                    title: 'Props & Decorations',
+                    subtitle: 'Custom-made film props, set decorations, and specialty items',
+                    image: 'images/references/008.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our props and decorations services include design, manufacturing, and installation of custom-made elements for film sets, events, and exhibitions. We create everything from small hand props to large-scale set decorations.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Period-accurate historical props</li>
+                                <li>Fantasy and sci-fi elements</li>
+                                <li>Custom furniture and set decorations</li>
+                                <li>Specialty props with mechanical features</li>
+                                <li>Age-appropriate distressing and finishing</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>The Wheel of Time (Amazon) - Fantasy props and set elements</li>
+                                <li>Jojo Rabbit - Historical props and period decorations</li>
+                                <li>The Painted Bird - Authentic rural props from 1940s Eastern Europe</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-02': {
+                    title: 'Events',
+                    subtitle: 'Comprehensive event planning and execution services',
+                    image: 'images/references/009.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We provide full-service event planning and execution, from concept development to on-site management. Our team handles everything from small corporate gatherings to large-scale public events.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Corporate events and product launches</li>
+                                <li>Film premieres and industry gatherings</li>
+                                <li>Custom stage and set design</li>
+                                <li>Technical production and AV support</li>
+                                <li>Logistical planning and coordination</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Renault Group - Vehicle launch events</li>
+                                <li>Film festival installations and VIP areas</li>
+                                <li>Corporate celebration events and anniversaries</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-03': {
+                    title: 'Promotional Campaigns',
+                    subtitle: 'Creative brand activations and promotional materials',
+                    image: 'images/references/010.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our promotional campaign services help brands create memorable experiences and materials that engage customers and drive awareness. We develop comprehensive strategies that align with brand goals.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Brand activation installations</li>
+                                <li>Point-of-sale displays and retail environments</li>
+                                <li>Interactive promotional experiences</li>
+                                <li>Custom promotional materials and giveaways</li>
+                                <li>Pop-up shops and experiential marketing</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Renault Alpine - Dealership experiences</li>
+                                <li>Film studio promotional events</li>
+                                <li>Product launch campaigns</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-04': {
+                    title: 'Video Productions',
+                    subtitle: 'Support for music videos and commercial shoots',
+                    image: 'images/references/011.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We provide comprehensive production support for music videos, commercials, and short-form content. Our team handles everything from set design to prop creation and location management.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Set design and construction</li>
+                                <li>Prop sourcing and manufacturing</li>
+                                <li>Location scouting and management</li>
+                                <li>Styling and visual elements</li>
+                                <li>Technical equipment support</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Automotive commercials for European markets</li>
+                                <li>Music videos for Czech and international artists</li>
+                                <li>Corporate video campaigns</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-05': {
+                    title: 'Films & TV Series',
+                    subtitle: 'Full production support for film and television projects',
+                    image: 'images/references/012.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">With decades of experience in the film industry, we provide comprehensive production services for feature films and television series. Our team works closely with production designers, art directors, and producers to bring creative visions to life.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Set construction and decoration</li>
+                                <li>Specialized prop manufacturing</li>
+                                <li>Period-accurate historical elements</li>
+                                <li>On-set art department support</li>
+                                <li>Logistics and transportation</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>The Wheel of Time (Amazon)</li>
+                                <li>Jojo Rabbit</li>
+                                <li>The Painted Bird</li>
+                                <li>Snowpiercer</li>
+                                <li>Mission: Impossible - Ghost Protocol</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-06': {
+                    title: 'Rebranding',
+                    subtitle: 'Complete visual identity transformations for businesses',
+                    image: 'images/references/013.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our rebranding services help businesses transform their visual identity and physical environments to reflect evolving brand values and market positions. We manage comprehensive rebranding projects from concept to implementation.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Brand identity development</li>
+                                <li>Retail and corporate environment redesign</li>
+                                <li>Signage and wayfinding systems</li>
+                                <li>Customer experience environments</li>
+                                <li>Brand guidelines and standards</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Renault Store rebranding</li>
+                                <li>Dacia New Visual Identity</li>
+                                <li>Renault Care Service</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-07': {
+                    title: 'Interior Design',
+                    subtitle: 'Innovative interior concepts for commercial and residential spaces',
+                    image: 'images/references/014.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our interior design services create distinctive spaces that reflect brand identity, improve functionality, and enhance user experience. We handle projects from concept design through to installation and finishing.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Commercial and retail environments</li>
+                                <li>Corporate offices and workspaces</li>
+                                <li>Hospitality and entertainment venues</li>
+                                <li>Custom furniture and millwork</li>
+                                <li>Materials selection and finishing</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Renault Alpine Stores</li>
+                                <li>Corporate headquarters and showrooms</li>
+                                <li>High-end residential projects</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-08': {
+                    title: 'Exhibition Stands',
+                    subtitle: 'Bespoke exhibition designs that capture audience attention',
+                    image: 'images/references/015.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We design, manufacture, and install custom exhibition stands that help brands stand out at trade shows and events. Our team handles everything from initial concept to on-site management.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Custom stand design and construction</li>
+                                <li>Interactive display elements</li>
+                                <li>Lighting and audio-visual integration</li>
+                                <li>Graphic production and installation</li>
+                                <li>Logistics, transportation, and on-site management</li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">Selected Projects</h3>
+                            <ul class="modal-list">
+                                <li>Automotive industry trade shows</li>
+                                <li>Film and entertainment exhibitions</li>
+                                <li>Corporate showcases and presentations</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            };
+            
+            // Function to open modal
+            function openModal(modalId) {
+                const data = modalData[modalId];
+                if (!data) return;
+                
+                // Populate modal content
+                modalImage.src = data.image;
+                modalImage.alt = data.title;
+                modalTitle.textContent = data.title;
+                modalSubtitle.textContent = data.subtitle;
+                modalBody.innerHTML = data.content;
+                
+                // Show modal
+                modalOverlay.classList.add('active');
+                
+                // Prevent body scrolling
+                document.body.style.overflow = 'hidden';
+                
+                // Accessibility
+                modal.setAttribute('aria-hidden', 'false');
+                modalClose.focus();
+            }
+            
+            // Function to close modal
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                
+                // Restore body scrolling
+                document.body.style.overflow = '';
+                
+                // Accessibility
+                modal.setAttribute('aria-hidden', 'true');
+            }
+            
+            // Add click event listeners to service tiles
+            document.querySelectorAll('.service-tile[data-modal]').forEach(tile => {
+                tile.addEventListener('click', () => {
+                    const modalId = tile.getAttribute('data-modal');
+                    openModal(modalId);
+                });
+                
+                // Add keyboard accessibility
+                tile.setAttribute('tabindex', '0');
+                tile.setAttribute('role', 'button');
+                tile.setAttribute('aria-haspopup', 'dialog');
+                
+                tile.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const modalId = tile.getAttribute('data-modal');
+                        openModal(modalId);
+                    }
+                });
+            });
+            
+            // Close modal when clicking the close button
+            modalClose.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+            
+            // Set modal to initially hidden
+            modal.setAttribute('aria-hidden', 'true');
         });
     </script>
 </body>
