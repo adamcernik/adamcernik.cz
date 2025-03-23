@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="WANTED s.f.o. - Film Production Support and Services">
     <title>WANTED - Film Production Support</title>
-    <link rel="stylesheet" href="mobile-style-fix.css">
     <style>
         :root {
             --primary: #1A2A3A;
@@ -304,27 +303,8 @@
             .header {
                 padding: 1rem;
                 height: 104px;
-            }
-            
-            .header.scrolled {
-                padding: 0.75rem 1rem;
-                height: 80px;
-            }
-            
-            .logo {
-                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
-            }
-            
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-toggle {
                 display: flex;
-            }
-            
-            .mobile-nav.active {
-                display: flex;
+                align-items: center;
             }
 
             .header-content {
@@ -335,7 +315,6 @@
             }
 
             .menu-toggle {
-                display: flex;
                 position: relative;
                 width: 48px;
                 height: 48px;
@@ -351,7 +330,6 @@
                 position: fixed;
                 top: 2rem;
                 right: 2rem;
-                z-index: 1002;
             }
 
             .menu-toggle span {
@@ -382,14 +360,12 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
-                width: 100vw;
-                height: 100vh;
-                margin: 0;
-                padding: 4rem 2rem;
+                right: 100%;
                 flex-direction: column;
                 background: var(--dark-bg);
+                width: 100%;
+                height: 100vh;
+                padding: 4rem 2rem;
                 gap: 3rem;
                 transition: all 0.3s ease;
                 border-radius: 0;
@@ -398,16 +374,11 @@
                 align-items: center;
                 z-index: 1001;
                 transform: translateX(100%);
-                display: flex;
-                visibility: hidden;
-                /* Ensure menu covers the entire viewport regardless of body padding */
-                position: fixed;
-                inset: 0;
             }
 
             .nav-menu.active {
+                right: 0;
                 transform: translateX(0);
-                visibility: visible;
             }
 
             .nav-menu a {
@@ -678,7 +649,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            transition: opacity 2.5s ease-in-out;
+            transition: opacity 1s ease-in-out;
         }
 
         .movie-item img.active {
@@ -717,17 +688,7 @@
             right: 0;
             padding: 1.5rem 2rem;
             z-index: 1000;
-            transition: all 0.3s ease;
-            background: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
-        .header.scrolled {
-            background: transparent;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
+            transition: transform 0.3s ease;
         }
 
         .header.hidden {
@@ -742,11 +703,23 @@
             margin: 0 auto;
         }
 
-        /* Logo styles */
+        /* Add keyframes for logo rotation */
+        @keyframes logoSpin {
+            0% {
+                transform: rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+
         .logo {
             height: 96px;
             width: auto;
             transition: transform 0.3s ease;
+            animation: logoSpin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .header.scrolled .logo {
@@ -754,31 +727,18 @@
             transform-origin: left center;
         }
 
-        /* Desktop navigation */
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-        }
-
-        .desktop-menu {
+        .nav-menu {
             display: flex;
             gap: 2rem;
             align-items: center;
             padding: 0.5rem 1.5rem;
             border-radius: 1rem;
-            background: transparent;
-            transition: all 0.3s ease;
+            background: rgba(26, 42, 58, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .header.scrolled .desktop-menu {
-            background: rgba(35, 52, 70, 0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 1rem;
-        }
-
-        .desktop-menu a {
+        .nav-menu a {
             color: var(--text-color);
             text-decoration: none;
             font-size: 1rem;
@@ -787,11 +747,11 @@
             position: relative;
         }
 
-        .desktop-menu a:hover {
+        .nav-menu a:hover {
             color: var(--accent-gold);
         }
 
-        .desktop-menu a::after {
+        .nav-menu a::after {
             content: '';
             position: absolute;
             bottom: -4px;
@@ -802,12 +762,11 @@
             transition: width 0.3s ease;
         }
 
-        .desktop-menu a:hover::after {
+        .nav-menu a:hover::after {
             width: 100%;
         }
 
-        /* Mobile menu button - hidden by default */
-        .mobile-toggle {
+        .menu-toggle {
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -823,204 +782,231 @@
             z-index: 1002;
         }
 
-        .mobile-toggle span {
+        .menu-toggle span {
             display: block;
             width: 24px;
             height: 2px;
             margin: 2px 0;
             background: var(--text-color);
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease,
+                       opacity 0.3s ease;
             transform-origin: center;
         }
 
-        .mobile-toggle:hover span {
+        .menu-toggle:hover span {
             background: var(--accent-gold);
         }
 
-        .mobile-toggle.active span:nth-child(1) {
+        .menu-toggle.active span:nth-child(1) {
             transform: translateY(6px) rotate(45deg);
         }
 
-        .mobile-toggle.active span:nth-child(2) {
+        .menu-toggle.active span:nth-child(2) {
             opacity: 0;
             transform: scale(0);
         }
 
-        .mobile-toggle.active span:nth-child(3) {
+        .menu-toggle.active span:nth-child(3) {
             transform: translateY(-6px) rotate(-45deg);
         }
 
-        /* Mobile navigation - hidden by default */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--dark-bg);
-            z-index: 1001;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            padding: 2rem;
-            text-align: center;
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
         }
 
-        .mobile-menu {
+        /* Add styles for the quote tile */
+        .quote-tile {
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .quote-tile img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 300px;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote-tile:hover img {
+            opacity: 0.7;
+        }
+
+        .quote-content {
+            position: relative;
+            z-index: 1;
             padding: 0;
-            background: transparent;
-            border-radius: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: none;
+            background: linear-gradient(
+                to top,
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.8) 50%,
+                rgba(26, 42, 58, 0.4) 100%
+            );
         }
 
-        .mobile-menu a {
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1rem;
             color: var(--text-color);
-            text-decoration: none;
-            font-size: 2rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            width: 100%;
-            padding: 0.75rem 0;
-            border-bottom: none;
+            padding: 2rem;
+            padding-bottom: 0;
         }
 
-        .mobile-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-menu a:hover {
+        .quote-author {
+            font-size: 1rem;
             color: var(--accent-gold);
+            font-weight: 500;
+            padding: 0 2rem 2rem;
         }
 
-        /* Responsive navigation */
+        /* Language dropdown styles */
+        .language-select {
+            position: relative;
+            margin-left: 1rem;
+            z-index: 1001; /* Ensure dropdown appears above other elements */
+        }
+
+        .language-current {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            background: none;
+            border: none;
+            transition: color 0.3s ease;
+        }
+
+        .language-current:hover,
+        .language-current:focus {
+            color: var(--accent-gold);
+            outline: none;
+        }
+
+        .language-current svg {
+            transition: transform 0.3s ease;
+        }
+
+        .language-select.active .language-current svg {
+            transform: rotate(180deg);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: rgba(26, 42, 58, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            display: none;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .language-select.active .language-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .language-option:hover,
+        .language-option:focus {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-gold);
+            outline: none;
+        }
+
+        .language-option img {
+            width: 24px;
+            height: 18px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
         @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
-                height: 104px;
-            }
-            
-            .header.scrolled {
-                padding: 0.75rem 1rem;
-                height: 80px;
-            }
-            
-            .logo {
-                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
-            }
-            
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-toggle {
-                display: flex;
-            }
-            
-            .mobile-nav.active {
-                display: flex;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
-            }
-            
-            .mobile-menu {
-                max-width: 260px;
-            }
-            
-            .mobile-menu a {
-                font-size: 1.5rem;
-                padding: 0.5rem 0;
-            }
-            
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.5rem;
-                background: transparent;
-                border-radius: 0;
-                padding: 0.75rem 1rem;
-                width: 100%;
-                justify-content: center;
-                border: none;
-                border-bottom: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-            }
-            
-            
-            .mobile-nav .language-dropdown {
-                position: static;
-                width: 100%;
-                display: none;
-                margin-top: 0.75rem;
-                background: transparent;
-                border-radius: 0;
-                border: none;
-                box-shadow: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                padding: 0.5rem;
-            }
-            
-            .mobile-nav .language-select.active .language-dropdown {
+            .language-select {
+                margin-top: 3rem;
+                width: auto;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .mobile-nav .language-option {
-                padding: 0.75rem;
-                border-radius: 0.5rem;
+
+            .language-current {
+                font-size: 2rem;
+                padding: 0.5rem;
+                justify-content: center;
+                width: auto;
+            }
+
+            .language-dropdown {
+                position: static;
+                width: auto;
+                min-width: 200px;
+                margin-top: 0.5rem;
+                background: none;
+                border: none;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .language-option {
+                font-size: 1.5rem;
+                padding: 0.5rem;
+                border-radius: 0;
                 background: none;
                 justify-content: center;
-                width: 100%;
-                border-bottom: none;
             }
-            
-            .mobile-nav .language-option:last-child {
-                border-bottom: none;
-            }
-        }
 
-        @media (max-width: 640px) {
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
+            .language-option:hover {
+                background: none;
+                color: var(--text-color);
             }
-            
-            .mobile-menu {
-                max-width: 260px;
+
+            .language-option img {
+                width: 24px;
+                height: 18px;
             }
-            
-            .mobile-menu a {
-                font-size: 1.5rem;
-                padding: 0.5rem 0;
+
+            .language-option span {
+                text-align: center;
             }
-            
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.25rem;
-                padding: 0.5rem 1rem;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 0.5rem;
+
+            .language-select.active .language-dropdown {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                align-items: center;
             }
         }
 
@@ -1152,25 +1138,6 @@
             );
             transition: background 2.5s ease;
         }
-        
-        /* Add styles for service-07 and service-08 */
-        .service-07 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(255, 170, 37, 0.95) 0%,
-                rgba(255, 170, 37, 0.85) 50%,
-                rgba(255, 170, 37, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        
-        .service-08 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(255, 177, 39, 0.95) 0%,
-                rgba(255, 177, 39, 0.85) 50%,
-                rgba(255, 177, 39, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
 
         .service-tile:hover .service-content {
             background: linear-gradient(
@@ -1251,52 +1218,46 @@
 
         /* Add styles for resources tile */
         .resources-tile {
-            display: block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .resources-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .resources-background::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right,
-                rgba(35, 52, 70, 0.95) 0%,
-                rgba(35, 52, 70, 0.8) 50%,
-                rgba(35, 52, 70, 0.5) 100%
-            );
-            z-index: 1;
-        }
-
-        .resources-background img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
         }
 
         .resources-content {
-            position: relative;
-            z-index: 2;
-            padding: 1.75rem;
+            padding-right: 1rem;
+        }
+
+        .resources-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            height: 100%;
+        }
+
+        .resources-images img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .resources-images img:hover {
+            opacity: 0.8;
         }
 
         @media (max-width: 1024px) {
             .resources-tile {
-                min-height: 250px;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .resources-content {
+                padding-right: 0;
+            }
+
+            .resources-images {
+                min-height: 200px;
             }
         }
 
@@ -1395,300 +1356,32 @@
                 gap: 0.75rem;
             }
         }
-
-        /* Language dropdown styles */
-        .language-select {
-            position: relative;
-            z-index: 1001; /* Ensure dropdown appears above other elements */
-            margin-left: 0;
-        }
-
-        .desktop-menu .language-select {
-            margin-left: 1rem;
-        }
-        
-        .mobile-menu .language-select {
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu .language-select {
-                margin-top: 2.5rem;
-                width: 100%;
-            }
-            
-            .mobile-menu .language-current {
-                justify-content: center;
-                font-size: 1.5rem;
-                padding: 0.75rem;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .mobile-menu .language-select {
-                margin-top: 2rem;
-            }
-            
-            .mobile-menu .language-current {
-                font-size: 1.25rem;
-                padding: 0.5rem;
-            }
-        }
-
-        .language-current {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-            padding: 0.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            background: none;
-            border: none;
-            transition: color 0.3s ease;
-        }
-
-        .header.scrolled .language-current {
-            background: rgba(35, 52, 70, 0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border-radius: 0.5rem;
-        }
-
-        .language-current:hover,
-        .language-current:focus {
-            color: var(--accent-gold);
-            outline: none;
-        }
-
-        .language-current svg {
-            transition: transform 0.3s ease;
-        }
-
-        .language-select.active .language-current svg {
-            transform: rotate(180deg);
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            background: rgba(26, 42, 58, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 0.75rem;
-            padding: 0.5rem;
-            display: none;
-            min-width: 160px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .language-select.active .language-dropdown {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .language-option {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 0.5rem;
-            color: var(--text-color);
-        }
-
-        .language-option:hover,
-        .language-option:focus {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent-gold);
-            outline: none;
-        }
-
-        .language-option img {
-            width: 24px;
-            height: 18px;
-            object-fit: cover;
-            border-radius: 2px;
-        }
-
-        /* Mobile navigation - hidden by default */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--dark-bg);
-            z-index: 1001;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
-            padding: 0;
-            background: transparent;
-            border-radius: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: none;
-        }
-
-        .mobile-menu a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 2rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            width: 100%;
-            padding: 0.75rem 0;
-            border-bottom: none;
-        }
-
-        .mobile-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Add styles for show more button */
-        .show-more-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .show-more-btn:hover {
-            transform: translateX(5px);
-        }
-
-        .show-more-btn svg {
-            transition: transform 0.3s ease;
-        }
-
-        .show-more-btn:hover svg {
-            transform: translateX(2px);
-        }
-
-        /* Add styles for quote tile */
-        .quote-tile {
-            position: relative;
-            padding: 0;
-            overflow: hidden;
-            min-height: 280px;
-        }
-
-        .quote-tile img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
-
-        .quote-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            width: 100%;
-            padding: 1.75rem;
-            background: linear-gradient(to top,
-                rgba(26, 42, 58, 0.9) 0%,
-                rgba(26, 42, 58, 0.8) 60%,
-                rgba(26, 42, 58, 0.7) 100%
-            );
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 50%;
-        }
-
-        .quote-text {
-            font-style: italic;
-            font-size: 1.25rem;
-            line-height: 1.5;
-            color: var(--text-color);
-            margin-bottom: 0.75rem;
-            position: relative;
-            padding-left: 1.25rem;
-        }
-
-        .quote-text::before {
-            content: '"';
-            position: absolute;
-            left: 0;
-            top: -0.25rem;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            line-height: 1;
-        }
-
-        .quote-author {
-            font-size: 0.95rem;
-            color: var(--accent-gold);
-            text-align: right;
-            padding-right: 1rem;
-        }
-
-        @media (max-width: 640px) {
-            .quote-text {
-                font-size: 1rem;
-            }
-            
-            .quote-author {
-                font-size: 0.85rem;
-            }
-        }
     </style>
 </head>
 <body>
     <header class="header" role="banner">
         <div class="header-content">
             <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo" width="96" height="96">
-            
-            <!-- Desktop Navigation -->
-            <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
-                <div class="desktop-menu">
+            <nav role="navigation" aria-label="Main navigation">
+                <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-menu" id="nav-menu">
                     <a href="#about">About Us</a>
                     <a href="#services">Services</a>
                     <a href="#production">Production</a>
                     <a href="#history">History</a>
                     <a href="#contact">Contact</a>
                     <div class="language-select">
-                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="language-dropdown">
                             <span>EN</span>
                             <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
-                        <div class="language-dropdown" id="desktop-language-dropdown" role="menu">
+                        <div class="language-dropdown" id="language-dropdown" role="menu">
                             <div class="language-option" data-lang="cz">
                                 <img src="images/flags/cz.png" alt="Czech">
                                 <span>Česky</span>
@@ -1717,106 +1410,34 @@
                     </div>
                 </div>
             </nav>
-            
-            <!-- Mobile Toggle Button -->
-            <button class="mobile-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
-            <!-- Mobile Navigation -->
-            <div class="mobile-nav" id="mobile-nav">
-                <div class="mobile-nav-content">
-                    <div class="mobile-menu">
-                        <a href="#about">About Us</a>
-                        <a href="#services">Services</a>
-                        <a href="#production">Production</a>
-                        <a href="#history">History</a>
-                        <a href="#contact">Contact</a>
-                        <div class="language-select">
-                            <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="mobile-language-dropdown">
-                                <span>EN</span>
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <div class="language-dropdown" id="mobile-language-dropdown" role="menu">
-                                <div class="language-option" data-lang="cz">
-                                    <img src="images/flags/cz.png" alt="Czech">
-                                    <span>Česky</span>
-                                </div>
-                                <div class="language-option" data-lang="en">
-                                    <img src="images/flags/gb.png" alt="English">
-                                    <span>English</span>
-                                </div>
-                                <div class="language-option" data-lang="de">
-                                    <img src="images/flags/de.png" alt="German">
-                                    <span>Deutsch</span>
-                                </div>
-                                <div class="language-option" data-lang="fr">
-                                    <img src="images/flags/fr.png" alt="French">
-                                    <span>Français</span>
-                                </div>
-                                <div class="language-option" data-lang="pl">
-                                    <img src="images/flags/pl.png" alt="Polish">
-                                    <span>Polski</span>
-                                </div>
-                                <div class="language-option" data-lang="hu">
-                                    <img src="images/flags/hu.png" alt="Hungarian">
-                                    <span>Magyar</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </header>
 
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
         <div class="tile big full-image">
-            <img src="images/wanted-map.jpg" alt="WANTED Map">
+            <img src="images/slides/2.jpg" alt="WANTED Headquarters">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
-                <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
+                <p class="text">WANTED s.f.o. was established in Prague, where we maintain our headquarters and production facilities. Since our founding, we have experienced significant growth in the quality and scope of our services, establishing ourselves firmly in the film industry, fit-out projects, custom furniture manufacturing, comprehensive interior design implementation, and sales support products.</p>
             </div>
         </div>
 
+        <!-- Prague map tile -->
+        <div class="tile full-image">
+            <h2 class="map-title">Prague</h2>
+            <p class="map-description">We are in the middle of Europe</p>
+            <img src="images/wanted-map.jpg" alt="WANTED Location Map">
+        </div>
 
-        <!-- Prague tile with labels -->
+        <!-- Small tile with headline -->
         <div class="tile gradient">
-            
-            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem;">
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Film</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Dekorace</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Rekvizity</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Eventy</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Interiéry</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Výstavy</li>
-            </ul>
-        </div>
-
-        <!-- Top Project tile -->
-        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
-            <h2 class="headline" style="-webkit-text-fill-color: var(--primary); background: none; font-size: 1.7rem;">Top Project</h2>
-            <p class="text" style="color: var(--primary); font-weight: 500;">The Wheel of Time (Amazon)</p>
-            <div style="margin-top: auto; display: flex; justify-content: flex-end;">
-                <a href="#" class="show-more-btn" style="color: var(--primary); margin-top: 0.5rem;">
-                    <span>View Project</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </a>
-            </div>
+            <h2 class="headline">Our Competitive Edge</h2>
+            <p class="text">Our distinct competitive advantage lies in our ability to execute projects through all divisions of our company. From project development, visualizations, and construction work to the production of custom interior elements and the supply of freestanding furniture—all under unified project management.</p>
         </div>
 
         <!-- Resources tile -->
         <div class="tile rect light resources-tile">
-            <div class="resources-background">
-                <img src="images/about/onas-2.jpg" alt="WANTED Resources">
-            </div>
             <div class="resources-content">
                 <h2 class="headline">Our Resources</h2>
                 <ul class="resource-list">
@@ -1827,80 +1448,9 @@
                     <li>Qualified and dedicated personnel</li>
                 </ul>
             </div>
-        </div>
-
-        <!-- Service tiles -->
-        <div class="tile service-tile service-01">
-            <img src="images/references/008.jpg" alt="Props & Decorations">
-            <div class="service-content">
-                <div class="service-number">01</div>
-                <h2 class="service-title">Props & Decorations</h2>
-                <p class="text">Custom-made film props, set decorations, and specialty items</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-02">
-            <img src="images/references/009.jpg" alt="Events">
-            <div class="service-content">
-                <div class="service-number">02</div>
-                <h2 class="service-title">Events</h2>
-                <p class="text">Comprehensive event planning and execution services</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-03">
-            <img src="images/references/010.jpg" alt="Promotional Campaigns">
-            <div class="service-content">
-                <div class="service-number">03</div>
-                <h2 class="service-title">Promotional Campaigns</h2>
-                <p class="text">Creative brand activations and promotional materials</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-04">
-            <img src="images/references/011.jpg" alt="Video Productions">
-            <div class="service-content">
-                <div class="service-number">04</div>
-                <h2 class="service-title">Video Productions</h2>
-                <p class="text">Support for music videos and commercial shoots</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-05">
-            <img src="images/references/012.jpg" alt="Films & TV Series">
-            <div class="service-content">
-                <div class="service-number">05</div>
-                <h2 class="service-title">Films & TV Series</h2>
-                <p class="text">Full production support for film and television projects</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-06">
-            <img src="images/references/013.jpg" alt="Rebranding">
-            <div class="service-content">
-                <div class="service-number">06</div>
-                <h2 class="service-title">Rebranding</h2>
-                <p class="text">Complete visual identity transformations for businesses</p>
-            </div>
-        </div>
-
-        <!-- Service 07 tile -->
-        <div class="tile service-tile service-07">
-            <img src="images/references/014.jpg" alt="Interior Design">
-            <div class="service-content">
-                <div class="service-number">07</div>
-                <h2 class="service-title">Interior Design</h2>
-                <p class="text">Innovative interior concepts for commercial and residential spaces</p>
-            </div>
-        </div>
-
-        <!-- Service 08 tile -->
-        <div class="tile service-tile service-08">
-            <img src="images/references/015.jpg" alt="Exhibition Stands">
-            <div class="service-content">
-                <div class="service-number">08</div>
-                <h2 class="service-title">Exhibition Stands</h2>
-                <p class="text">Bespoke exhibition designs that capture audience attention</p>
+            <div class="resources-images">
+                <img src="images/about/onas-2.jpg" alt="WANTED Resources 1">
+                <img src="images/about/onas.jpg" alt="WANTED Resources 2">
             </div>
         </div>
 
@@ -1973,13 +1523,9 @@
                 <li>The Zookeeper's Wife <span class="year">(2017)</span></li>
                 <li>Snowpiercer <span class="year">(2013)</span></li>
                 <li>Mission: Impossible - Ghost Protocol <span class="year">(2011)</span></li>
+                <li>Bathory <span class="year">(2008)</span></li>
+                <li>The Chronicles of Narnia: Prince Caspian <span class="year">(2008)</span></li>
             </ul>
-            <a href="#" class="show-more-btn">
-                <span>Show More</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </a>
         </div>
 
         <!-- Small tile with commercial projects -->
@@ -1995,11 +1541,11 @@
             </ul>
         </div>
 
-        <!-- Aristotle quote tile -->
+        <!-- Add the Aristotle quote tile to the bento grid -->
         <div class="tile quote-tile">
             <img src="images/aristotle.png" alt="Aristotle">
             <div class="quote-content">
-                <div class="quote-text">Pleasure in the job puts perfection in the work</div>
+                <div class="quote-text">"Pleasure in the job puts perfection in the work"</div>
                 <div class="quote-author">— Aristotle</div>
             </div>
         </div>
@@ -2008,6 +1554,73 @@
         <div class="tile">
             <h2 class="headline">Coming Soon</h2>
             <p class="text">Content to be added</p>
+        </div>
+
+        <!-- Service tiles -->
+        <div class="tile service-tile service-01">
+            <img src="images/references/008.jpg" alt="Props & Decorations">
+            <div class="service-content">
+                <div class="service-number">01</div>
+                <h2 class="service-title">Props & Decorations</h2>
+                <p class="text">Custom-made film props, set decorations, and specialty items</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-02">
+            <img src="images/references/009.jpg" alt="Events">
+            <div class="service-content">
+                <div class="service-number">02</div>
+                <h2 class="service-title">Events</h2>
+                <p class="text">Comprehensive event planning and execution services</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-03">
+            <img src="images/references/010.jpg" alt="Promotional Campaigns">
+            <div class="service-content">
+                <div class="service-number">03</div>
+                <h2 class="service-title">Promotional Campaigns</h2>
+                <p class="text">Creative brand activations and promotional materials</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-04">
+            <img src="images/references/011.jpg" alt="Video Productions">
+            <div class="service-content">
+                <div class="service-number">04</div>
+                <h2 class="service-title">Video Productions</h2>
+                <p class="text">Support for music videos and commercial shoots</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-05">
+            <img src="images/references/012.jpg" alt="Films & TV Series">
+            <div class="service-content">
+                <div class="service-number">05</div>
+                <h2 class="service-title">Films & TV Series</h2>
+                <p class="text">Full production support for film and television projects</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-06">
+            <img src="images/references/013.jpg" alt="Rebranding">
+            <div class="service-content">
+                <div class="service-number">06</div>
+                <h2 class="service-title">Rebranding</h2>
+                <p class="text">Complete visual identity transformations for businesses</p>
+            </div>
+        </div>
+
+        <!-- Darker orange rectangular tile -->
+        <div class="tile rect service-tile" style="padding: 0;">
+            <div class="service-content" style="background: linear-gradient(to top, 
+                rgba(186, 97, 0, 0.98) 0%,
+                rgba(186, 97, 0, 0.85) 50%,
+                rgba(186, 97, 0, 0.7) 100%
+            );">
+                <h2 class="service-title">Get in Touch</h2>
+                <p class="text">Ready to bring your vision to life? Contact us to discuss your next project and discover how our expertise can help you achieve your goals.</p>
+            </div>
         </div>
 
         <!-- Contact Person Tile - Lukas -->
@@ -2092,7 +1705,7 @@
                 if (images.length < 2) return; // Skip if not enough images
                 
                 let currentIndex = 0;
-                const interval = 7000 + Math.random() * 3000; // Longer interval between transitions
+                const interval = 3000 + Math.random() * 2000;
                 
                 // Preload images
                 images.forEach(img => {
@@ -2117,21 +1730,13 @@
             });
         }
 
-        // Initialize the page
+        // Header scroll behavior
         document.addEventListener('DOMContentLoaded', () => {
             fadeMovies();
-            
-            // Navigation elements
+
             const header = document.querySelector('.header');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const mobileNav = document.querySelector('.mobile-nav');
-            const desktopLanguageSelect = document.querySelector('.desktop-menu .language-select');
-            const mobileLanguageSelect = document.querySelector('.mobile-menu .language-select');
-            const desktopLanguageCurrent = document.querySelector('.desktop-menu .language-current');
-            const mobileLanguageCurrent = document.querySelector('.mobile-menu .language-current');
-            const allLanguageOptions = document.querySelectorAll('.language-option');
-            
-            // Scroll variables
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
             let lastScroll = 0;
             let scrollTimeout;
             
@@ -2145,7 +1750,7 @@
                     const currentScroll = window.pageYOffset;
                     
                     // Don't hide header if mobile menu is open
-                    if (mobileNav.classList.contains('active')) {
+                    if (navMenu.classList.contains('active')) {
                         return;
                     }
                     
@@ -2174,101 +1779,94 @@
             }, { passive: true });
 
             // Mobile menu toggle functionality
-            function toggleMobileMenu(show) {
-                mobileToggle.classList.toggle('active', show);
-                mobileNav.classList.toggle('active', show);
-                mobileToggle.setAttribute('aria-expanded', show);
+            function toggleMenu(show) {
+                menuToggle.classList.toggle('active', show);
+                navMenu.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show);
+                document.body.style.overflow = show ? 'hidden' : '';
                 
+                // Ensure header is visible when menu is open
                 if (show) {
-                    // Prevent body scrolling when menu is open
-                    document.body.style.overflow = 'hidden';
                     header.classList.remove('hidden');
-                } else {
-                    // Restore body scrolling
-                    document.body.style.overflow = '';
                 }
             }
 
-            mobileToggle.addEventListener('click', () => {
-                const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-                toggleMobileMenu(!isExpanded);
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                toggleMenu(!isExpanded);
             });
 
-            // Close mobile menu when clicking outside
+            // Close menu when clicking outside
             document.addEventListener('click', (e) => {
-                if (!mobileToggle.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                    toggleMenu(false);
                 }
             });
 
-            // Close mobile menu when pressing Escape
+            // Close menu when pressing Escape
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    toggleMenu(false);
                 }
             });
 
-            // Close mobile menu when clicking on a link
-            const mobileLinks = document.querySelectorAll('.mobile-menu a');
-            mobileLinks.forEach(link => {
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    toggleMobileMenu(false);
+                    toggleMenu(false);
                 });
             });
 
-            // Hide mobile menu when window is resized to desktop width
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768 && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
-                }
-            });
+            // Language selector functionality
+            const languageSelect = document.querySelector('.language-select');
+            const languageCurrent = document.querySelector('.language-current');
+            const languageDropdown = document.querySelector('.language-dropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
 
-            // Function to toggle language dropdown
-            function toggleLanguageDropdown(selector, show) {
-                const select = selector === 'desktop' ? desktopLanguageSelect : mobileLanguageSelect;
-                const current = selector === 'desktop' ? desktopLanguageCurrent : mobileLanguageCurrent;
+            function toggleLanguageDropdown(show) {
+                languageSelect.classList.toggle('active', show);
+                languageCurrent.setAttribute('aria-expanded', show);
                 
-                select.classList.toggle('active', show);
-                current.setAttribute('aria-expanded', show);
+                // Ensure the dropdown is visible within the viewport
+                if (show) {
+                    const dropdownRect = languageDropdown.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    
+                    if (dropdownRect.bottom > viewportHeight) {
+                        languageDropdown.style.top = 'auto';
+                        languageDropdown.style.bottom = '100%';
+                    }
+                }
             }
 
-            // Handle click on desktop language button
-            desktopLanguageCurrent.addEventListener('click', (e) => {
+            // Handle click on language button
+            languageCurrent.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const isExpanded = desktopLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('desktop', !isExpanded);
-            });
-
-            // Handle click on mobile language button
-            mobileLanguageCurrent.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isExpanded = mobileLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('mobile', !isExpanded);
+                const isExpanded = languageCurrent.getAttribute('aria-expanded') === 'true';
+                toggleLanguageDropdown(!isExpanded);
             });
 
             // Handle language selection
-            allLanguageOptions.forEach(option => {
+            languageOptions.forEach(option => {
                 option.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const lang = option.dataset.lang;
+                    const langText = option.querySelector('span').textContent;
+                    const currentLang = languageCurrent.querySelector('span');
+                    currentLang.textContent = lang.toUpperCase();
                     
-                    // Update all language displays
-                    document.querySelectorAll('.language-current span').forEach(span => {
-                        span.textContent = lang.toUpperCase();
-                    });
+                    // Update active state
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
                     
-                    // Update active states
-                    allLanguageOptions.forEach(opt => opt.classList.remove('active'));
-                    document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
-                        el.classList.add('active');
-                    });
-                    
-                    // Close dropdowns
-                    toggleLanguageDropdown('desktop', false);
-                    toggleLanguageDropdown('mobile', false);
+                    toggleLanguageDropdown(false);
                     
                     // Update document language
                     document.documentElement.lang = lang;
+                    
+                    // You can add here a call to your language change function
+                    // changeLanguage(lang);
                 });
 
                 // Keyboard navigation
@@ -2284,11 +1882,34 @@
 
             // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
-                if (!desktopLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('desktop', false);
+                if (!languageSelect.contains(e.target)) {
+                    toggleLanguageDropdown(false);
                 }
-                if (!mobileLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('mobile', false);
+            });
+
+            // Handle keyboard navigation
+            languageDropdown.addEventListener('keydown', (e) => {
+                const options = Array.from(languageOptions);
+                const currentIndex = options.indexOf(document.activeElement);
+                
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        if (currentIndex < options.length - 1) {
+                            options[currentIndex + 1].focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        if (currentIndex > 0) {
+                            options[currentIndex - 1].focus();
+                        }
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        toggleLanguageDropdown(false);
+                        languageCurrent.focus();
+                        break;
                 }
             });
 
@@ -2298,11 +1919,11 @@
             const defaultLang = availableLangs.includes(browserLang) ? browserLang : 'en';
             
             document.documentElement.lang = defaultLang;
-            document.querySelectorAll('.language-current span').forEach(span => {
-                span.textContent = defaultLang.toUpperCase();
-            });
-            document.querySelectorAll(`[data-lang="${defaultLang}"]`).forEach(el => {
-                el.classList.add('active');
+            languageCurrent.querySelector('span').textContent = defaultLang.toUpperCase();
+            languageOptions.forEach(option => {
+                if (option.dataset.lang === defaultLang) {
+                    option.classList.add('active');
+                }
             });
         });
     </script>
