@@ -90,144 +90,267 @@
             margin-top: 2rem;
             color: #333;
         }
+        .favicon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .favicon-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .favicon-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .favicon-card .filename {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0.5rem 0;
+        }
+        .download-zip {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+        .download-zip:hover {
+            background-color: #444;
+        }
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .section-content.expanded {
+            max-height: 5000px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 1rem 0;
+        }
+        .section-header h2 {
+            margin: 0;
+        }
+        .toggle-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        .toggle-button.expanded {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Auris One Logo Variations</h1>
-        <div class="logo-grid">
-            <div class="logo-card">
-                <h2>Black Logo</h2>
-                <img src="images/export/auris-logo-000000.svg" alt="Auris One Black Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #000000;"></div>
-                    <span class="color-code">#000000</span>
+        
+        <div class="section-header">
+            <h2 class="section-title">Main Logo Variations</h2>
+            <button class="toggle-button" onclick="toggleSection(this, 'main-logos')">▼</button>
+        </div>
+        <div id="main-logos" class="section-content">
+            <div class="logo-grid">
+                <div class="logo-card">
+                    <h2>Black Logo</h2>
+                    <img src="images/export/auris-logo-000000.svg" alt="Auris One Black Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #000000;"></div>
+                        <span class="color-code">#000000</span>
+                    </div>
+                    <a href="images/export/auris-logo-000000.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-000000.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card dark-bg">
-                <h2>White Logo</h2>
-                <img src="images/export/auris-logo-FFFFFF.svg" alt="Auris One White Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FFFFFF;"></div>
-                    <span class="color-code">#FFFFFF</span>
+                <div class="logo-card dark-bg">
+                    <h2>White Logo</h2>
+                    <img src="images/export/auris-logo-FFFFFF.svg" alt="Auris One White Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FFFFFF;"></div>
+                        <span class="color-code">#FFFFFF</span>
+                    </div>
+                    <a href="images/export/auris-logo-FFFFFF.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-FFFFFF.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card dark-bg">
-                <h2>Light Beige Logo</h2>
-                <img src="images/export/auris-logo-FAF7F4.svg" alt="Auris One Light Beige Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FAF7F4;"></div>
-                    <span class="color-code">#FAF7F4</span>
+                <div class="logo-card dark-bg">
+                    <h2>Light Beige Logo</h2>
+                    <img src="images/export/auris-logo-FAF7F4.svg" alt="Auris One Light Beige Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FAF7F4;"></div>
+                        <span class="color-code">#FAF7F4</span>
+                    </div>
+                    <a href="images/export/auris-logo-FAF7F4.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-FAF7F4.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Light Blue Logo</h2>
-                <img src="images/export/auris-logo-B5C5F4.svg" alt="Auris One Light Blue Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #B5C5F4;"></div>
-                    <span class="color-code">#B5C5F4</span>
+                <div class="logo-card">
+                    <h2>Light Blue Logo</h2>
+                    <img src="images/export/auris-logo-B5C5F4.svg" alt="Auris One Light Blue Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #B5C5F4;"></div>
+                        <span class="color-code">#B5C5F4</span>
+                    </div>
+                    <a href="images/export/auris-logo-B5C5F4.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-B5C5F4.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Yellow Logo</h2>
-                <img src="images/export/auris-logo-FBE79D.svg" alt="Auris One Yellow Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FBE79D;"></div>
-                    <span class="color-code">#FBE79D</span>
+                <div class="logo-card">
+                    <h2>Yellow Logo</h2>
+                    <img src="images/export/auris-logo-FBE79D.svg" alt="Auris One Yellow Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FBE79D;"></div>
+                        <span class="color-code">#FBE79D</span>
+                    </div>
+                    <a href="images/export/auris-logo-FBE79D.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-FBE79D.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Pink Logo</h2>
-                <img src="images/export/auris-logo-FFBCB0.svg" alt="Auris One Pink Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FFBCB0;"></div>
-                    <span class="color-code">#FFBCB0</span>
+                <div class="logo-card">
+                    <h2>Pink Logo</h2>
+                    <img src="images/export/auris-logo-FFBCB0.svg" alt="Auris One Pink Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FFBCB0;"></div>
+                        <span class="color-code">#FFBCB0</span>
+                    </div>
+                    <a href="images/export/auris-logo-FFBCB0.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-FFBCB0.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Navy Blue Logo</h2>
-                <img src="images/export/auris-logo-394E71.svg" alt="Auris One Navy Blue Logo">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #394E71;"></div>
-                    <span class="color-code">#394E71</span>
+                <div class="logo-card">
+                    <h2>Navy Blue Logo</h2>
+                    <img src="images/export/auris-logo-394E71.svg" alt="Auris One Navy Blue Logo">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #394E71;"></div>
+                        <span class="color-code">#394E71</span>
+                    </div>
+                    <a href="images/export/auris-logo-394E71.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-394E71.svg" download class="download-link">Download SVG</a>
             </div>
         </div>
 
         <div class="section-divider"></div>
-        <h2 class="section-title">Square Sign Variations</h2>
-        <div class="logo-grid">
-            <div class="logo-card">
-                <h2>Black Sign</h2>
-                <img src="images/export/auris-logo-sign-000000.svg" alt="Auris One Black Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #000000;"></div>
-                    <span class="color-code">#000000</span>
+        <div class="section-header">
+            <h2 class="section-title">Square Sign Variations</h2>
+            <button class="toggle-button" onclick="toggleSection(this, 'sign-logos')">▼</button>
+        </div>
+        <div id="sign-logos" class="section-content">
+            <div class="logo-grid">
+                <div class="logo-card">
+                    <h2>Black Sign</h2>
+                    <img src="images/export/auris-logo-sign-000000.svg" alt="Auris One Black Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #000000;"></div>
+                        <span class="color-code">#000000</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-000000.svg" download class="download-link">Download SVG</a>
                 </div>
-                <a href="images/export/auris-logo-sign-000000.svg" download class="download-link">Download SVG</a>
+                <div class="logo-card dark-bg">
+                    <h2>White Sign</h2>
+                    <img src="images/export/auris-logo-sign-FFFFFF.svg" alt="Auris One White Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FFFFFF;"></div>
+                        <span class="color-code">#FFFFFF</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-FFFFFF.svg" download class="download-link">Download SVG</a>
+                </div>
+                <div class="logo-card dark-bg">
+                    <h2>Light Beige Sign</h2>
+                    <img src="images/export/auris-logo-sign-FAF7F4.svg" alt="Auris One Light Beige Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FAF7F4;"></div>
+                        <span class="color-code">#FAF7F4</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-FAF7F4.svg" download class="download-link">Download SVG</a>
+                </div>
+                <div class="logo-card">
+                    <h2>Light Blue Sign</h2>
+                    <img src="images/export/auris-logo-sign-B5C5F4.svg" alt="Auris One Light Blue Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #B5C5F4;"></div>
+                        <span class="color-code">#B5C5F4</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-B5C5F4.svg" download class="download-link">Download SVG</a>
+                </div>
+                <div class="logo-card">
+                    <h2>Yellow Sign</h2>
+                    <img src="images/export/auris-logo-sign-FBE79D.svg" alt="Auris One Yellow Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FBE79D;"></div>
+                        <span class="color-code">#FBE79D</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-FBE79D.svg" download class="download-link">Download SVG</a>
+                </div>
+                <div class="logo-card">
+                    <h2>Pink Sign</h2>
+                    <img src="images/export/auris-logo-sign-FFBCB0.svg" alt="Auris One Pink Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #FFBCB0;"></div>
+                        <span class="color-code">#FFBCB0</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-FFBCB0.svg" download class="download-link">Download SVG</a>
+                </div>
+                <div class="logo-card">
+                    <h2>Navy Blue Sign</h2>
+                    <img src="images/export/auris-logo-sign-394E71.svg" alt="Auris One Navy Blue Sign">
+                    <div class="color-info">
+                        <div class="color-swatch" style="background-color: #394E71;"></div>
+                        <span class="color-code">#394E71</span>
+                    </div>
+                    <a href="images/export/auris-logo-sign-394E71.svg" download class="download-link">Download SVG</a>
+                </div>
             </div>
-            <div class="logo-card dark-bg">
-                <h2>White Sign</h2>
-                <img src="images/export/auris-logo-sign-FFFFFF.svg" alt="Auris One White Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FFFFFF;"></div>
-                    <span class="color-code">#FFFFFF</span>
+        </div>
+
+        <div class="section-divider"></div>
+        <div class="section-header">
+            <h2 class="section-title">Favicon Package</h2>
+            <button class="toggle-button" onclick="toggleSection(this, 'favicons')">▼</button>
+        </div>
+        <div id="favicons" class="section-content">
+            <div class="favicon-grid">
+                <div class="favicon-card">
+                    <img src="images/auris-favicons/favicon-32x32@2x.png" alt="Favicon 32x32@2x">
+                    <div class="filename">favicon-32x32@2x.png</div>
                 </div>
-                <a href="images/export/auris-logo-sign-FFFFFF.svg" download class="download-link">Download SVG</a>
+                <div class="favicon-card">
+                    <img src="images/auris-favicons/favicon-96x96.png" alt="Favicon 96x96">
+                    <div class="filename">favicon-96x96.png</div>
+                </div>
+                <div class="favicon-card">
+                    <img src="images/auris-favicons/apple-touch-icon-120x120.png" alt="Apple Touch Icon 120x120">
+                    <div class="filename">apple-touch-icon-120x120.png</div>
+                </div>
+                <div class="favicon-card">
+                    <img src="images/auris-favicons/apple-touch-icon-152x152.png" alt="Apple Touch Icon 152x152">
+                    <div class="filename">apple-touch-icon-152x152.png</div>
+                </div>
+                <div class="favicon-card">
+                    <img src="images/auris-favicons/apple-touch-icon-180x180.png" alt="Apple Touch Icon 180x180">
+                    <div class="filename">apple-touch-icon-180x180.png</div>
+                </div>
             </div>
-            <div class="logo-card dark-bg">
-                <h2>Light Beige Sign</h2>
-                <img src="images/export/auris-logo-sign-FAF7F4.svg" alt="Auris One Light Beige Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FAF7F4;"></div>
-                    <span class="color-code">#FAF7F4</span>
-                </div>
-                <a href="images/export/auris-logo-sign-FAF7F4.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Light Blue Sign</h2>
-                <img src="images/export/auris-logo-sign-B5C5F4.svg" alt="Auris One Light Blue Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #B5C5F4;"></div>
-                    <span class="color-code">#B5C5F4</span>
-                </div>
-                <a href="images/export/auris-logo-sign-B5C5F4.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Yellow Sign</h2>
-                <img src="images/export/auris-logo-sign-FBE79D.svg" alt="Auris One Yellow Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FBE79D;"></div>
-                    <span class="color-code">#FBE79D</span>
-                </div>
-                <a href="images/export/auris-logo-sign-FBE79D.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Pink Sign</h2>
-                <img src="images/export/auris-logo-sign-FFBCB0.svg" alt="Auris One Pink Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #FFBCB0;"></div>
-                    <span class="color-code">#FFBCB0</span>
-                </div>
-                <a href="images/export/auris-logo-sign-FFBCB0.svg" download class="download-link">Download SVG</a>
-            </div>
-            <div class="logo-card">
-                <h2>Navy Blue Sign</h2>
-                <img src="images/export/auris-logo-sign-394E71.svg" alt="Auris One Navy Blue Sign">
-                <div class="color-info">
-                    <div class="color-swatch" style="background-color: #394E71;"></div>
-                    <span class="color-code">#394E71</span>
-                </div>
-                <a href="images/export/auris-logo-sign-394E71.svg" download class="download-link">Download SVG</a>
+            <div style="text-align: center;">
+                <a href="images/auris-favicons/auris-favicons.zip" download class="download-zip">Download All Favicons (ZIP)</a>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSection(button, sectionId) {
+            const section = document.getElementById(sectionId);
+            const isExpanded = section.classList.contains('expanded');
+            
+            section.classList.toggle('expanded');
+            button.classList.toggle('expanded');
+        }
+    </script>
 </body>
 </html>
