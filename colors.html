@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naprosto Neznámá Spoečnost - Color Palette</title>
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary-blue: #B5C5F4;
+            --primary-blue-lighter-50: #F7F9FE;
+            --primary-blue-lighter-100: #E9EEFF;
+            --primary-blue-lighter-200: #DCE4FD;
+            --primary-blue-light: #D0DAFC;
+            --primary-blue-dark: #8A9FE0;
+            --primary-blue-darker: #647AC9;
+            --primary-blue-darker-800: #4A5EA6;
+            --primary-blue-darker-900: #364682;
+            
+            /* Navy/Slate - For Text and UI */
+            --slate-darker-900: #1A2437;
+            --slate-darker: #2B3B57;
+            --slate-dark: #394E71;
+            --slate-medium: #536785;
+            --slate-light: #7A8BA6;
+            --slate-lighter: #AAB6C8;
+            --slate-lighter-100: #D6DEE9;
+            --slate-lighter-50: #EDF0F5;
+            
+            /* Background */
+            --background-main: #FAF7F4;
+            --background-warm: #F7F2EA;
+            --background-warmer: #F3EDE0;
+            --background-cool: #F4F6FA;
+            --background-cooler: #EAEFF5;
+            --background-white: #FFFFFF;
+            
+            /* Accent Colors */
+            --accent-yellow: #FBE79D;
+            --accent-yellow-lighter-50: #FFFCF0;
+            --accent-yellow-lighter-100: #FEF8E0;
+            --accent-yellow-light: #FDF2C4;
+            --accent-yellow-dark: #F4D673;
+            --accent-yellow-darker: #EAC54B;
+            --accent-yellow-darker-800: #D6AF2F;
+            
+            --accent-salmon: #FFBCB0;
+            --accent-salmon-lighter-50: #FFF6F4;
+            --accent-salmon-lighter-100: #FFEAE6;
+            --accent-salmon-light: #FFD6CE;
+            --accent-salmon-dark: #FF9A8A;
+            --accent-salmon-darker: #FF7A66;
+            --accent-salmon-darker-800: #F55C46;
+            
+            /* Neutral Colors */
+            --neutral-50: #F9FAFB;
+            --neutral-100: #F2F4F7;
+            --neutral-200: #E4E7EC;
+            --neutral-300: #D0D5DD;
+            --neutral-400: #98A2B3;
+            --neutral-500: #667085;
+            --neutral-600: #475467;
+            --neutral-700: #344054;
+            --neutral-800: #1D2939;
+            --neutral-900: #0F172A;
+            
+            /* System Colors */
+            --success: #4CAF50;
+            --success-light: #A5D6A7;
+            --success-lighter: #E8F5E9;
+            --success-dark: #388E3C;
+            
+            --warning: #FFC107;
+            --warning-light: #FFE082;
+            --warning-lighter: #FFF8E1;
+            --warning-dark: #FFA000;
+            
+            --danger: #F44336;
+            --danger-light: #EF9A9A;
+            --danger-lighter: #FFEBEE;
+            --danger-dark: #D32F2F;
+            
+            --info: #2196F3;
+            --info-light: #90CAF9;
+            --info-lighter: #E3F2FD;
+            --info-dark: #1976D2;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--slate-dark);
+            background-color: var(--background-main);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: var(--slate-darker);
+        }
+        
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .description {
+            margin-bottom: 2rem;
+            max-width: 800px;
+            line-height: 1.7;
+        }
+        
+        .color-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .color-swatch {
+            text-align: center;
+            margin: 5px;
+            flex: 1;
+            min-width: 160px;
+            max-width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .color-display {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .color-info {
+            padding: 10px;
+            background-color: white;
+        }
+        
+        .color-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .color-hex {
+            font-family: monospace;
+            color: var(--slate-medium);
+        }
+        
+        .example-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        
+        .example-ui {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .ui-element {
+            margin-bottom: 1rem;
+        }
+        
+        .button-primary {
+            background-color: var(--primary-blue);
+            color: var(--slate-darker);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .button-secondary {
+            background-color: white;
+            color: var(--slate-dark);
+            padding: 10px 20px;
+            border: 1px solid var(--slate-light);
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .button-accent {
+            background-color: var(--accent-salmon);
+            color: var(--slate-darker);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .button-accent-yellow {
+            background-color: var(--accent-yellow);
+            color: var(--slate-darker);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+        
+        .alert-info {
+            background-color: var(--primary-blue-lighter);
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .alert-warning {
+            background-color: var(--accent-yellow-light);
+            border-left: 4px solid var(--accent-yellow);
+        }
+        
+        .alert-danger {
+            background-color: var(--accent-salmon-light);
+            border-left: 4px solid var(--accent-salmon);
+        }
+        
+        .nav-example {
+            background-color: var(--slate-darker);
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        
+        /* Card Styles with Different Elevation Levels */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(50% - 10px);
+            min-width: 300px;
+            transition: all 0.3s ease;
+        }
+        
+        .card-shadow-sm {
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-shadow-md {
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08), 0px 1px 2px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-shadow-lg {
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card-shadow-xl {
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-shadow-2xl {
+            box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.04);
+        }
+        
+        .card-header {
+            color: var(--slate-darker);
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--slate-lighter);
+        }
+        
+        .card-blue {
+            background-color: var(--primary-blue-lighter-100);
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .card-yellow {
+            background-color: var(--accent-yellow-lighter-100);
+            border-left: 4px solid var(--accent-yellow);
+        }
+        
+        .card-salmon {
+            background-color: var(--accent-salmon-lighter-100);
+            border-left: 4px solid var(--accent-salmon);
+        }
+        
+        .text-example {
+            max-width: 800px;
+        }
+        
+        .text-primary {
+            color: var(--slate-darker);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .text-secondary {
+            color: var(--slate-dark);
+            margin-bottom: 5px;
+        }
+        
+        .text-tertiary {
+            color: var(--slate-medium);
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--slate-lighter);
+            text-align: center;
+            color: var(--slate-medium);
+        }
+    </style>
+</head>
+<body>
+    <h1>Naprosto Neznámá Firma - Color Palette</h1>
+    
+    <div class="description">
+        <p>A comprehensive color palette for NNF web and mobile applications. This palette is designed to provide a balanced set of colors that maintain brand consistency while offering flexibility for different UI elements and states.</p>
+    </div>
+    
+    <h2>Primary Colors</h2>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #B5C5F4;"></div>
+            <div class="color-info">
+                <div class="color-name">Primary Blue</div>
+                <div class="color-hex">#B5C5F4</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #394E71;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate Dark</div>
+                <div class="color-hex">#394E71</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FAF7F4;"></div>
+            <div class="color-info">
+                <div class="color-name">Background</div>
+                <div class="color-hex">#FAF7F4</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Accent Colors</h2>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FBE79D;"></div>
+            <div class="color-info">
+                <div class="color-name">Accent Yellow</div>
+                <div class="color-hex">#FBE79D</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFBCB0;"></div>
+            <div class="color-info">
+                <div class="color-name">Accent Salmon</div>
+                <div class="color-hex">#FFBCB0</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Extended Palette</h2>
+    
+    <h3>Primary Blue Variations</h3>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F7F9FE;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 50</div>
+                <div class="color-hex">#F7F9FE</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #E9EEFF;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 100</div>
+                <div class="color-hex">#E9EEFF</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #DCE4FD;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 200</div>
+                <div class="color-hex">#DCE4FD</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #D0DAFC;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 300</div>
+                <div class="color-hex">#D0DAFC</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #B5C5F4;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 500 (Base)</div>
+                <div class="color-hex">#B5C5F4</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #8A9FE0;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 600</div>
+                <div class="color-hex">#8A9FE0</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #647AC9;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 700</div>
+                <div class="color-hex">#647AC9</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #4A5EA6;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 800</div>
+                <div class="color-hex">#4A5EA6</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #364682;"></div>
+            <div class="color-info">
+                <div class="color-name">Blue 900</div>
+                <div class="color-hex">#364682</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Slate Variations (For Text & UI)</h3>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #EDF0F5;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 50</div>
+                <div class="color-hex">#EDF0F5</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #D6DEE9;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 100</div>
+                <div class="color-hex">#D6DEE9</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #AAB6C8;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 300</div>
+                <div class="color-hex">#AAB6C8</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #7A8BA6;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 400</div>
+                <div class="color-hex">#7A8BA6</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #536785;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 600</div>
+                <div class="color-hex">#536785</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #394E71;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 700 (Base)</div>
+                <div class="color-hex">#394E71</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #2B3B57;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 800</div>
+                <div class="color-hex">#2B3B57</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #1A2437;"></div>
+            <div class="color-info">
+                <div class="color-name">Slate 900</div>
+                <div class="color-hex">#1A2437</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Background Variations</h3>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFFFFF;"></div>
+            <div class="color-info">
+                <div class="color-name">White</div>
+                <div class="color-hex">#FFFFFF</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FAF7F4;"></div>
+            <div class="color-info">
+                <div class="color-name">Background Main</div>
+                <div class="color-hex">#FAF7F4</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F7F2EA;"></div>
+            <div class="color-info">
+                <div class="color-name">Background Warm</div>
+                <div class="color-hex">#F7F2EA</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F3EDE0;"></div>
+            <div class="color-info">
+                <div class="color-name">Background Warmer</div>
+                <div class="color-hex">#F3EDE0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F4F6FA;"></div>
+            <div class="color-info">
+                <div class="color-name">Background Cool</div>
+                <div class="color-hex">#F4F6FA</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #EAEFF5;"></div>
+            <div class="color-info">
+                <div class="color-name">Background Cooler</div>
+                <div class="color-hex">#EAEFF5</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Accent Yellow Variations</h3>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFFCF0;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 50</div>
+                <div class="color-hex">#FFFCF0</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FEF8E0;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 100</div>
+                <div class="color-hex">#FEF8E0</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FDF2C4;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 200</div>
+                <div class="color-hex">#FDF2C4</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FBE79D;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 500 (Base)</div>
+                <div class="color-hex">#FBE79D</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F4D673;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 700</div>
+                <div class="color-hex">#F4D673</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #EAC54B;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 800</div>
+                <div class="color-hex">#EAC54B</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #D6AF2F;"></div>
+            <div class="color-info">
+                <div class="color-name">Yellow 900</div>
+                <div class="color-hex">#D6AF2F</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Accent Salmon Variations</h3>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFF6F4;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 50</div>
+                <div class="color-hex">#FFF6F4</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFEAE6;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 100</div>
+                <div class="color-hex">#FFEAE6</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFD6CE;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 200</div>
+                <div class="color-hex">#FFD6CE</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFBCB0;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 500 (Base)</div>
+                <div class="color-hex">#FFBCB0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FF9A8A;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 700</div>
+                <div class="color-hex">#FF9A8A</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FF7A66;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 800</div>
+                <div class="color-hex">#FF7A66</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F55C46;"></div>
+            <div class="color-info">
+                <div class="color-name">Salmon 900</div>
+                <div class="color-hex">#F55C46</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Neutral Colors</h2>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F9FAFB;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 50</div>
+                <div class="color-hex">#F9FAFB</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F2F4F7;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 100</div>
+                <div class="color-hex">#F2F4F7</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #E4E7EC;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 200</div>
+                <div class="color-hex">#E4E7EC</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #D0D5DD;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 300</div>
+                <div class="color-hex">#D0D5DD</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #98A2B3;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 400</div>
+                <div class="color-hex">#98A2B3</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #667085;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 500</div>
+                <div class="color-hex">#667085</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #475467;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 600</div>
+                <div class="color-hex">#475467</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #344054;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 700</div>
+                <div class="color-hex">#344054</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #1D2939;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 800</div>
+                <div class="color-hex">#1D2939</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #0F172A;"></div>
+            <div class="color-info">
+                <div class="color-name">Neutral 900</div>
+                <div class="color-hex">#0F172A</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>System Colors</h2>
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #E8F5E9;"></div>
+            <div class="color-info">
+                <div class="color-name">Success Light</div>
+                <div class="color-hex">#E8F5E9</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #A5D6A7;"></div>
+            <div class="color-info">
+                <div class="color-name">Success Mid</div>
+                <div class="color-hex">#A5D6A7</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #4CAF50;"></div>
+            <div class="color-info">
+                <div class="color-name">Success</div>
+                <div class="color-hex">#4CAF50</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #388E3C;"></div>
+            <div class="color-info">
+                <div class="color-name">Success Dark</div>
+                <div class="color-hex">#388E3C</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFF8E1;"></div>
+            <div class="color-info">
+                <div class="color-name">Warning Light</div>
+                <div class="color-hex">#FFF8E1</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFE082;"></div>
+            <div class="color-info">
+                <div class="color-name">Warning Mid</div>
+                <div class="color-hex">#FFE082</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFC107;"></div>
+            <div class="color-info">
+                <div class="color-name">Warning</div>
+                <div class="color-hex">#FFC107</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFA000;"></div>
+            <div class="color-info">
+                <div class="color-name">Warning Dark</div>
+                <div class="color-hex">#FFA000</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #FFEBEE;"></div>
+            <div class="color-info">
+                <div class="color-name">Danger Light</div>
+                <div class="color-hex">#FFEBEE</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #EF9A9A;"></div>
+            <div class="color-info">
+                <div class="color-name">Danger Mid</div>
+                <div class="color-hex">#EF9A9A</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #F44336;"></div>
+            <div class="color-info">
+                <div class="color-name">Danger</div>
+                <div class="color-hex">#F44336</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #D32F2F;"></div>
+            <div class="color-info">
+                <div class="color-name">Danger Dark</div>
+                <div class="color-hex">#D32F2F</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="color-row">
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #E3F2FD;"></div>
+            <div class="color-info">
+                <div class="color-name">Info Light</div>
+                <div class="color-hex">#E3F2FD</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #90CAF9;"></div>
+            <div class="color-info">
+                <div class="color-name">Info Mid</div>
+                <div class="color-hex">#90CAF9</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #2196F3;"></div>
+            <div class="color-info">
+                <div class="color-name">Info</div>
+                <div class="color-hex">#2196F3</div>
+            </div>
+        </div>
+        
+        <div class="color-swatch">
+            <div class="color-display" style="background-color: #1976D2;"></div>
+            <div class="color-info">
+                <div class="color-name">Info Dark</div>
+                <div class="color-hex">#1976D2</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>UI Examples</h2>
+    
+    <div class="example-section">
+        <h3>Buttons</h3>
+        <div class="example-ui">
+            <div class="ui-element">
+                <button class="button-primary">Primary Button</button>
+            </div>
+            <div class="ui-element">
+                <button class="button-secondary">Secondary Button</button>
+            </div>
+            <div class="ui-element">
+                <button class="button-accent">Accent Button</button>
+            </div>
+            <div class="ui-element">
+                <button class="button-accent-yellow">Highlight Button</button>
+            </div>
+        </div>
+        
+        <h3>Alerts</h3>
+        <div class="example-ui">
+            <div class="alert alert-info">This is an informational alert using the primary blue.</div>
+            <div class="alert alert-warning">This is a warning alert using the accent yellow.</div>
+            <div class="alert alert-danger">This is an error alert using the accent salmon.</div>
+        </div>
+        
+        <h3>Navigation</h3>
+        <div class="example-ui">
+            <div class="nav-example">
+                Example of a navigation bar using the slate darker color.
+            </div>
+        </div>
+        
+        <h3>Cards with Shadow Variations</h3>
+        <div class="example-ui">
+            <div class="card card-shadow-sm">
+                <div class="card-header">Small Shadow</div>
+                <p>This card uses the smallest shadow elevation.</p>
+            </div>
+            <div class="card card-shadow-md">
+                <div class="card-header">Medium Shadow</div>
+                <p>This card uses a medium shadow elevation.</p>
+            </div>
+        </div>
+        
+        <div class="example-ui" style="margin-top: 20px;">
+            <div class="card card-shadow-lg">
+                <div class="card-header">Large Shadow</div>
+                <p>This card uses a large shadow elevation.</p>
+            </div>
+            <div class="card card-shadow-xl">
+                <div class="card-header">Extra Large Shadow</div>
+                <p>This card uses an extra large shadow elevation.</p>
+            </div>
+        </div>
+        
+        <div class="example-ui" style="margin-top: 20px;">
+            <div class="card card-shadow-2xl">
+                <div class="card-header">Double Extra Large Shadow</div>
+                <p>This card uses the most prominent shadow elevation.</p>
+            </div>
+        </div>
+        
+        <h3>Color Accent Cards</h3>
+        <div class="example-ui">
+            <div class="card card-shadow-md card-blue">
+                <div class="card-header">Primary Card</div>
+                <p>This card uses the primary blue accent color.</p>
+            </div>
+            <div class="card card-shadow-md card-yellow">
+                <div class="card-header">Warning Card</div>
+                <p>This card uses the accent yellow color.</p>
+            </div>
+        </div>
+        
+        <div class="example-ui" style="margin-top: 20px;">
+            <div class="card card-shadow-md card-salmon">
+                <div class="card-header">Attention Card</div>
+                <p>This card uses the accent salmon color.</p>
+            </div>
+            <div class="card card-shadow-md" style="background-color: var(--primary-blue-lighter-100);">
+                <div class="card-header">Highlighted Card</div>
+                <p>This card uses a light blue background to draw attention.</p>
+            </div>
+        </div>
+        
+        <h3>Typography</h3>
+        <div class="example-ui">
+            <div class="text-example">
+                <div class="text-primary">Primary Text (Headings, Important content)</div>
+                <div class="text-secondary">Secondary Text (Body copy, main content)</div>
+                <div class="text-tertiary">Tertiary Text (Captions, less important information)</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>NNF Color Palette &copy; 2025</p>
+    </footer>
+</body>
+</html>
