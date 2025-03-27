@@ -335,11 +335,119 @@
             text-align: center;
             color: var(--slate-medium);
         }
+
+        .color-guide {
+            background-color: var(--background-white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            margin-bottom: 2rem;
+        }
+
+        .color-guide h2 {
+            color: var(--slate-darker);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .color-guide h2:first-child {
+            margin-top: 0;
+        }
+
+        .color-guide p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .color-guide ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .color-guide li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .color-guide strong {
+            color: var(--slate-darker);
+        }
+
+        .inline-color {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            margin: 0 0.3em;
+            border-radius: 2px;
+            border: 1px solid var(--slate-lighter);
+        }
     </style>
 </head>
 <body>
     <h1>Naprosto Neznámá Firma - Color Palette</h1>
     
+    <div class="color-guide">
+        <h2>Core Philosophy</h2>
+        <p>The color palette is built around creating a balanced, professional healthcare interface that feels both trustworthy and approachable. The palette establishes a coherent visual language while providing enough flexibility for various UI states and components.</p>
+
+        <h2>Primary Colors</h2>
+        <ul>
+            <li><strong>Primary Blue</strong> <span class="inline-color" style="background-color: #B5C5F4;"></span> (#B5C5F4) - A soft, calming blue serves as the main brand color, conveying reliability and professionalism without being overwhelming. Use for primary buttons, highlighting important UI elements, and establishing brand recognition.</li>
+            <li><strong>Slate Dark</strong> <span class="inline-color" style="background-color: #394E71;"></span> (#394E71) - This deep navy blue provides excellent contrast for text elements while being gentler than pure black. Use for primary text, headings, and important UI elements where strong contrast is needed.</li>
+            <li><strong>Background Main</strong> <span class="inline-color" style="background-color: #FAF7F4;"></span> (#FAF7F4) - A warm off-white that creates a softer, more inviting canvas than stark white. This subtle warmth reduces eye strain and creates a more comfortable viewing experience, especially important in healthcare applications where users may spend extended periods using the interface.</li>
+        </ul>
+
+        <h2>Color System Structure</h2>
+        <p>The palette follows a systematic approach with consistent numbering:</p>
+        <ul>
+            <li><strong>50-100:</strong> Very light tints (backgrounds, hover states) <span class="inline-color" style="background-color: #F7F9FE;"></span> <span class="inline-color" style="background-color: #E9EEFF;"></span></li>
+            <li><strong>200-400:</strong> Light to medium tints (subtle UI elements, borders) <span class="inline-color" style="background-color: #DCE4FD;"></span> <span class="inline-color" style="background-color: #D0DAFC;"></span></li>
+            <li><strong>500:</strong> Base colors (primary elements, default states) <span class="inline-color" style="background-color: #B5C5F4;"></span></li>
+            <li><strong>600-900:</strong> Darker shades (text, emphasis, active states) <span class="inline-color" style="background-color: #8A9FE0;"></span> <span class="inline-color" style="background-color: #647AC9;"></span></li>
+        </ul>
+
+        <h2>Strategic Accent Colors</h2>
+        <ul>
+            <li><strong>Accent Yellow</strong> <span class="inline-color" style="background-color: #FBE79D;"></span> - A gentle yellow that provides warmth and can draw attention without anxiety. Use for warnings, highlights, and secondary actions.</li>
+            <li><strong>Accent Salmon</strong> <span class="inline-color" style="background-color: #FFBCB0;"></span> - A soft coral tone that creates emotional warmth while providing visual contrast to the blue. Use for highlighting important elements, errors that need attention but aren't critical, and alternative CTAs.</li>
+        </ul>
+
+        <h2>Background System</h2>
+        <p>The background variations allow for creating visual hierarchy through subtle shifts:</p>
+        <ul>
+            <li><strong>Background Main</strong> <span class="inline-color" style="background-color: #FAF7F4;"></span> - Default canvas</li>
+            <li><strong>Background Warm/Warmer</strong> <span class="inline-color" style="background-color: #F7F2EA;"></span> <span class="inline-color" style="background-color: #F3EDE0;"></span> - For creating distinction between UI panels or highlighting content</li>
+            <li><strong>Background Cool/Cooler</strong> <span class="inline-color" style="background-color: #F4F6FA;"></span> <span class="inline-color" style="background-color: #EAEFF5;"></span> - For creating emphasis on professional/technical content</li>
+        </ul>
+
+        <h2>Neutrals & System Colors</h2>
+        <ul>
+            <li><strong>Neutral Scale</strong> - A comprehensive grayscale that harmonizes with the primary palette, allowing for subtle differentiation between UI elements without introducing new hues. <span class="inline-color" style="background-color: #F9FAFB;"></span> <span class="inline-color" style="background-color: #E4E7EC;"></span> <span class="inline-color" style="background-color: #98A2B3;"></span></li>
+            <li><strong>System Colors</strong> - Standardized feedback colors (success, warning, danger, info) maintain expected conventions while being slightly muted to align with the overall aesthetic. <span class="inline-color" style="background-color: #4CAF50;"></span> <span class="inline-color" style="background-color: #FFC107;"></span> <span class="inline-color" style="background-color: #F44336;"></span> <span class="inline-color" style="background-color: #2196F3;"></span></li>
+        </ul>
+
+        <h2>Why These Colors Work Together</h2>
+        <ul>
+            <li><strong>Harmony & Balance</strong> - The palette balances cool tones (blues <span class="inline-color" style="background-color: #B5C5F4;"></span>, slates <span class="inline-color" style="background-color: #394E71;"></span>) with warm accents (salmon <span class="inline-color" style="background-color: #FFBCB0;"></span>, yellow <span class="inline-color" style="background-color: #FBE79D;"></span>) creating a complete visual system that feels neither too clinical nor too casual.</li>
+            <li><strong>Readability & Accessibility</strong> - The slate variations provide appropriate text contrast ratios while being less harsh than pure black.</li>
+            <li><strong>Emotional Response</strong> - Healthcare applications require a balance of professionalism and empathy. The blue establishes trust and professionalism, while the warm accents add a human touch.</li>
+            <li><strong>Flexibility</strong> - The extended palette provides enough range for various UI states (hover, active, disabled, etc.) while maintaining visual coherence.</li>
+            <li><strong>Natural Evolution</strong> - The colors are derived from the original brand colors but expanded systematically to provide a complete design system.</li>
+        </ul>
+
+        <h2>Implementation Guidelines</h2>
+        <ul>
+            <li>Use the slate colors for text hierarchy (darker <span class="inline-color" style="background-color: #2B3B57;"></span> for headings, lighter <span class="inline-color" style="background-color: #7A8BA6;"></span> for body text)</li>
+            <li>Use the primary blue for interactive elements and brand identity</li>
+            <li>Use accent colors sparingly to highlight important information</li>
+            <li>Use background variations to create subtle visual hierarchy</li>
+            <li>For critical alerts or system messages, use the appropriate system colors</li>
+        </ul>
+        <p>This approach ensures a consistent, professional interface that puts users at ease when dealing with sensitive healthcare information while providing clear visual cues for navigation and interaction.</p>
+    </div>
+
     <div class="description">
         <p>A comprehensive color palette for NNF web and mobile applications. This palette is designed to provide a balanced set of colors that maintain brand consistency while offering flexibility for different UI elements and states.</p>
     </div>
