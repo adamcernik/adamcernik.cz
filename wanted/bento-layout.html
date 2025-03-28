@@ -1662,19 +1662,23 @@
             line-height: 1.5;
         }
 
-        /* Keeping the list styles */
+        /* List styles for modals */
         .modal-list {
             list-style: none;
             padding: 0;
             margin: 0 0 1.5rem 0;
+            width: 100%;
         }
 
         .modal-list li {
             position: relative;
             padding-left: 1.5rem;
             margin-bottom: 0.75rem;
+            margin-right: 0;
             color: rgba(255, 255, 255, 0.9);
             break-inside: avoid; /* Prevent items from breaking across columns */
+            display: block;
+            width: 100%;
         }
 
         .modal-list li::before {
@@ -1689,14 +1693,20 @@
             background-color: var(--accent-gold);
         }
         
-        /* Two-column list style for modal lists */
+        /* Two-column list style */
         .modal-list.two-columns {
             column-count: 2;
             column-gap: 3rem;
-            margin-bottom: 1rem;
+            column-fill: balance; /* Ensures columns are balanced */
+            column-width: calc((100% - 3rem) / 2); /* Ensure equal width columns */
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 0;
+            margin-right: 0;
         }
         
-        /* Fix for two-column list items on mobile */
+        /* Single column on mobile */
         @media (max-width: 640px) {
             .modal-list.two-columns {
                 column-count: 1;
