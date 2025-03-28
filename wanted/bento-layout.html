@@ -1981,12 +1981,73 @@
             font-size: 1.2rem;
             line-height: 1;
         }
+
+        @media (min-width: 641px) and (max-width: 768px) {
+            /* Fix for the breakpoint between 640px and 768px */
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            /* Adjust tile sizes for this specific breakpoint */
+            .big {
+                grid-column: span 2;
+                grid-row: span 1;
+                min-height: 300px;
+            }
+            
+            .rect {
+                grid-column: span 2;
+                min-height: 220px;
+            }
+            
+            .big.full-image {
+                min-height: 350px;
+            }
+            
+            /* Adjust movie grid for this breakpoint */
+            #movie-grid {
+                min-height: 400px;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+            
+            /* Fix for any specific problematic tiles */
+            .tile.quote-tile,
+            .tile.service-tile,
+            .tile[style*="background-color: #1A1A1A"] {
+                min-height: 200px;
+                grid-column: span 1;
+            }
+            
+            /* Contact form and other large tiles */
+            .tile.big.gradient[style*="min-height: 600px"] {
+                grid-column: span 2;
+                min-height: 500px;
+            }
+            
+            /* Ensure proper layout for the resource tile */
+            .resources-tile {
+                grid-column: span 2;
+            }
+            
+            /* Fix for any overflowing content */
+            .tile {
+                overflow: hidden;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header" role="banner">
         <div class="header-content">
-            <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo" width="96" height="96">
+            <div style="display: flex; align-items: center;">
+                <img src="images/wanted-logo2.png" alt="WANTED Logo" class="logo" width="96" height="96">
+                <span style="font-family: var(--heading-font); font-size: 2rem; font-weight: 700; color: var(--heading-color); margin-left: 1rem;">WANTED</span>
+            </div>
             
             <!-- Desktop Navigation -->
             <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
@@ -2092,18 +2153,18 @@
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
         <div id="who-we-are" class="tile big full-image">
-            <img src="images/about/wanted-main.jpg" alt="WANTED Office">
+            <img src="images/wip.jpg" alt="WANTED Office">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
                 <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
             </div>
         </div>
 
-
         <!-- Prague tile with labels -->
         <div class="tile gradient" style="background-image: url('images/about/onas.jpg'); background-size: cover; background-position: center; position: relative;">
             <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.6) 100%); z-index: 1;"></div>
-            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem;">
+            <h2 class="headline" style="position: relative; z-index: 2; margin-bottom: 1rem;">What We Do</h2>
+            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem; column-count: 2; column-gap: 1rem;">
                 <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Film</li>
                 <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Dekorace</li>
                 <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Rekvizity</li>
@@ -2343,8 +2404,21 @@
         </div>
 
         <!-- Renault Group tile -->
-        <div class="tile" style="position: relative; padding: 0; overflow: hidden; border-radius: 1.25rem; background-color: #1A1A1A;">
-            <img src="images/tiles/renault-group.png" alt="Renault Group" style="width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0;">
+        <div class="tile" style="position: relative; padding: 2rem; overflow: hidden; border-radius: 1.25rem; background-color: #1A1A1A; display: flex; flex-direction: column; justify-content: flex-start; min-height: 350px;">
+            <!-- Renault Group Logo -->
+            <div>
+                <img src="images/tiles/renault-group-text.png" alt="Renault Group" style="width: 70%; max-width: 180px; height: auto;">
+            </div>
+            
+            <!-- Approved Supplier Text -->
+            <div style="margin-top: 1.5rem;">
+                <p style="color: white; font-size: 2rem; font-weight: 300; margin: 0; font-family: sans-serif; letter-spacing: -0.03em;">approved supplier</p>
+            </div>
+            
+            <!-- Document Image at Bottom -->
+            <div style="position: absolute; bottom: -20px; left: -10px; right: -10px; width: calc(100% + 20px); overflow: hidden;">
+                <img src="images/tiles/renault-group-paper.png" alt="Renault Group Document" style="width: 100%; transform: rotate(8deg) translateY(0); transform-origin: bottom left;">
+            </div>
         </div>
 
         <!-- Contact Person Tile - Lukas -->
