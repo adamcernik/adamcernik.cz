@@ -78,6 +78,25 @@
             margin: 0 auto;
         }
 
+        /* Add scroll margin to target elements */
+        #who-we-are, #service-01, #movie-grid, #lukas-contact {
+            scroll-margin-top: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            /* Adjust scroll margin for medium screens */
+            #who-we-are, #service-01, #movie-grid, #lukas-contact {
+                scroll-margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Adjust scroll margin for small screens */
+            #who-we-are, #service-01, #movie-grid, #lukas-contact {
+                scroll-margin-top: 40px;
+            }
+        }
+
         .tile {
             background: var(--dark-tile);
             border-radius: 1.25rem;
@@ -503,6 +522,11 @@
             .logo {
                 height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
                 width: auto;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
@@ -1967,11 +1991,11 @@
             <!-- Desktop Navigation -->
             <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
                 <div class="desktop-menu">
-                    <a href="#about">About Us</a>
-                    <a href="#services">Services</a>
-                    <a href="#production">Production</a>
+                    <a href="#who-we-are">About Us</a>
+                    <a href="#service-01">Services</a>
+                    <a href="#movie-grid">Production</a>
                     <a href="#history">History</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#lukas-contact">Contact</a>
                     <div class="language-select">
                         <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
                             <span>EN</span>
@@ -2054,11 +2078,11 @@
                         </div>
                     </div>
                     <div class="mobile-menu">
-                        <a href="#about">About Us</a>
-                        <a href="#services">Services</a>
-                        <a href="#production">Production</a>
+                        <a href="#who-we-are">About Us</a>
+                        <a href="#service-01">Services</a>
+                        <a href="#movie-grid">Production</a>
                         <a href="#history">History</a>
-                        <a href="#contact">Contact</a>
+                        <a href="#lukas-contact">Contact</a>
                     </div>
                 </div>
             </div>
@@ -2067,7 +2091,7 @@
 
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
-        <div class="tile big full-image">
+        <div id="who-we-are" class="tile big full-image">
             <img src="images/about/wanted-main.jpg" alt="WANTED Office">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
@@ -2093,7 +2117,7 @@
         <div class="tile" style="position: relative; overflow: hidden; border-radius: 1.25rem; padding: 0;">
             <!-- Background image that covers the entire tile -->
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
-                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%); border-radius: inherit;"></div>
+                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; background-image: url('images/tiles/wanted-map.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
                 <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease; background-image: url('images/tiles/renault-r.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
             </div>
             
@@ -2102,9 +2126,9 @@
                 <div style="position: relative; width: 100%; height: 100%;">
                     <!-- First slide content -->
                     <div class="project-slide" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; overflow: hidden; border-radius: inherit;">
-                        <div style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                            <h2 style="margin: 0 0 0.75rem 0; padding: 0; color: #0F1521; font-size: 1.7rem; font-weight: 600; z-index: 2;">Top Project</h2>
-                            <p style="margin: 0; padding: 0; color: #0F1521; font-size: 1rem; font-weight: 500; line-height: 1.4; width: 80%; z-index: 2;">The Wheel of Time (Amazon)</p>
+                        <!-- Dark overlay with gradient centered in the tile -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; border-radius: inherit;">
+                            <h2 style="margin: 0; padding: 0; color: #FFFFFF; font-size: 1.7rem; font-weight: 600; z-index: 2;">Where We Are</h2>
                         </div>
                     </div>
                     
@@ -2144,7 +2168,7 @@
         </div>
 
         <!-- Service tiles -->
-        <div class="tile service-tile service-01" data-modal="service-01">
+        <div id="service-01" class="tile service-tile service-01" data-modal="service-01">
             <img src="images/services/01.jpg" alt="Print & Design">
             <div class="service-content">
                 <div class="service-number">01</div>
@@ -2219,7 +2243,7 @@
         </div>
 
         <!-- Center big tile with movie grid -->
-        <div class="tile big gradient">
+        <div id="movie-grid" class="tile big gradient">
             <div class="movie-grid">
                 <div class="movie-item">
                     <img src="images/movies/wheeloftime.jpg" alt="Wheel of Time" class="active">
@@ -2318,14 +2342,13 @@
             </div>
         </div>
 
-        <!-- Placeholder tile -->
-        <div class="tile">
-            <h2 class="headline">Coming Soon</h2>
-            <p class="text">Content to be added</p>
+        <!-- Renault Group tile -->
+        <div class="tile" style="position: relative; padding: 0; overflow: hidden; border-radius: 1.25rem; background-color: #1A1A1A;">
+            <img src="images/tiles/renault-group.png" alt="Renault Group" style="width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0;">
         </div>
 
         <!-- Contact Person Tile - Lukas -->
-        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
+        <div id="lukas-contact" class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
             <h2 class="headline" style="font-size: 1.6rem; -webkit-text-fill-color: var(--primary); background: none;">Lukas Katakalidis</h2>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                 <a href="tel:+420606042031" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
