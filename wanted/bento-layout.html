@@ -5,2107 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="WANTED s.f.o. - Film Production Support and Services">
     <title>WANTED - Film Production Support</title>
-    <!-- Import cinematic fonts to complement dark theme -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Dark Color Scheme */
-            --primary: #0F1521; /* Dark Midnight */
-            --secondary: #7D0F1E; /* Deep Crimson */
-            --accent-gold: #B8860B; /* Dark Gold */
-            --accent-slate: #455A64; /* Deep Slate */
-            --dark-bg: #1E1E1E; /* Dark Grey */
-            --dark-tile: #262626; /* Slightly lighter than background */
-            --border-color: #333333; /* Dividers & subtle elements */
-            --text-color: #E0E0E0; /* Light grey for body text */
-            --heading-color: #FFFFFF; /* White for headings */
-            
-            /* Font variables */
-            --heading-font: 'Montserrat', sans-serif;
-            --body-font: 'Raleway', sans-serif;
-            
-            /* Keep other values unchanged */
-            --background: #F5F5F7;
-            --light-tile: #2c4054;
-            --gradient-dark: linear-gradient(to bottom, #111922 0%, #1a2735 100%);
-            --gradient-tile: linear-gradient(135deg, var(--primary) 0%, #233446 100%);
-            --gradient-gold: linear-gradient(90deg, var(--accent-gold), #e5c14c);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--body-font);
-            background: var(--gradient-dark);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding: 2rem;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 70%),
-                radial-gradient(circle at 0% 50%, rgba(26, 42, 58, 0.1), transparent 50%),
-                var(--gradient-dark);
-            padding-top: 9rem;
-            font-weight: 300;
-            line-height: 1.7;
-            letter-spacing: 0.015em;
-        }
-
-        .headline {
-            font-family: var(--heading-font);
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--heading-color), #B8B8B8);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            line-height: 1.3;
-        }
-
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Add scroll margin to target elements */
-        #who-we-are, #service-01, #movie-grid, #lukas-contact {
-            scroll-margin-top: 20px;
-        }
-
-        @media (max-width: 1024px) {
-            /* Adjust scroll margin for medium screens */
-            #who-we-are, #service-01, #movie-grid, #lukas-contact {
-                scroll-margin-top: 30px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* Adjust scroll margin for small screens */
-            #who-we-are, #service-01, #movie-grid, #lukas-contact {
-                scroll-margin-top: 40px;
-            }
-        }
-
-        .tile {
-            background: var(--dark-tile);
-            border-radius: 1.25rem;
-            padding: 1.75rem;
-            border: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            position: relative;
-            backdrop-filter: blur(10px);
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .tile:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                       0 16px 48px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .tile::before {
-            content: none;
-        }
-
-        .tile.gradient {
-            background: var(--gradient-tile);
-        }
-
-        .tile.light {
-            background: var(--light-tile);
-        }
-
-        /* Tile sizes */
-        .big {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .rect {
-            grid-column: span 2;
-        }
-
-        /* Content styles */
-        .full-image {
-            padding: 0;
-            min-height: 300px;
-        }
-
-        .big.full-image {
-            min-height: 500px;
-        }
-
-        .rect {
-            min-height: 250px;
-        }
-
-        .full-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 1.25rem;
-            transition: none;
-        }
-
-        .full-image:hover img {
-            transform: none;
-        }
-
-        .text {
-            font-family: var(--body-font);
-            font-weight: 300;
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 1rem;
-            letter-spacing: 0.015em;
-            color: rgba(255, 255, 255, 0.9);
-            overflow-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .quote {
-            font-style: italic;
-            font-size: 1.25rem;
-            padding: 2rem;
-            line-height: 1.6;
-        }
-
-        .quote::before {
-            content: '"';
-            font-size: 4rem;
-            opacity: 0.15;
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-family: Georgia, serif;
-            color: var(--accent-gold);
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            height: 100%;
-        }
-
-        .image-grid img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 0.75rem;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-grid img:hover {
-            opacity: 0.8;
-        }
-
-        /* Additional content styles */
-        .content-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, 
-                rgba(26, 42, 58, 1) 0%,
-                rgba(26, 42, 58, 0.98) 20%,
-                rgba(26, 42, 58, 0.95) 40%,
-                rgba(26, 42, 58, 0.85) 70%,
-                rgba(26, 42, 58, 0) 100%
-            );
-            padding: 3.5rem 3rem 3rem;
-            color: var(--text-color);
-        }
-
-        .tile:hover .content-overlay {
-            transform: none;
-        }
-
-        .content-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                rgba(212, 175, 55, 0.08) 0%,
-                rgba(26, 42, 58, 0.08) 100%
-            );
-            pointer-events: none;
-        }
-
-        .content-overlay .headline {
-            position: relative;
-            font-size: 2.25rem;
-            margin-bottom: 1.25rem;
-            background: none;
-            -webkit-text-fill-color: var(--text-color);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-overlay .text {
-            position: relative;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.95);
-            max-width: 90%;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Adjust tile heights for content */
-        .tile.gradient:not(.rect) {
-            min-height: 280px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .bento-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.25rem;
-            }
-
-            .tile {
-                min-height: 220px;
-            }
-
-            .full-image {
-                min-height: 350px;
-            }
-
-            .big.full-image {
-                min-height: 400px;
-            }
-
-            .rect {
-                min-height: 280px;
-            }
-
-            .image-grid {
-                min-height: 300px;
-            }
-
-            .content-overlay {
-                padding: 2.5rem 2rem 2rem;
-            }
-            
-            .content-overlay .headline {
-                font-size: 1.75rem;
-            }
-
-            .content-overlay .text {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-
-            .tile.gradient:not(.rect) {
-                min-height: 320px;
-            }
-
-            .headline {
-                font-size: 1.4rem;
-            }
-
-            .text {
-                font-size: 0.95rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-                padding-top: 120px;
-            }
-
-            .header {
-                padding: 1rem;
-                height: 104px;
-            }
-            
-            .header.scrolled {
-                padding: 0.75rem 1rem;
-                height: 80px;
-            }
-            
-            .logo {
-                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
-            }
-            
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-toggle {
-                display: flex;
-            }
-            
-            .mobile-nav.active {
-                display: flex;
-                max-height: 100vh;
-                overflow-y: auto;
-            }
-
-            .header-content {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .menu-toggle {
-                display: flex;
-                position: relative;
-                width: 48px;
-                height: 48px;
-                z-index: 1002;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 12px;
-                margin-right: -0.5rem;
-            }
-
-            .menu-toggle.active {
-                position: fixed;
-                top: 2rem;
-                right: 2rem;
-                z-index: 1002;
-            }
-
-            .menu-toggle span {
-                display: block;
-                width: 28px;
-                height: 2px;
-                margin: 4px 0;
-                background: var(--text-color);
-                transition: transform 0.3s ease,
-                           opacity 0.3s ease;
-                transform-origin: center;
-            }
-
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(6px) rotate(45deg);
-            }
-
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-                transform: scale(0);
-            }
-
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-6px) rotate(-45deg);
-            }
-
-            .nav-menu {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                width: 100vw;
-                height: 100vh;
-                margin: 0;
-                padding: 4rem 2rem;
-                flex-direction: column;
-                background: var(--dark-bg);
-                gap: 3rem;
-                transition: all 0.3s ease;
-                border-radius: 0;
-                overscroll-behavior: contain;
-                justify-content: center;
-                align-items: center;
-                z-index: 1001;
-                transform: translateX(100%);
-                display: flex;
-                visibility: hidden;
-                /* Ensure menu covers the entire viewport regardless of body padding */
-                position: fixed;
-                inset: 0;
-            }
-
-            .nav-menu.active {
-                transform: translateX(0);
-                visibility: visible;
-            }
-
-            .nav-menu a {
-                font-size: 5rem;
-                font-weight: 600;
-                text-align: center;
-                padding: 0.75rem;
-                width: 100%;
-                max-width: 400px;
-                color: var(--text-color);
-            }
-
-            .nav-menu a:hover {
-                color: var(--text-color);
-            }
-
-            .nav-menu a::after {
-                display: none;
-            }
-
-            .language-select {
-                margin-top: 3rem;
-                width: auto;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .language-current {
-                font-size: 2rem;
-                padding: 0.5rem;
-                justify-content: center;
-                width: auto;
-            }
-
-            .language-current:hover {
-                color: var(--text-color);
-            }
-
-            .language-dropdown {
-                position: static;
-                width: auto;
-                min-width: 200px;
-                margin-top: 0.5rem;
-                background: none;
-                border: none;
-                padding: 0;
-                box-shadow: none;
-            }
-
-            .language-option {
-                font-size: 1.5rem;
-                padding: 0.5rem;
-                border-radius: 0;
-                background: none;
-                justify-content: center;
-            }
-
-            .language-option:hover {
-                background: none;
-                color: var(--text-color);
-            }
-
-            .language-option img {
-                width: 24px;
-                height: 18px;
-            }
-
-            .language-option span {
-                text-align: center;
-            }
-
-            .language-select.active .language-dropdown {
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-                align-items: center;
-            }
-
-            .logo {
-                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
-                width: auto;
-            }
-
-            .bento-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 1rem;
-                padding-top: 120px;
-            }
-
-            .bento-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            /* Reset all tile sizes to single column */
-            .tile {
-                min-height: 200px;
-            }
-
-            .big, .rect {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-
-            .big.full-image {
-                min-height: 400px;
-            }
-
-            .full-image {
-                min-height: 300px;
-            }
-
-            .rect {
-                min-height: 250px;
-            }
-
-            /* Adjust movie grid for mobile */
-            .movie-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(6, 1fr);
-                min-height: 400px;
-                gap: 0.25rem;
-            }
-
-            .movie-content {
-                padding: 1.5rem;
-            }
-
-            /* Optimize resources tile for mobile */
-            .resources-tile {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .resources-images {
-                min-height: 180px;
-                gap: 0.25rem;
-            }
-
-            /* Adjust service tiles for mobile */
-            .service-tile {
-                min-height: 220px;
-            }
-
-            .service-content {
-                padding: 1.5rem;
-            }
-
-            .service-title {
-                font-size: 1.25rem;
-            }
-
-            .service-number {
-                font-size: 1rem;
-            }
-
-            /* Adjust quote tile for mobile */
-            .quote-tile {
-                min-height: 250px;
-            }
-
-            .quote-text {
-                font-size: 1.25rem;
-                padding: 1.5rem;
-                padding-bottom: 0;
-            }
-
-            .quote-author {
-                padding: 0 1.5rem 1.5rem;
-            }
-
-            /* Adjust content overlays for mobile */
-            .content-overlay {
-                padding: 2rem 1.5rem 1.5rem;
-            }
-
-            .content-overlay .headline {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .content-overlay .text {
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-
-            /* General text adjustments for mobile */
-            .headline {
-                font-size: 1.25rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .text {
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-
-            .header {
-                padding: 1rem;
-                height: 104px;
-            }
-
-            .header-content {
-                gap: 1rem;
-            }
-
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
-                width: auto;
-                will-change: transform;
-                order: 0;
-            }
-
-            nav {
-                flex: 1;
-                display: flex;
-                justify-content: flex-end;
-                order: 1;
-            }
-
-            .nav-menu {
-                top: 104px;
-                height: calc(100vh - 104px);
-            }
-        }
-
-        /* Movie grid styles */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 0.5rem;
-            height: 100%;
-            width: 100%;
-            position: relative;
-        }
-
-        @media (max-width: 1024px) {
-            .movie-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .movie-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(6, 1fr);
-                min-height: 400px;
-            }
-        }
-
-        .movie-item {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 0.5rem;
-        }
-
-        .movie-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: opacity 2.5s ease-in-out;
-        }
-
-        .movie-item img.active {
-            opacity: 1;
-        }
-
-        .movie-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom,
-                rgba(26, 42, 58, 0.3) 0%,
-                rgba(26, 42, 58, 0.7) 100%
-            );
-            z-index: 2;
-        }
-
-        .movie-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            z-index: 3;
-            background: linear-gradient(to top,
-                rgba(26, 42, 58, 0.95) 0%,
-                rgba(26, 42, 58, 0.8) 50%,
-                transparent 100%
-            );
-        }
-
-        /* Header styles */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 2rem;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            background: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
-        .header.scrolled {
-            background: transparent;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
-        .header.hidden {
-            transform: translateY(-100%);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Logo styles */
-        .logo {
-            height: 96px;
-            width: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .header.scrolled .logo {
-            transform: scale(0.5);
-            transform-origin: left center;
-        }
-
-        /* Desktop navigation */
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-        }
-
-        .desktop-menu {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            padding: 0.5rem 1.5rem;
-            border-radius: 1rem;
-            background: transparent;
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled .desktop-menu {
-            background: rgba(35, 52, 70, 0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 1rem;
-        }
-
-        .desktop-menu a {
-            font-family: var(--heading-font);
-            font-weight: 500;
-            font-size: 1rem;
-            letter-spacing: 0.02em;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .desktop-menu a:hover {
-            color: var(--accent-gold);
-        }
-
-        .desktop-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-gold);
-            transition: width 0.3s ease;
-        }
-
-        .desktop-menu a:hover::after {
-            width: 100%;
-        }
-
-        /* Mobile menu button - hidden by default */
-        .mobile-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 44px;
-            height: 44px;
-            padding: 8px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1002;
-        }
-
-        .mobile-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            margin: 2px 0;
-            background: var(--text-color);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            transform-origin: center;
-        }
-
-        .mobile-toggle:hover span {
-            background: var(--accent-gold);
-        }
-
-        .mobile-toggle.active span:nth-child(1) {
-            transform: translateY(6px) rotate(45deg);
-        }
-
-        .mobile-toggle.active span:nth-child(2) {
-            opacity: 0;
-            transform: scale(0);
-        }
-
-        .mobile-toggle.active span:nth-child(3) {
-            transform: translateY(-6px) rotate(-45deg);
-        }
-
-        /* Mobile navigation - hidden by default */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--dark-bg);
-            z-index: 1001;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 1rem;
-            padding-top: 0.5rem;
-            text-align: center;
-            overflow-y: auto;
-            max-height: 100vh;
-        }
-        
-        .mobile-nav-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            padding-top: 0.5rem;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
-            padding: 0.5rem 0;
-            background: transparent;
-            border-radius: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: none;
-            margin-top: 1rem;
-            overflow-y: auto;
-        }
-
-        .mobile-menu a {
-            font-family: var(--heading-font);
-            font-weight: 500;
-            font-size: 1.5rem;
-            letter-spacing: 0.02em;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            width: 100%;
-            padding: 0.5rem 0;
-            text-align: center;
-        }
-
-        .mobile-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Responsive navigation */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
-                height: 104px;
-            }
-            
-            .header.scrolled {
-                padding: 0.75rem 1rem;
-                height: 80px;
-            }
-            
-            .logo {
-                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
-            }
-            
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-toggle {
-                display: flex;
-            }
-            
-            .mobile-nav.active {
-                display: flex;
-                max-height: 100vh;
-                overflow-y: auto;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
-            }
-            
-            .mobile-menu {
-                max-width: 260px;
-                gap: 0.5rem;
-                margin-top: 0.5rem;
-            }
-            
-            .mobile-menu a {
-                font-size: 1.3rem;
-                padding: 0.4rem 0;
-            }
-            
-            .mobile-nav {
-                padding: 1rem 1rem 1.5rem;
-            }
-            
-            .mobile-nav-content {
-                padding-top: 0;
-            }
-            
-            .mobile-nav .language-select {
-                position: relative;
-                margin-bottom: 0.5rem;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 0.9rem;
-                padding: 0.3rem 0.5rem;
-            }
-            
-            /* Removing duplicate/conflicting language select styles */
-        }
-
-        /* Add keyframes for service tile hover animation */
-        @keyframes serviceImageZoom {
-            0% {
-                transform: scale(1);
-                filter: brightness(1);
-            }
-            50% {
-                transform: scale(1.05);
-                filter: brightness(1.2);
-            }
-            100% {
-                transform: scale(1.02);
-                filter: brightness(1.1);
-            }
-        }
-
-        .service-tile {
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .service-tile[data-modal] {
-            cursor: pointer;
-        }
-
-        .service-tile img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            transition: opacity 2.5s ease;
-        }
-
-        .service-tile:hover img {
-            opacity: 1;
-        }
-
-        /* Update service tile styles to be darker */
-        .service-content {
-            position: relative;
-            z-index: 1;
-            padding: 1.75rem;
-            height: 100%;
-            background: linear-gradient(
-                to top,
-                rgba(105, 10, 25, 0.95) 0%,
-                rgba(105, 10, 25, 0.85) 50%,
-                rgba(105, 10, 25, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-
-        /* All service tiles hover effect to darker gold */
-        .service-tile:hover .service-content {
-            background: linear-gradient(
-                to top,
-                rgba(160, 80, 10, 0.98) 0%,
-                rgba(160, 80, 10, 0.88) 50%,
-                rgba(160, 80, 10, 0.78) 100%
-            );
-        }
-        
-        .service-number {
-            font-family: var(--heading-font);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 0.5rem;
-            opacity: 0.7;
-        }
-
-        .service-title {
-            font-family: var(--heading-font);
-            font-size: 1.3rem; /* Reduced from 1.5rem */
-            font-weight: 700; /* Increased from 600 to 700 for bolder appearance */
-            letter-spacing: 0.01em;
-            margin-bottom: 1rem;
-            color: var(--heading-color);
-        }
-
-        .service-content .text {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        /* Add styles for resource list */
-        .resource-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .resource-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .resource-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        /* Add styles for map title overlay */
-        .map-title {
-            position: absolute;
-            top: 1.75rem;
-            left: 1.75rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-color);
-            z-index: 2;
-            background: linear-gradient(90deg, var(--accent-gold), #e5c14c);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-        }
-
-        .map-description {
-            position: absolute;
-            bottom: 1.75rem;
-            left: 1.75rem;
-            font-size: 0.95rem;
-            color: var(--text-color);
-            z-index: 2;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Add styles for resources tile */
-        .resources-tile {
-            display: block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .resources-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .resources-background::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right,
-                rgba(35, 52, 70, 0.95) 0%,
-                rgba(35, 52, 70, 0.8) 50%,
-                rgba(35, 52, 70, 0.5) 100%
-            );
-            z-index: 1;
-        }
-
-        .resources-background img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .resources-content {
-            position: relative;
-            z-index: 2;
-            padding: 1.75rem;
-            width: 100%;
-            height: 100%;
-        }
-
-        @media (max-width: 1024px) {
-            .resources-tile {
-                min-height: 250px;
-            }
-        }
-
-        /* Add styles for project lists */
-        .project-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .project-list li {
-            position: relative;
-            padding-left: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .project-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        .project-list .year {
-            color: var(--accent-gold);
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        /* Add styles for contact form */
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-group {
-            position: relative;
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 0.5rem;
-            color: var(--text-color);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .contact-form input::placeholder,
-        .contact-form textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .contact-form textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);
-            color: var(--primary);
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            display: inline-block;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        }
-
-        @media (max-width: 640px) {
-            .contact-form {
-                gap: 0.75rem;
-            }
-        }
-
-        /* Language dropdown styles */
-        .language-select {
-            position: relative;
-            z-index: 1001; /* Ensure dropdown appears above other elements */
-            margin-left: 0;
-        }
-
-        .desktop-menu .language-select {
-            margin-left: 1rem;
-        }
-        
-        .mobile-menu .language-select {
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu .language-select {
-                margin-top: 2.5rem;
-                width: 100%;
-            }
-            
-            .mobile-menu .language-current {
-                justify-content: center;
-                font-size: 1.5rem;
-                padding: 0.75rem;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .mobile-menu .language-select {
-                margin-top: 2rem;
-            }
-            
-            .mobile-menu .language-current {
-                font-size: 1.25rem;
-                padding: 0.5rem;
-            }
-        }
-
-        .language-current {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-            padding: 0.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            background: none;
-            border: none;
-            transition: color 0.3s ease;
-        }
-
-        .header.scrolled .language-current {
-            background: rgba(35, 52, 70, 0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border-radius: 0.5rem;
-        }
-
-        .language-current:hover,
-        .language-current:focus {
-            color: var(--accent-gold);
-            outline: none;
-        }
-
-        .language-current svg {
-            transition: transform 0.3s ease;
-        }
-
-        .language-select.active .language-current svg {
-            transform: rotate(180deg);
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            background: rgba(26, 42, 58, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 0.75rem;
-            padding: 0.5rem;
-            display: none;
-            min-width: 160px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .language-select.active .language-dropdown {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .language-option {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 0.5rem;
-            color: var(--text-color);
-        }
-
-        .language-option:hover,
-        .language-option:focus {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent-gold);
-            outline: none;
-        }
-
-        .language-option img {
-            width: 24px;
-            height: 18px;
-            object-fit: cover;
-            border-radius: 2px;
-        }
-
-        /* Mobile navigation - hidden by default */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--dark-bg);
-            z-index: 1001;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 1rem;
-            padding-top: 0.5rem;
-            text-align: center;
-            overflow-y: auto;
-            max-height: 100vh;
-        }
-        
-        .mobile-nav-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            padding-top: 0.5rem;
-        }
-
-        .mobile-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            align-items: center;
-            width: 100%;
-            max-width: 300px;
-            padding: 0.5rem 0;
-            background: transparent;
-            border-radius: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: none;
-            margin-top: 1rem;
-            overflow-y: auto;
-        }
-
-        .mobile-menu a {
-            font-family: var(--heading-font);
-            font-weight: 500;
-            font-size: 1.5rem;
-            letter-spacing: 0.02em;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            width: 100%;
-            padding: 0.5rem 0;
-            text-align: center;
-        }
-
-        .mobile-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Add styles for show more button */
-        .show-more-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .show-more-btn:hover {
-            transform: translateX(5px);
-        }
-
-        .show-more-btn svg {
-            transition: transform 0.3s ease;
-        }
-
-        .show-more-btn:hover svg {
-            transform: translateX(2px);
-        }
-
-        /* Add styles for quote tile */
-        .quote-tile {
-            position: relative;
-            padding: 0;
-            overflow: hidden;
-            min-height: 280px;
-        }
-
-        .quote-tile img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
-
-        .quote-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            width: 100%;
-            padding: 1.75rem;
-            background: linear-gradient(to top,
-                rgba(26, 42, 58, 0.9) 0%,
-                rgba(26, 42, 58, 0.8) 60%,
-                rgba(26, 42, 58, 0.7) 100%
-            );
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 50%;
-        }
-
-        .quote-text {
-            font-family: var(--body-font);
-            font-style: italic;
-            font-size: 1.25rem;
-            font-weight: 300;
-            letter-spacing: 0.02em;
-            line-height: 1.5;
-            color: var(--text-color);
-            margin-bottom: 0.75rem;
-            position: relative;
-            padding-left: 1.25rem;
-        }
-
-        .quote-text::before {
-            content: '"';
-            position: absolute;
-            left: 0;
-            top: -0.25rem;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            line-height: 1;
-        }
-
-        .quote-author {
-            font-size: 0.95rem;
-            color: var(--accent-gold);
-            text-align: right;
-            padding-right: 1rem;
-        }
-
-        @media (max-width: 640px) {
-            .quote-text {
-                font-size: 1rem;
-            }
-            
-            .quote-author {
-                font-size: 0.85rem;
-            }
-        }
-
-        /* Modal styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(26, 42, 58, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: var(--dark-tile);
-            border-radius: 1.25rem;
-            width: 90%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            padding: 0;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
-            width: 36px;
-            height: 36px;
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: background 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-close svg {
-            width: 20px;
-            height: 20px;
-            stroke: white;
-            stroke-width: 2;
-        }
-
-        .modal-header {
-            position: relative;
-            padding: 0;
-            height: 200px;
-            overflow: hidden;
-            border-radius: 1.25rem 1.25rem 0 0;
-        }
-
-        .modal-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-header-content {
-            padding: 1.5rem 2rem;
-            background-color: var(--dark-tile);
-        }
-
-        .modal-title {
-            font-family: var(--heading-font);
-            font-weight: 600;
-            font-size: 1.75rem;
-            letter-spacing: 0.01em;
-            margin-bottom: 0.5rem;
-            color: var(--heading-color);
-        }
-
-        .modal-subtitle {
-            font-family: var(--heading-font);
-            font-weight: 500;
-            font-size: 1.1rem;
-            color: var(--accent-gold);
-            letter-spacing: 0.01em;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .modal-section {
-            margin-bottom: 2rem;
-        }
-
-        /* New content structure */
-        .modal-heading {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--heading-color);
-        }
-
-        .modal-description {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            color: var(--accent-gold);
-            line-height: 1.5;
-        }
-
-        /* List styles for modals */
-        .modal-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.5rem 0;
-            width: 100%;
-        }
-
-        .modal-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
-            margin-right: 0;
-            color: rgba(255, 255, 255, 0.9);
-            break-inside: avoid; /* Prevent items from breaking across columns */
-            display: block;
-            width: 100%;
-        }
-
-        .modal-list li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background-color: var(--accent-gold);
-        }
-        
-        /* Two-column list style */
-        .modal-list.two-columns {
-            column-count: 2;
-            column-gap: 3rem;
-            column-fill: balance; /* Ensures columns are balanced */
-            column-width: calc((100% - 3rem) / 2); /* Ensure equal width columns */
-            width: 100%;
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: 0;
-            margin-right: 0;
-        }
-        
-        /* Single column on mobile */
-        @media (max-width: 640px) {
-            .modal-list.two-columns {
-                column-count: 1;
-            }
-        }
-
-        /* Mobile adjustments for modal */
-        @media (max-width: 640px) {
-            .modal {
-                width: 95%;
-                max-height: 85vh;
-            }
-            
-            .modal-header {
-                height: 160px;
-            }
-            
-            .modal-header-content {
-                padding: 1.25rem 1.5rem;
-            }
-            
-            .modal-title {
-                font-size: 1.5rem;
-            }
-            
-            .modal-subtitle {
-                font-size: 1rem;
-            }
-            
-            .modal-body {
-                padding: 1.5rem;
-            }
-            
-            .modal-section {
-                margin-bottom: 1.5rem;
-            }
-            
-            .modal-heading {
-                font-size: 1.3rem;
-            }
-            
-            .modal-description {
-                font-size: 0.95rem;
-            }
-        }
-
-        /* Mobile language selector adjustments */
-        @media (max-width: 768px) {
-            .mobile-nav-content {
-                position: relative;
-                padding-top: 0; /* Removed top padding */
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                height: 100%;
-            }
-            
-            .mobile-nav .language-select {
-                position: relative;
-                order: -1;
-                margin-bottom: 3rem; /* Increased bottom margin */
-                width: 100%;
-                max-width: 300px;
-                z-index: 1100; /* Ensure it's above other content */
-            }
-            
-            .mobile-nav .language-current {
-                width: 100%;
-                font-size: 1.5rem;
-                padding: 0.75rem 1rem;
-                justify-content: center;
-                background: rgba(26, 42, 58, 0.5);
-                border-radius: 0.5rem;
-            }
-            
-            .mobile-nav .language-current svg {
-                transform: rotate(180deg);
-            }
-            
-            .mobile-nav .language-select.active .language-current svg {
-                transform: rotate(0deg);
-            }
-            
-            .mobile-nav .language-dropdown {
-                position: absolute;
-                bottom: 100%;
-                left: 0;
-                right: 0;
-                margin-bottom: 0.5rem;
-                padding: 0.75rem 0;
-                z-index: 1110;
-                display: none;
-                height: auto;
-                min-height: 390px; /* Adjusted minimum height */
-                max-height: 70vh; /* Ensure it doesn't exceed viewport height */
-                overflow-y: auto; /* Add scrolling if needed */
-                background: rgba(26, 42, 58, 0.98); /* Darker background */
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border-radius: 0.75rem;
-                border: 2px solid var(--accent-gold);
-                transform: translateY(10px);
-                opacity: 0;
-                transition: transform 0.3s ease, opacity 0.3s ease;
-                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
-            }
-            
-            .mobile-nav .language-select.active .language-dropdown {
-                display: block;
-                transform: translateY(0);
-                opacity: 1;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 1.15rem;
-                margin: 0.25rem 0.75rem;
-                font-size: 1.35rem;
-                text-align: center;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-                border-radius: 0.5rem;
-                transition: background 0.2s ease;
-            }
-            
-            .mobile-nav .language-option:hover,
-            .mobile-nav .language-option:focus {
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .mobile-nav .language-option.active {
-                background: rgba(212, 175, 55, 0.2);
-                color: var(--accent-gold);
-            }
-            
-            .mobile-nav .language-option img {
-                width: 28px;
-                height: 21px;
-                margin-right: 12px;
-            }
-        }
-
-        /* Updated mobile styles for smaller screens */
-        @media (max-width: 640px) {
-            .mobile-nav-content {
-                padding-top: 5rem; /* More space on smaller screens */
-            }
-            
-            .mobile-nav .language-dropdown {
-                padding: 0.5rem 0;
-                min-height: 380px; /* Slightly shorter on very small screens */
-            }
-            
-            .mobile-nav .language-option {
-                padding: 1rem;
-                margin: 0.5rem 0.5rem;
-                font-size: 1.25rem;
-            }
-            
-            .mobile-nav .language-option img {
-                width: 24px;
-                height: 18px;
-            }
-        }
-
-        /* Service tile color progression with timing - darker orange shades */
-        .service-01 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(180, 90, 15, 0.95) 0%,
-                rgba(180, 90, 15, 0.85) 50%,
-                rgba(180, 90, 15, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-02 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(185, 95, 20, 0.95) 0%,
-                rgba(185, 95, 20, 0.85) 50%,
-                rgba(185, 95, 20, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-03 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(190, 100, 25, 0.95) 0%,
-                rgba(190, 100, 25, 0.85) 50%,
-                rgba(190, 100, 25, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-04 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(195, 105, 30, 0.95) 0%,
-                rgba(195, 105, 30, 0.85) 50%,
-                rgba(195, 105, 30, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-05 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(200, 110, 35, 0.95) 0%,
-                rgba(200, 110, 35, 0.85) 50%,
-                rgba(200, 110, 35, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-06 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(205, 115, 40, 0.95) 0%,
-                rgba(205, 115, 40, 0.85) 50%,
-                rgba(205, 115, 40, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-
-        /* Add styles for service-07 and service-08 */
-        .service-07 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(210, 120, 45, 0.95) 0%,
-                rgba(210, 120, 45, 0.85) 50%,
-                rgba(210, 120, 45, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        
-        .service-08 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(215, 125, 50, 0.95) 0%,
-                rgba(215, 125, 50, 0.85) 50%,
-                rgba(215, 125, 50, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-
-        /* Darker amber-orange hover state */
-        .service-tile:hover .service-content {
-            background: linear-gradient(
-                to top,
-                rgba(160, 80, 10, 0.98) 0%,
-                rgba(160, 80, 10, 0.88) 50%,
-                rgba(160, 80, 10, 0.78) 100%
-            );
-        }
-
-        .service-list li::before {
-            content: '•';
-            position: absolute;
-            left: -1rem;
-            top: 0.1rem;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        @media (min-width: 641px) and (max-width: 768px) {
-            /* Fix for the breakpoint between 640px and 768px */
-            .bento-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            
-            /* Adjust tile sizes for this specific breakpoint */
-            .big {
-                grid-column: span 2;
-                grid-row: span 1;
-                min-height: 300px;
-            }
-            
-            .rect {
-                grid-column: span 2;
-                min-height: 220px;
-            }
-            
-            .big.full-image {
-                min-height: 350px;
-            }
-            
-            /* Adjust movie grid for this breakpoint */
-            #movie-grid {
-                min-height: 400px;
-            }
-            
-            .movie-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-            }
-            
-            /* Fix for any specific problematic tiles */
-            .tile.quote-tile,
-            .tile.service-tile,
-            .tile[style*="background-color: #1A1A1A"] {
-                min-height: 200px;
-                grid-column: span 1;
-            }
-            
-            /* Contact form and other large tiles */
-            .tile.big.gradient[style*="min-height: 600px"] {
-                grid-column: span 2;
-                min-height: 500px;
-            }
-            
-            /* Ensure proper layout for the resource tile */
-            .resources-tile {
-                grid-column: span 2;
-            }
-            
-            /* Fix for any overflowing content */
-            .tile {
-                overflow: hidden;
-            }
-        }
-
-        /* Mobile menu open state */
-        html.mobile-menu-open {
-            overflow: hidden;
-            height: 100%;
-        }
-        
-        html.mobile-menu-open body {
-            overflow: hidden;
-            height: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <header class="header" role="banner">
         <div class="header-content">
-            <div style="display: flex; align-items: center;">
+            <div class="logo-container">
                 <img src="images/wanted-logo2.png" alt="WANTED Logo" class="logo" width="96" height="96">
-                <span style="font-family: var(--heading-font); font-size: 2rem; font-weight: 700; color: var(--heading-color); margin-left: 1rem;">WANTED</span>
+                <span class="logo-text">WANTED</span>
             </div>
             
             <!-- Desktop Navigation -->
@@ -2155,18 +65,25 @@
             
             <!-- Mobile Toggle Button -->
             <button class="mobile-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span class="bar-top"></span>
+                <span class="bar-middle"></span>
+                <span class="bar-bottom"></span>
             </button>
             
             <!-- Mobile Navigation -->
             <div class="mobile-nav" id="mobile-nav">
                 <div class="mobile-nav-content">
+                    <div class="mobile-menu">
+                        <a href="#who-we-are">About Us</a>
+                        <a href="#service-01">Services</a>
+                        <a href="#movie-grid">Production</a>
+                        <a href="#history">History</a>
+                        <a href="#lukas-contact">Contact</a>
+                    </div>
                     <div class="language-select">
                         <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="mobile-language-dropdown">
                             <span>EN</span>
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <svg width="12" height="8" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
@@ -2197,13 +114,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mobile-menu">
-                        <a href="#who-we-are">About Us</a>
-                        <a href="#service-01">Services</a>
-                        <a href="#movie-grid">Production</a>
-                        <a href="#history">History</a>
-                        <a href="#lukas-contact">Contact</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2212,78 +122,67 @@
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
         <div id="who-we-are" class="tile big full-image">
-            <img src="images/wip.jpg" alt="WANTED Office">
+            <img src="images/wanted-main.jpg" alt="WANTED Office">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
                 <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
             </div>
         </div>
 
-        <!-- Prague tile with labels -->
-        <div class="tile gradient" style="background-image: url('images/about/onas.jpg'); background-size: cover; background-position: center; position: relative;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.6) 100%); z-index: 1;"></div>
-            <h2 class="headline" style="position: relative; z-index: 2; margin-bottom: 1rem;">What We Do</h2>
-            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem; column-count: 2; column-gap: 1rem;">
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Film</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Decorations</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Props</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Events</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Interiors</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Exhibitions</li>
+        <!-- What We Do tile -->
+        <div class="tile gradient what-we-do-tile">
+            <div class="resources-background">
+                <img src="images/about/onas.jpg" alt="What We Do">
+            </div>
+            <div class="overlay-gradient"></div>
+            <h2 class="headline">What We Do</h2>
+            <ul class="service-list">
+                <li>Film</li>
+                <li>Decorations</li>
+                <li>Props</li>
+                <li>Events</li>
+                <li>Interiors</li>
+                <li>Exhibitions</li>
             </ul>
         </div>
 
-        <!-- New Slider Tile -->
-        <div class="tile" style="position: relative; overflow: hidden; border-radius: 1.25rem; padding: 0;">
-            <!-- Background image that covers the entire tile -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
-                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; background-image: url('images/tiles/wanted-map2.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
-                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease; background-image: url('images/tiles/renault-r.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
+        <!-- Project Slider Tile -->
+        <div class="tile project-slider-tile">
+            <!-- Background image container -->
+            <div class="project-backgrounds">
+                <div class="project-slide-bg active"></div>
+                <div class="project-slide-bg"></div>
             </div>
             
-            <div class="project-slider-container" style="position: relative; width: 100%; height: 100%; z-index: 1;">
+            <div class="project-slider-container">
                 <!-- Slides container -->
-                <div style="position: relative; width: 100%; height: 100%;">
+                <div class="project-slides-wrapper">
+                    <!-- Dark overlay with gradient -->
+                    <div class="overlay-gradient"></div>
+                    
                     <!-- First slide content -->
-                    <div class="project-slide" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; overflow: hidden; border-radius: inherit;">
-                        <!-- Dark overlay with gradient centered in the tile -->
-                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; border-radius: inherit;">
-                            <p style="margin: 0 0 0.5rem 0; padding: 0 2rem; color: #FFFFFF; font-size: 1.2rem; font-weight: 500; line-height: 1.4; width: 100%; text-align: center;">In Progress</p>
-                            <h2 style="margin: 0; padding: 0 2rem; color: #FFFFFF; font-size: 2.2rem; font-weight: 600; width: 100%; text-align: center; line-height: 1.1;">Dacia NVI Project</h2>
-                            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1rem; padding: 0 2rem;">
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">CZ</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">SK</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">HU</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">PL</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">EST</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">LV</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">LT</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">SWE</span>
-                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">DK</span>
-                            </div>
-                        </div>
+                    <div class="project-slide active">
+                        <h3 class="project-title">European Presence</h3>
+                        <p class="project-text">Based in Prague, operating across Europe</p>
                     </div>
                     
                     <!-- Second slide content -->
-                    <div class="project-slide" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease; overflow: hidden; border-radius: inherit;">
-                        <!-- Dark overlay with gradient centered in the tile -->
-                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; border-radius: inherit;">
-                            <p style="margin: 0 0 0.5rem 0; padding: 0 2rem; color: #FFFFFF; font-size: 1.2rem; font-weight: 500; line-height: 1.4; width: 100%; text-align: center;">Coming Soon</p>
-                            <h2 style="margin: 0; padding: 0 2rem; color: #FFFFFF; font-size: 2.2rem; font-weight: 600; width: 100%; text-align: center; line-height: 1.1;">Renault<br>new'R store</h2>
-                        </div>
+                    <div class="project-slide">
+                        <h3 class="project-title">Global Experience</h3>
+                        <p class="project-text">Projects delivered across international markets</p>
                     </div>
                 </div>
                 
                 <!-- Navigation dots -->
-                <div class="project-dots" style="position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.75rem; z-index: 10;">
-                    <button class="project-dot active" style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; border: none; padding: 0; cursor: pointer; opacity: 1; transition: opacity 0.3s ease; box-shadow: 0 0 4px rgba(0,0,0,0.3);" aria-label="Go to slide 1"></button>
-                    <button class="project-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; border: none; padding: 0; cursor: pointer; opacity: 0.7; transition: opacity 0.3s ease; box-shadow: 0 0 4px rgba(0,0,0,0.3);" aria-label="Go to slide 2"></button>
+                <div class="project-dots">
+                    <button class="project-dot active" aria-label="View slide 1"></button>
+                    <button class="project-dot" aria-label="View slide 2"></button>
                 </div>
             </div>
         </div>
 
-        <!-- Resources tile -->
-        <div class="tile rect light resources-tile">
+        <!-- Our Resources Tile (2-column wide) -->
+        <div class="tile wide resources-tile">
             <div class="resources-background">
                 <img src="images/about/onas-2.jpg" alt="WANTED Resources">
             </div>
@@ -2299,57 +198,62 @@
             </div>
         </div>
 
-        <!-- Service tiles -->
-        <div id="service-01" class="tile service-tile service-01" data-modal="service-01">
+        <!-- Services section -->
+        <div id="service-01" class="tile service-tile" data-modal="service-01">
             <img src="images/services/01.jpg" alt="Print & Design">
             <div class="service-content">
                 <div class="service-number">01</div>
-                <h2 class="service-title">Print & Design</h2>
+                <h3 class="service-title">Print & Design</h3>
                 <p class="text">Professional printing and design services for various media</p>
             </div>
         </div>
 
+        <!-- Service 02 tile -->
         <div class="tile service-tile service-02" data-modal="service-02">
             <img src="images/services/02.jpg" alt="Corporate Identities">
             <div class="service-content">
                 <div class="service-number">02</div>
-                <h2 class="service-title">Corporate Identities</h2>
+                <h3 class="service-title">Corporate Identities</h3>
                 <p class="text">Comprehensive brand identity development and implementation</p>
             </div>
         </div>
 
+        <!-- Service 03 tile -->
         <div class="tile service-tile service-03" data-modal="service-03">
             <img src="images/services/03.jpg" alt="Furniture">
             <div class="service-content">
                 <div class="service-number">03</div>
-                <h2 class="service-title">Furniture</h2>
+                <h3 class="service-title">Furniture</h3>
                 <p class="text">Custom furniture design and manufacturing solutions</p>
             </div>
         </div>
 
+        <!-- Service 04 tile -->
         <div class="tile service-tile service-04" data-modal="service-04">
             <img src="images/services/04.jpg" alt="Production">
             <div class="service-content">
                 <div class="service-number">04</div>
-                <h2 class="service-title">Production</h2>
+                <h3 class="service-title">Production</h3>
                 <p class="text">Full-scale production services and project management</p>
             </div>
         </div>
 
+        <!-- Service 05 tile -->
         <div class="tile service-tile service-05" data-modal="service-05">
             <img src="images/services/05.jpg" alt="Crafts">
             <div class="service-content">
                 <div class="service-number">05</div>
-                <h2 class="service-title">Crafts</h2>
+                <h3 class="service-title">Crafts</h3>
                 <p class="text">Specialized craftsmanship including glass work and custom solutions</p>
             </div>
         </div>
 
+        <!-- Service 06 tile -->
         <div class="tile service-tile service-06" data-modal="service-06">
             <img src="images/services/06.jpg" alt="Film Props & Decorations">
             <div class="service-content">
                 <div class="service-number">06</div>
-                <h2 class="service-title">Film Props & Deco</h2>
+                <h3 class="service-title">Film Props & Deco</h3>
                 <p class="text">Custom props and set decorations for film and television</p>
             </div>
         </div>
@@ -2359,7 +263,7 @@
             <img src="images/services/07.jpg" alt="Logistics">
             <div class="service-content">
                 <div class="service-number">07</div>
-                <h2 class="service-title">Logistics</h2>
+                <h3 class="service-title">Logistics</h3>
                 <p class="text">Comprehensive logistics and transportation services</p>
             </div>
         </div>
@@ -2369,7 +273,7 @@
             <img src="images/services/08.jpg" alt="Documentation">
             <div class="service-content">
                 <div class="service-number">08</div>
-                <h2 class="service-title">Documentation</h2>
+                <h3 class="service-title">Documentation</h3>
                 <p class="text">Professional documentation and project documentation services</p>
             </div>
         </div>
@@ -2409,22 +313,6 @@
                     <img src="images/movies/principslasti.jpg" alt="Princip Slasti" class="active">
                     <img src="images/movies/catcherwasaspy.jpg" alt="Catcher Was a Spy">
                 </div>
-                <div class="movie-item">
-                    <img src="images/movies/betlemske-svetlo.jpeg" alt="Betlemske Svetlo" class="active">
-                    <img src="images/movies/hanna.jpg" alt="Hanna">
-                </div>
-                <div class="movie-item">
-                    <img src="images/movies/mi.jpg" alt="MI" class="active">
-                    <img src="images/movies/missing.jpg" alt="Missing">
-                </div>
-                <div class="movie-item">
-                    <img src="images/movies/red_baron.jpg" alt="Red Baron" class="active">
-                    <img src="images/movies/caspian.jpg" alt="Caspian">
-                </div>
-                <div class="movie-item">
-                    <img src="images/movies/vinari.jpg" alt="Vinari" class="active">
-                    <img src="images/movies/svetpodhlavou.jpg" alt="Svet pod hlavou">
-                </div>
             </div>
             <div class="movie-overlay"></div>
             <div class="movie-content">
@@ -2433,7 +321,7 @@
             </div>
         </div>
 
-        <!-- Small tile with headline -->
+        <!-- Notable Film Projects tile -->
         <div class="tile gradient">
             <h2 class="headline">Notable Film Projects</h2>
             <ul class="project-list">
@@ -2452,11 +340,11 @@
             </a>
         </div>
 
-        <!-- Small tile with commercial projects -->
+        <!-- Commercial Projects tile -->
         <div class="tile light">
             <h2 class="headline">Commercial Projects</h2>
             <ul class="project-list">
-                <li>Renault Group <span class="text">(Homologated supplier)</span></li>
+                <li>Renault Group (Homologated supplier)</li>
                 <li>Dacia New Visual Identity</li>
                 <li>Renault Store rebranding</li>
                 <li>Renault Alpine Store</li>
@@ -2475,35 +363,28 @@
         </div>
 
         <!-- Renault Group tile -->
-        <div class="tile" style="position: relative; padding: 2rem; overflow: hidden; border-radius: 1.25rem; background-color: #1A1A1A; display: flex; flex-direction: column; justify-content: flex-start; min-height: 350px;">
-            <!-- Renault Group Logo -->
-            <div>
-                <img src="images/tiles/renault-group-text.png" alt="Renault Group" style="width: 70%; max-width: 180px; height: auto;">
+        <div class="tile renault-tile">
+            <div class="renault-content">
+                <img src="images/tiles/renault-group-text.png" alt="Renault Group" class="renault-logo">
+                <p class="renault-text">approved supplier</p>
             </div>
-            
-            <!-- Approved Supplier Text -->
-            <div style="margin-top: 1.5rem;">
-                <p style="color: white; font-size: 2rem; font-weight: 300; margin: 0; font-family: sans-serif; letter-spacing: -0.03em;">approved supplier</p>
-            </div>
-            
-            <!-- Document Image at Bottom -->
-            <div style="position: absolute; bottom: -20px; left: -10px; right: -10px; width: calc(100% + 20px); overflow: hidden;">
-                <img src="images/tiles/renault-group-paper.png" alt="Renault Group Document" style="width: 100%; transform: rotate(8deg) translateY(0); transform-origin: bottom left;">
+            <div class="renault-document">
+                <img src="images/tiles/renault-group-paper.png" alt="Renault Group Document">
             </div>
         </div>
 
         <!-- Contact Person Tile - Lukas -->
-        <div id="lukas-contact" class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
-            <h2 class="headline" style="font-size: 1.6rem; -webkit-text-fill-color: var(--primary); background: none;">Lukas Katakalidis</h2>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="tel:+420606042031" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div id="lukas-contact" class="tile contact-person-tile">
+            <h2 class="headline" style="color: black !important; font-weight: 900 !important;">Lukas Katakalidis</h2>
+            <div class="contact-links">
+                <a href="tel:+420606042031" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
                     +420 606 042 031
                 </a>
-                <a href="mailto:lukas@wanted-sfo.cz" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="mailto:lukas@wanted-sfo.cz" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
@@ -2512,18 +393,18 @@
             </div>
         </div>
 
-        <!-- Contact Person Tile - Pepi -->
-        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
-            <h2 class="headline" style="font-size: 1.6rem; -webkit-text-fill-color: var(--primary); background: none;">Pepi Borik</h2>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="tel:+420606042035" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Contact Person Tile - Pepi Borik -->
+        <div class="tile contact-person-tile">
+            <h2 class="headline" style="color: black !important; font-weight: 900 !important;">Pepi Borik</h2>
+            <div class="contact-links">
+                <a href="tel:+420602335335" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
-                    +420 606 042 035
+                    +420 602 335 335
                 </a>
-                <a href="mailto:pepi@wanted-sfo.cz" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="mailto:pepi@wanted-sfo.cz" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
@@ -2532,11 +413,47 @@
             </div>
         </div>
 
-        <!-- Contact Form Tile -->
-        <div class="tile big gradient" style="transform: none; transition: none; min-height: 600px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 class="headline" style="margin-bottom: 0;">Contact Us</h2>
-                <a href="mailto:info@wanted-sfo.cz" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem;">
+        <!-- Company Contact Tile -->
+        <div class="tile light company-contact-tile">
+            <h2 class="headline">WANTED s.f.o.</h2>
+            <div class="company-address">
+                <div class="address-group">
+                    <p class="address-line">Zásadská 569/3</p>
+                    <p class="address-line">190 00 Praha 9</p>
+                </div>
+                <div class="id-group">
+                    <p class="id-line"><span class="id-label">IČO:</span> 71382186, 74241486</p>
+                </div>
+                <div class="id-group">
+                    <p class="id-line"><span class="id-label">DIČ:</span> CZ8211270144, CZ7907132475</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warehouse Contact Tile -->
+        <div class="tile light warehouse-contact-tile">
+            <h2 class="headline">Office / Warehouse</h2>
+            <div class="company-address">
+                <div class="address-group">
+                    <p class="address-line">Stoliňská 4</p>
+                    <p class="address-line">190 00 Praha 9</p>
+                </div>
+                <div class="contact-links warehouse-links">
+                    <a href="tel:+420281946994" class="contact-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        +420 281 946 994
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Tile - Two Columns -->
+        <div class="tile rect contact-form-tile">
+            <div class="contact-header">
+                <h2 class="headline">Contact Us</h2>
+                <a href="mailto:info@wanted-sfo.cz" class="contact-email">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -2545,11 +462,13 @@
                 </a>
             </div>
             <form class="contact-form" action="#" method="POST">
+                <div class="form-row">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="Your Name" required>
                 </div>
                 <div class="form-group">
                     <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type="text" name="subject" placeholder="Subject">
@@ -2557,45 +476,15 @@
                 <div class="form-group">
                     <textarea name="message" placeholder="Your Message" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">Send Message</button>
-                <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); margin-top: 0.75rem; line-height: 1.4;">By submitting this form, you agree to the processing of your personal data in accordance with GDPR. Your data will be used solely for communication purposes and will not be shared with third parties.</p>
+                <button type="submit" class="submit-btn">Send Message</button>
+                <p class="form-disclaimer">By submitting this form, you agree to the processing of your personal data in accordance with GDPR.</p>
             </form>
         </div>
 
-        <!-- Company Contact Tile -->
-        <div class="tile light">
-            <h2 class="headline" style="font-size: 1.4rem; margin-bottom: 0.75rem;">WANTED s.f.o.</h2>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                    <p style="color: var(--text-color); font-weight: 500; font-size: 0.9rem;">Zásadská 569/3</p>
-                    <p style="color: var(--text-color); font-size: 0.9rem;">190 00 Praha 9</p>
+        <!-- Map Tile - Two Columns -->
+        <div class="tile rect map-tile">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2558.3392488341844!2d14.583833576890811!3d50.108196071518465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94e8cf28b0d9%3A0x2600d91d3c54840!2sStoli%C5%88sk%C3%A1%204%2C%20190%2000%20Praha%209-Horn%C3%AD%20Po%C4%8Dernice%2C%20Czechia!5e0!3m2!1sen!2sus!4v1711905000276!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                    <p style="color: var(--text-color); font-size: 0.9rem;"><span style="font-weight: 500;">IČO:</span> 71382186, 74241486</p>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                    <p style="color: var(--text-color); font-size: 0.9rem;"><span style="font-weight: 500;">DIČ:</span> CZ8211270144, CZ7907132475</p>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
-                    <p style="color: var(--text-color); font-weight: 700; font-size: 0.9rem;"> Office / Warehouse</p>
-                    <p style="color: var(--text-color); font-size: 0.9rem;">Stoliňská 4</p>
-                    <p style="color: var(--text-color); font-size: 0.9rem;">190 00 Praha 9</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Map Tile -->
-        <div class="tile" style="padding: 0; overflow: hidden;">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.9999999999995!2d14.499999999999999!3d50.099999999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94e8cf28b0d9%3A0x2600d91d3c54840!2sStoli%C5%88sk%C3%A1%204%2C%20190%2000%20Praha%209!5e0!3m2!1scs!2scz!4v1647359234221!5m2!1scs!2scz" 
-                width="100%" 
-                height="100%" 
-                style="border:0;" 
-                allowfullscreen="" 
-                loading="lazy">
-            </iframe>
-        </div>
-
     </div>
 
     <!-- Modal container -->
@@ -2609,10 +498,10 @@
             </button>
             <div class="modal-header">
                 <img src="" alt="" id="modal-image">
-            </div>
             <div class="modal-header-content">
                 <h2 class="modal-title" id="modal-title"></h2>
                 <div class="modal-subtitle" id="modal-subtitle"></div>
+                </div>
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- Modal content will be dynamically populated -->
@@ -2620,734 +509,7 @@
         </div>
     </div>
 
-    <script>
-        function fadeMovies() {
-            const items = document.querySelectorAll('.movie-item');
-            items.forEach(item => {
-                const images = item.querySelectorAll('img');
-                if (images.length < 2) return; // Skip if not enough images
-                
-                let currentIndex = 0;
-                const interval = 7000 + Math.random() * 3000; // Longer interval between transitions
-                
-                // Preload images
-                images.forEach(img => {
-                    const preload = new Image();
-                    preload.src = img.src;
-                });
-                
-                const fadeInterval = setInterval(() => {
-                    images[currentIndex].classList.remove('active');
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].classList.add('active');
-                }, interval);
-
-                // Cleanup on page hide/unload
-                document.addEventListener('visibilitychange', () => {
-                    if (document.hidden) {
-                        clearInterval(fadeInterval);
-                    } else {
-                        fadeMovies();
-                    }
-                });
-            });
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            fadeMovies();
-            
-            // Carousel functionality
-            const carouselContainer = document.querySelector('.carousel-container');
-            const dots = document.querySelectorAll('.carousel-dots .dot');
-            let currentSlide = 0;
-            let slideInterval;
-
-            if (carouselContainer) {
-                function goToSlide(index) {
-                    currentSlide = index;
-                    carouselContainer.style.transform = `translateX(-${index * 50}%)`;
-                    dots.forEach((dot, i) => {
-                        dot.style.opacity = i === index ? '1' : '0.5';
-                    });
-                }
-
-                function nextSlide() {
-                    goToSlide((currentSlide + 1) % 2);
-                }
-
-                function startSlideShow() {
-                    slideInterval = setInterval(nextSlide, 8000);
-                }
-
-                function stopSlideShow() {
-                    clearInterval(slideInterval);
-                }
-
-                // Add click handlers to dots
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
-                        stopSlideShow();
-                        goToSlide(index);
-                        startSlideShow();
-                    });
-                });
-
-                // Start the slideshow
-                startSlideShow();
-
-                // Pause on hover
-                carouselContainer.addEventListener('mouseenter', stopSlideShow);
-                carouselContainer.addEventListener('mouseleave', startSlideShow);
-            }
-            
-            // Project slider functionality
-            const projectSlides = document.querySelectorAll('.project-slide');
-            const projectDots = document.querySelectorAll('.project-dot');
-            const projectBackgrounds = document.querySelectorAll('.project-slide-bg');
-            let currentProjectSlide = 0;
-            let projectSlideInterval;
-            let touchStartX = 0;
-            let touchEndX = 0;
-
-            function goToProjectSlide(index) {
-                // Hide all slides with smooth transition
-                projectSlides.forEach(slide => {
-                    slide.style.transition = 'opacity 0.8s ease-in-out';
-                    slide.style.opacity = '0';
-                });
-                
-                // Show selected slide
-                projectSlides[index].style.opacity = '1';
-                
-                // Hide all backgrounds with smooth transition
-                projectBackgrounds.forEach(bg => {
-                    bg.style.transition = 'opacity 0.8s ease-in-out';
-                    bg.style.opacity = '0';
-                });
-                
-                // Show selected background
-                projectBackgrounds[index].style.opacity = '1';
-                
-                // Update dots
-                projectDots.forEach((dot, i) => {
-                    if (i === index) {
-                        dot.classList.add('active');
-                        dot.style.opacity = '1';
-                    } else {
-                        dot.classList.remove('active');
-                        dot.style.opacity = '0.7';
-                    }
-                });
-                
-                currentProjectSlide = index;
-            }
-
-            function nextProjectSlide() {
-                goToProjectSlide((currentProjectSlide + 1) % projectSlides.length);
-            }
-
-            function prevProjectSlide() {
-                goToProjectSlide((currentProjectSlide - 1 + projectSlides.length) % projectSlides.length);
-            }
-
-            function startProjectSlideShow() {
-                stopProjectSlideShow();
-                projectSlideInterval = setInterval(nextProjectSlide, 8000);
-            }
-
-            function stopProjectSlideShow() {
-                clearInterval(projectSlideInterval);
-            }
-
-            // Add click handlers to project dots
-            projectDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    stopProjectSlideShow();
-                    goToProjectSlide(index);
-                    startProjectSlideShow();
-                });
-            });
-
-            // Add swipe functionality for mobile
-            const projectSliderContainer = document.querySelector('.project-slider-container');
-            if (projectSliderContainer) {
-                // Touch start event
-                projectSliderContainer.addEventListener('touchstart', (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, {passive: true});
-                
-                // Touch end event
-                projectSliderContainer.addEventListener('touchend', (e) => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    handleSwipe();
-                }, {passive: true});
-                
-                // Handle the swipe
-                function handleSwipe() {
-                    const swipeThreshold = 50; // Minimum swipe distance in pixels
-                    if (touchEndX < touchStartX - swipeThreshold) {
-                        // Swipe left, go to next slide
-                        stopProjectSlideShow();
-                        nextProjectSlide();
-                        startProjectSlideShow();
-                    } else if (touchEndX > touchStartX + swipeThreshold) {
-                        // Swipe right, go to previous slide
-                        stopProjectSlideShow();
-                        prevProjectSlide();
-                        startProjectSlideShow();
-                    }
-                }
-                
-                // Pause on hover (desktop only)
-                projectSliderContainer.addEventListener('mouseenter', stopProjectSlideShow);
-                projectSliderContainer.addEventListener('mouseleave', startProjectSlideShow);
-            }
-            
-            // Start the project slideshow
-            startProjectSlideShow();
-            
-            // Navigation elements
-            const header = document.querySelector('.header');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            const mobileNav = document.querySelector('.mobile-nav');
-            
-            // Scroll variables
-            let lastScroll = 0;
-            let scrollTimeout;
-            
-            // Header scroll behavior with debounce
-            window.addEventListener('scroll', () => {
-                if (scrollTimeout) {
-                    window.cancelAnimationFrame(scrollTimeout);
-                }
-
-                scrollTimeout = window.requestAnimationFrame(() => {
-                    const currentScroll = window.pageYOffset;
-                    
-                    // Don't hide header if mobile menu is open
-                    if (mobileNav.classList.contains('active')) {
-                        return;
-                    }
-                    
-                    // Show header and remove scrolled state if at the top
-                    if (currentScroll <= 0) {
-                        header.classList.remove('hidden');
-                        header.classList.remove('scrolled');
-                        return;
-                    }
-                    
-                    // Add scrolled state as soon as we scroll down
-                    if (currentScroll > 0) {
-                        header.classList.add('scrolled');
-                    }
-                    
-                    if (currentScroll > lastScroll && currentScroll > 100) {
-                        // Scrolling down and not at the top
-                        header.classList.add('hidden');
-                    } else {
-                        // Scrolling up
-                        header.classList.remove('hidden');
-                    }
-                    
-                    lastScroll = currentScroll;
-                });
-            }, { passive: true });
-
-            // Mobile menu toggle functionality
-            function toggleMobileMenu(show) {
-                mobileToggle.classList.toggle('active', show);
-                mobileNav.classList.toggle('active', show);
-                mobileToggle.setAttribute('aria-expanded', show);
-                
-                if (show) {
-                    // Don't completely prevent body scrolling, 
-                    // only prevent background content scrolling
-                    document.body.style.overflow = '';
-                    // Add a class to html/body to indicate menu open state
-                    document.documentElement.classList.add('mobile-menu-open');
-                    header.classList.remove('hidden');
-                } else {
-                    // Restore body scrolling
-                    document.body.style.overflow = '';
-                    document.documentElement.classList.remove('mobile-menu-open');
-                }
-            }
-
-            mobileToggle.addEventListener('click', () => {
-                const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-                toggleMobileMenu(!isExpanded);
-            });
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!mobileToggle.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
-                }
-            });
-
-            // Close mobile menu when pressing Escape
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
-                }
-            });
-
-            // Close mobile menu when clicking on a link
-            const mobileLinks = document.querySelectorAll('.mobile-menu a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    toggleMobileMenu(false);
-                });
-            });
-
-            // Hide mobile menu when window is resized to desktop width
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768 && mobileNav.classList.contains('active')) {
-                    toggleMobileMenu(false);
-                }
-            });
-
-            // Function to toggle language dropdown
-            function setupLanguageSelector(selector, options) {
-                const select = document.querySelector(selector);
-                if (!select) return;
-                
-                const current = select.querySelector('.language-current');
-                const dropdown = select.querySelector('.language-dropdown');
-                const langOptions = dropdown.querySelectorAll('.language-option');
-                
-                current.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isExpanded = current.getAttribute('aria-expanded') === 'true';
-                    
-                    // Close any other open dropdowns
-                    document.querySelectorAll('.language-select').forEach(el => {
-                        if (el !== select) {
-                            el.classList.remove('active');
-                            el.querySelector('.language-current').setAttribute('aria-expanded', 'false');
-                        }
-                    });
-                    
-                    select.classList.toggle('active', !isExpanded);
-                    current.setAttribute('aria-expanded', !isExpanded);
-                    
-                    // If in mobile nav and opening dropdown, ensure language selector is visible
-                    if (selector.includes('.mobile-nav') && !isExpanded) {
-                        // Delay scrolling to allow dropdown to appear first
-                        setTimeout(() => {
-                            // Ensure mobile menu is at the top to give dropdown space
-                            const mobileNav = document.querySelector('.mobile-nav');
-                            mobileNav.scrollTop = 0;
-                            
-                            // Temporarily allow body scrolling
-                            document.body.style.overflow = 'auto';
-                            
-                            // Make sure language selector is at the top of the viewport
-                            window.scrollTo({
-                                top: 0,
-                                behavior: 'smooth'
-                            });
-                            
-                            // Disable scrolling again after dropdown is positioned
-                            setTimeout(() => {
-                                document.body.style.overflow = 'hidden';
-                            }, 400);
-                        }, 50);
-                    }
-                });
-                
-                // Set initial active state based on current language
-                const currentLang = document.documentElement.lang;
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === currentLang) {
-                        option.classList.add('active');
-                    }
-                    
-                    option.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const lang = option.dataset.lang;
-                        
-                        // Update all language displays across mobile and desktop
-                        document.querySelectorAll('.language-current span').forEach(span => {
-                            span.textContent = lang.toUpperCase();
-                        });
-                        
-                        // Update active states
-                        document.querySelectorAll('.language-option').forEach(opt => {
-                            opt.classList.toggle('active', opt.dataset.lang === lang);
-                        });
-                        
-                        // Close dropdown
-                        select.classList.remove('active');
-                        current.setAttribute('aria-expanded', 'false');
-                        
-                        // Update document language
-                        document.documentElement.lang = lang;
-                    });
-                });
-            }
-            
-            // Setup both desktop and mobile language selectors
-            setupLanguageSelector('.desktop-nav .language-select');
-            setupLanguageSelector('.mobile-nav .language-select');
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', (e) => {
-                document.querySelectorAll('.language-select').forEach(select => {
-                    if (!select.contains(e.target)) {
-                        select.classList.remove('active');
-                        select.querySelector('.language-current').setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
-
-            // Set initial language based on browser preference
-            const browserLang = navigator.language.split('-')[0];
-            const availableLangs = ['en', 'cz', 'de', 'fr', 'pl', 'hu'];
-            const defaultLang = availableLangs.includes(browserLang) ? browserLang : 'en';
-            
-            document.documentElement.lang = defaultLang;
-            document.querySelectorAll('.language-current span').forEach(span => {
-                span.textContent = defaultLang.toUpperCase();
-            });
-            document.querySelectorAll(`[data-lang="${defaultLang}"]`).forEach(el => {
-                el.classList.add('active');
-            });
-
-            // Service Modal Functionality
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modal = document.getElementById('service-modal');
-            const modalClose = document.getElementById('modal-close');
-            const modalImage = document.getElementById('modal-image');
-            const modalTitle = document.getElementById('modal-title');
-            const modalSubtitle = document.getElementById('modal-subtitle');
-            const modalBody = document.getElementById('modal-body');
-            
-            // Modal content data
-            const modalData = {
-                'service-01': {
-                    title: 'Print & design',
-                    subtitle: 'Professional printing and design services for various media',
-                    image: 'images/services/01.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Signs</li>
-                                <li>City lights view (CLV)</li>
-                                <li>Flags</li>
-                                <li>Honeycomb prints</li>
-                                <li>Banners</li>
-                                <li>Large format printing</li>
-                                <li>3D print</li>
-                                <li>Acrylic & plexiglass</li>
-                                <li>Expo frames</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-02': {
-                    title: 'Corporate Identities',
-                    subtitle: 'Comprehensive brand identity development and implementation',
-                    image: 'images/services/02.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Brand strategy development</li>
-                                <li>Visual identity design</li>
-                                <li>Brand guidelines creation</li>
-                                <li>Identity implementation</li>
-                                <li>Brand consistency management</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-03': {
-                    title: 'Furniture',
-                    subtitle: 'Custom furniture design and manufacturing solutions',
-                    image: 'images/services/03.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Custom furniture design</li>
-                                <li>Manufacturing and production</li>
-                                <li>Interior furnishings</li>
-                                <li>Commercial furniture</li>
-                                <li>Specialized furniture solutions</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-04': {
-                    title: 'Production',
-                    subtitle: 'Full-scale production services and project management',
-                    image: 'images/services/04.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Project management</li>
-                                <li>Production planning</li>
-                                <li>Quality control</li>
-                                <li>Timeline management</li>
-                                <li>Resource coordination</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-05': {
-                    title: 'Crafts',
-                    subtitle: 'Specialized craftsmanship including glass work and custom solutions',
-                    image: 'images/services/05.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Glass work and design</li>
-                                <li>Custom craftsmanship</li>
-                                <li>Artisanal solutions</li>
-                                <li>Specialized finishes</li>
-                                <li>Unique custom pieces</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-06': {
-                    title: 'Film Props & Decorations',
-                    subtitle: 'Custom props and set decorations for film and television',
-                    image: 'images/services/06.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Custom prop creation</li>
-                                <li>Set decoration</li>
-                                <li>Period-accurate items</li>
-                                <li>Special effects props</li>
-                                <li>Production design support</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-07': {
-                    title: 'Logistics',
-                    subtitle: 'Comprehensive logistics and transportation services',
-                    image: 'images/services/07.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Transportation management</li>
-                                <li>Warehouse solutions</li>
-                                <li>Inventory control</li>
-                                <li>Route optimization</li>
-                                <li>Delivery coordination</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                'service-08': {
-                    title: 'Documentation',
-                    subtitle: 'Professional documentation and project documentation services',
-                    image: 'images/services/08.jpg',
-                    content: `
-                        <div class="modal-section">
-                            <ul class="modal-list two-columns">
-                                <li>Project documentation</li>
-                                <li>Technical documentation</li>
-                                <li>Process documentation</li>
-                                <li>Quality documentation</li>
-                                <li>Compliance documentation</li>
-                            </ul>
-                        </div>
-                    `
-                }
-            };
-            
-            // Function to open modal
-            function openModal(modalId) {
-                const data = modalData[modalId];
-                if (!data) return;
-                
-                // Populate modal content
-                modalImage.src = data.image;
-                modalImage.alt = data.title;
-                modalTitle.textContent = data.title;
-                modalSubtitle.textContent = data.subtitle;
-                modalBody.innerHTML = data.content;
-                
-                // Show modal
-                modalOverlay.classList.add('active');
-                
-                // Prevent body scrolling
-                document.body.style.overflow = 'hidden';
-                
-                // Accessibility
-                modal.setAttribute('aria-hidden', 'false');
-                modalClose.focus();
-            }
-            
-            // Function to close modal
-            function closeModal() {
-                modalOverlay.classList.remove('active');
-                
-                // Restore body scrolling
-                document.body.style.overflow = '';
-                
-                // Accessibility
-                modal.setAttribute('aria-hidden', 'true');
-            }
-            
-            // Add click event listeners to service tiles
-            document.querySelectorAll('.service-tile[data-modal]').forEach(tile => {
-                tile.addEventListener('click', () => {
-                    const modalId = tile.getAttribute('data-modal');
-                    openModal(modalId);
-                });
-                
-                // Add keyboard accessibility
-                tile.setAttribute('tabindex', '0');
-                tile.setAttribute('role', 'button');
-                tile.setAttribute('aria-haspopup', 'dialog');
-                
-                tile.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const modalId = tile.getAttribute('data-modal');
-                        openModal(modalId);
-                    }
-                });
-            });
-            
-            // Close modal when clicking the close button
-            modalClose.addEventListener('click', closeModal);
-            
-            // Close modal when clicking outside
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
-                }
-            });
-            
-            // Close modal when pressing Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-                    closeModal();
-                }
-            });
-            
-            // Set modal to initially hidden
-            modal.setAttribute('aria-hidden', 'true');
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal functionality
-            const modalButtons = document.querySelectorAll('[data-modal]');
-            const modals = document.querySelectorAll('.modal');
-            const closeButtons = document.querySelectorAll('.close-modal');
-            
-            modalButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modalId = button.getAttribute('data-modal');
-                    const modal = document.getElementById(modalId);
-                    
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        setTimeout(() => {
-                            modal.classList.add('show');
-                        }, 10);
-                        
-                        // Prevent body scrolling when modal is open
-                        document.body.style.overflow = 'hidden';
-                    }
-                });
-            });
-            
-            closeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modal = button.closest('.modal');
-                    
-                    if (modal) {
-                        modal.classList.remove('show');
-                        setTimeout(() => {
-                            modal.style.display = 'none';
-                        }, 300);
-                        
-                        // Re-enable body scrolling
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
-            
-            // Close modal when clicking on backdrop
-            modals.forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('show');
-                        setTimeout(() => {
-                            modal.style.display = 'none';
-                        }, 300);
-                        
-                        // Re-enable body scrolling
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
-            
-            // Movie grid items animation
-            const movieItems = document.querySelectorAll('.movie-item');
-            
-            function toggleMovieImages() {
-                movieItems.forEach(item => {
-                    const images = item.querySelectorAll('img');
-                    const activeIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
-                    const nextIndex = (activeIndex + 1) % images.length;
-                    
-                    images[activeIndex].classList.remove('active');
-                    images[nextIndex].classList.add('active');
-                });
-            }
-            
-            // Change movie images every 3 seconds
-            setInterval(toggleMovieImages, 3000);
-            
-            // Project slider functionality
-            function changeSlide(index) {
-                const slides = document.querySelectorAll('.project-slide');
-                const backgrounds = document.querySelectorAll('.project-slide-bg');
-                const dots = document.querySelectorAll('.project-dot');
-                
-                // Update slides
-                slides.forEach((slide, i) => {
-                    slide.style.opacity = i === index ? '1' : '0';
-                });
-                
-                // Update backgrounds
-                backgrounds.forEach((bg, i) => {
-                    bg.style.opacity = i === index ? '1' : '0';
-                });
-                
-                // Update dots
-                dots.forEach((dot, i) => {
-                    if (i === index) {
-                        dot.classList.add('active');
-                        dot.style.opacity = '1';
-                    } else {
-                        dot.classList.remove('active');
-                        dot.style.opacity = '0.5';
-                    }
-                });
-            }
-            
-            // Assign the changeSlide function to window for access from inline onclick
-            window.changeSlide = changeSlide;
-            
-            // Auto-change slides every 5 seconds
-            let currentSlide = 0;
-            const totalSlides = document.querySelectorAll('.project-slide').length;
-            
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                changeSlide(currentSlide);
-            }, 5000);
-        });
-    </script>
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
 </body>
 </html>
-

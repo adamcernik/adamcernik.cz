@@ -1,0 +1,195 @@
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tile {
+    background: var(--dark-tile);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    border: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.tile:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+               0 16px 48px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.tile.gradient {
+    background: var(--gradient-tile);
+}
+
+.tile.light {
+    background: var(--light-tile);
+}
+
+/* Tile sizes */
+.big {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.rect {
+    grid-column: span 2;
+    min-height: 250px;
+}
+
+/* Content styles */
+.full-image {
+    padding: 0;
+    min-height: 300px;
+}
+
+.big.full-image {
+    min-height: 500px;
+}
+
+.full-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    transition: none;
+}
+
+.content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, 
+        rgba(26, 42, 58, 1) 0%,
+        rgba(26, 42, 58, 0.98) 20%,
+        rgba(26, 42, 58, 0.95) 40%,
+        rgba(26, 42, 58, 0.85) 70%,
+        rgba(26, 42, 58, 0) 100%
+    );
+    padding: 3.5rem 3rem 3rem;
+    color: var(--text-color);
+}
+
+.content-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(212, 175, 55, 0.08) 0%,
+        rgba(26, 42, 58, 0.08) 100%
+    );
+    pointer-events: none;
+}
+
+.content-overlay .headline {
+    position: relative;
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+    background: none;
+    -webkit-text-fill-color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-overlay .text {
+    position: relative;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 90%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .tile {
+        min-height: 220px;
+    }
+
+    .full-image {
+        min-height: 350px;
+    }
+
+    .big.full-image {
+        min-height: 400px;
+    }
+
+    .content-overlay {
+        padding: 2.5rem 2rem 2rem;
+    }
+    
+    .content-overlay .headline {
+        font-size: 1.75rem;
+    }
+
+    .content-overlay .text {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+    /* Fix for the breakpoint between 640px and 768px */
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    /* Adjust tile sizes for this specific breakpoint */
+    .big {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 300px;
+    }
+    
+    .rect {
+        grid-column: span 2;
+        min-height: 220px;
+    }
+    
+    .big.full-image {
+        min-height: 350px;
+    }
+    
+    /* Fix for any specific problematic tiles */
+    .tile.quote-tile,
+    .tile.service-tile,
+    .tile[style*="background-color: #1A1A1A"] {
+        min-height: 200px;
+        grid-column: span 1;
+    }
+    
+    /* Contact form and other large tiles */
+    .tile.big.gradient[style*="min-height: 600px"] {
+        grid-column: span 2;
+        min-height: 500px;
+    }
+    
+    /* Ensure proper layout for the resource tile */
+    .resources-tile {
+        grid-column: span 2;
+    }
+    
+    /* Fix for any overflowing content */
+    .tile {
+        overflow: hidden;
+    }
+} 

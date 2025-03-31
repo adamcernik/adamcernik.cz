@@ -63,8 +63,10 @@
             letter-spacing: 0.01em;
             margin-bottom: 1rem;
             background: linear-gradient(90deg, var(--heading-color), #B8B8B8);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
             line-height: 1.3;
         }
 
@@ -74,6 +76,25 @@
             gap: 1.5rem;
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        /* Add scroll margin to target elements */
+        #who-we-are, #service-01, #movie-grid, #lukas-contact {
+            scroll-margin-top: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            /* Adjust scroll margin for medium screens */
+            #who-we-are, #service-01, #movie-grid, #lukas-contact {
+                scroll-margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Adjust scroll margin for small screens */
+            #who-we-are, #service-01, #movie-grid, #lukas-contact {
+                scroll-margin-top: 40px;
+            }
         }
 
         .tile {
@@ -202,15 +223,18 @@
             left: 0;
             right: 0;
             background: linear-gradient(to top, 
-                rgba(26, 42, 58, 0.95) 0%,
-                rgba(26, 42, 58, 0.85) 20%,
-                rgba(26, 42, 58, 0.7) 40%,
-                rgba(26, 42, 58, 0.4) 70%,
+                rgba(26, 42, 58, 1) 0%,
+                rgba(26, 42, 58, 0.98) 20%,
+                rgba(26, 42, 58, 0.95) 40%,
+                rgba(26, 42, 58, 0.85) 70%,
                 rgba(26, 42, 58, 0) 100%
             );
             padding: 3.5rem 3rem 3rem;
             color: var(--text-color);
-            transition: all 0.4s ease;
+        }
+
+        .tile:hover .content-overlay {
+            transform: none;
         }
 
         .content-overlay::before {
@@ -243,17 +267,6 @@
             color: rgba(255, 255, 255, 0.95);
             max-width: 90%;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .tile:hover .content-overlay {
-            transform: none;
-            background: linear-gradient(to top, 
-                rgba(26, 42, 58, 0.98) 0%,
-                rgba(26, 42, 58, 0.88) 20%,
-                rgba(26, 42, 58, 0.75) 40%,
-                rgba(26, 42, 58, 0.45) 70%,
-                rgba(26, 42, 58, 0) 100%
-            );
         }
 
         /* Adjust tile heights for content */
@@ -344,6 +357,8 @@
             
             .mobile-nav.active {
                 display: flex;
+                max-height: 100vh;
+                overflow-y: auto;
             }
 
             .header-content {
@@ -509,6 +524,11 @@
             .logo {
                 height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
                 width: auto;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
 
@@ -879,38 +899,50 @@
             background: var(--dark-bg);
             z-index: 1001;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            gap: 2rem;
-            padding: 2rem;
+            padding: 1rem;
+            padding-top: 0.5rem;
             text-align: center;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        
+        .mobile-nav-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-top: 0.5rem;
         }
 
         .mobile-menu {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 0.75rem;
             align-items: center;
             width: 100%;
             max-width: 300px;
-            padding: 0;
+            padding: 0.5rem 0;
             background: transparent;
             border-radius: 0;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
             border: none;
+            margin-top: 1rem;
+            overflow-y: auto;
         }
 
         .mobile-menu a {
             font-family: var(--heading-font);
             font-weight: 500;
-            font-size: 2rem;
+            font-size: 1.5rem;
             letter-spacing: 0.02em;
             color: var(--text-color);
             text-decoration: none;
             transition: color 0.3s ease;
             width: 100%;
-            padding: 0.75rem 0;
+            padding: 0.5rem 0;
             text-align: center;
         }
 
@@ -948,6 +980,8 @@
             
             .mobile-nav.active {
                 display: flex;
+                max-height: 100vh;
+                overflow-y: auto;
             }
         }
 
@@ -958,11 +992,31 @@
             
             .mobile-menu {
                 max-width: 260px;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
             }
             
             .mobile-menu a {
-                font-size: 1.5rem;
-                padding: 0.5rem 0;
+                font-size: 1.3rem;
+                padding: 0.4rem 0;
+            }
+            
+            .mobile-nav {
+                padding: 1rem 1rem 1.5rem;
+            }
+            
+            .mobile-nav-content {
+                padding-top: 0;
+            }
+            
+            .mobile-nav .language-select {
+                position: relative;
+                margin-bottom: 0.5rem;
+            }
+            
+            .mobile-nav .language-current {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.5rem;
             }
             
             /* Removing duplicate/conflicting language select styles */
@@ -1092,8 +1146,10 @@
             color: var(--text-color);
             z-index: 2;
             background: linear-gradient(90deg, var(--accent-gold), #e5c14c);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
         }
 
         .map-description {
@@ -1385,38 +1441,50 @@
             background: var(--dark-bg);
             z-index: 1001;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            gap: 2rem;
-            padding: 2rem;
+            padding: 1rem;
+            padding-top: 0.5rem;
             text-align: center;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        
+        .mobile-nav-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-top: 0.5rem;
         }
 
         .mobile-menu {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 0.75rem;
             align-items: center;
             width: 100%;
             max-width: 300px;
-            padding: 0;
+            padding: 0.5rem 0;
             background: transparent;
             border-radius: 0;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
             border: none;
+            margin-top: 1rem;
+            overflow-y: auto;
         }
 
         .mobile-menu a {
             font-family: var(--heading-font);
             font-weight: 500;
-            font-size: 2rem;
+            font-size: 1.5rem;
             letter-spacing: 0.02em;
             color: var(--text-color);
             text-decoration: none;
             transition: color 0.3s ease;
             width: 100%;
-            padding: 0.75rem 0;
+            padding: 0.5rem 0;
             text-align: center;
         }
 
@@ -1617,17 +1685,8 @@
         }
 
         .modal-header-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top,
-                rgba(26, 42, 58, 0.95) 0%,
-                rgba(26, 42, 58, 0.85) 40%,
-                rgba(26, 42, 58, 0.5) 70%,
-                rgba(26, 42, 58, 0) 100%
-            );
+            padding: 1.5rem 2rem;
+            background-color: var(--dark-tile);
         }
 
         .modal-title {
@@ -1655,41 +1714,71 @@
             margin-bottom: 2rem;
         }
 
-        .modal-section-title {
-            font-size: 1.25rem;
+        /* New content structure */
+        .modal-heading {
+            font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--accent-gold);
+            color: var(--heading-color);
         }
 
-        .modal-text {
-            font-family: var(--body-font);
-            font-weight: 300;
-            line-height: 1.7;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
+        .modal-description {
+            font-size: 1.1rem;
+            font-weight: 500;
             margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            line-height: 1.5;
         }
 
+        /* List styles for modals */
         .modal-list {
             list-style: none;
             padding: 0;
             margin: 0 0 1.5rem 0;
+            width: 100%;
         }
 
         .modal-list li {
             position: relative;
             padding-left: 1.5rem;
             margin-bottom: 0.75rem;
+            margin-right: 0;
             color: rgba(255, 255, 255, 0.9);
+            break-inside: avoid; /* Prevent items from breaking across columns */
+            display: block;
+            width: 100%;
         }
 
         .modal-list li::before {
-            content: '•';
+            content: '';
             position: absolute;
             left: 0;
-            color: var(--accent-gold);
-            font-size: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+        }
+        
+        /* Two-column list style */
+        .modal-list.two-columns {
+            column-count: 2;
+            column-gap: 3rem;
+            column-fill: balance; /* Ensures columns are balanced */
+            column-width: calc((100% - 3rem) / 2); /* Ensure equal width columns */
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        /* Single column on mobile */
+        @media (max-width: 640px) {
+            .modal-list.two-columns {
+                column-count: 1;
+            }
         }
 
         /* Mobile adjustments for modal */
@@ -1701,6 +1790,10 @@
             
             .modal-header {
                 height: 160px;
+            }
+            
+            .modal-header-content {
+                padding: 1.25rem 1.5rem;
             }
             
             .modal-title {
@@ -1715,11 +1808,15 @@
                 padding: 1.5rem;
             }
             
-            .modal-section-title {
-                font-size: 1.1rem;
+            .modal-section {
+                margin-bottom: 1.5rem;
             }
             
-            .modal-text {
+            .modal-heading {
+                font-size: 1.3rem;
+            }
+            
+            .modal-description {
                 font-size: 0.95rem;
             }
         }
@@ -1922,21 +2019,103 @@
                 rgba(160, 80, 10, 0.78) 100%
             );
         }
+
+        .service-list li::before {
+            content: '•';
+            position: absolute;
+            left: -1rem;
+            top: 0.1rem;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        @media (min-width: 641px) and (max-width: 768px) {
+            /* Fix for the breakpoint between 640px and 768px */
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            /* Adjust tile sizes for this specific breakpoint */
+            .big {
+                grid-column: span 2;
+                grid-row: span 1;
+                min-height: 300px;
+            }
+            
+            .rect {
+                grid-column: span 2;
+                min-height: 220px;
+            }
+            
+            .big.full-image {
+                min-height: 350px;
+            }
+            
+            /* Adjust movie grid for this breakpoint */
+            #movie-grid {
+                min-height: 400px;
+            }
+            
+            .movie-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+            
+            /* Fix for any specific problematic tiles */
+            .tile.quote-tile,
+            .tile.service-tile,
+            .tile[style*="background-color: #1A1A1A"] {
+                min-height: 200px;
+                grid-column: span 1;
+            }
+            
+            /* Contact form and other large tiles */
+            .tile.big.gradient[style*="min-height: 600px"] {
+                grid-column: span 2;
+                min-height: 500px;
+            }
+            
+            /* Ensure proper layout for the resource tile */
+            .resources-tile {
+                grid-column: span 2;
+            }
+            
+            /* Fix for any overflowing content */
+            .tile {
+                overflow: hidden;
+            }
+        }
+
+        /* Mobile menu open state */
+        html.mobile-menu-open {
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        html.mobile-menu-open body {
+            overflow: hidden;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <header class="header" role="banner">
         <div class="header-content">
-            <img src="images/wanted-logo.png" alt="WANTED Logo" class="logo" width="96" height="96">
+            <div style="display: flex; align-items: center;">
+                <img src="images/wanted-logo2.png" alt="WANTED Logo" class="logo" width="96" height="96">
+                <span style="font-family: var(--heading-font); font-size: 2rem; font-weight: 700; color: var(--heading-color); margin-left: 1rem;">WANTED</span>
+            </div>
             
             <!-- Desktop Navigation -->
             <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
                 <div class="desktop-menu">
-                    <a href="#about">About Us</a>
-                    <a href="#services">Services</a>
-                    <a href="#production">Production</a>
+                    <a href="#who-we-are">About Us</a>
+                    <a href="#service-01">Services</a>
+                    <a href="#movie-grid">Production</a>
                     <a href="#history">History</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#lukas-contact">Contact</a>
                     <div class="language-select">
                         <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
                             <span>EN</span>
@@ -2019,11 +2198,11 @@
                         </div>
                     </div>
                     <div class="mobile-menu">
-                        <a href="#about">About Us</a>
-                        <a href="#services">Services</a>
-                        <a href="#production">Production</a>
+                        <a href="#who-we-are">About Us</a>
+                        <a href="#service-01">Services</a>
+                        <a href="#movie-grid">Production</a>
                         <a href="#history">History</a>
-                        <a href="#contact">Contact</a>
+                        <a href="#lukas-contact">Contact</a>
                     </div>
                 </div>
             </div>
@@ -2032,39 +2211,74 @@
 
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
-        <div class="tile big full-image">
-            <img src="images/wanted-map.jpg" alt="WANTED Map">
+        <div id="who-we-are" class="tile big full-image">
+            <img src="images/wip.jpg" alt="WANTED Office">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
                 <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
             </div>
         </div>
 
-
         <!-- Prague tile with labels -->
         <div class="tile gradient" style="background-image: url('images/about/onas.jpg'); background-size: cover; background-position: center; position: relative;">
             <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.6) 100%); z-index: 1;"></div>
-            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem;">
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Film</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Dekorace</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Rekvizity</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Eventy</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Interiéry</li>
-                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Výstavy</li>
+            <h2 class="headline" style="position: relative; z-index: 2; margin-bottom: 1rem;">What We Do</h2>
+            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem; column-count: 2; column-gap: 1rem;">
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Film</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Decorations</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Props</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Events</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Interiors</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500; position: relative;">Exhibitions</li>
             </ul>
         </div>
 
-        <!-- Top Project tile -->
-        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
-            <h2 class="headline" style="-webkit-text-fill-color: var(--primary); background: none; font-size: 1.7rem;">Top Project</h2>
-            <p class="text" style="color: var(--primary); font-weight: 500;">The Wheel of Time (Amazon)</p>
-            <div style="margin-top: auto; display: flex; justify-content: flex-end;">
-                <a href="#" class="show-more-btn" style="color: var(--primary); margin-top: 0.5rem;">
-                    <span>View Project</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </a>
+        <!-- New Slider Tile -->
+        <div class="tile" style="position: relative; overflow: hidden; border-radius: 1.25rem; padding: 0;">
+            <!-- Background image that covers the entire tile -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; background-image: url('images/tiles/wanted-map2.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
+                <div class="project-slide-bg" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease; background-image: url('images/tiles/renault-r.jpg'); background-size: cover; background-position: center; border-radius: inherit;"></div>
+            </div>
+            
+            <div class="project-slider-container" style="position: relative; width: 100%; height: 100%; z-index: 1;">
+                <!-- Slides container -->
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <!-- First slide content -->
+                    <div class="project-slide" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 1; transition: opacity 0.5s ease; overflow: hidden; border-radius: inherit;">
+                        <!-- Dark overlay with gradient centered in the tile -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; border-radius: inherit;">
+                            <p style="margin: 0 0 0.5rem 0; padding: 0 2rem; color: #FFFFFF; font-size: 1.2rem; font-weight: 500; line-height: 1.4; width: 100%; text-align: center;">In Progress</p>
+                            <h2 style="margin: 0; padding: 0 2rem; color: #FFFFFF; font-size: 2.2rem; font-weight: 600; width: 100%; text-align: center; line-height: 1.1;">Dacia NVI Project</h2>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1rem; padding: 0 2rem;">
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">CZ</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">SK</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">HU</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">PL</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">EST</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">LV</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">LT</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">SWE</span>
+                                <span style="background: transparent; color: #FFFFFF; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.3);">DK</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Second slide content -->
+                    <div class="project-slide" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease; overflow: hidden; border-radius: inherit;">
+                        <!-- Dark overlay with gradient centered in the tile -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.85) 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; border-radius: inherit;">
+                            <p style="margin: 0 0 0.5rem 0; padding: 0 2rem; color: #FFFFFF; font-size: 1.2rem; font-weight: 500; line-height: 1.4; width: 100%; text-align: center;">Coming Soon</p>
+                            <h2 style="margin: 0; padding: 0 2rem; color: #FFFFFF; font-size: 2.2rem; font-weight: 600; width: 100%; text-align: center; line-height: 1.1;">Renault<br>new'R store</h2>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation dots -->
+                <div class="project-dots" style="position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.75rem; z-index: 10;">
+                    <button class="project-dot active" style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; border: none; padding: 0; cursor: pointer; opacity: 1; transition: opacity 0.3s ease; box-shadow: 0 0 4px rgba(0,0,0,0.3);" aria-label="Go to slide 1"></button>
+                    <button class="project-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; border: none; padding: 0; cursor: pointer; opacity: 0.7; transition: opacity 0.3s ease; box-shadow: 0 0 4px rgba(0,0,0,0.3);" aria-label="Go to slide 2"></button>
+                </div>
             </div>
         </div>
 
@@ -2086,7 +2300,7 @@
         </div>
 
         <!-- Service tiles -->
-        <div class="tile service-tile service-01" data-modal="service-01">
+        <div id="service-01" class="tile service-tile service-01" data-modal="service-01">
             <img src="images/services/01.jpg" alt="Print & Design">
             <div class="service-content">
                 <div class="service-number">01</div>
@@ -2135,7 +2349,7 @@
             <img src="images/services/06.jpg" alt="Film Props & Decorations">
             <div class="service-content">
                 <div class="service-number">06</div>
-                <h2 class="service-title">Film Props & Decorations</h2>
+                <h2 class="service-title">Film Props & Deco</h2>
                 <p class="text">Custom props and set decorations for film and television</p>
             </div>
         </div>
@@ -2161,7 +2375,7 @@
         </div>
 
         <!-- Center big tile with movie grid -->
-        <div class="tile big gradient">
+        <div id="movie-grid" class="tile big gradient">
             <div class="movie-grid">
                 <div class="movie-item">
                     <img src="images/movies/wheeloftime.jpg" alt="Wheel of Time" class="active">
@@ -2260,55 +2474,76 @@
             </div>
         </div>
 
-        <!-- Placeholder tile -->
-        <div class="tile">
-            <h2 class="headline">Coming Soon</h2>
-            <p class="text">Content to be added</p>
+        <!-- Renault Group tile -->
+        <div class="tile" style="position: relative; padding: 2rem; overflow: hidden; border-radius: 1.25rem; background-color: #1A1A1A; display: flex; flex-direction: column; justify-content: flex-start; min-height: 350px;">
+            <!-- Renault Group Logo -->
+            <div>
+                <img src="images/tiles/renault-group-text.png" alt="Renault Group" style="width: 70%; max-width: 180px; height: auto;">
+            </div>
+            
+            <!-- Approved Supplier Text -->
+            <div style="margin-top: 1.5rem;">
+                <p style="color: white; font-size: 2rem; font-weight: 300; margin: 0; font-family: sans-serif; letter-spacing: -0.03em;">approved supplier</p>
+            </div>
+            
+            <!-- Document Image at Bottom -->
+            <div style="position: absolute; bottom: -20px; left: -10px; right: -10px; width: calc(100% + 20px); overflow: hidden;">
+                <img src="images/tiles/renault-group-paper.png" alt="Renault Group Document" style="width: 100%; transform: rotate(8deg) translateY(0); transform-origin: bottom left;">
+            </div>
         </div>
 
         <!-- Contact Person Tile - Lukas -->
-        <div class="tile light">
-            <h2 class="headline">Lukas Katakalidis</h2>
+        <div id="lukas-contact" class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
+            <h2 class="headline" style="font-size: 1.6rem; -webkit-text-fill-color: var(--primary); background: none;">Lukas Katakalidis</h2>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="tel:+420777123456" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <a href="tel:+420606042031" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
-                    +420 777 123 456
+                    +420 606 042 031
                 </a>
-                <a href="mailto:lukas@wanted.cz" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <a href="mailto:lukas@wanted-sfo.cz" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
-                    lukas@wanted.cz
+                    lukas@wanted-sfo.cz
                 </a>
             </div>
         </div>
 
         <!-- Contact Person Tile - Pepi -->
-        <div class="tile light">
-            <h2 class="headline">Pepi Borik</h2>
+        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
+            <h2 class="headline" style="font-size: 1.6rem; -webkit-text-fill-color: var(--primary); background: none;">Pepi Borik</h2>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <a href="tel:+420777654321" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <a href="tel:+420606042035" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
-                    +420 777 654 321
+                    +420 606 042 035
                 </a>
-                <a href="mailto:pepi@wanted.cz" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <a href="mailto:pepi@wanted-sfo.cz" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
-                    pepi@wanted.cz
+                    pepi@wanted-sfo.cz
                 </a>
             </div>
         </div>
 
         <!-- Contact Form Tile -->
         <div class="tile big gradient" style="transform: none; transition: none; min-height: 600px;">
-            <h2 class="headline">Contact Us</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="headline" style="margin-bottom: 0;">Contact Us</h2>
+                <a href="mailto:info@wanted-sfo.cz" style="color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    info@wanted-sfo.cz
+                </a>
+            </div>
             <form class="contact-form" action="#" method="POST">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="Your Name" required>
@@ -2323,13 +2558,36 @@
                     <textarea name="message" placeholder="Your Message" required></textarea>
                 </div>
                 <button type="submit" class="submit-btn" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">Send Message</button>
+                <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); margin-top: 0.75rem; line-height: 1.4;">By submitting this form, you agree to the processing of your personal data in accordance with GDPR. Your data will be used solely for communication purposes and will not be shared with third parties.</p>
             </form>
         </div>
 
+        <!-- Company Contact Tile -->
+        <div class="tile light">
+            <h2 class="headline" style="font-size: 1.4rem; margin-bottom: 0.75rem;">WANTED s.f.o.</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <p style="color: var(--text-color); font-weight: 500; font-size: 0.9rem;">Zásadská 569/3</p>
+                    <p style="color: var(--text-color); font-size: 0.9rem;">190 00 Praha 9</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <p style="color: var(--text-color); font-size: 0.9rem;"><span style="font-weight: 500;">IČO:</span> 71382186, 74241486</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <p style="color: var(--text-color); font-size: 0.9rem;"><span style="font-weight: 500;">DIČ:</span> CZ8211270144, CZ7907132475</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
+                    <p style="color: var(--text-color); font-weight: 700; font-size: 0.9rem;"> Office / Warehouse</p>
+                    <p style="color: var(--text-color); font-size: 0.9rem;">Stoliňská 4</p>
+                    <p style="color: var(--text-color); font-size: 0.9rem;">190 00 Praha 9</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Map Tile -->
-        <div class="tile rect" style="padding: 0; overflow: hidden;">
+        <div class="tile" style="padding: 0; overflow: hidden;">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.9769175847974!2d14.4196673!3d50.0784167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94e8cf28b0d9%3A0x2600d91d3c54840!2sPrague%2C%20Czechia!5e0!3m2!1sen!2sus!4v1647359234221!5m2!1sen!2sus" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.9999999999995!2d14.499999999999999!3d50.099999999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94e8cf28b0d9%3A0x2600d91d3c54840!2sStoli%C5%88sk%C3%A1%204%2C%20190%2000%20Praha%209!5e0!3m2!1scs!2scz!4v1647359234221!5m2!1scs!2scz" 
                 width="100%" 
                 height="100%" 
                 style="border:0;" 
@@ -2351,10 +2609,10 @@
             </button>
             <div class="modal-header">
                 <img src="" alt="" id="modal-image">
-                <div class="modal-header-content">
-                    <h2 class="modal-title" id="modal-title"></h2>
-                    <div class="modal-subtitle" id="modal-subtitle"></div>
-                </div>
+            </div>
+            <div class="modal-header-content">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <div class="modal-subtitle" id="modal-subtitle"></div>
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- Modal content will be dynamically populated -->
@@ -2398,6 +2656,156 @@
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
             fadeMovies();
+            
+            // Carousel functionality
+            const carouselContainer = document.querySelector('.carousel-container');
+            const dots = document.querySelectorAll('.carousel-dots .dot');
+            let currentSlide = 0;
+            let slideInterval;
+
+            if (carouselContainer) {
+                function goToSlide(index) {
+                    currentSlide = index;
+                    carouselContainer.style.transform = `translateX(-${index * 50}%)`;
+                    dots.forEach((dot, i) => {
+                        dot.style.opacity = i === index ? '1' : '0.5';
+                    });
+                }
+
+                function nextSlide() {
+                    goToSlide((currentSlide + 1) % 2);
+                }
+
+                function startSlideShow() {
+                    slideInterval = setInterval(nextSlide, 8000);
+                }
+
+                function stopSlideShow() {
+                    clearInterval(slideInterval);
+                }
+
+                // Add click handlers to dots
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        stopSlideShow();
+                        goToSlide(index);
+                        startSlideShow();
+                    });
+                });
+
+                // Start the slideshow
+                startSlideShow();
+
+                // Pause on hover
+                carouselContainer.addEventListener('mouseenter', stopSlideShow);
+                carouselContainer.addEventListener('mouseleave', startSlideShow);
+            }
+            
+            // Project slider functionality
+            const projectSlides = document.querySelectorAll('.project-slide');
+            const projectDots = document.querySelectorAll('.project-dot');
+            const projectBackgrounds = document.querySelectorAll('.project-slide-bg');
+            let currentProjectSlide = 0;
+            let projectSlideInterval;
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            function goToProjectSlide(index) {
+                // Hide all slides with smooth transition
+                projectSlides.forEach(slide => {
+                    slide.style.transition = 'opacity 0.8s ease-in-out';
+                    slide.style.opacity = '0';
+                });
+                
+                // Show selected slide
+                projectSlides[index].style.opacity = '1';
+                
+                // Hide all backgrounds with smooth transition
+                projectBackgrounds.forEach(bg => {
+                    bg.style.transition = 'opacity 0.8s ease-in-out';
+                    bg.style.opacity = '0';
+                });
+                
+                // Show selected background
+                projectBackgrounds[index].style.opacity = '1';
+                
+                // Update dots
+                projectDots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                        dot.style.opacity = '1';
+                    } else {
+                        dot.classList.remove('active');
+                        dot.style.opacity = '0.7';
+                    }
+                });
+                
+                currentProjectSlide = index;
+            }
+
+            function nextProjectSlide() {
+                goToProjectSlide((currentProjectSlide + 1) % projectSlides.length);
+            }
+
+            function prevProjectSlide() {
+                goToProjectSlide((currentProjectSlide - 1 + projectSlides.length) % projectSlides.length);
+            }
+
+            function startProjectSlideShow() {
+                stopProjectSlideShow();
+                projectSlideInterval = setInterval(nextProjectSlide, 8000);
+            }
+
+            function stopProjectSlideShow() {
+                clearInterval(projectSlideInterval);
+            }
+
+            // Add click handlers to project dots
+            projectDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    stopProjectSlideShow();
+                    goToProjectSlide(index);
+                    startProjectSlideShow();
+                });
+            });
+
+            // Add swipe functionality for mobile
+            const projectSliderContainer = document.querySelector('.project-slider-container');
+            if (projectSliderContainer) {
+                // Touch start event
+                projectSliderContainer.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, {passive: true});
+                
+                // Touch end event
+                projectSliderContainer.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                }, {passive: true});
+                
+                // Handle the swipe
+                function handleSwipe() {
+                    const swipeThreshold = 50; // Minimum swipe distance in pixels
+                    if (touchEndX < touchStartX - swipeThreshold) {
+                        // Swipe left, go to next slide
+                        stopProjectSlideShow();
+                        nextProjectSlide();
+                        startProjectSlideShow();
+                    } else if (touchEndX > touchStartX + swipeThreshold) {
+                        // Swipe right, go to previous slide
+                        stopProjectSlideShow();
+                        prevProjectSlide();
+                        startProjectSlideShow();
+                    }
+                }
+                
+                // Pause on hover (desktop only)
+                projectSliderContainer.addEventListener('mouseenter', stopProjectSlideShow);
+                projectSliderContainer.addEventListener('mouseleave', startProjectSlideShow);
+            }
+            
+            // Start the project slideshow
+            startProjectSlideShow();
             
             // Navigation elements
             const header = document.querySelector('.header');
@@ -2453,12 +2861,16 @@
                 mobileToggle.setAttribute('aria-expanded', show);
                 
                 if (show) {
-                    // Prevent body scrolling when menu is open
-                    document.body.style.overflow = 'hidden';
+                    // Don't completely prevent body scrolling, 
+                    // only prevent background content scrolling
+                    document.body.style.overflow = '';
+                    // Add a class to html/body to indicate menu open state
+                    document.documentElement.classList.add('mobile-menu-open');
                     header.classList.remove('hidden');
                 } else {
                     // Restore body scrolling
                     document.body.style.overflow = '';
+                    document.documentElement.classList.remove('mobile-menu-open');
                 }
             }
 
@@ -2615,20 +3027,21 @@
             // Modal content data
             const modalData = {
                 'service-01': {
-                    title: 'Print & Design',
+                    title: 'Print & design',
                     subtitle: 'Professional printing and design services for various media',
                     image: 'images/services/01.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">Our printing and design services provide comprehensive solutions for various media needs, ensuring high-quality output and professional presentation.</p>
-                            
-                            <ul class="modal-list">
-                                <li>Digital and offset printing</li>
-                                <li>Graphic design and layout</li>
-                                <li>Brand materials and collateral</li>
+                            <ul class="modal-list two-columns">
+                                <li>Signs</li>
+                                <li>City lights view (CLV)</li>
+                                <li>Flags</li>
+                                <li>Honeycomb prints</li>
+                                <li>Banners</li>
                                 <li>Large format printing</li>
-                                <li>Custom packaging design</li>
+                                <li>3D print</li>
+                                <li>Acrylic & plexiglass</li>
+                                <li>Expo frames</li>
                             </ul>
                         </div>
                     `
@@ -2639,10 +3052,7 @@
                     image: 'images/services/02.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">We help businesses develop and implement strong, cohesive brand identities that resonate with their target audience.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Brand strategy development</li>
                                 <li>Visual identity design</li>
                                 <li>Brand guidelines creation</li>
@@ -2658,10 +3068,7 @@
                     image: 'images/services/03.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">Our furniture services provide custom solutions for both commercial and residential spaces, combining functionality with aesthetic appeal.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Custom furniture design</li>
                                 <li>Manufacturing and production</li>
                                 <li>Interior furnishings</li>
@@ -2677,10 +3084,7 @@
                     image: 'images/services/04.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">We provide comprehensive production services, managing projects from conception to completion with precision and expertise.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Project management</li>
                                 <li>Production planning</li>
                                 <li>Quality control</li>
@@ -2696,10 +3100,7 @@
                     image: 'images/services/05.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">Our crafts services combine traditional techniques with modern innovation, offering specialized solutions including glass work and custom craftsmanship.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Glass work and design</li>
                                 <li>Custom craftsmanship</li>
                                 <li>Artisanal solutions</li>
@@ -2715,10 +3116,7 @@
                     image: 'images/services/06.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">We create authentic and detailed props and set decorations that bring film and television productions to life.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Custom prop creation</li>
                                 <li>Set decoration</li>
                                 <li>Period-accurate items</li>
@@ -2734,10 +3132,7 @@
                     image: 'images/services/07.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">Our logistics services ensure smooth transportation and delivery of goods and materials for various projects.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Transportation management</li>
                                 <li>Warehouse solutions</li>
                                 <li>Inventory control</li>
@@ -2753,10 +3148,7 @@
                     image: 'images/services/08.jpg',
                     content: `
                         <div class="modal-section">
-                            <h3 class="modal-section-title">What We Offer</h3>
-                            <p class="modal-text">We provide comprehensive documentation services to ensure proper record-keeping and project tracking.</p>
-                            
-                            <ul class="modal-list">
+                            <ul class="modal-list two-columns">
                                 <li>Project documentation</li>
                                 <li>Technical documentation</li>
                                 <li>Process documentation</li>
@@ -2842,6 +3234,118 @@
             
             // Set modal to initially hidden
             modal.setAttribute('aria-hidden', 'true');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modalButtons = document.querySelectorAll('[data-modal]');
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            modalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modalId = button.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        setTimeout(() => {
+                            modal.classList.add('show');
+                        }, 10);
+                        
+                        // Prevent body scrolling when modal is open
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.modal');
+                    
+                    if (modal) {
+                        modal.classList.remove('show');
+                        setTimeout(() => {
+                            modal.style.display = 'none';
+                        }, 300);
+                        
+                        // Re-enable body scrolling
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+            
+            // Close modal when clicking on backdrop
+            modals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                        setTimeout(() => {
+                            modal.style.display = 'none';
+                        }, 300);
+                        
+                        // Re-enable body scrolling
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+            
+            // Movie grid items animation
+            const movieItems = document.querySelectorAll('.movie-item');
+            
+            function toggleMovieImages() {
+                movieItems.forEach(item => {
+                    const images = item.querySelectorAll('img');
+                    const activeIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+                    const nextIndex = (activeIndex + 1) % images.length;
+                    
+                    images[activeIndex].classList.remove('active');
+                    images[nextIndex].classList.add('active');
+                });
+            }
+            
+            // Change movie images every 3 seconds
+            setInterval(toggleMovieImages, 3000);
+            
+            // Project slider functionality
+            function changeSlide(index) {
+                const slides = document.querySelectorAll('.project-slide');
+                const backgrounds = document.querySelectorAll('.project-slide-bg');
+                const dots = document.querySelectorAll('.project-dot');
+                
+                // Update slides
+                slides.forEach((slide, i) => {
+                    slide.style.opacity = i === index ? '1' : '0';
+                });
+                
+                // Update backgrounds
+                backgrounds.forEach((bg, i) => {
+                    bg.style.opacity = i === index ? '1' : '0';
+                });
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                        dot.style.opacity = '1';
+                    } else {
+                        dot.classList.remove('active');
+                        dot.style.opacity = '0.5';
+                    }
+                });
+            }
+            
+            // Assign the changeSlide function to window for access from inline onclick
+            window.changeSlide = changeSlide;
+            
+            // Auto-change slides every 5 seconds
+            let currentSlide = 0;
+            const totalSlides = document.querySelectorAll('.project-slide').length;
+            
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                changeSlide(currentSlide);
+            }, 5000);
         });
     </script>
 </body>

@@ -5,23 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="WANTED s.f.o. - Film Production Support and Services">
     <title>WANTED - Film Production Support</title>
-    <link rel="stylesheet" href="mobile-style-fix.css">
+    <!-- Import cinematic fonts to complement dark theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1A2A3A;
-            --secondary: #9D2235;
-            --accent-gold: #D4AF37;
-            --accent-slate: #607D8B;
+            /* Dark Color Scheme */
+            --primary: #0F1521; /* Dark Midnight */
+            --secondary: #7D0F1E; /* Deep Crimson */
+            --accent-gold: #B8860B; /* Dark Gold */
+            --accent-slate: #455A64; /* Deep Slate */
+            --dark-bg: #1E1E1E; /* Dark Grey */
+            --dark-tile: #262626; /* Slightly lighter than background */
+            --border-color: #333333; /* Dividers & subtle elements */
+            --text-color: #E0E0E0; /* Light grey for body text */
+            --heading-color: #FFFFFF; /* White for headings */
+            
+            /* Font variables */
+            --heading-font: 'Montserrat', sans-serif;
+            --body-font: 'Raleway', sans-serif;
+            
+            /* Keep other values unchanged */
             --background: #F5F5F7;
-            --dark-bg: var(--primary);
-            --dark-tile: #233446;
             --light-tile: #2c4054;
-            --border-color: rgba(212, 175, 55, 0.1);
-            --text-color: #ffffff;
             --gradient-dark: linear-gradient(to bottom, #111922 0%, #1a2735 100%);
             --gradient-tile: linear-gradient(135deg, var(--primary) 0%, #233446 100%);
-            --gradient-accent: linear-gradient(135deg, var(--secondary) 0%, #b42840 100%);
-            --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);
+            --gradient-gold: linear-gradient(90deg, var(--accent-gold), #e5c14c);
         }
 
         * {
@@ -31,9 +41,9 @@
         }
 
         body {
+            font-family: var(--body-font);
             background: var(--gradient-dark);
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
             min-height: 100vh;
             padding: 2rem;
             background-image: 
@@ -41,6 +51,21 @@
                 radial-gradient(circle at 0% 50%, rgba(26, 42, 58, 0.1), transparent 50%),
                 var(--gradient-dark);
             padding-top: 9rem;
+            font-weight: 300;
+            line-height: 1.7;
+            letter-spacing: 0.015em;
+        }
+
+        .headline {
+            font-family: var(--heading-font);
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--heading-color), #B8B8B8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
         }
 
         .bento-grid {
@@ -114,27 +139,21 @@
             height: 100%;
             object-fit: cover;
             border-radius: 1.25rem;
-            transition: transform 0.4s ease;
+            transition: none;
         }
 
         .full-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .headline {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.3;
+            transform: none;
         }
 
         .text {
+            font-family: var(--body-font);
+            font-weight: 300;
             font-size: 1rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            letter-spacing: 0.015em;
+            color: rgba(255, 255, 255, 0.9);
             overflow-wrap: break-word;
             hyphens: auto;
         }
@@ -227,7 +246,7 @@
         }
 
         .tile:hover .content-overlay {
-            transform: translateY(-5px);
+            transform: none;
             background: linear-gradient(to top, 
                 rgba(26, 42, 58, 0.98) 0%,
                 rgba(26, 42, 58, 0.88) 20%,
@@ -304,8 +323,27 @@
             .header {
                 padding: 1rem;
                 height: 104px;
+            }
+            
+            .header.scrolled {
+                padding: 0.75rem 1rem;
+                height: 80px;
+            }
+            
+            .logo {
+                height: 67.2px; /* 96px * 0.7 = 67.2px (30% smaller) */
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-toggle {
                 display: flex;
-                align-items: center;
+            }
+            
+            .mobile-nav.active {
+                display: flex;
             }
 
             .header-content {
@@ -659,7 +697,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 2.5s ease-in-out;
         }
 
         .movie-item img.active {
@@ -698,8 +736,15 @@
             right: 0;
             padding: 1.5rem 2rem;
             z-index: 1000;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        .header.scrolled {
+            background: transparent;
+            box-shadow: none;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
         }
@@ -741,13 +786,24 @@
             padding: 0.5rem 1.5rem;
             border-radius: 1rem;
             background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled .desktop-menu {
+            background: rgba(35, 52, 70, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 1rem;
         }
 
         .desktop-menu a {
+            font-family: var(--heading-font);
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
             color: var(--text-color);
             text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
             transition: color 0.3s ease;
             position: relative;
         }
@@ -846,14 +902,16 @@
         }
 
         .mobile-menu a {
+            font-family: var(--heading-font);
+            font-weight: 500;
+            font-size: 2rem;
+            letter-spacing: 0.02em;
             color: var(--text-color);
             text-decoration: none;
-            font-size: 2rem;
-            font-weight: 500;
             transition: color 0.3s ease;
             width: 100%;
             padding: 0.75rem 0;
-            border-bottom: none;
+            text-align: center;
         }
 
         .mobile-menu a:last-child {
@@ -869,6 +927,11 @@
             .header {
                 padding: 1rem;
                 height: 104px;
+            }
+            
+            .header.scrolled {
+                padding: 0.75rem 1rem;
+                height: 80px;
             }
             
             .logo {
@@ -902,86 +965,7 @@
                 padding: 0.5rem 0;
             }
             
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.5rem;
-                background: transparent;
-                border-radius: 0;
-                padding: 0.75rem 1rem;
-                width: 100%;
-                justify-content: center;
-                border: none;
-                border-bottom: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-            }
-            
-            
-            .mobile-nav .language-dropdown {
-                position: static;
-                width: 100%;
-                display: none;
-                margin-top: 0.75rem;
-                background: transparent;
-                border-radius: 0;
-                border: none;
-                box-shadow: none;
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                padding: 0.5rem;
-            }
-            
-            .mobile-nav .language-select.active .language-dropdown {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 0.75rem;
-                border-radius: 0.5rem;
-                background: none;
-                justify-content: center;
-                width: 100%;
-                border-bottom: none;
-            }
-            
-            .mobile-nav .language-option:last-child {
-                border-bottom: none;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .logo {
-                height: 57.6px; /* 96px * 0.6 = 57.6px (40% smaller) */
-            }
-            
-            .mobile-menu {
-                max-width: 260px;
-            }
-            
-            .mobile-menu a {
-                font-size: 1.5rem;
-                padding: 0.5rem 0;
-            }
-            
-            .mobile-nav .language-select {
-                margin-top: 1.5rem;
-                max-width: 260px;
-            }
-            
-            .mobile-nav .language-current {
-                font-size: 1.25rem;
-                padding: 0.5rem 1rem;
-            }
-            
-            .mobile-nav .language-option {
-                padding: 0.5rem;
-            }
+            /* Removing duplicate/conflicting language select styles */
         }
 
         /* Add keyframes for service tile hover animation */
@@ -1004,6 +988,11 @@
             position: relative;
             overflow: hidden;
             padding: 0;
+            cursor: pointer;
+        }
+
+        .service-tile[data-modal] {
+            cursor: pointer;
         }
 
         .service-tile img {
@@ -1021,6 +1010,7 @@
             opacity: 1;
         }
 
+        /* Update service tile styles to be darker */
         .service-content {
             position: relative;
             z-index: 1;
@@ -1028,23 +1018,25 @@
             height: 100%;
             background: linear-gradient(
                 to top,
-                rgba(216, 127, 25, 0.95) 0%,
-                rgba(216, 127, 25, 0.85) 50%,
-                rgba(216, 127, 25, 0.7) 100%
+                rgba(105, 10, 25, 0.95) 0%,
+                rgba(105, 10, 25, 0.85) 50%,
+                rgba(105, 10, 25, 0.7) 100%
             );
             transition: background 2.5s ease;
         }
 
+        /* All service tiles hover effect to darker gold */
         .service-tile:hover .service-content {
             background: linear-gradient(
                 to top,
-                rgba(255, 140, 0, 0.98) 0%,
-                rgba(255, 140, 0, 0.85) 50%,
-                rgba(255, 140, 0, 0.7) 100%
+                rgba(160, 80, 10, 0.98) 0%,
+                rgba(160, 80, 10, 0.88) 50%,
+                rgba(160, 80, 10, 0.78) 100%
             );
         }
-
+        
         .service-number {
+            font-family: var(--heading-font);
             font-size: 1.25rem;
             font-weight: 700;
             color: rgba(255, 255, 255, 0.9);
@@ -1053,88 +1045,12 @@
         }
 
         .service-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-family: var(--heading-font);
+            font-size: 1.3rem; /* Reduced from 1.5rem */
+            font-weight: 700; /* Increased from 600 to 700 for bolder appearance */
+            letter-spacing: 0.01em;
             margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        .service-content .text {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        /* Service tile color progression with timing */
-        .service-01 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(216, 127, 25, 0.95) 0%,
-                rgba(216, 127, 25, 0.85) 50%,
-                rgba(216, 127, 25, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-02 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(230, 135, 27, 0.95) 0%,
-                rgba(230, 135, 27, 0.85) 50%,
-                rgba(230, 135, 27, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-03 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(242, 142, 29, 0.95) 0%,
-                rgba(242, 142, 29, 0.85) 50%,
-                rgba(242, 142, 29, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-04 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(255, 149, 31, 0.95) 0%,
-                rgba(255, 149, 31, 0.85) 50%,
-                rgba(255, 149, 31, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-05 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(255, 156, 33, 0.95) 0%,
-                rgba(255, 156, 33, 0.85) 50%,
-                rgba(255, 156, 33, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-        .service-06 .service-content { 
-            background: linear-gradient(to top, 
-                rgba(255, 163, 35, 0.95) 0%,
-                rgba(255, 163, 35, 0.85) 50%,
-                rgba(255, 163, 35, 0.7) 100%
-            );
-            transition: background 2.5s ease;
-        }
-
-        .service-tile:hover .service-content {
-            background: linear-gradient(
-                to top,
-                rgba(255, 140, 0, 0.98) 0%,
-                rgba(255, 140, 0, 0.85) 50%,
-                rgba(255, 140, 0, 0.7) 100%
-            );
-        }
-
-        .service-number {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 0.5rem;
-            opacity: 0.7;
-        }
-
-        .service-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-color);
+            color: var(--heading-color);
         }
 
         .service-content .text {
@@ -1192,46 +1108,52 @@
 
         /* Add styles for resources tile */
         .resources-tile {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            display: block;
+            position: relative;
+            overflow: hidden;
         }
 
-        .resources-content {
-            padding-right: 1rem;
-        }
-
-        .resources-images {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+        .resources-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
+            z-index: 0;
         }
 
-        .resources-images img {
+        .resources-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right,
+                rgba(35, 52, 70, 0.95) 0%,
+                rgba(35, 52, 70, 0.8) 50%,
+                rgba(35, 52, 70, 0.5) 100%
+            );
+            z-index: 1;
+        }
+
+        .resources-background img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 0.5rem;
-            transition: opacity 0.3s ease;
         }
 
-        .resources-images img:hover {
-            opacity: 0.8;
+        .resources-content {
+            position: relative;
+            z-index: 2;
+            padding: 1.75rem;
+            width: 100%;
+            height: 100%;
         }
 
         @media (max-width: 1024px) {
             .resources-tile {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .resources-content {
-                padding-right: 0;
-            }
-
-            .resources-images {
-                min-height: 200px;
+                min-height: 250px;
             }
         }
 
@@ -1334,8 +1256,41 @@
         /* Language dropdown styles */
         .language-select {
             position: relative;
-            margin-left: 1rem;
             z-index: 1001; /* Ensure dropdown appears above other elements */
+            margin-left: 0;
+        }
+
+        .desktop-menu .language-select {
+            margin-left: 1rem;
+        }
+        
+        .mobile-menu .language-select {
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu .language-select {
+                margin-top: 2.5rem;
+                width: 100%;
+            }
+            
+            .mobile-menu .language-current {
+                justify-content: center;
+                font-size: 1.5rem;
+                padding: 0.75rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .mobile-menu .language-select {
+                margin-top: 2rem;
+            }
+            
+            .mobile-menu .language-current {
+                font-size: 1.25rem;
+                padding: 0.5rem;
+            }
         }
 
         .language-current {
@@ -1350,6 +1305,13 @@
             background: none;
             border: none;
             transition: color 0.3s ease;
+        }
+
+        .header.scrolled .language-current {
+            background: rgba(35, 52, 70, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 0.5rem;
         }
 
         .language-current:hover,
@@ -1446,14 +1408,16 @@
         }
 
         .mobile-menu a {
+            font-family: var(--heading-font);
+            font-weight: 500;
+            font-size: 2rem;
+            letter-spacing: 0.02em;
             color: var(--text-color);
             text-decoration: none;
-            font-size: 2rem;
-            font-weight: 500;
             transition: color 0.3s ease;
             width: 100%;
             padding: 0.75rem 0;
-            border-bottom: none;
+            text-align: center;
         }
 
         .mobile-menu a:last-child {
@@ -1462,6 +1426,501 @@
 
         .mobile-menu a:hover {
             color: var(--accent-gold);
+        }
+
+        /* Add styles for show more button */
+        .show-more-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .show-more-btn:hover {
+            transform: translateX(5px);
+        }
+
+        .show-more-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .show-more-btn:hover svg {
+            transform: translateX(2px);
+        }
+
+        /* Add styles for quote tile */
+        .quote-tile {
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .quote-tile img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .quote-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            padding: 1.75rem;
+            background: linear-gradient(to top,
+                rgba(26, 42, 58, 0.9) 0%,
+                rgba(26, 42, 58, 0.8) 60%,
+                rgba(26, 42, 58, 0.7) 100%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 50%;
+        }
+
+        .quote-text {
+            font-family: var(--body-font);
+            font-style: italic;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.25rem;
+        }
+
+        .quote-text::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -0.25rem;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .quote-author {
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            text-align: right;
+            padding-right: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .quote-text {
+                font-size: 1rem;
+            }
+            
+            .quote-author {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 42, 58, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark-tile);
+            border-radius: 1.25rem;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .modal-header {
+            position: relative;
+            padding: 0;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1.25rem 1.25rem 0 0;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-header-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top,
+                rgba(26, 42, 58, 0.95) 0%,
+                rgba(26, 42, 58, 0.85) 40%,
+                rgba(26, 42, 58, 0.5) 70%,
+                rgba(26, 42, 58, 0) 100%
+            );
+        }
+
+        .modal-title {
+            font-family: var(--heading-font);
+            font-weight: 600;
+            font-size: 1.75rem;
+            letter-spacing: 0.01em;
+            margin-bottom: 0.5rem;
+            color: var(--heading-color);
+        }
+
+        .modal-subtitle {
+            font-family: var(--heading-font);
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.01em;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .modal-text {
+            font-family: var(--body-font);
+            font-weight: 300;
+            line-height: 1.7;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .modal-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Mobile adjustments for modal */
+        @media (max-width: 640px) {
+            .modal {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                height: 160px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-subtitle {
+                font-size: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-section-title {
+                font-size: 1.1rem;
+            }
+            
+            .modal-text {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Mobile language selector adjustments */
+        @media (max-width: 768px) {
+            .mobile-nav-content {
+                position: relative;
+                padding-top: 0; /* Removed top padding */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .mobile-nav .language-select {
+                position: relative;
+                order: -1;
+                margin-bottom: 3rem; /* Increased bottom margin */
+                width: 100%;
+                max-width: 300px;
+                z-index: 1100; /* Ensure it's above other content */
+            }
+            
+            .mobile-nav .language-current {
+                width: 100%;
+                font-size: 1.5rem;
+                padding: 0.75rem 1rem;
+                justify-content: center;
+                background: rgba(26, 42, 58, 0.5);
+                border-radius: 0.5rem;
+            }
+            
+            .mobile-nav .language-current svg {
+                transform: rotate(180deg);
+            }
+            
+            .mobile-nav .language-select.active .language-current svg {
+                transform: rotate(0deg);
+            }
+            
+            .mobile-nav .language-dropdown {
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+                right: 0;
+                margin-bottom: 0.5rem;
+                padding: 0.75rem 0;
+                z-index: 1110;
+                display: none;
+                height: auto;
+                min-height: 390px; /* Adjusted minimum height */
+                max-height: 70vh; /* Ensure it doesn't exceed viewport height */
+                overflow-y: auto; /* Add scrolling if needed */
+                background: rgba(26, 42, 58, 0.98); /* Darker background */
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0.75rem;
+                border: 2px solid var(--accent-gold);
+                transform: translateY(10px);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .mobile-nav .language-select.active .language-dropdown {
+                display: block;
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .mobile-nav .language-option {
+                padding: 1.15rem;
+                margin: 0.25rem 0.75rem;
+                font-size: 1.35rem;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                border-radius: 0.5rem;
+                transition: background 0.2s ease;
+            }
+            
+            .mobile-nav .language-option:hover,
+            .mobile-nav .language-option:focus {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-nav .language-option.active {
+                background: rgba(212, 175, 55, 0.2);
+                color: var(--accent-gold);
+            }
+            
+            .mobile-nav .language-option img {
+                width: 28px;
+                height: 21px;
+                margin-right: 12px;
+            }
+        }
+
+        /* Updated mobile styles for smaller screens */
+        @media (max-width: 640px) {
+            .mobile-nav-content {
+                padding-top: 5rem; /* More space on smaller screens */
+            }
+            
+            .mobile-nav .language-dropdown {
+                padding: 0.5rem 0;
+                min-height: 380px; /* Slightly shorter on very small screens */
+            }
+            
+            .mobile-nav .language-option {
+                padding: 1rem;
+                margin: 0.5rem 0.5rem;
+                font-size: 1.25rem;
+            }
+            
+            .mobile-nav .language-option img {
+                width: 24px;
+                height: 18px;
+            }
+        }
+
+        /* Service tile color progression with timing - darker orange shades */
+        .service-01 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(180, 90, 15, 0.95) 0%,
+                rgba(180, 90, 15, 0.85) 50%,
+                rgba(180, 90, 15, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        .service-02 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(185, 95, 20, 0.95) 0%,
+                rgba(185, 95, 20, 0.85) 50%,
+                rgba(185, 95, 20, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        .service-03 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(190, 100, 25, 0.95) 0%,
+                rgba(190, 100, 25, 0.85) 50%,
+                rgba(190, 100, 25, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        .service-04 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(195, 105, 30, 0.95) 0%,
+                rgba(195, 105, 30, 0.85) 50%,
+                rgba(195, 105, 30, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        .service-05 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(200, 110, 35, 0.95) 0%,
+                rgba(200, 110, 35, 0.85) 50%,
+                rgba(200, 110, 35, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        .service-06 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(205, 115, 40, 0.95) 0%,
+                rgba(205, 115, 40, 0.85) 50%,
+                rgba(205, 115, 40, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+
+        /* Add styles for service-07 and service-08 */
+        .service-07 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(210, 120, 45, 0.95) 0%,
+                rgba(210, 120, 45, 0.85) 50%,
+                rgba(210, 120, 45, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+        
+        .service-08 .service-content { 
+            background: linear-gradient(to top, 
+                rgba(215, 125, 50, 0.95) 0%,
+                rgba(215, 125, 50, 0.85) 50%,
+                rgba(215, 125, 50, 0.7) 100%
+            );
+            transition: background 2.5s ease;
+        }
+
+        /* Darker amber-orange hover state */
+        .service-tile:hover .service-content {
+            background: linear-gradient(
+                to top,
+                rgba(160, 80, 10, 0.98) 0%,
+                rgba(160, 80, 10, 0.88) 50%,
+                rgba(160, 80, 10, 0.78) 100%
+            );
         }
     </style>
 </head>
@@ -1478,38 +1937,38 @@
                     <a href="#production">Production</a>
                     <a href="#history">History</a>
                     <a href="#contact">Contact</a>
-                </div>
-                <div class="language-select">
-                    <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
-                        <span>EN</span>
-                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                    <div class="language-dropdown" id="desktop-language-dropdown" role="menu">
-                        <div class="language-option" data-lang="cz">
-                            <img src="images/flags/cz.png" alt="Czech">
-                            <span>Česky</span>
-                        </div>
-                        <div class="language-option" data-lang="en">
-                            <img src="images/flags/gb.png" alt="English">
-                            <span>English</span>
-                        </div>
-                        <div class="language-option" data-lang="de">
-                            <img src="images/flags/de.png" alt="German">
-                            <span>Deutsch</span>
-                        </div>
-                        <div class="language-option" data-lang="fr">
-                            <img src="images/flags/fr.png" alt="French">
-                            <span>Français</span>
-                        </div>
-                        <div class="language-option" data-lang="pl">
-                            <img src="images/flags/pl.png" alt="Polish">
-                            <span>Polski</span>
-                        </div>
-                        <div class="language-option" data-lang="hu">
-                            <img src="images/flags/hu.png" alt="Hungarian">
-                            <span>Magyar</span>
+                    <div class="language-select">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
+                            <span>EN</span>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="language-dropdown" id="desktop-language-dropdown" role="menu">
+                            <div class="language-option" data-lang="cz">
+                                <img src="images/flags/cz.png" alt="Czech">
+                                <span>Česky</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                <img src="images/flags/gb.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="de">
+                                <img src="images/flags/de.png" alt="German">
+                                <span>Deutsch</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                <img src="images/flags/fr.png" alt="French">
+                                <span>Français</span>
+                            </div>
+                            <div class="language-option" data-lang="pl">
+                                <img src="images/flags/pl.png" alt="Polish">
+                                <span>Polski</span>
+                            </div>
+                            <div class="language-option" data-lang="hu">
+                                <img src="images/flags/hu.png" alt="Hungarian">
+                                <span>Magyar</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1574,38 +2033,46 @@
     <div class="bento-grid">
         <!-- Big tile with full image and content -->
         <div class="tile big full-image">
-            <img src="images/slides/2.jpg" alt="WANTED Headquarters">
+            <img src="images/wanted-map.jpg" alt="WANTED Map">
             <div class="content-overlay">
                 <h2 class="headline">Who We Are</h2>
-                <p class="text">WANTED s.f.o. was established in Prague, where we maintain our headquarters and production facilities. Since our founding, we have experienced significant growth in the quality and scope of our services, establishing ourselves firmly in the film industry, fit-out projects, custom furniture manufacturing, comprehensive interior design implementation, and sales support products.</p>
+                <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
             </div>
         </div>
 
 
         <!-- Prague tile with labels -->
-        <div class="tile gradient">
-            
-            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem;">
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Film</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Dekorace</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Rekvizity</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Eventy</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Interiéry</li>
-                <li style="margin-bottom: 0.75rem; color: var(--text-color);">Výstavy</li>
+        <div class="tile gradient" style="background-image: url('images/about/onas.jpg'); background-size: cover; background-position: center; position: relative;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.6) 100%); z-index: 1;"></div>
+            <ul class="service-list" style="list-style: none; padding: 0; margin-top: 1rem; position: relative; z-index: 2; padding-left: 1.5rem;">
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Film</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Dekorace</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Rekvizity</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Eventy</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Interiéry</li>
+                <li style="margin-bottom: 0.75rem; color: #FFFFFF; font-weight: 500;">Výstavy</li>
             </ul>
         </div>
 
-        <!-- Aristotle quote tile -->
-        <div class="tile quote-tile">
-            <img src="images/aristotle.png" alt="Aristotle">
-            <div class="quote-content">
-                <div class="quote-text">"Pleasure in the job puts perfection in the work"</div>
-                <div class="quote-author">— Aristotle</div>
+        <!-- Top Project tile -->
+        <div class="tile" style="background: linear-gradient(135deg, var(--accent-gold) 0%, #e5c14c 100%);">
+            <h2 class="headline" style="-webkit-text-fill-color: var(--primary); background: none; font-size: 1.7rem;">Top Project</h2>
+            <p class="text" style="color: var(--primary); font-weight: 500;">The Wheel of Time (Amazon)</p>
+            <div style="margin-top: auto; display: flex; justify-content: flex-end;">
+                <a href="#" class="show-more-btn" style="color: var(--primary); margin-top: 0.5rem;">
+                    <span>View Project</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </a>
             </div>
         </div>
 
         <!-- Resources tile -->
         <div class="tile rect light resources-tile">
+            <div class="resources-background">
+                <img src="images/about/onas-2.jpg" alt="WANTED Resources">
+            </div>
             <div class="resources-content">
                 <h2 class="headline">Our Resources</h2>
                 <ul class="resource-list">
@@ -1616,9 +2083,80 @@
                     <li>Qualified and dedicated personnel</li>
                 </ul>
             </div>
-            <div class="resources-images">
-                <img src="images/about/onas-2.jpg" alt="WANTED Resources 1">
-                <img src="images/about/onas.jpg" alt="WANTED Resources 2">
+        </div>
+
+        <!-- Service tiles -->
+        <div class="tile service-tile service-01" data-modal="service-01">
+            <img src="images/services/01.jpg" alt="Print & Design">
+            <div class="service-content">
+                <div class="service-number">01</div>
+                <h2 class="service-title">Print & Design</h2>
+                <p class="text">Professional printing and design services for various media</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-02" data-modal="service-02">
+            <img src="images/services/02.jpg" alt="Corporate Identities">
+            <div class="service-content">
+                <div class="service-number">02</div>
+                <h2 class="service-title">Corporate Identities</h2>
+                <p class="text">Comprehensive brand identity development and implementation</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-03" data-modal="service-03">
+            <img src="images/services/03.jpg" alt="Furniture">
+            <div class="service-content">
+                <div class="service-number">03</div>
+                <h2 class="service-title">Furniture</h2>
+                <p class="text">Custom furniture design and manufacturing solutions</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-04" data-modal="service-04">
+            <img src="images/services/04.jpg" alt="Production">
+            <div class="service-content">
+                <div class="service-number">04</div>
+                <h2 class="service-title">Production</h2>
+                <p class="text">Full-scale production services and project management</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-05" data-modal="service-05">
+            <img src="images/services/05.jpg" alt="Crafts">
+            <div class="service-content">
+                <div class="service-number">05</div>
+                <h2 class="service-title">Crafts</h2>
+                <p class="text">Specialized craftsmanship including glass work and custom solutions</p>
+            </div>
+        </div>
+
+        <div class="tile service-tile service-06" data-modal="service-06">
+            <img src="images/services/06.jpg" alt="Film Props & Decorations">
+            <div class="service-content">
+                <div class="service-number">06</div>
+                <h2 class="service-title">Film Props & Decorations</h2>
+                <p class="text">Custom props and set decorations for film and television</p>
+            </div>
+        </div>
+
+        <!-- Service 07 tile -->
+        <div class="tile service-tile service-07" data-modal="service-07">
+            <img src="images/services/07.jpg" alt="Logistics">
+            <div class="service-content">
+                <div class="service-number">07</div>
+                <h2 class="service-title">Logistics</h2>
+                <p class="text">Comprehensive logistics and transportation services</p>
+            </div>
+        </div>
+
+        <!-- Service 08 tile -->
+        <div class="tile service-tile service-08" data-modal="service-08">
+            <img src="images/services/08.jpg" alt="Documentation">
+            <div class="service-content">
+                <div class="service-number">08</div>
+                <h2 class="service-title">Documentation</h2>
+                <p class="text">Professional documentation and project documentation services</p>
             </div>
         </div>
 
@@ -1691,9 +2229,13 @@
                 <li>The Zookeeper's Wife <span class="year">(2017)</span></li>
                 <li>Snowpiercer <span class="year">(2013)</span></li>
                 <li>Mission: Impossible - Ghost Protocol <span class="year">(2011)</span></li>
-                <li>Bathory <span class="year">(2008)</span></li>
-                <li>The Chronicles of Narnia: Prince Caspian <span class="year">(2008)</span></li>
             </ul>
+            <a href="#" class="show-more-btn">
+                <span>Show More</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </a>
         </div>
 
         <!-- Small tile with commercial projects -->
@@ -1709,79 +2251,19 @@
             </ul>
         </div>
 
-        <!-- Tile removed -->
+        <!-- Aristotle quote tile -->
+        <div class="tile quote-tile">
+            <img src="images/aristotle.png" alt="Aristotle">
+            <div class="quote-content">
+                <div class="quote-text">Pleasure in the job puts perfection in the work</div>
+                <div class="quote-author">— Aristotle</div>
+            </div>
+        </div>
 
         <!-- Placeholder tile -->
         <div class="tile">
             <h2 class="headline">Coming Soon</h2>
             <p class="text">Content to be added</p>
-        </div>
-
-        <!-- Service tiles -->
-        <div class="tile service-tile service-01">
-            <img src="images/references/008.jpg" alt="Props & Decorations">
-            <div class="service-content">
-                <div class="service-number">01</div>
-                <h2 class="service-title">Props & Decorations</h2>
-                <p class="text">Custom-made film props, set decorations, and specialty items</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-02">
-            <img src="images/references/009.jpg" alt="Events">
-            <div class="service-content">
-                <div class="service-number">02</div>
-                <h2 class="service-title">Events</h2>
-                <p class="text">Comprehensive event planning and execution services</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-03">
-            <img src="images/references/010.jpg" alt="Promotional Campaigns">
-            <div class="service-content">
-                <div class="service-number">03</div>
-                <h2 class="service-title">Promotional Campaigns</h2>
-                <p class="text">Creative brand activations and promotional materials</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-04">
-            <img src="images/references/011.jpg" alt="Video Productions">
-            <div class="service-content">
-                <div class="service-number">04</div>
-                <h2 class="service-title">Video Productions</h2>
-                <p class="text">Support for music videos and commercial shoots</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-05">
-            <img src="images/references/012.jpg" alt="Films & TV Series">
-            <div class="service-content">
-                <div class="service-number">05</div>
-                <h2 class="service-title">Films & TV Series</h2>
-                <p class="text">Full production support for film and television projects</p>
-            </div>
-        </div>
-
-        <div class="tile service-tile service-06">
-            <img src="images/references/013.jpg" alt="Rebranding">
-            <div class="service-content">
-                <div class="service-number">06</div>
-                <h2 class="service-title">Rebranding</h2>
-                <p class="text">Complete visual identity transformations for businesses</p>
-            </div>
-        </div>
-
-        <!-- Darker orange rectangular tile -->
-        <div class="tile rect service-tile" style="padding: 0;">
-            <div class="service-content" style="background: linear-gradient(to top, 
-                rgba(186, 97, 0, 0.98) 0%,
-                rgba(186, 97, 0, 0.85) 50%,
-                rgba(186, 97, 0, 0.7) 100%
-            );">
-                <h2 class="service-title">Get in Touch</h2>
-                <p class="text">Ready to bring your vision to life? Contact us to discuss your next project and discover how our expertise can help you achieve your goals.</p>
-            </div>
         </div>
 
         <!-- Contact Person Tile - Lukas -->
@@ -1858,6 +2340,28 @@
 
     </div>
 
+    <!-- Modal container -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="service-modal">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <img src="" alt="" id="modal-image">
+                <div class="modal-header-content">
+                    <h2 class="modal-title" id="modal-title"></h2>
+                    <div class="modal-subtitle" id="modal-subtitle"></div>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
     <script>
         function fadeMovies() {
             const items = document.querySelectorAll('.movie-item');
@@ -1866,7 +2370,7 @@
                 if (images.length < 2) return; // Skip if not enough images
                 
                 let currentIndex = 0;
-                const interval = 3000 + Math.random() * 2000;
+                const interval = 7000 + Math.random() * 3000; // Longer interval between transitions
                 
                 // Preload images
                 images.forEach(img => {
@@ -1899,11 +2403,6 @@
             const header = document.querySelector('.header');
             const mobileToggle = document.querySelector('.mobile-toggle');
             const mobileNav = document.querySelector('.mobile-nav');
-            const desktopLanguageSelect = document.querySelector('.desktop-nav .language-select');
-            const mobileLanguageSelect = document.querySelector('.mobile-nav .language-select');
-            const desktopLanguageCurrent = document.querySelector('.desktop-nav .language-current');
-            const mobileLanguageCurrent = document.querySelector('.mobile-nav .language-current');
-            const allLanguageOptions = document.querySelectorAll('.language-option');
             
             // Scroll variables
             let lastScroll = 0;
@@ -1998,72 +2497,97 @@
             });
 
             // Function to toggle language dropdown
-            function toggleLanguageDropdown(selector, show) {
-                const select = selector === 'desktop' ? desktopLanguageSelect : mobileLanguageSelect;
-                const current = selector === 'desktop' ? desktopLanguageCurrent : mobileLanguageCurrent;
+            function setupLanguageSelector(selector, options) {
+                const select = document.querySelector(selector);
+                if (!select) return;
                 
-                select.classList.toggle('active', show);
-                current.setAttribute('aria-expanded', show);
-            }
-
-            // Handle click on desktop language button
-            desktopLanguageCurrent.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isExpanded = desktopLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('desktop', !isExpanded);
-            });
-
-            // Handle click on mobile language button
-            mobileLanguageCurrent.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isExpanded = mobileLanguageCurrent.getAttribute('aria-expanded') === 'true';
-                toggleLanguageDropdown('mobile', !isExpanded);
-            });
-
-            // Handle language selection
-            allLanguageOptions.forEach(option => {
-                option.addEventListener('click', (e) => {
+                const current = select.querySelector('.language-current');
+                const dropdown = select.querySelector('.language-dropdown');
+                const langOptions = dropdown.querySelectorAll('.language-option');
+                
+                current.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const lang = option.dataset.lang;
+                    const isExpanded = current.getAttribute('aria-expanded') === 'true';
                     
-                    // Update all language displays
-                    document.querySelectorAll('.language-current span').forEach(span => {
-                        span.textContent = lang.toUpperCase();
+                    // Close any other open dropdowns
+                    document.querySelectorAll('.language-select').forEach(el => {
+                        if (el !== select) {
+                            el.classList.remove('active');
+                            el.querySelector('.language-current').setAttribute('aria-expanded', 'false');
+                        }
                     });
                     
-                    // Update active states
-                    allLanguageOptions.forEach(opt => opt.classList.remove('active'));
-                    document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
-                        el.classList.add('active');
-                    });
+                    select.classList.toggle('active', !isExpanded);
+                    current.setAttribute('aria-expanded', !isExpanded);
                     
-                    // Close dropdowns
-                    toggleLanguageDropdown('desktop', false);
-                    toggleLanguageDropdown('mobile', false);
-                    
-                    // Update document language
-                    document.documentElement.lang = lang;
-                });
-
-                // Keyboard navigation
-                option.setAttribute('role', 'menuitem');
-                option.setAttribute('tabindex', '0');
-                option.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        option.click();
+                    // If in mobile nav and opening dropdown, ensure language selector is visible
+                    if (selector.includes('.mobile-nav') && !isExpanded) {
+                        // Delay scrolling to allow dropdown to appear first
+                        setTimeout(() => {
+                            // Ensure mobile menu is at the top to give dropdown space
+                            const mobileNav = document.querySelector('.mobile-nav');
+                            mobileNav.scrollTop = 0;
+                            
+                            // Temporarily allow body scrolling
+                            document.body.style.overflow = 'auto';
+                            
+                            // Make sure language selector is at the top of the viewport
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Disable scrolling again after dropdown is positioned
+                            setTimeout(() => {
+                                document.body.style.overflow = 'hidden';
+                            }, 400);
+                        }, 50);
                     }
                 });
-            });
-
-            // Close dropdown when clicking outside
+                
+                // Set initial active state based on current language
+                const currentLang = document.documentElement.lang;
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === currentLang) {
+                        option.classList.add('active');
+                    }
+                    
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const lang = option.dataset.lang;
+                        
+                        // Update all language displays across mobile and desktop
+                        document.querySelectorAll('.language-current span').forEach(span => {
+                            span.textContent = lang.toUpperCase();
+                        });
+                        
+                        // Update active states
+                        document.querySelectorAll('.language-option').forEach(opt => {
+                            opt.classList.toggle('active', opt.dataset.lang === lang);
+                        });
+                        
+                        // Close dropdown
+                        select.classList.remove('active');
+                        current.setAttribute('aria-expanded', 'false');
+                        
+                        // Update document language
+                        document.documentElement.lang = lang;
+                    });
+                });
+            }
+            
+            // Setup both desktop and mobile language selectors
+            setupLanguageSelector('.desktop-nav .language-select');
+            setupLanguageSelector('.mobile-nav .language-select');
+            
+            // Close dropdowns when clicking outside
             document.addEventListener('click', (e) => {
-                if (!desktopLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('desktop', false);
-                }
-                if (!mobileLanguageSelect.contains(e.target)) {
-                    toggleLanguageDropdown('mobile', false);
-                }
+                document.querySelectorAll('.language-select').forEach(select => {
+                    if (!select.contains(e.target)) {
+                        select.classList.remove('active');
+                        select.querySelector('.language-current').setAttribute('aria-expanded', 'false');
+                    }
+                });
             });
 
             // Set initial language based on browser preference
@@ -2078,6 +2602,246 @@
             document.querySelectorAll(`[data-lang="${defaultLang}"]`).forEach(el => {
                 el.classList.add('active');
             });
+
+            // Service Modal Functionality
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modal = document.getElementById('service-modal');
+            const modalClose = document.getElementById('modal-close');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const modalBody = document.getElementById('modal-body');
+            
+            // Modal content data
+            const modalData = {
+                'service-01': {
+                    title: 'Print & Design',
+                    subtitle: 'Professional printing and design services for various media',
+                    image: 'images/services/01.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our printing and design services provide comprehensive solutions for various media needs, ensuring high-quality output and professional presentation.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Digital and offset printing</li>
+                                <li>Graphic design and layout</li>
+                                <li>Brand materials and collateral</li>
+                                <li>Large format printing</li>
+                                <li>Custom packaging design</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-02': {
+                    title: 'Corporate Identities',
+                    subtitle: 'Comprehensive brand identity development and implementation',
+                    image: 'images/services/02.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We help businesses develop and implement strong, cohesive brand identities that resonate with their target audience.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Brand strategy development</li>
+                                <li>Visual identity design</li>
+                                <li>Brand guidelines creation</li>
+                                <li>Identity implementation</li>
+                                <li>Brand consistency management</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-03': {
+                    title: 'Furniture',
+                    subtitle: 'Custom furniture design and manufacturing solutions',
+                    image: 'images/services/03.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our furniture services provide custom solutions for both commercial and residential spaces, combining functionality with aesthetic appeal.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Custom furniture design</li>
+                                <li>Manufacturing and production</li>
+                                <li>Interior furnishings</li>
+                                <li>Commercial furniture</li>
+                                <li>Specialized furniture solutions</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-04': {
+                    title: 'Production',
+                    subtitle: 'Full-scale production services and project management',
+                    image: 'images/services/04.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We provide comprehensive production services, managing projects from conception to completion with precision and expertise.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Project management</li>
+                                <li>Production planning</li>
+                                <li>Quality control</li>
+                                <li>Timeline management</li>
+                                <li>Resource coordination</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-05': {
+                    title: 'Crafts',
+                    subtitle: 'Specialized craftsmanship including glass work and custom solutions',
+                    image: 'images/services/05.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our crafts services combine traditional techniques with modern innovation, offering specialized solutions including glass work and custom craftsmanship.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Glass work and design</li>
+                                <li>Custom craftsmanship</li>
+                                <li>Artisanal solutions</li>
+                                <li>Specialized finishes</li>
+                                <li>Unique custom pieces</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-06': {
+                    title: 'Film Props & Decorations',
+                    subtitle: 'Custom props and set decorations for film and television',
+                    image: 'images/services/06.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We create authentic and detailed props and set decorations that bring film and television productions to life.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Custom prop creation</li>
+                                <li>Set decoration</li>
+                                <li>Period-accurate items</li>
+                                <li>Special effects props</li>
+                                <li>Production design support</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-07': {
+                    title: 'Logistics',
+                    subtitle: 'Comprehensive logistics and transportation services',
+                    image: 'images/services/07.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">Our logistics services ensure smooth transportation and delivery of goods and materials for various projects.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Transportation management</li>
+                                <li>Warehouse solutions</li>
+                                <li>Inventory control</li>
+                                <li>Route optimization</li>
+                                <li>Delivery coordination</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'service-08': {
+                    title: 'Documentation',
+                    subtitle: 'Professional documentation and project documentation services',
+                    image: 'images/services/08.jpg',
+                    content: `
+                        <div class="modal-section">
+                            <h3 class="modal-section-title">What We Offer</h3>
+                            <p class="modal-text">We provide comprehensive documentation services to ensure proper record-keeping and project tracking.</p>
+                            
+                            <ul class="modal-list">
+                                <li>Project documentation</li>
+                                <li>Technical documentation</li>
+                                <li>Process documentation</li>
+                                <li>Quality documentation</li>
+                                <li>Compliance documentation</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            };
+            
+            // Function to open modal
+            function openModal(modalId) {
+                const data = modalData[modalId];
+                if (!data) return;
+                
+                // Populate modal content
+                modalImage.src = data.image;
+                modalImage.alt = data.title;
+                modalTitle.textContent = data.title;
+                modalSubtitle.textContent = data.subtitle;
+                modalBody.innerHTML = data.content;
+                
+                // Show modal
+                modalOverlay.classList.add('active');
+                
+                // Prevent body scrolling
+                document.body.style.overflow = 'hidden';
+                
+                // Accessibility
+                modal.setAttribute('aria-hidden', 'false');
+                modalClose.focus();
+            }
+            
+            // Function to close modal
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                
+                // Restore body scrolling
+                document.body.style.overflow = '';
+                
+                // Accessibility
+                modal.setAttribute('aria-hidden', 'true');
+            }
+            
+            // Add click event listeners to service tiles
+            document.querySelectorAll('.service-tile[data-modal]').forEach(tile => {
+                tile.addEventListener('click', () => {
+                    const modalId = tile.getAttribute('data-modal');
+                    openModal(modalId);
+                });
+                
+                // Add keyboard accessibility
+                tile.setAttribute('tabindex', '0');
+                tile.setAttribute('role', 'button');
+                tile.setAttribute('aria-haspopup', 'dialog');
+                
+                tile.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const modalId = tile.getAttribute('data-modal');
+                        openModal(modalId);
+                    }
+                });
+            });
+            
+            // Close modal when clicking the close button
+            modalClose.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+            
+            // Set modal to initially hidden
+            modal.setAttribute('aria-hidden', 'true');
         });
     </script>
 </body>

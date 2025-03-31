@@ -1,0 +1,934 @@
+/* Quote Tile */
+.quote {
+    font-style: italic;
+    font-size: 1.25rem;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.quote::before {
+    content: '"';
+    font-size: 4rem;
+    opacity: 0.15;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: Georgia, serif;
+    color: var(--accent-gold);
+}
+
+.quote-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    max-height: 300px;
+    background-color: transparent;
+    border: 2px solid rgba(215, 125, 50, 0.7);
+}
+
+.quote-tile img {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 2px solid var(--accent-gold);
+}
+
+.quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.quote-text {
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    font-weight: 300;
+}
+
+.quote-author {
+    font-weight: 500;
+    color: var(--accent-gold);
+    font-size: 0.9rem;
+}
+
+/* Image Grid */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    height: 100%;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    transition: opacity 0.3s ease;
+}
+
+.image-grid img:hover {
+    opacity: 0.8;
+}
+
+/* Project Lists */
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.project-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+}
+
+.project-list .year {
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-left: 0.5rem;
+}
+
+.show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.show-more-btn:hover {
+    color: #e5c14c;
+}
+
+/* Service Tiles */
+.service-tile {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+}
+
+.service-tile[data-modal] {
+    cursor: pointer;
+}
+
+.service-tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 2.5s ease;
+}
+
+.service-tile:hover img {
+    opacity: 1;
+}
+
+/* Update service tile styles to all use the gold color from service-08 */
+.service-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.75rem;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+}
+
+/* All service tiles hover effect */
+.service-tile:hover .service-content {
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.98) 0%,
+        rgba(215, 125, 50, 0.88) 50%,
+        rgba(215, 125, 50, 0.78) 100%
+    );
+}
+
+/* Remove service-08 specific styling since all tiles now use the same color */
+/* .service-08 .service-content { 
+    background: linear-gradient(to top, 
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+} */
+
+.service-number {
+    font-family: var(--heading-font);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.service-title {
+    font-family: var(--heading-font);
+    font-size: 1.3rem; /* Reduced from 1.5rem */
+    font-weight: 700; /* Increased from 600 to 700 for bolder appearance */
+    letter-spacing: 0.01em;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.service-content .text {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Add styles for resource list */
+.resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.resource-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Resources tile */
+.resources-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.resources-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.resources-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(15, 25, 35, 0.9) 0%,
+        rgba(15, 25, 35, 0.75) 40%,
+        rgba(15, 25, 35, 0.65) 100%
+    );
+    z-index: 1;
+}
+
+.resources-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resources-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.resources-content .headline {
+    margin-bottom: 1.5rem;
+    font-size: 2.25rem;
+}
+
+/* Movie Grid */
+#movie-grid.tile.big {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: 100%;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.75rem;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    flex: 1;
+    margin-bottom: 1rem;
+    height: 400px;
+}
+
+.movie-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.movie-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.movie-item img.active {
+    opacity: 1;
+}
+
+.movie-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+        rgba(15, 21, 33, 0.95) 0%,
+        rgba(15, 21, 33, 0.8) 40%,
+        rgba(15, 21, 33, 0.6) 70%,
+        rgba(15, 21, 33, 0.2) 90%,
+        rgba(15, 21, 33, 0) 100%
+    );
+    z-index: 2;
+}
+
+#movie-grid .movie-content {
+    position: relative;
+    padding: 1rem 2rem 1rem;
+    z-index: 3;
+}
+
+@keyframes serviceImageZoom {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+    100% {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+    }
+}
+
+/* Project slider */
+.project-slide-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease;
+    background-size: cover;
+    background-position: center;
+    border-radius: inherit;
+}
+
+.project-dots {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    z-index: 10;
+}
+
+.project-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.project-dot.active {
+    opacity: 1;
+}
+
+/* Renault Tile */
+.renault-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1A1A1A;
+    padding: 2rem 1.5rem;
+    max-height: 300px;
+}
+
+.renault-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.renault-logo {
+    max-width: 120px;
+    height: auto;
+    margin-bottom: 0.75rem;
+}
+
+.renault-text {
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 300;
+    margin: 0;
+    opacity: 0.85;
+    font-family: var(--body-font);
+}
+
+.renault-document {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: auto;
+}
+
+.renault-document img {
+    width: 95%;
+    max-height: 190px;
+    object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 350px;
+    }
+    
+    .resources-tile {
+        min-height: 250px;
+    }
+    
+    .quote-tile,
+    .renault-tile {
+        max-height: 220px;
+    }
+    
+    .quote-tile {
+        padding: 1rem;
+    }
+    
+    .quote-tile img {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 300px;
+    }
+    
+    .quote-tile,
+    .renault-tile {
+        max-height: 200px;
+    }
+    
+    .quote-tile {
+        padding: 0.75rem;
+    }
+    
+    .quote-tile img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .quote-text {
+        font-size: 1rem;
+    }
+    
+    /* Adjust Renault tile layout for mobile */
+    .renault-tile {
+        flex-direction: row;
+        padding: 1.5rem;
+        align-items: center;
+    }
+    
+    .renault-content {
+        width: 50%;
+        margin-bottom: 0;
+        align-items: flex-start;
+        text-align: left;
+        justify-content: center;
+    }
+    
+    .renault-document {
+        width: 50%;
+        justify-content: flex-end;
+        align-items: center;
+        display: flex;
+    }
+    
+    .renault-document img {
+        width: 100%;
+        max-height: 140px;
+    }
+
+    .map-tile {
+        height: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        margin-bottom: 1.5rem;
+        height: 500px;
+    }
+    
+    /* Ensure the movie content is properly spaced at the bottom */
+    #movie-grid .movie-content {
+        padding: 1.5rem 1.5rem 2rem;
+    }
+    
+    /* Larger text for better readability on mobile */
+    #movie-grid .movie-content .headline {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    #movie-grid .movie-content .text {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+/* What We Do tile */
+.what-we-do-tile {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.what-we-do-tile .resources-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.what-we-do-tile .resources-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(15, 25, 35, 0.85) 0%,
+        rgba(15, 25, 35, 0.75) 50%,
+        rgba(15, 25, 35, 0.65) 100%
+    );
+    z-index: 1;
+}
+
+.what-we-do-tile .resources-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.what-we-do-tile .overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.what-we-do-tile .headline,
+.what-we-do-tile .service-list {
+    position: relative;
+    z-index: 2;
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.service-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+}
+
+#who-we-are .content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3.5rem 3rem 3rem;
+    background: linear-gradient(to top, 
+        rgba(26, 42, 58, 1) 0%,
+        rgba(26, 42, 58, 0.98) 20%,
+        rgba(26, 42, 58, 0.95) 40%,
+        rgba(26, 42, 58, 0.85) 60%,
+        rgba(26, 42, 58, 0.4) 80%,
+        rgba(26, 42, 58, 0) 100%
+    );
+}
+
+/* Unified bullet point styling */
+.project-list li::before,
+.resource-list li::before,
+.service-list li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.55rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-gold);
+}
+
+/* Contact Person Tiles */
+.contact-person-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1.75rem;
+    background: linear-gradient(to bottom right, #F3B52E, #B64600);
+    border-radius: 0.75rem;
+    --contact-text: #000000;
+    color: #000000 !important;
+}
+
+.contact-person-tile *,
+.contact-person-tile .headline,
+.contact-person-tile .contact-links, 
+.contact-person-tile .contact-link {
+    color: #000000 !important;
+}
+
+.contact-person-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.warehouse-links {
+    margin-top: 1rem;
+}
+
+.contact-person-tile svg,
+.contact-person-tile svg path,
+.contact-person-tile svg polyline {
+    stroke: #000000 !important;
+    color: #000000 !important;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #000000 !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.25s ease;
+}
+
+.contact-link svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
+    fill: none !important;
+    flex-shrink: 0;
+}
+
+.contact-link:hover {
+    color: #000000 !important;
+    opacity: 0.8;
+}
+
+/* Warehouse Contact Tile */
+.warehouse-contact-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+}
+
+.warehouse-contact-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+/* Company Contact Tile */
+.company-contact-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+}
+
+.company-contact-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.company-address {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.address-group {
+    margin-bottom: 0.5rem;
+}
+
+.address-line {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.id-group {
+    margin-bottom: 0.5rem;
+}
+
+.id-line {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.id-label {
+    color: var(--accent-gold);
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* Contact Form Tile */
+.contact-form-tile {
+    padding: 2rem;
+    background: var(--gradient-tile);
+    max-height: 500px;
+}
+
+.contact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.contact-email {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.25s ease;
+}
+
+.contact-email svg {
+    color: var(--accent-gold);
+}
+
+.contact-email:hover {
+    color: var(--accent-gold);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    color: var(--text-color);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    max-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-gold);
+}
+
+.submit-btn {
+    align-self: flex-start;
+    padding: 0.75rem 2rem;
+    background-color: var(--accent-gold);
+    color: #1A1A1A;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: var(--body-font);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.submit-btn:hover {
+    background-color: #d6b040;
+}
+
+.form-disclaimer {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.75rem;
+}
+
+/* Map Tile */
+.map-tile {
+    padding: 0;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.map-tile iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .contact-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .form-group textarea {
+        min-height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .renault-logo {
+        max-width: 100px;
+    }
+    
+    .renault-text {
+        font-size: 1.2rem;
+    }
+    
+    .renault-document img {
+        max-height: 120px;
+    }
+} 
