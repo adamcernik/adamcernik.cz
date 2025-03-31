@@ -534,6 +534,35 @@
     .map-tile {
         height: 300px;
     }
+    
+    /* Set 8px border radius on mobile for component tiles */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile,
+    .movie-item {
+        border-radius: 8px;
+    }
+    
+    /* Adjust component paddings for mobile */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* List padding adjustments */
+    .project-list li,
+    .service-list li,
+    .modal-list li,
+    .resource-list li {
+        padding-left: 1.25rem;
+    }
 }
 
 @media (max-width: 640px) {
@@ -558,6 +587,38 @@
     #movie-grid .movie-content .text {
         font-size: 1rem;
         line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .renault-logo {
+        max-width: 100px;
+    }
+    
+    .renault-text {
+        font-size: 1.2rem;
+    }
+    
+    .renault-document img {
+        max-height: 120px;
+    }
+    
+    /* Further reduce component paddings for smaller screens */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    /* List padding adjustments for smaller screens */
+    .project-list li,
+    .service-list li,
+    .modal-list li,
+    .resource-list li {
+        padding-left: 1rem;
     }
 }
 
@@ -916,19 +977,5 @@
     
     .form-group textarea {
         min-height: 80px;
-    }
-}
-
-@media (max-width: 480px) {
-    .renault-logo {
-        max-width: 100px;
-    }
-    
-    .renault-text {
-        font-size: 1.2rem;
-    }
-    
-    .renault-document img {
-        max-height: 120px;
     }
 } 

@@ -315,39 +315,6 @@
     .movie-grid {
         min-height: 500px;
     }
-
-    #who-we-are .content-overlay {
-        padding: 1.5rem 2rem 1rem;
-        padding-bottom: 0;
-        /* Start content overlay higher up to eliminate space */
-        background: linear-gradient(to top, 
-            rgba(26, 42, 58, 1) 0%,
-            rgba(26, 42, 58, 0.98) 25%,
-            rgba(26, 42, 58, 0.95) 45%,
-            rgba(26, 42, 58, 0.92) 65%,
-            rgba(26, 42, 58, 0.88) 85%,
-            rgba(26, 42, 58, 0.85) 100%
-        );
-        top: 10%;
-        height: 90%;
-        min-height: auto;
-    }
-    
-    /* Custom height for Who We Are tile */
-    #who-we-are {
-        min-height: 420px;
-        max-height: 420px;
-    }
-    
-    #who-we-are .content-overlay .headline {
-        font-size: 1.8rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    #who-we-are .content-overlay .text {
-        font-size: 0.95rem;
-        line-height: 1.45;
-    }
 }
 
 /* Full image tile enhancements */
@@ -371,13 +338,15 @@
         flex-direction: column;
         gap: 1rem;
         max-width: 100%;
-        padding: 1rem;
+        padding: 1rem 0;
     }
     
     .tile {
         width: 100%;
         min-height: unset;
         margin: 0;
+        border-radius: 8px;
+        padding: 1.5rem 1rem;
     }
     
     .tile.wide {
@@ -389,14 +358,99 @@
         max-height: unset;
     }
     
-    /* Reduce the height on mobile */
+    /* Modify Who We Are tile for mobile - convert to vertical layout */
     #who-we-are {
-        min-height: 450px; /* Reduced from 630px */
-        max-height: 450px;
+        min-height: 650px; /* Increased to accommodate content below image */
+        max-height: 650px;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+    
+    #who-we-are img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 8px 8px 0 0; /* Rounded only at top corners */
+    }
+    
+    #who-we-are .content-overlay {
+        position: relative;
+        background: none;
+        top: auto;
+        height: auto;
+        min-height: auto;
+        padding: 1.5rem 1rem;
+    }
+    
+    #who-we-are .content-overlay::before {
+        display: none; /* Remove the gradient overlay */
+    }
+    
+    #who-we-are .content-overlay .headline {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-color);
+    }
+    
+    #who-we-are .content-overlay .text {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--text-secondary);
+        max-width: 100%;
     }
     
     .map-tile {
         height: 300px;
+    }
+    
+    /* Make sure full images have rounded corners on mobile */
+    .full-image img {
+        border-radius: 8px;
+    }
+    
+    /* Adjust content overlay padding */
+    .content-overlay {
+        padding: 2rem 1rem 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .bento-grid {
+        padding: 0.5rem 0;
+    }
+    
+    .tile {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    .content-overlay {
+        padding: 1.5rem 0.75rem 1.5rem;
+    }
+    
+    /* Further adjust Who We Are tile for smaller screens */
+    #who-we-are {
+        min-height: 550px;
+        max-height: 550px;
+    }
+    
+    #who-we-are img {
+        height: 250px;
+    }
+    
+    #who-we-are .content-overlay {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    #who-we-are .content-overlay .headline {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    #who-we-are .content-overlay .text {
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
 }
 
@@ -427,10 +481,10 @@
 }
 
 @media (max-width: 480px) {
-    #who-we-are .content-overlay {
-        padding: 1.25rem 1.5rem 0.5rem;
+    /* Remove duplicate styles for Who We Are - already defined in the screen max-width 480px section */
+    /* #who-we-are .content-overlay {
+        padding: 1.25rem 0.75rem 0.5rem;
         min-height: 75%;
-        /* Move overlay up more to reduce space */
         top: 20%;
         height: 80%;
         background: linear-gradient(to top, 
@@ -454,11 +508,10 @@
         max-width: 100%;
     }
     
-    /* Reduce height further on smallest screens */
     #who-we-are {
         min-height: 400px;
         max-height: 400px;
-    }
+    } */
 }
 
 /* Desktop specific styling to maintain proper layout */
