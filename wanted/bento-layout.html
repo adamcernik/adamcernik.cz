@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <header class="header" role="banner">
@@ -373,6 +374,15 @@
             </div>
         </div>
 
+        <!-- History Timeline Section -->
+        <div id="history" class="timeline-container">
+            <div class="timeline-scroll-container">
+                <div class="timeline-track" id="timeline-track">
+                    <!-- Timeline Items will be loaded from includes/timeline.html -->
+                </div>
+            </div>
+        </div>
+
         <!-- Contact Person Tile - Lukas -->
         <div id="lukas-contact" class="tile contact-person-tile">
             <h2 class="headline" style="color: black !important; font-weight: 900 !important;">Lukas Katakalidis</h2>
@@ -439,16 +449,13 @@
                     <p class="address-line">190 00 Praha 9</p>
                 </div>
                 <div class="contact-links warehouse-links">
-                    <a href="tel:+420281946994" class="contact-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                        </svg>
-                        +420 281 946 994
-                    </a>
+                    <!-- Phone number removed -->
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="bento-grid">
         <!-- Contact Form Tile - Two Columns -->
         <div class="tile rect contact-form-tile">
             <div class="contact-header">
@@ -461,13 +468,13 @@
                     info@wanted-sfo.cz
                 </a>
             </div>
-            <form class="contact-form" action="#" method="POST">
+            <form class="contact-form" id="contact-form">
                 <div class="form-row">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="text" name="from_name" placeholder="Your Name" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="email" name="from_email" placeholder="Your Email" required>
                     </div>
                 </div>
                 <div class="form-group">

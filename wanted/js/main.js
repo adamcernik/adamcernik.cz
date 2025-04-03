@@ -1,4 +1,81 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize EmailJS
+    emailjs.init("hUdCH3u0SC6LkmOaD");
+    
+    // Handle contact form submission
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Send the email using EmailJS
+            emailjs.sendForm('service_y9eokla', 'template_07bfz5o', this)
+                .then(function() {
+                    // Success message
+                    submitBtn.textContent = 'Message Sent!';
+                    contactForm.reset();
+                    
+                    // Reset button after delay
+                    setTimeout(() => {
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                })
+                .catch(function(error) {
+                    // Error handling
+                    console.error('EmailJS error:', error);
+                    submitBtn.textContent = 'Failed to Send';
+                    
+                    // Reset button after delay
+                    setTimeout(() => {
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
+        });
+    }
+    
+    // Load timeline content from external file
+    const timelineTrack = document.getElementById('timeline-track');
+    if (timelineTrack) {
+        fetch('includes/timeline.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                timelineTrack.innerHTML = html;
+                // Initialize timeline scroll functionality after content is loaded
+                initTimelineScroll();
+            })
+            .catch(error => {
+                console.error('Error loading timeline content:', error);
+                timelineTrack.innerHTML = '<p class="timeline-error">Failed to load timeline content.</p>';
+            });
+    }
+    
+    // Timeline scroll functionality
+    function initTimelineScroll() {
+        const timelineContainer = document.querySelector('.timeline-scroll-container');
+        if (timelineContainer) {
+            // Optional: Add mouse wheel horizontal scrolling support
+            timelineContainer.addEventListener('wheel', function(e) {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    timelineContainer.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        }
+    }
+    
     // Header Scroll Effect
     const header = document.querySelector('.header');
     window.addEventListener('scroll', function() {
@@ -362,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (images.length < 2) return; // Skip if not enough images
             
             let currentIndex = 0;
-            const interval = 7000 + Math.random() * 3000; // Longer interval between transitions
+            const interval = 15000 + Math.random() * 5000; // Longer interval between transitions (15-20 seconds)
             
             // Preload images
             images.forEach(img => {

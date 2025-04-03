@@ -23,10 +23,20 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Remove the general hover effect and only apply it to service tiles and other modal-triggering tiles */
 .tile:hover {
+    /* Remove the general elevation effect */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    transform: none;
+}
+
+/* Apply hover effects only to tiles that trigger modals */
+.tile.service-tile:hover,
+.tile[data-modal]:hover {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
                0 16px 48px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
+    cursor: pointer;
 }
 
 .tile::before {
@@ -189,6 +199,19 @@
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.25rem;
+        padding: 0 15px;
+    }
+
+    /* Adjust contact tiles to fit properly in tablet view */
+    .contact-person-tile, 
+    .company-contact-tile,
+    .warehouse-contact-tile {
+        min-height: 180px;
+    }
+
+    /* Ensure timeline is properly positioned */
+    #history.timeline-container {
+        grid-column: span 2;
     }
 
     .tile {
@@ -241,6 +264,7 @@
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
+        padding: 0 10px;
     }
     
     /* Adjust tile sizes for this specific breakpoint */
@@ -252,12 +276,11 @@
     
     /* Special handling for movie grid on tablet */
     #movie-grid.tile.big {
-        min-height: 450px;
+        min-height: 400px;
     }
     
     .rect {
         grid-column: span 2;
-        min-height: 220px;
     }
     
     .big.full-image {
@@ -293,6 +316,13 @@
     .renault-tile {
         max-height: 250px;
     }
+
+    /* Contact tiles adjustments */
+    .contact-person-tile, 
+    .company-contact-tile,
+    .warehouse-contact-tile {
+        min-height: 150px;
+    }
 }
 
 /* Mobile view (single column) */
@@ -300,6 +330,7 @@
     .bento-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        padding: 0 10px;
     }
     
     .big, .rect, .wide {
