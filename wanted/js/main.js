@@ -2,6 +2,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS
     emailjs.init("hUdCH3u0SC6LkmOaD");
     
+    // Logo click handler to scroll to top
+    const logoLink = document.querySelector('.logo-link');
+    if (logoLink) {
+        logoLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
     // Handle contact form submission
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
@@ -66,11 +78,74 @@ document.addEventListener('DOMContentLoaded', function() {
     function initTimelineScroll() {
         const timelineContainer = document.querySelector('.timeline-scroll-container');
         if (timelineContainer) {
-            // Optional: Add mouse wheel horizontal scrolling support
+            // Simplified wheel event handling
             timelineContainer.addEventListener('wheel', function(e) {
-                if (e.deltaY !== 0) {
+                // If shift key is pressed or deltaX is significantly larger than deltaY, use horizontal scroll
+                if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                    e.preventDefault();
+                    timelineContainer.scrollLeft += e.deltaX || e.deltaY;
+                }
+                // For horizontal scrolling with vertical wheel (when deltaY is present)
+                else if (Math.abs(e.deltaY) > 0 && e.altKey) {
                     e.preventDefault();
                     timelineContainer.scrollLeft += e.deltaY;
+                }
+                // Otherwise, let the default vertical scrolling happen
+            }, { passive: false });
+            
+            // Add basic drag-to-scroll functionality
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            timelineContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                timelineContainer.style.cursor = 'grabbing';
+                startX = e.pageX - timelineContainer.offsetLeft;
+                scrollLeft = timelineContainer.scrollLeft;
+                e.preventDefault(); // Prevent text selection during drag
+            });
+            
+            timelineContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+                timelineContainer.style.cursor = 'grab';
+            });
+            
+            timelineContainer.addEventListener('mouseup', () => {
+                isDown = false;
+                timelineContainer.style.cursor = 'grab';
+            });
+            
+            timelineContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                const x = e.pageX - timelineContainer.offsetLeft;
+                const walk = (x - startX) * 1.5; // Scroll speed multiplier
+                timelineContainer.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Initialize cursor style
+            timelineContainer.style.cursor = 'grab';
+            
+            // Touch scrolling support for mobile
+            let touchStartX = 0;
+            let touchStartY = 0;
+            
+            timelineContainer.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            timelineContainer.addEventListener('touchmove', function(e) {
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                const diffX = touchStartX - touchX;
+                const diffY = touchStartY - touchY;
+                
+                // If clearly horizontal movement
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    e.preventDefault();
+                    timelineContainer.scrollLeft += diffX;
+                    touchStartX = touchX;
                 }
             }, { passive: false });
         }
@@ -218,10 +293,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
                         <li>Custom furniture design</li>
-                        <li>Manufacturing and production</li>
-                        <li>Interior furnishings</li>
                         <li>Commercial furniture</li>
-                        <li>Specialized furniture solutions</li>
+                        <li>Film set furniture</li>
+                        <li>Exhibition furniture</li>
+                        <li>Interior solutions</li>
                     </ul>
                 </div>
             `
@@ -386,28 +461,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function goToProjectSlide(index) {
         // Hide all slides
         projectSlides.forEach(slide => {
-            slide.style.opacity = '0';
+            slide.classList.remove('active');
         });
         
         // Show selected slide
-        projectSlides[index].style.opacity = '1';
+        projectSlides[index].classList.add('active');
         
         // Hide all backgrounds
         projectBackgrounds.forEach(bg => {
-            bg.style.opacity = '0';
+            bg.classList.remove('active');
         });
         
         // Show selected background
-        projectBackgrounds[index].style.opacity = '1';
+        projectBackgrounds[index].classList.add('active');
         
         // Update dots
         projectDots.forEach((dot, i) => {
             if (i === index) {
                 dot.classList.add('active');
-                dot.style.opacity = '1';
             } else {
                 dot.classList.remove('active');
-                dot.style.opacity = '0.7';
             }
         });
     }
@@ -452,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentIndex = (currentIndex + 1) % images.length;
                 images[currentIndex].classList.add('active');
             }, interval);
-
+ 
             // Cleanup on page hide/unload
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
@@ -492,4 +565,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-}); 
+});

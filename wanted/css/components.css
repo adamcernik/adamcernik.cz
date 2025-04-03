@@ -175,6 +175,34 @@
     );
 }
 
+/* Fix for service-content at tablet breakpoints */
+@media (max-width: 1024px) and (min-width: 641px) {
+    .service-content {
+        height: 100%;
+        min-height: 100%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+}
+
+/* Specific fix for the 745px breakpoint where the issue occurs */
+@media (max-width: 767px) and (min-width: 730px) {
+    .service-content {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+    
+    .service-tile img {
+        z-index: 1;
+    }
+}
+
 /* Remove service-08 specific styling since all tiles now use the same color */
 /* .service-08 .service-content { 
     background: linear-gradient(to top, 
@@ -851,7 +879,9 @@
 .contact-form-tile {
     padding: 2rem;
     background: var(--gradient-tile);
-    max-height: 500px;
+    max-height: none;
+    min-height: 500px;
+    overflow-y: auto;
 }
 
 .contact-header {
@@ -913,8 +943,8 @@
 }
 
 .form-group textarea {
-    min-height: 120px;
-    max-height: 150px;
+    min-height: 100px;
+    max-height: 120px;
     resize: vertical;
 }
 
@@ -977,5 +1007,28 @@
     
     .form-group textarea {
         min-height: 80px;
+    }
+    
+    .contact-form-tile {
+        min-height: 450px;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-form-tile {
+        min-height: 500px;
+    }
+    
+    .form-disclaimer {
+        margin-top: 1rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form-tile {
+        min-height: 520px;
+        padding: 1.25rem;
     }
 } 

@@ -39,6 +39,13 @@
     gap: 0.75rem;
 }
 
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
 .logo {
     height: 96px;
     width: auto;
