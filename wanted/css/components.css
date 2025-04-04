@@ -793,7 +793,7 @@
 
 @media (max-width: 768px) {
     .services-scroll-container {
-        display: block !important; /* Always show on mobile */
+        display: none !important; /* Always hide on mobile - changed from block */
         overflow-x: auto;
         scroll-snap-type: x proximity;
         scrollbar-width: none;

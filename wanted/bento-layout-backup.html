@@ -10,6 +10,122 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Services grid for both desktop and mobile */
+        .services-grid {
+            width: 100%;
+            margin: 0 auto;
+            grid-column: span 4;  /* Make it span the full width in the bento grid */
+            display: flex;
+            flex-direction: column;
+            background: #f8f8f8;
+            border-radius: 12px;
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+        
+        .services-grid .headline {
+            margin: 20px 20px 10px 20px;
+            color: #333;
+        }
+        
+        /* On desktop, display as a proper grid */
+        @media (min-width: 769px) {
+            #basic-services-scroll {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 20px;
+                overflow: visible;
+                padding: 0 20px 20px 20px;
+            }
+            
+            .basic-service-tile {
+                height: 100%;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .basic-service-tile:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+        }
+        
+        /* On mobile, keep the horizontal scrolling */
+        @media (max-width: 768px) {
+            #basic-services-scroll {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 15px;
+                padding: 0 15px 15px 15px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .basic-service-tile {
+                flex: 0 0 80%;
+                scroll-snap-align: start;
+                min-width: 250px;
+            }
+        }
+        
+        /* Common styles for all screen sizes */
+        .basic-service-tile {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .basic-service-tile img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .basic-service-tile > div {
+            padding: 20px;
+        }
+        
+        .basic-service-tile .number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        
+        .basic-service-tile h3 {
+            font-size: 18px;
+            margin: 0 0 8px 0;
+            font-weight: 600;
+        }
+        
+        .basic-service-tile p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        /* Fix for bento grid integration */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Make the services grid span full width */
+        .tile.wide {
+            grid-column: span 2;
+        }
+        
+        .tile.services-grid {
+            grid-column: 1 / -1;
+        }
+    </style>
 </head>
 <body>
     <header class="header" role="banner">
@@ -199,24 +315,16 @@
             </div>
         </div>
 
-        <!-- Services scroll container for mobile view -->
-        <div id="services-container" class="services-scroll-container">
-            <div class="services-track" id="services-track">
-                <!-- Services items will be loaded from includes/services.html -->
-            </div>
-        </div>
-
-        <!-- Mobile Services Basic Scrolling -->
-        <div id="services-container" class="mobile-only-services">
+        <!-- Services Section -->
+        <div id="services-container" class="tile wide services-grid">
+            <h2 class="headline">Our Services</h2>
             <div id="basic-services-scroll">
                 <!-- Service 01 -->
                 <div class="basic-service-tile" data-target="service-01">
                     <img src="images/services/01.jpg" alt="Print & Design">
                     <div>
-                        <div class="service-header">
-                            <span class="number">01</span>
-                            <h3>Print & Design</h3>
-                        </div>
+                        <div class="number">01</div>
+                        <h3>Print & Design</h3>
                         <p>Professional printing and design services</p>
                     </div>
                 </div>
@@ -225,10 +333,8 @@
                 <div class="basic-service-tile" data-target="service-02">
                     <img src="images/services/02.jpg" alt="Corporate Identities">
                     <div>
-                        <div class="service-header">
-                            <span class="number">02</span>
-                            <h3>Corporate Identities</h3>
-                        </div>
+                        <div class="number">02</div>
+                        <h3>Corporate Identities</h3>
                         <p>Comprehensive brand identity development</p>
                     </div>
                 </div>
@@ -237,10 +343,8 @@
                 <div class="basic-service-tile" data-target="service-03">
                     <img src="images/services/03.jpg" alt="Furniture">
                     <div>
-                        <div class="service-header">
-                            <span class="number">03</span>
-                            <h3>Furniture</h3>
-                        </div>
+                        <div class="number">03</div>
+                        <h3>Furniture</h3>
                         <p>Custom furniture design and manufacturing</p>
                     </div>
                 </div>
@@ -249,10 +353,8 @@
                 <div class="basic-service-tile" data-target="service-04">
                     <img src="images/services/04.jpg" alt="Production">
                     <div>
-                        <div class="service-header">
-                            <span class="number">04</span>
-                            <h3>Production</h3>
-                        </div>
+                        <div class="number">04</div>
+                        <h3>Production</h3>
                         <p>Full-scale production services</p>
                     </div>
                 </div>
@@ -261,10 +363,8 @@
                 <div class="basic-service-tile" data-target="service-05">
                     <img src="images/services/05.jpg" alt="Crafts">
                     <div>
-                        <div class="service-header">
-                            <span class="number">05</span>
-                            <h3>Crafts</h3>
-                        </div>
+                        <div class="number">05</div>
+                        <h3>Crafts</h3>
                         <p>Specialized craftsmanship for custom solutions</p>
                     </div>
                 </div>
@@ -273,10 +373,8 @@
                 <div class="basic-service-tile" data-target="service-06">
                     <img src="images/services/06.jpg" alt="Film Props & Deco">
                     <div>
-                        <div class="service-header">
-                            <span class="number">06</span>
-                            <h3>Film Props & Deco</h3>
-                        </div>
+                        <div class="number">06</div>
+                        <h3>Film Props & Deco</h3>
                         <p>Custom props and set decorations</p>
                     </div>
                 </div>
@@ -285,10 +383,8 @@
                 <div class="basic-service-tile" data-target="service-07">
                     <img src="images/services/07.jpg" alt="Logistics">
                     <div>
-                        <div class="service-header">
-                            <span class="number">07</span>
-                            <h3>Logistics</h3>
-                        </div>
+                        <div class="number">07</div>
+                        <h3>Logistics</h3>
                         <p>Comprehensive logistics services</p>
                     </div>
                 </div>
@@ -297,97 +393,14 @@
                 <div class="basic-service-tile" data-target="service-08">
                     <img src="images/services/08.jpg" alt="Documentation">
                     <div>
-                        <div class="service-header">
-                            <span class="number">08</span>
-                            <h3>Documentation</h3>
-                        </div>
+                        <div class="number">08</div>
+                        <h3>Documentation</h3>
                         <p>Professional documentation services</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Services section - desktop view (inside bento-grid) -->
-        <!-- Service 01 tile -->
-        <div id="service-01" class="tile service-tile" data-modal="service-01">
-            <img src="images/services/01.jpg" alt="Print & Design">
-            <div class="service-content">
-                <div class="service-number">01</div>
-                <h3 class="service-title">Print & Design</h3>
-                <p class="text">Professional printing and design services for various media</p>
-            </div>
-        </div>
-
-        <!-- Service 02 tile -->
-        <div class="tile service-tile service-02" data-modal="service-02">
-            <img src="images/services/02.jpg" alt="Corporate Identities">
-            <div class="service-content">
-                <div class="service-number">02</div>
-                <h3 class="service-title">Corporate Identities</h3>
-                <p class="text">Comprehensive brand identity development and implementation</p>
-            </div>
-        </div>
-
-        <!-- Service 03 tile -->
-        <div class="tile service-tile service-03" data-modal="service-03">
-            <img src="images/services/03.jpg" alt="Furniture">
-            <div class="service-content">
-                <div class="service-number">03</div>
-                <h3 class="service-title">Furniture</h3>
-                <p class="text">Custom furniture design and manufacturing solutions</p>
-            </div>
-        </div>
-
-        <!-- Service 04 tile -->
-        <div class="tile service-tile service-04" data-modal="service-04">
-            <img src="images/services/04.jpg" alt="Production">
-            <div class="service-content">
-                <div class="service-number">04</div>
-                <h3 class="service-title">Production</h3>
-                <p class="text">Full-scale production services and project management</p>
-            </div>
-        </div>
-
-        <!-- Service 05 tile -->
-        <div class="tile service-tile service-05" data-modal="service-05">
-            <img src="images/services/05.jpg" alt="Crafts">
-            <div class="service-content">
-                <div class="service-number">05</div>
-                <h3 class="service-title">Crafts</h3>
-                <p class="text">Specialized craftsmanship including glass work and custom solutions</p>
-            </div>
-        </div>
-
-        <!-- Service 06 tile -->
-        <div class="tile service-tile service-06" data-modal="service-06">
-            <img src="images/services/06.jpg" alt="Film Props & Decorations">
-            <div class="service-content">
-                <div class="service-number">06</div>
-                <h3 class="service-title">Film Props & Deco</h3>
-                <p class="text">Custom props and set decorations for film and television</p>
-            </div>
-        </div>
-
-        <!-- Service 07 tile -->
-        <div class="tile service-tile service-07" data-modal="service-07">
-            <img src="images/services/07.jpg" alt="Logistics">
-            <div class="service-content">
-                <div class="service-number">07</div>
-                <h3 class="service-title">Logistics</h3>
-                <p class="text">Comprehensive logistics and transportation services</p>
-            </div>
-        </div>
-
-        <!-- Service 08 tile -->
-        <div class="tile service-tile service-08" data-modal="service-08">
-            <img src="images/services/08.jpg" alt="Documentation">
-            <div class="service-content">
-                <div class="service-number">08</div>
-                <h3 class="service-title">Documentation</h3>
-                <p class="text">Professional documentation and project documentation services</p>
-            </div>
-        </div>
-
         <!-- Center big tile with movie grid -->
         <div id="movie-grid" class="tile big gradient">
             <div class="movie-grid">
@@ -628,28 +641,6 @@
     <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script>
-        // Debug script to check services loading
-        console.log('Loading services check - HTML loaded');
-        document.addEventListener('DOMContentLoaded', function() {
-            const servicesTrack = document.getElementById('services-track');
-            console.log('Services track exists:', !!servicesTrack);
-            if (servicesTrack) {
-                console.log('Services track HTML:', servicesTrack.innerHTML);
-            }
-            
-            // Force loading services if needed
-            if (servicesTrack && !servicesTrack.children.length) {
-                console.log('Attempting to manually load services');
-                fetch('includes/services.html')
-                    .then(response => response.text())
-                    .then(html => {
-                        servicesTrack.innerHTML = html;
-                        console.log('Services manually loaded');
-                    })
-                    .catch(error => console.error('Manual services load failed:', error));
-            }
-        });
-        
         // iOS-specific scrolling fix - must be inline for immediate execution
         (function() {
             // Detect iOS
@@ -658,85 +649,84 @@
                 // Create a style element for critical iOS fixes
                 const style = document.createElement('style');
                 style.textContent = `
-                    .services-scroll-container {
+                    #basic-services-scroll {
                         -webkit-overflow-scrolling: touch !important;
                         overflow-x: scroll !important;
                     }
-                    .services-track {
-                        display: flex !important;
-                        transition: none !important;
-                    }
                 `;
                 document.head.appendChild(style);
-                
-                // Apply direct DOM fixes when loaded
-                document.addEventListener('DOMContentLoaded', function() {
-                    const container = document.querySelector('.services-scroll-container');
-                    if (container) {
-                        // Force redraw to trigger proper iOS scroll behavior
-                        container.style.display = 'none';
-                        setTimeout(() => {
-                            container.style.display = 'block';
-                        }, 10);
-                    }
-                });
             }
         })();
         
-        // Basic services scrolling helper - ensures scrolling works on all devices
+        // Services tiles interaction for both desktop and mobile
         document.addEventListener('DOMContentLoaded', function() {
             const basicServicesScroll = document.getElementById('basic-services-scroll');
             
             if (basicServicesScroll) {
-                console.log('Applying basic services scrolling fixes');
-                
-                // Force optimal settings for mobile scrolling
-                if (window.innerWidth <= 768) {
-                    // Force mobile optimizations
-                    basicServicesScroll.style.webkitOverflowScrolling = 'touch';
-                    basicServicesScroll.style.overflowX = 'auto';
-                    basicServicesScroll.style.overflowY = 'hidden';
+                // Handle modal opening for service tiles
+                const handleServiceTiles = function() {
+                    const isMobile = window.innerWidth <= 768;
                     
-                    // Fix for some mobile browsers that need a repaint
+                    // Mobile-specific scrolling optimizations
+                    if (isMobile) {
+                        basicServicesScroll.style.webkitOverflowScrolling = 'touch';
+                        basicServicesScroll.style.overflowX = 'auto';
+                        basicServicesScroll.style.overflowY = 'hidden';
+                    }
+                    
+                    // Add click handlers for all service tiles (both desktop and mobile)
+                    const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+                    
+                    serviceTiles.forEach(tile => {
+                        // For mobile: track if the user is scrolling or tapping
+                        let startX, isScrolling = false;
+                        
+                        // Mobile touch handling
+                        tile.addEventListener('touchstart', e => {
+                            startX = e.touches[0].clientX;
+                            isScrolling = false;
+                        }, { passive: true });
+                        
+                        tile.addEventListener('touchmove', () => {
+                            isScrolling = true;
+                        }, { passive: true });
+                        
+                        // Click handling for both desktop and mobile
+                        tile.addEventListener('click', e => {
+                            // On mobile, prevent opening modal if we're scrolling
+                            if (isMobile && isScrolling) {
+                                e.preventDefault();
+                                return;
+                            }
+                            
+                            const modalId = tile.getAttribute('data-target');
+                            if (modalId) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                openModal(modalId);
+                            }
+                        });
+                    });
+                };
+                
+                // Initialize and handle window resize
+                handleServiceTiles();
+                
+                // If on mobile, force a reflow to ensure proper scrolling behavior
+                if (window.innerWidth <= 768) {
                     setTimeout(function() {
                         const parent = basicServicesScroll.parentNode;
                         const next = basicServicesScroll.nextSibling;
                         parent.removeChild(basicServicesScroll);
                         parent.insertBefore(basicServicesScroll, next);
-                        console.log('Basic services scroll container reinitialized');
                     }, 100);
                 }
                 
-                // Add direct click handlers that won't conflict with scrolling
-                const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
-                
-                serviceTiles.forEach(tile => {
-                    // Track if the user is scrolling or tapping
-                    let startX, startTime, isScrolling = false;
-                    
-                    tile.addEventListener('touchstart', e => {
-                        startX = e.touches[0].clientX;
-                        startTime = Date.now();
-                        isScrolling = false;
-                    }, { passive: true });
-                    
-                    tile.addEventListener('touchmove', () => {
-                        isScrolling = true;
-                    }, { passive: true });
-                    
-                    tile.addEventListener('click', e => {
-                        if (isScrolling) {
-                            e.preventDefault();
-                            return;
-                        }
-                        
-                        const modalId = tile.getAttribute('data-target');
-                        if (modalId) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            openModal(modalId);
-                        }
-                    });
+                // Update on window resize
+                window.addEventListener('resize', function() {
+                    // Reset any inline styles that might be device-specific
+                    basicServicesScroll.style = '';
+                    handleServiceTiles();
                 });
             }
         });

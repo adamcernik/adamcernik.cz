@@ -154,7 +154,7 @@
     
     /* Show services scroll container on mobile */
     .services-scroll-container {
-        display: block !important;
+        display: none !important;
         width: 100%;
         margin: 0 0 1.5rem 0;
     }

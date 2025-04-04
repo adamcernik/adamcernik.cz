@@ -200,23 +200,19 @@
         </div>
 
         <!-- Services scroll container for mobile view -->
-        <div id="services-container" class="services-scroll-container">
-            <div class="services-track" id="services-track">
-                <!-- Services items will be loaded from includes/services.html -->
-            </div>
-        </div>
 
         <!-- Mobile Services Basic Scrolling -->
         <div id="services-container" class="mobile-only-services">
             <div id="basic-services-scroll">
+                <!-- Edge spacer for bounce effect -->
+                <div class="edge-spacer left-spacer"></div>
+                
                 <!-- Service 01 -->
                 <div class="basic-service-tile" data-target="service-01">
                     <img src="images/services/01.jpg" alt="Print & Design">
                     <div>
-                        <div class="service-header">
-                            <span class="number">01</span>
-                            <h3>Print & Design</h3>
-                        </div>
+                        <div class="number">01</div>
+                        <h3>Print & Design</h3>
                         <p>Professional printing and design services</p>
                     </div>
                 </div>
@@ -225,10 +221,8 @@
                 <div class="basic-service-tile" data-target="service-02">
                     <img src="images/services/02.jpg" alt="Corporate Identities">
                     <div>
-                        <div class="service-header">
-                            <span class="number">02</span>
-                            <h3>Corporate Identities</h3>
-                        </div>
+                        <div class="number">02</div>
+                        <h3>Corporate Identities</h3>
                         <p>Comprehensive brand identity development</p>
                     </div>
                 </div>
@@ -237,10 +231,8 @@
                 <div class="basic-service-tile" data-target="service-03">
                     <img src="images/services/03.jpg" alt="Furniture">
                     <div>
-                        <div class="service-header">
-                            <span class="number">03</span>
-                            <h3>Furniture</h3>
-                        </div>
+                        <div class="number">03</div>
+                        <h3>Furniture</h3>
                         <p>Custom furniture design and manufacturing</p>
                     </div>
                 </div>
@@ -249,10 +241,8 @@
                 <div class="basic-service-tile" data-target="service-04">
                     <img src="images/services/04.jpg" alt="Production">
                     <div>
-                        <div class="service-header">
-                            <span class="number">04</span>
-                            <h3>Production</h3>
-                        </div>
+                        <div class="number">04</div>
+                        <h3>Production</h3>
                         <p>Full-scale production services</p>
                     </div>
                 </div>
@@ -261,10 +251,8 @@
                 <div class="basic-service-tile" data-target="service-05">
                     <img src="images/services/05.jpg" alt="Crafts">
                     <div>
-                        <div class="service-header">
-                            <span class="number">05</span>
-                            <h3>Crafts</h3>
-                        </div>
+                        <div class="number">05</div>
+                        <h3>Crafts</h3>
                         <p>Specialized craftsmanship for custom solutions</p>
                     </div>
                 </div>
@@ -273,10 +261,8 @@
                 <div class="basic-service-tile" data-target="service-06">
                     <img src="images/services/06.jpg" alt="Film Props & Deco">
                     <div>
-                        <div class="service-header">
-                            <span class="number">06</span>
-                            <h3>Film Props & Deco</h3>
-                        </div>
+                        <div class="number">06</div>
+                        <h3>Film Props & Deco</h3>
                         <p>Custom props and set decorations</p>
                     </div>
                 </div>
@@ -285,10 +271,8 @@
                 <div class="basic-service-tile" data-target="service-07">
                     <img src="images/services/07.jpg" alt="Logistics">
                     <div>
-                        <div class="service-header">
-                            <span class="number">07</span>
-                            <h3>Logistics</h3>
-                        </div>
+                        <div class="number">07</div>
+                        <h3>Logistics</h3>
                         <p>Comprehensive logistics services</p>
                     </div>
                 </div>
@@ -297,13 +281,14 @@
                 <div class="basic-service-tile" data-target="service-08">
                     <img src="images/services/08.jpg" alt="Documentation">
                     <div>
-                        <div class="service-header">
-                            <span class="number">08</span>
-                            <h3>Documentation</h3>
-                        </div>
+                        <div class="number">08</div>
+                        <h3>Documentation</h3>
                         <p>Professional documentation services</p>
                     </div>
                 </div>
+                
+                <!-- Edge spacer for bounce effect -->
+                <div class="edge-spacer right-spacer"></div>
             </div>
         </div>
         
@@ -650,6 +635,63 @@
             }
         });
         
+        // Define a standalone openModal function that's guaranteed to be in the global scope
+        function openServiceModal(modalId) {
+            console.log('Opening service modal:', modalId);
+            
+            // Try to use the main openModal function from main.js if available
+            if (typeof window.openModal === 'function') {
+                window.openModal(modalId);
+                return;
+            }
+            
+            // Fallback implementation if main.js function isn't available
+            const modalElement = document.getElementById('service-modal');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            
+            if (!modalElement || !modalOverlay) {
+                console.error('Modal elements not found in the DOM');
+                return;
+            }
+            
+            // Basic modal opening logic
+            modalOverlay.classList.add('active');
+            document.body.classList.add('modal-open');
+            
+            // Set basic content if we can
+            if (modalTitle) {
+                modalTitle.textContent = modalId.replace('service-', 'Service ');
+            }
+            
+            if (modalImage) {
+                modalImage.src = `images/services/${modalId.replace('service-', '')}.jpg`;
+            }
+            
+            // Add close functionality
+            const closeBtn = document.getElementById('modal-close');
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modalOverlay.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                };
+            }
+            
+            // Close when clicking overlay
+            modalOverlay.onclick = function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                }
+            };
+        }
+        
+        // Make sure it's globally available
+        window.openServiceModal = openServiceModal;
+    </script>
+    <script>
         // iOS-specific scrolling fix - must be inline for immediate execution
         (function() {
             // Detect iOS
@@ -690,7 +732,7 @@
             if (basicServicesScroll) {
                 console.log('Applying basic services scrolling fixes');
                 
-                // Force optimal settings for mobile scrolling
+                // Apply optimal settings for mobile scrolling
                 if (window.innerWidth <= 768) {
                     // Force mobile optimizations
                     basicServicesScroll.style.webkitOverflowScrolling = 'touch';
@@ -707,36 +749,36 @@
                     }, 100);
                 }
                 
-                // Add direct click handlers that won't conflict with scrolling
-                const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+                // FINAL IMPLEMENTATION: Clean solution with proper modal handling
+                console.log('Setting up modal handlers for service tiles');
                 
-                serviceTiles.forEach(tile => {
-                    // Track if the user is scrolling or tapping
-                    let startX, startTime, isScrolling = false;
+                // First clone and replace all tiles to remove any existing handlers
+                const finalServiceTiles = Array.from(basicServicesScroll.querySelectorAll('.basic-service-tile'));
+                finalServiceTiles.forEach(tile => {
+                    const freshTile = tile.cloneNode(true);
+                    if (tile.parentNode) {
+                        tile.parentNode.replaceChild(freshTile, tile);
+                    }
+                });
+                
+                // Apply simple, reliable click handlers to the clean tiles
+                basicServicesScroll.querySelectorAll('.basic-service-tile').forEach(tile => {
+                    // Ensure it looks clickable
+                    tile.style.cursor = 'pointer';
                     
-                    tile.addEventListener('touchstart', e => {
-                        startX = e.touches[0].clientX;
-                        startTime = Date.now();
-                        isScrolling = false;
-                    }, { passive: true });
-                    
-                    tile.addEventListener('touchmove', () => {
-                        isScrolling = true;
-                    }, { passive: true });
-                    
-                    tile.addEventListener('click', e => {
-                        if (isScrolling) {
-                            e.preventDefault();
-                            return;
-                        }
-                        
-                        const modalId = tile.getAttribute('data-target');
+                    // Add a simple, direct click handler
+                    tile.onclick = function(e) {
+                        const modalId = this.getAttribute('data-target');
                         if (modalId) {
+                            // Use our reliable standalone function
+                            window.openServiceModal(modalId);
+                            
+                            // Prevent default behavior
                             e.preventDefault();
                             e.stopPropagation();
-                            openModal(modalId);
+                            return false;
                         }
-                    });
+                    };
                 });
             }
         });
