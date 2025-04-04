@@ -111,17 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         openModal(modalId);
                     });
                 });
-                
-                // Add visual feedback on touch for mobile tiles
-                mobileTiles.forEach(tile => {
-                    tile.addEventListener('touchstart', function() {
-                        this.classList.add('touch-active');
-                    }, {passive: true});
-                    
-                    tile.addEventListener('touchend', function() {
-                        this.classList.remove('touch-active');
-                    }, {passive: true});
-                });
             })
             .catch(error => {
                 console.error('Error loading services content:', error);
@@ -135,177 +124,400 @@ document.addEventListener('DOMContentLoaded', function() {
     function initTimelineScroll() {
         const timelineContainer = document.querySelector('.timeline-scroll-container');
         if (timelineContainer) {
-            // Simplified wheel event handling
-            timelineContainer.addEventListener('wheel', function(e) {
-                // If shift key is pressed or deltaX is significantly larger than deltaY, use horizontal scroll
-                if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                    e.preventDefault();
-                    timelineContainer.scrollLeft += e.deltaX || e.deltaY;
+            // Variables for momentum scrolling
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let lastTouchX = 0;
+            let lastTouchTime = 0;
+            let velocity = 0;
+            let momentum = null;
+            let touchMoved = false;
+            
+            // Touch start handler
+            timelineContainer.addEventListener('touchstart', function(e) {
+                // Stop any ongoing momentum scrolling
+                if (momentum) {
+                    cancelAnimationFrame(momentum);
+                    momentum = null;
                 }
-                // For horizontal scrolling with vertical wheel (when deltaY is present)
-                else if (Math.abs(e.deltaY) > 0 && e.altKey) {
-                    e.preventDefault();
-                    timelineContainer.scrollLeft += e.deltaY;
+                
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                lastTouchX = touchStartX;
+                lastTouchTime = Date.now();
+                velocity = 0;
+                touchMoved = false;
+            }, { passive: true });
+            
+            // Touch move handler
+            timelineContainer.addEventListener('touchmove', function(e) {
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                const diffX = Math.abs(touchStartX - touchX);
+                const diffY = Math.abs(touchStartY - touchY);
+                const now = Date.now();
+                const elapsed = now - lastTouchTime;
+                
+                // Calculate velocity (pixels per millisecond)
+                if (elapsed > 0) {
+                    velocity = (lastTouchX - touchX) / elapsed;
                 }
-                // Otherwise, let the default vertical scrolling happen
+                
+                // If user has moved their finger by more than 10px, consider it a scroll, not a tap
+                if (diffX > 10 || diffY > 10) {
+                    touchMoved = true;
+                }
+                
+                // If clearly horizontal movement
+                if (diffX > diffY) {
+                    e.preventDefault();
+                    timelineContainer.scrollLeft += (lastTouchX - touchX);
+                }
+                
+                // Update last position and time
+                lastTouchX = touchX;
+                lastTouchTime = now;
             }, { passive: false });
             
-            // Add basic drag-to-scroll functionality
+            // Touch end handler
+            timelineContainer.addEventListener('touchend', function() {
+                // Apply momentum scrolling
+                if (touchMoved && Math.abs(velocity) > 0.1) {
+                    // Start with current velocity
+                    let currentVelocity = velocity * 800; // Scale up for better feeling
+                    
+                    // Friction factor (lower = more slippery)
+                    const friction = 0.95;
+                    
+                    // Apply momentum with requestAnimationFrame
+                    const applyMomentum = () => {
+                        // Apply velocity with friction
+                        timelineContainer.scrollLeft += currentVelocity;
+                        currentVelocity *= friction;
+                        
+                        // Stop when velocity becomes very small
+                        if (Math.abs(currentVelocity) > 0.5) {
+                            momentum = requestAnimationFrame(applyMomentum);
+                        } else {
+                            momentum = null;
+                        }
+                    };
+                    
+                    momentum = requestAnimationFrame(applyMomentum);
+                }
+            }, { passive: true });
+            
+            // Mouse-based scrolling with momentum
             let isDown = false;
-            let startX;
-            let scrollLeft;
+            let startX, scrollLeft;
+            let mouseVelocity = 0;
+            let lastMouseX = 0;
+            let lastMouseTime = 0;
+            let mouseMomentum = null;
             
             timelineContainer.addEventListener('mousedown', (e) => {
                 isDown = true;
                 timelineContainer.style.cursor = 'grabbing';
-                startX = e.pageX - timelineContainer.offsetLeft;
+                startX = e.pageX;
                 scrollLeft = timelineContainer.scrollLeft;
-                e.preventDefault(); // Prevent text selection during drag
+                lastMouseX = startX;
+                lastMouseTime = Date.now();
+                mouseVelocity = 0;
+                
+                // Stop any ongoing momentum scrolling
+                if (mouseMomentum) {
+                    cancelAnimationFrame(mouseMomentum);
+                    mouseMomentum = null;
+                }
+                
+                e.preventDefault();
             });
             
             timelineContainer.addEventListener('mouseleave', () => {
-                isDown = false;
-                timelineContainer.style.cursor = 'grab';
+                if (isDown) {
+                    isDown = false;
+                    timelineContainer.style.cursor = 'grab';
+                    
+                    // Apply momentum when mouse leaves while dragging
+                    applyMouseMomentum();
+                }
             });
             
             timelineContainer.addEventListener('mouseup', () => {
-                isDown = false;
-                timelineContainer.style.cursor = 'grab';
+                if (isDown) {
+                    isDown = false;
+                    timelineContainer.style.cursor = 'grab';
+                    
+                    // Apply momentum when mouse is released
+                    applyMouseMomentum();
+                }
             });
             
             timelineContainer.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
-                const x = e.pageX - timelineContainer.offsetLeft;
-                const walk = (x - startX) * 1.5; // Scroll speed multiplier
+                const x = e.pageX;
+                const now = Date.now();
+                const elapsed = now - lastMouseTime;
+                
+                // Calculate current velocity
+                if (elapsed > 0) {
+                    mouseVelocity = (lastMouseX - x) / elapsed;
+                }
+                
+                // Move the scrollLeft based on mouse movement
+                const walk = x - startX;
                 timelineContainer.scrollLeft = scrollLeft - walk;
+                
+                // Update tracking variables
+                lastMouseX = x;
+                lastMouseTime = now;
             });
+            
+            function applyMouseMomentum() {
+                if (Math.abs(mouseVelocity) > 0.1) {
+                    // Start with current velocity
+                    let currentVelocity = mouseVelocity * 800; // Scale up for better feeling
+                    const friction = 0.95; // Friction factor
+                    
+                    // Apply momentum with requestAnimationFrame
+                    const applyMomentum = () => {
+                        timelineContainer.scrollLeft += currentVelocity;
+                        currentVelocity *= friction;
+                        
+                        if (Math.abs(currentVelocity) > 0.5) {
+                            mouseMomentum = requestAnimationFrame(applyMomentum);
+                        } else {
+                            mouseMomentum = null;
+                        }
+                    };
+                    
+                    mouseMomentum = requestAnimationFrame(applyMomentum);
+                }
+            }
+            
+            // Wheel event handling for horizontal scrolling
+            timelineContainer.addEventListener('wheel', function(e) {
+                // If shift key is pressed or deltaX is significant, use horizontal scroll
+                if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                    e.preventDefault();
+                    
+                    // If momentum from wheel already active, cancel it
+                    if (mouseMomentum) {
+                        cancelAnimationFrame(mouseMomentum);
+                        mouseMomentum = null;
+                    }
+                    
+                    timelineContainer.scrollLeft += e.deltaX || e.deltaY;
+                    
+                    // Calculate velocity from wheel event
+                    mouseVelocity = (e.deltaX || e.deltaY) * 0.01;
+                    
+                    // Apply gentle momentum for wheel scrolling
+                    clearTimeout(timelineContainer.wheelTimeout);
+                    timelineContainer.wheelTimeout = setTimeout(() => {
+                        applyMouseMomentum();
+                    }, 50);
+                }
+            }, { passive: false });
             
             // Initialize cursor style
             timelineContainer.style.cursor = 'grab';
-            
-            // Touch scrolling support for mobile
-            let touchStartX = 0;
-            let touchStartY = 0;
-            
-            timelineContainer.addEventListener('touchstart', function(e) {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            timelineContainer.addEventListener('touchmove', function(e) {
-                const touchX = e.touches[0].clientX;
-                const touchY = e.touches[0].clientY;
-                const diffX = touchStartX - touchX;
-                const diffY = touchStartY - touchY;
-                
-                // If clearly horizontal movement
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    e.preventDefault();
-                    timelineContainer.scrollLeft += diffX;
-                    touchStartX = touchX;
-                }
-            }, { passive: false });
         }
     }
     
-    // Services scroll functionality (for mobile)
+    // Services scroll functionality (for mobile) with momentum-based scrolling
     function initServicesScroll() {
         const servicesContainer = document.querySelector('.services-scroll-container');
-        if (servicesContainer) {
-            // Only initialize for mobile views
-            if (window.innerWidth <= 768) {
-                let touchStartTime = 0;
-                let touchEndTime = 0;
-                let touchMoved = false;
-                let touchStartX = 0;
-                let touchStartY = 0;
+        if (servicesContainer && window.innerWidth <= 768) {
+            // Variables for momentum scrolling
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let lastTouchX = 0;
+            let lastTouchTime = 0;
+            let velocity = 0;
+            let momentum = null;
+            let touchMoved = false;
+            
+            // Touch start handler
+            servicesContainer.addEventListener('touchstart', function(e) {
+                // Stop any ongoing momentum scrolling
+                if (momentum) {
+                    cancelAnimationFrame(momentum);
+                    momentum = null;
+                }
                 
-                servicesContainer.addEventListener('touchstart', function(e) {
-                    touchStartTime = new Date().getTime();
-                    touchMoved = false;
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                }, { passive: true });
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                lastTouchX = touchStartX;
+                lastTouchTime = Date.now();
+                velocity = 0;
+                touchMoved = false;
+            }, { passive: true });
+            
+            // Touch move handler
+            servicesContainer.addEventListener('touchmove', function(e) {
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                const diffX = Math.abs(touchStartX - touchX);
+                const diffY = Math.abs(touchStartY - touchY);
+                const now = Date.now();
+                const elapsed = now - lastTouchTime;
                 
-                servicesContainer.addEventListener('touchmove', function(e) {
-                    const touchX = e.touches[0].clientX;
-                    const touchY = e.touches[0].clientY;
-                    const diffX = Math.abs(touchStartX - touchX);
-                    const diffY = Math.abs(touchStartY - touchY);
-                    
-                    // If user has moved their finger by more than 10px, consider it a scroll, not a tap
-                    if (diffX > 10 || diffY > 10) {
-                        touchMoved = true;
-                    }
-                    
-                    // If clearly horizontal movement
-                    if (diffX > diffY) {
-                        e.preventDefault();
-                        servicesContainer.scrollLeft += (touchStartX - touchX);
-                        touchStartX = touchX;
-                    }
-                }, { passive: false });
+                // Calculate velocity (pixels per millisecond)
+                if (elapsed > 0) {
+                    velocity = (lastTouchX - touchX) / elapsed;
+                }
                 
-                servicesContainer.addEventListener('touchend', function(e) {
-                    touchEndTime = new Date().getTime();
-                    const touchDuration = touchEndTime - touchStartTime;
-                    
-                    // If the touch was short (<300ms) and the finger didn't move much, treat as a tap
-                    // Otherwise, treat as a scroll and prevent click
-                    if (touchDuration > 300 || touchMoved) {
-                        // Add flag to upcoming click event to identify it as part of a scroll action
-                        const preventNextClick = (e) => {
-                            console.log('Marking click as part of scroll');
-                            e._isScroll = true;
-                            document.removeEventListener('click', preventNextClick, true);
-                        };
-                        document.addEventListener('click', preventNextClick, true);
-                    }
-                }, { passive: true });
+                // If user has moved their finger by more than 10px, consider it a scroll, not a tap
+                if (diffX > 10 || diffY > 10) {
+                    touchMoved = true;
+                }
                 
-                // Mouse-based scrolling (less important on mobile but still useful)
-                let isDown = false;
-                let startX;
-                let scrollLeft;
-                
-                servicesContainer.addEventListener('mousedown', (e) => {
-                    isDown = true;
-                    servicesContainer.style.cursor = 'grabbing';
-                    startX = e.pageX - servicesContainer.offsetLeft;
-                    scrollLeft = servicesContainer.scrollLeft;
+                // If clearly horizontal movement
+                if (diffX > diffY) {
                     e.preventDefault();
-                });
+                    servicesContainer.scrollLeft += (lastTouchX - touchX);
+                }
                 
-                servicesContainer.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    servicesContainer.style.cursor = 'grab';
-                });
-                
-                servicesContainer.addEventListener('mouseup', () => {
-                    isDown = false;
-                    servicesContainer.style.cursor = 'grab';
-                });
-                
-                servicesContainer.addEventListener('mousemove', (e) => {
-                    if (!isDown) return;
-                    const x = e.pageX - servicesContainer.offsetLeft;
-                    const walk = (x - startX) * 1.5;
+                // Update last position and time
+                lastTouchX = touchX;
+                lastTouchTime = now;
+            }, { passive: false });
+            
+            // Touch end handler
+            servicesContainer.addEventListener('touchend', function(e) {
+                // If touch moved, add a flag to identify any immediate click as a scroll
+                if (touchMoved) {
+                    const preventNextClick = (e) => {
+                        e._isScroll = true;
+                        document.removeEventListener('click', preventNextClick, true);
+                    };
+                    document.addEventListener('click', preventNextClick, true);
                     
-                    if (Math.abs(walk) > 5) {
-                        // If user has dragged more than 5px, treat as a scroll action
-                        const preventNextClick = (e) => {
-                            e._isScroll = true;
-                            document.removeEventListener('click', preventNextClick, true);
+                    // Apply momentum scrolling
+                    if (Math.abs(velocity) > 0.1) {
+                        // Start with current velocity
+                        let currentVelocity = velocity * 800; // Scale up for better feeling
+                        
+                        // Friction factor (lower = more slippery)
+                        const friction = 0.95;
+                        
+                        // Apply momentum with requestAnimationFrame
+                        const applyMomentum = () => {
+                            // Apply velocity with friction
+                            servicesContainer.scrollLeft += currentVelocity;
+                            currentVelocity *= friction;
+                            
+                            // Stop when velocity becomes very small
+                            if (Math.abs(currentVelocity) > 0.5) {
+                                momentum = requestAnimationFrame(applyMomentum);
+                            } else {
+                                momentum = null;
+                            }
                         };
-                        document.addEventListener('click', preventNextClick, true);
+                        
+                        momentum = requestAnimationFrame(applyMomentum);
                     }
-                    
-                    servicesContainer.scrollLeft = scrollLeft - walk;
-                });
+                }
+            }, { passive: true });
+            
+            // Mouse-based scrolling with momentum
+            let isDown = false;
+            let startX, scrollLeft;
+            let mouseVelocity = 0;
+            let lastMouseX = 0;
+            let lastMouseTime = 0;
+            let mouseMomentum = null;
+            
+            servicesContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                servicesContainer.style.cursor = 'grabbing';
+                startX = e.pageX;
+                scrollLeft = servicesContainer.scrollLeft;
+                lastMouseX = startX;
+                lastMouseTime = Date.now();
+                mouseVelocity = 0;
                 
-                // Initialize cursor style
-                servicesContainer.style.cursor = 'grab';
+                // Stop any ongoing momentum scrolling
+                if (mouseMomentum) {
+                    cancelAnimationFrame(mouseMomentum);
+                    mouseMomentum = null;
+                }
+                
+                e.preventDefault();
+            });
+            
+            servicesContainer.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    servicesContainer.style.cursor = 'grab';
+                    
+                    // Apply momentum when mouse leaves while dragging
+                    applyMouseMomentum();
+                }
+            });
+            
+            servicesContainer.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    servicesContainer.style.cursor = 'grab';
+                    
+                    // Apply momentum when mouse is released
+                    applyMouseMomentum();
+                }
+            });
+            
+            servicesContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                const x = e.pageX;
+                const now = Date.now();
+                const elapsed = now - lastMouseTime;
+                
+                // Calculate current velocity
+                if (elapsed > 0) {
+                    mouseVelocity = (lastMouseX - x) / elapsed;
+                }
+                
+                // Move the scrollLeft based on mouse movement
+                const walk = x - startX;
+                servicesContainer.scrollLeft = scrollLeft - walk;
+                
+                // Update tracking variables
+                lastMouseX = x;
+                lastMouseTime = now;
+            });
+            
+            function applyMouseMomentum() {
+                if (Math.abs(mouseVelocity) > 0.1) {
+                    // Start with current velocity
+                    let currentVelocity = mouseVelocity * 800; // Scale up for better feeling
+                    const friction = 0.95; // Friction factor
+                    
+                    // Apply momentum with requestAnimationFrame
+                    const applyMomentum = () => {
+                        servicesContainer.scrollLeft += currentVelocity;
+                        currentVelocity *= friction;
+                        
+                        if (Math.abs(currentVelocity) > 0.5) {
+                            mouseMomentum = requestAnimationFrame(applyMomentum);
+                        } else {
+                            mouseMomentum = null;
+                        }
+                    };
+                    
+                    mouseMomentum = requestAnimationFrame(applyMomentum);
+                    
+                    // Prevent clicks after momentum scrolling
+                    const preventNextClick = (e) => {
+                        e._isScroll = true;
+                        document.removeEventListener('click', preventNextClick, true);
+                    };
+                    document.addEventListener('click', preventNextClick, true);
+                }
             }
+            
+            // Initialize cursor style
+            servicesContainer.style.cursor = 'grab';
         }
     }
     
