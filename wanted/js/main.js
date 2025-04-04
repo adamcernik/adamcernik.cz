@@ -365,7 +365,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Calculate velocity (pixels per millisecond)
                 if (elapsed > 0) {
-                    velocity = (lastTouchX - touchX) / elapsed;
+                    // Reduce velocity to slow down scrolling
+                    velocity = (lastTouchX - touchX) / elapsed * 0.5; // Apply resistance factor
                 }
                 
                 // If user has moved their finger by more than 10px, consider it a scroll, not a tap
@@ -376,7 +377,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If clearly horizontal movement
                 if (diffX > diffY) {
                     e.preventDefault();
-                    servicesContainer.scrollLeft += (lastTouchX - touchX);
+                    // Apply resistance to slow down scrolling
+                    servicesContainer.scrollLeft += (lastTouchX - touchX) * 0.5; // Move only half as fast
                 }
                 
                 // Update last position and time
@@ -396,11 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Apply momentum scrolling
                     if (Math.abs(velocity) > 0.1) {
-                        // Start with current velocity
-                        let currentVelocity = velocity * 800; // Scale up for better feeling
+                        // Start with current velocity (reduce by multiplier)
+                        let currentVelocity = velocity * 250; // Reduced from 800 to 250 for less momentum
                         
-                        // Friction factor (lower = more slippery)
-                        const friction = 0.95;
+                        // Increase friction to stop faster
+                        const friction = 0.9; // Increased friction (was 0.95)
                         
                         // Apply momentum with requestAnimationFrame
                         const applyMomentum = () => {
@@ -419,6 +421,49 @@ document.addEventListener('DOMContentLoaded', function() {
                         momentum = requestAnimationFrame(applyMomentum);
                     }
                 }
+            }, { passive: true });
+            
+            // Add snapping to items when scrolling stops
+            function snapToNearestItem() {
+                const track = document.getElementById('services-track');
+                if (!track) return;
+                
+                const scrollPosition = servicesContainer.scrollLeft;
+                const containerWidth = servicesContainer.offsetWidth;
+                const items = Array.from(track.querySelectorAll('.mobile-service'));
+                
+                if (items.length === 0) return;
+                
+                let closestItem = null;
+                let closestDistance = Infinity;
+                
+                items.forEach(item => {
+                    const itemLeft = item.offsetLeft;
+                    const itemCenter = itemLeft + (item.offsetWidth / 2);
+                    const distanceToCenter = Math.abs(scrollPosition + (containerWidth / 2) - itemCenter);
+                    
+                    if (distanceToCenter < closestDistance) {
+                        closestDistance = distanceToCenter;
+                        closestItem = item;
+                    }
+                });
+                
+                if (closestItem) {
+                    const targetPosition = closestItem.offsetLeft - (containerWidth - closestItem.offsetWidth) / 2;
+                    
+                    // Smooth scroll to the target position
+                    servicesContainer.scrollTo({
+                        left: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            // Add event listener for when scrolling stops
+            let scrollTimeout;
+            servicesContainer.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(snapToNearestItem, 150); // Wait for scrolling to stop
             }, { passive: true });
             
             // Mouse-based scrolling with momentum
@@ -475,12 +520,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Calculate current velocity
                 if (elapsed > 0) {
-                    mouseVelocity = (lastMouseX - x) / elapsed;
+                    mouseVelocity = (lastMouseX - x) / elapsed * 0.5; // Apply resistance
                 }
                 
-                // Move the scrollLeft based on mouse movement
+                // Move the scrollLeft based on mouse movement (with resistance)
                 const walk = x - startX;
-                servicesContainer.scrollLeft = scrollLeft - walk;
+                servicesContainer.scrollLeft = scrollLeft - walk * 0.5; // Move only half as fast
                 
                 // Update tracking variables
                 lastMouseX = x;
@@ -489,9 +534,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             function applyMouseMomentum() {
                 if (Math.abs(mouseVelocity) > 0.1) {
-                    // Start with current velocity
-                    let currentVelocity = mouseVelocity * 800; // Scale up for better feeling
-                    const friction = 0.95; // Friction factor
+                    // Start with current velocity (reduced)
+                    let currentVelocity = mouseVelocity * 250; // Reduced from 800 to 250
+                    const friction = 0.9; // Increased friction
                     
                     // Apply momentum with requestAnimationFrame
                     const applyMomentum = () => {
@@ -502,6 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             mouseMomentum = requestAnimationFrame(applyMomentum);
                         } else {
                             mouseMomentum = null;
+                            // When momentum stops, snap to nearest item
+                            snapToNearestItem();
                         }
                     };
                     
@@ -513,6 +560,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.removeEventListener('click', preventNextClick, true);
                     };
                     document.addEventListener('click', preventNextClick, true);
+                } else {
+                    // If no significant momentum, still snap to nearest item
+                    snapToNearestItem();
                 }
             }
             
