@@ -58,8 +58,12 @@
 
 .timeline-track {
     display: flex;
+    /* Limit the width to prevent extending too far to the right */
     min-width: max-content;
+    width: max-content; /* This ensures the track only extends as far as needed */
     position: relative;
+    /* Add small right padding for better spacing */
+    padding-right: 20px;
 }
 
 .timeline-track::before {
@@ -69,7 +73,8 @@
     background-color: var(--accent-gold);
     top: 14px;
     left: 70px; /* Start after the first year label */
-    right: 40px;
+    /* Don't extend all the way to right edge, stop earlier */
+    right: 20px;
     z-index: 1;
 }
 
@@ -99,7 +104,7 @@
 }
 
 .timeline-item:last-child {
-    margin-right: 20px;
+    margin-right: 0; /* Remove right margin from last item */
 }
 
 .timeline-year {
@@ -187,8 +192,8 @@
         width: calc(100% + 30px);
         margin-left: -15px;
         padding: 0 15px 15px 15px;
-        padding-right: 60px; /* Extra padding on the right to ensure next item visibility */
-        scroll-padding: 0 70px 0 15px; /* Set scroll padding to enforce stopping at consistent positions */
+        padding-right: 15px; /* Reduce to minimum needed padding */
+        scroll-padding: 0 20px 0 15px; /* Adjust scroll padding */
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         position: relative;
@@ -199,8 +204,8 @@
         content: '';
         position: absolute;
         top: 50%;
-        right: 50px;
-        width: 10px;
+        right: 10px; /* Position closer to last item */
+        width: 8px; /* Make slightly narrower */
         height: 30px;
         background: rgba(215, 125, 50, 0.4);
         border-radius: 5px 0 0 5px;
@@ -228,9 +233,10 @@
         100% { opacity: 0; display: none; }
     }
     
+    /* Show part of next item while maintaining clean end */
     .timeline-item {
         flex: 0 0 260px;
-        margin-right: 40px;
+        margin-right: 30px; /* Slightly reduced spacing between items */
     }
     
     .timeline-year {
@@ -278,6 +284,15 @@
         display: block;
         overflow: visible;
     }
+
+    .timeline-track::before {
+        right: 20px; /* Consistent with desktop, don't extend to very edge */
+    }
+
+    /* Make sure timeline track is properly sized */
+    .timeline-track {
+        padding-right: 0; /* Remove padding on mobile */
+    }
 }
 
 @media (max-width: 480px) {
@@ -297,14 +312,14 @@
     }
     
     .timeline-scroll-container {
-        padding-right: 80px; /* Even more padding for smaller screens */
-        width: calc(100% + 40px); /* Wider for more visibility of next item */
-        margin-left: -20px;
+        padding-right: 15px; /* Minimize padding on small screens */
+        width: calc(100% + 30px);
+        margin-left: -15px;
     }
     
     .timeline-item {
         flex: 0 0 220px;
-        margin-right: 30px;
+        margin-right: 20px; /* Slightly reduced spacing for small screens */
         padding-top: 30px;
     }
     
@@ -316,6 +331,10 @@
     
     .timeline-content {
         min-height: 160px;
+    }
+
+    .timeline-item:last-child {
+        margin-right: 0; /* Ensure no right margin on smallest screens */
     }
 }
 

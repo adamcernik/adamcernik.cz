@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Apply smooth transition back with shorter animation time
             // Faster spring curve that still feels natural but doesn't linger
-            track.style.transition = 'transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)';
+            track.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.05)';
             track.style.transform = 'translateX(0)';
             
             // Reset overscroll amount
@@ -396,12 +396,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Calculate overscroll amount based on remaining velocity with reduced effect
                     const momentumFactor = Math.min(Math.abs(totalScrolled) / 500, 1);
                     const isMobile = 'ontouchstart' in window;
-                    const velocityMultiplier = isMobile ? 8 : 5; // Less pronounced on desktop
+                    const velocityMultiplier = isMobile ? 10 : 6; // Enhanced bounce effect
                     
                     overscrollAmount = velocity * velocityMultiplier * momentumFactor;
                     
-                    // Apply maximum limit - smaller for desktop
-                    const maxOverscroll = container.offsetWidth * (isMobile ? 0.05 : 0.03) + (momentumFactor * 0.05);
+                    // Apply maximum limit - adjusted for better visual feedback
+                    const maxOverscroll = container.offsetWidth * (isMobile ? 0.07 : 0.04) + (momentumFactor * 0.06);
                     overscrollAmount = Math.max(
                         Math.min(overscrollAmount, maxOverscroll), 
                         -maxOverscroll
@@ -414,10 +414,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         track.style.transition = 'none';
                         track.style.transform = `translateX(${overscrollAmount}px)`;
                         
-                        // Return after a very short delay
+                        // Return after a very short delay - slightly extended for better feel
                         const returnDelay = isMobile ? 
-                            Math.min(Math.abs(overscrollAmount) * 1.5, 150) : // Mobile can have slightly longer delay (max 150ms)
-                            Math.min(Math.abs(overscrollAmount), 80);         // Desktop has very short delay (max 80ms)
+                            Math.min(Math.abs(overscrollAmount) * 1.8, 180) : // Mobile has slightly longer delay (max 180ms)
+                            Math.min(Math.abs(overscrollAmount) * 1.2, 100);  // Desktop has short delay (max 100ms)
                             
                         overscrollReturnTimeoutId = setTimeout(() => {
                             returnFromOverscroll();
@@ -783,13 +783,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timelineContainer) {
             // Setup natural scrolling for timeline with parameters optimized for mobile
             setupNaturalScrolling(timelineContainer, {
-                resistance: 0.3,         // Lower resistance for smoother scrolling
-                deceleration: 0.92,      // Higher value for smoother, longer momentum (slightly reduced from 0.94)
-                minSwipeDistance: 4,     // Slightly lower threshold for swipe detection
-                snapToItems: false,      // No snapping for timeline
+                resistance: 0.4,           // Adjusted for smoother scrolling
+                deceleration: 0.85,        // Match services section for consistent feel
+                minSwipeDistance: 5,       // Standard threshold for swipe detection
+                snapToItems: false,        // No snapping for timeline
                 overscrollEnabled: true,
-                overscrollResistance: 0.2,   // Elastic overscroll for timeline, not too much
-                overscrollReturnDelay: 180   // Shorter delay for more responsive feel
+                overscrollResistance: 0.3, // Matched to services for consistent bounce
+                overscrollReturnDelay: 250 // Better bounce timing
             });
             
             // Add special handling for mobile devices
