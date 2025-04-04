@@ -660,66 +660,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // Services scroll functionality (for mobile)
     function initServicesScroll() {
         const servicesContainer = document.querySelector('.services-scroll-container');
-        if (servicesContainer && window.innerWidth <= 768) {
-            // Variables for tracking scroll
+        if (!servicesContainer) return;
+        
+        // Only apply mobile scrolling specific code for mobile viewport
+        if (window.innerWidth <= 768) {
+            // Reset any previous styles or event listeners
+            servicesContainer.style = '';
+            
+            // Enable native scrolling behavior
+            servicesContainer.style.overscrollBehavior = 'touch';
+            servicesContainer.style.webkitOverflowScrolling = 'touch'; // For iOS momentum scrolling
+            
+            // Add class for mobile styling
+            servicesContainer.classList.add('mobile-scrolling');
+            
+            // Simple click detection to properly handle clicking vs. scrolling
             let startX = 0;
             let startY = 0;
-            let scrollLeft = 0;
-            let isDown = false;
-            let hasScrolled = false;
-            let scrollTimeout;
+            let startTime = 0;
+            let moved = false;
+            const CLICK_THRESHOLD = 10; // pixels
+            const TIME_THRESHOLD = 300; // milliseconds
             
-            // Touch start event
-            servicesContainer.addEventListener('touchstart', function(e) {
-                isDown = true;
-                hasScrolled = false;
+            // Clean up any previous event listeners if they exist
+            const oldClone = servicesContainer.cloneNode(false);
+            oldClone.innerHTML = servicesContainer.innerHTML;
+            servicesContainer.parentNode.replaceChild(oldClone, servicesContainer);
+            
+            // Get the new element reference
+            const newContainer = document.querySelector('.services-scroll-container');
+            
+            // Touch start - record position and time
+            newContainer.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
-                scrollLeft = servicesContainer.scrollLeft;
-                // Clear any ongoing scroll momentum
-                clearTimeout(scrollTimeout);
+                startTime = Date.now();
+                moved = false;
             }, { passive: true });
             
-            // Touch move event with minimal logic for smooth scrolling
-            servicesContainer.addEventListener('touchmove', function(e) {
-                if (!isDown) return;
+            // Touch move - detect significant movement
+            newContainer.addEventListener('touchmove', (e) => {
+                if (moved) return;
                 
-                const x = e.touches[0].clientX;
-                const y = e.touches[0].clientY;
-                const deltaX = startX - x;
-                const deltaY = Math.abs(startY - y);
+                const deltaX = Math.abs(e.touches[0].clientX - startX);
+                const deltaY = Math.abs(e.touches[0].clientY - startY);
                 
-                // Only handle horizontal scrolls to avoid blocking vertical page scrolling
-                if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 5) {
-                    if (!hasScrolled) {
-                        hasScrolled = true;
-                    }
-                    
-                    // Simple direct scrolling without resistance for better responsiveness
-                    servicesContainer.scrollLeft = scrollLeft + deltaX;
+                // If moved more than threshold in any direction, mark as moved
+                if (deltaX > CLICK_THRESHOLD || deltaY > CLICK_THRESHOLD) {
+                    moved = true;
+                }
+            }, { passive: true });
+            
+            // Handle modal opening - only if wasn't a scroll
+            newContainer.addEventListener('click', (e) => {
+                // If we've moved significantly or it's been too long since touch start, ignore click
+                const timeDiff = Date.now() - startTime;
+                if (moved || timeDiff > TIME_THRESHOLD) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 }
-            }, { passive: false });
-            
-            // Touch end event - clean up and mark scrolls to prevent accidental clicks
-            servicesContainer.addEventListener('touchend', function(e) {
-                isDown = false;
-                if (hasScrolled) {
-                    // Mark as scroll to prevent modal opening on scroll
-                    const preventNextClick = (e) => {
-                        e._isScroll = true;
-                        document.removeEventListener('click', preventNextClick, true);
-                    };
-                    document.addEventListener('click', preventNextClick, true);
-                }
-            }, { passive: true });
-            
-            // Mark service clicks to distinguish from scrolls
-            servicesContainer.addEventListener('click', function(e) {
-                if (hasScrolled) return;
                 
+                // Only proceed if clicking on a service tile
                 const targetTile = e.target.closest('.service-tile');
-                if (targetTile && !e._isScroll) {
+                if (targetTile) {
                     const modalId = targetTile.getAttribute('data-modal');
                     if (modalId) {
                         openModal(modalId);
@@ -727,43 +731,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Add mouse events for desktop testing with same direct approach
-            servicesContainer.addEventListener('mousedown', function(e) {
-                isDown = true;
-                hasScrolled = false;
-                startX = e.pageX;
-                scrollLeft = servicesContainer.scrollLeft;
-                servicesContainer.style.cursor = 'grabbing';
-                clearTimeout(scrollTimeout);
-                e.preventDefault();
-            });
+            // Add visual indicator for scroll position if needed
+            addScrollIndicators(newContainer);
             
-            servicesContainer.addEventListener('mousemove', function(e) {
-                if (!isDown) return;
-                
-                const x = e.pageX;
-                const walk = startX - x;
-                
-                if (Math.abs(walk) > 5) {
-                    hasScrolled = true;
-                    servicesContainer.scrollLeft = scrollLeft + walk;
-                }
-            });
-            
-            servicesContainer.addEventListener('mouseup', function() {
-                isDown = false;
-                servicesContainer.style.cursor = 'grab';
-            });
-            
-            servicesContainer.addEventListener('mouseleave', function() {
-                isDown = false;
-                servicesContainer.style.cursor = 'grab';
-            });
-            
-            // Simple overflow indicator for natural bounce effect at edges
-            servicesContainer.style.overscrollBehavior = 'auto';
-            servicesContainer.style.cursor = 'grab';
+            console.log('Mobile scrolling initialized with new simplified approach');
+        } else {
+            // For desktop/tablet, we don't need to do anything special
+            // Just make sure any mobile-specific classes are removed
+            servicesContainer.classList.remove('mobile-scrolling');
         }
+    }
+    
+    // Helper function to add scroll position indicators
+    function addScrollIndicators(container) {
+        if (!container) return;
+        
+        // Create indicators container if it doesn't exist
+        let indicators = container.querySelector('.scroll-indicators');
+        if (!indicators) {
+            indicators = document.createElement('div');
+            indicators.className = 'scroll-indicators';
+            container.appendChild(indicators);
+        }
+        
+        // Update indicators on scroll
+        const updateIndicators = () => {
+            const scrollLeft = container.scrollLeft;
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            const scrollPercent = (scrollLeft / maxScroll) * 100;
+            
+            // Add "can-scroll-left" class if not at the beginning
+            if (scrollLeft > 10) {
+                container.classList.add('can-scroll-left');
+            } else {
+                container.classList.remove('can-scroll-left');
+            }
+            
+            // Add "can-scroll-right" class if not at the end
+            if (scrollLeft < maxScroll - 10) {
+                container.classList.add('can-scroll-right');
+            } else {
+                container.classList.remove('can-scroll-right');
+            }
+        };
+        
+        // Initial update and scroll event listener
+        updateIndicators();
+        container.addEventListener('scroll', updateIndicators, { passive: true });
     }
     
     // Timeline scroll functionality
