@@ -120,454 +120,334 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('Services track element not found in the DOM');
     }
     
+    // Shared scrolling utility function for both services and timeline
+    function setupNaturalScrolling(container, options = {}) {
+        if (!container) return;
+        
+        const config = {
+            resistance: 0.5,           // Higher = more resistance when scrolling
+            deceleration: 0.85,        // Lower = faster stop (0.9 = smooth, 0.8 = quick stop)
+            minSwipeDistance: 5,       // Minimum distance to consider a swipe (not a tap)
+            snapToItems: false,        // Whether to snap to items
+            itemSelector: null,        // Selector for items to snap to
+            ...options
+        };
+        
+        // State variables
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let startScrollLeft = 0;
+        let lastX = 0;
+        let lastY = 0;
+        let lastTimestamp = 0;
+        let velocityX = 0;
+        let momentumID = null;
+        let lastDeltaX = 0;
+        let isTap = true;
+        let scrollDistanceTraveled = 0;
+        
+        // Touch start event
+        function onTouchStart(e) {
+            cancelMomentumTracking();
+            
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            lastX = startX;
+            lastY = startY;
+            startScrollLeft = container.scrollLeft;
+            lastTimestamp = Date.now();
+            velocityX = 0;
+            lastDeltaX = 0;
+            isTap = true;
+            scrollDistanceTraveled = 0;
+            isDragging = true;
+        }
+        
+        // Touch move event
+        function onTouchMove(e) {
+            if (!isDragging) return;
+            
+            const touch = e.touches[0];
+            const currentX = touch.clientX;
+            const currentY = touch.clientY;
+            const deltaX = lastX - currentX;
+            const deltaY = lastY - currentY;
+            const timestamp = Date.now();
+            const elapsed = timestamp - lastTimestamp;
+            
+            // Calculate total distance traveled (for tap detection)
+            scrollDistanceTraveled += Math.abs(deltaX);
+            
+            // Check for isTap - if movement exceeds threshold, it's not a tap
+            if (scrollDistanceTraveled > config.minSwipeDistance) {
+                isTap = false;
+            }
+            
+            // If horizontal scrolling dominates, prevent default
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                e.preventDefault();
+                
+                // Apply resistance factor to make scrolling feel natural
+                const resistedDeltaX = deltaX * config.resistance;
+                container.scrollLeft += resistedDeltaX;
+                
+                // Calculate velocity (pixels per millisecond)
+                if (elapsed > 0) {
+                    // Smooth velocity calculation
+                    velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+                }
+                
+                lastDeltaX = deltaX;
+            }
+            
+            lastX = currentX;
+            lastY = currentY;
+            lastTimestamp = timestamp;
+        }
+        
+        // Touch end event
+        function onTouchEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // If it's just a tap, don't apply momentum
+            if (isTap) return;
+            
+            // Apply momentum only if there's enough velocity
+            if (Math.abs(velocityX) > 0.1) {
+                const amplifier = 15; // Boost the initial velocity
+                const initialVelocity = velocityX * amplifier;
+                
+                startMomentumTracking(initialVelocity);
+            } else if (config.snapToItems) {
+                snapToNearestItem();
+            }
+        }
+        
+        // Momentum scrolling
+        function startMomentumTracking(initialVelocity) {
+            let velocity = initialVelocity;
+            
+            // Easing function for natural deceleration
+            const ease = (x) => {
+                // Custom easing curve for more natural feel
+                return 1 - Math.pow(1 - x, 3);
+            };
+            
+            const scroll = () => {
+                // Apply deceleration
+                velocity *= config.deceleration;
+                
+                // Calculate how much to scroll on this frame
+                const delta = velocity;
+                
+                // If movement is very small, stop animation and snap if needed
+                if (Math.abs(delta) < 0.1) {
+                    cancelMomentumTracking();
+                    if (config.snapToItems) {
+                        snapToNearestItem();
+                    }
+                    return;
+                }
+                
+                // Apply the movement
+                container.scrollLeft += delta;
+                
+                // Continue animation
+                momentumID = requestAnimationFrame(scroll);
+            };
+            
+            momentumID = requestAnimationFrame(scroll);
+        }
+        
+        // Cancel momentum scrolling
+        function cancelMomentumTracking() {
+            if (momentumID) {
+                cancelAnimationFrame(momentumID);
+                momentumID = null;
+            }
+        }
+        
+        // Snap to nearest item
+        function snapToNearestItem() {
+            if (!config.itemSelector) return;
+            
+            const scrollPosition = container.scrollLeft;
+            const containerWidth = container.offsetWidth;
+            const items = Array.from(container.querySelectorAll(config.itemSelector));
+            
+            if (items.length === 0) return;
+            
+            let closestItem = null;
+            let closestDistance = Infinity;
+            
+            items.forEach(item => {
+                const itemLeft = item.offsetLeft;
+                const itemCenter = itemLeft + (item.offsetWidth / 2);
+                const distanceToCenter = Math.abs(scrollPosition + (containerWidth / 2) - itemCenter);
+                
+                if (distanceToCenter < closestDistance) {
+                    closestDistance = distanceToCenter;
+                    closestItem = item;
+                }
+            });
+            
+            if (closestItem) {
+                const targetPosition = closestItem.offsetLeft - (containerWidth - closestItem.offsetWidth) / 2;
+                
+                container.scrollTo({
+                    left: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // Add event listeners
+        container.addEventListener('touchstart', onTouchStart, { passive: true });
+        container.addEventListener('touchmove', onTouchMove, { passive: false });
+        container.addEventListener('touchend', onTouchEnd, { passive: true });
+        
+        // Mouse events (for desktop testing)
+        container.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            startX = e.pageX;
+            startY = e.pageY;
+            lastX = startX;
+            lastY = startY;
+            startScrollLeft = container.scrollLeft;
+            lastTimestamp = Date.now();
+            velocityX = 0;
+            lastDeltaX = 0;
+            isTap = true;
+            scrollDistanceTraveled = 0;
+            isDragging = true;
+            container.style.cursor = 'grabbing';
+            
+            cancelMomentumTracking();
+        });
+        
+        container.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const currentX = e.pageX;
+            const currentY = e.pageY;
+            const deltaX = lastX - currentX;
+            const deltaY = lastY - currentY;
+            const timestamp = Date.now();
+            const elapsed = timestamp - lastTimestamp;
+            
+            // Calculate total distance traveled
+            scrollDistanceTraveled += Math.abs(deltaX);
+            
+            // Check for isTap
+            if (scrollDistanceTraveled > config.minSwipeDistance) {
+                isTap = false;
+            }
+            
+            // Apply movement with resistance
+            const resistedDeltaX = deltaX * config.resistance;
+            container.scrollLeft += resistedDeltaX;
+            
+            // Calculate velocity
+            if (elapsed > 0) {
+                velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+            }
+            
+            lastX = currentX;
+            lastY = currentY;
+            lastTimestamp = timestamp;
+            lastDeltaX = deltaX;
+        });
+        
+        function onMouseUp() {
+            if (!isDragging) return;
+            isDragging = false;
+            container.style.cursor = 'grab';
+            
+            // Only apply momentum if it's not a tap and has velocity
+            if (!isTap && Math.abs(velocityX) > 0.1) {
+                const amplifier = 15; // Boost initial velocity
+                const initialVelocity = velocityX * amplifier;
+                
+                startMomentumTracking(initialVelocity);
+            } else if (config.snapToItems) {
+                snapToNearestItem();
+            }
+        }
+        
+        container.addEventListener('mouseup', onMouseUp);
+        container.addEventListener('mouseleave', onMouseUp);
+        
+        // Wheel event for horizontal scrolling
+        container.addEventListener('wheel', (e) => {
+            // If shift key is pressed or it's a trackpad horizontal scroll
+            if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                e.preventDefault();
+                
+                // Cancel existing momentum scrolling
+                cancelMomentumTracking();
+                
+                // Apply scroll with natural feel
+                const wheelDelta = e.deltaX || e.deltaY;
+                container.scrollLeft += wheelDelta;
+                
+                // Add gentle momentum for wheel scrolling
+                clearTimeout(container._wheelTimeout);
+                container._wheelTimeout = setTimeout(() => {
+                    if (config.snapToItems) {
+                        snapToNearestItem();
+                    }
+                }, 150);
+            }
+        }, { passive: false });
+        
+        // Set initial cursor style
+        container.style.cursor = 'grab';
+        
+        // Return public methods
+        return {
+            snapToNearestItem,
+            cancelMomentumTracking
+        };
+    }
+    
+    // Services scroll functionality (for mobile)
+    function initServicesScroll() {
+        const servicesContainer = document.querySelector('.services-scroll-container');
+        if (servicesContainer && window.innerWidth <= 768) {
+            // Set up natural scrolling with item snapping
+            setupNaturalScrolling(servicesContainer, {
+                resistance: 0.4,       // Lower resistance for better responsiveness
+                deceleration: 0.87,    // Good balance between smooth momentum and quick stop
+                snapToItems: true,     // Enable snapping to items
+                itemSelector: '.mobile-service'  // Class for mobile service tiles
+            });
+            
+            // Mark service clicks to distinguish from scrolls
+            servicesContainer.addEventListener('click', function(e) {
+                const targetTile = e.target.closest('.service-tile');
+                if (targetTile && !e._isScroll) {
+                    const modalId = targetTile.getAttribute('data-modal');
+                    if (modalId) {
+                        openModal(modalId);
+                    }
+                }
+            });
+        }
+    }
+    
     // Timeline scroll functionality
     function initTimelineScroll() {
         const timelineContainer = document.querySelector('.timeline-scroll-container');
         if (timelineContainer) {
-            // Variables for momentum scrolling
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let lastTouchX = 0;
-            let lastTouchTime = 0;
-            let velocity = 0;
-            let momentum = null;
-            let touchMoved = false;
-            
-            // Touch start handler
-            timelineContainer.addEventListener('touchstart', function(e) {
-                // Stop any ongoing momentum scrolling
-                if (momentum) {
-                    cancelAnimationFrame(momentum);
-                    momentum = null;
-                }
-                
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                lastTouchX = touchStartX;
-                lastTouchTime = Date.now();
-                velocity = 0;
-                touchMoved = false;
-            }, { passive: true });
-            
-            // Touch move handler
-            timelineContainer.addEventListener('touchmove', function(e) {
-                const touchX = e.touches[0].clientX;
-                const touchY = e.touches[0].clientY;
-                const diffX = Math.abs(touchStartX - touchX);
-                const diffY = Math.abs(touchStartY - touchY);
-                const now = Date.now();
-                const elapsed = now - lastTouchTime;
-                
-                // Calculate velocity (pixels per millisecond)
-                if (elapsed > 0) {
-                    velocity = (lastTouchX - touchX) / elapsed;
-                }
-                
-                // If user has moved their finger by more than 10px, consider it a scroll, not a tap
-                if (diffX > 10 || diffY > 10) {
-                    touchMoved = true;
-                }
-                
-                // If clearly horizontal movement
-                if (diffX > diffY) {
-                    e.preventDefault();
-                    timelineContainer.scrollLeft += (lastTouchX - touchX);
-                }
-                
-                // Update last position and time
-                lastTouchX = touchX;
-                lastTouchTime = now;
-            }, { passive: false });
-            
-            // Touch end handler
-            timelineContainer.addEventListener('touchend', function() {
-                // Apply momentum scrolling
-                if (touchMoved && Math.abs(velocity) > 0.1) {
-                    // Start with current velocity
-                    let currentVelocity = velocity * 800; // Scale up for better feeling
-                    
-                    // Friction factor (lower = more slippery)
-                    const friction = 0.95;
-                    
-                    // Apply momentum with requestAnimationFrame
-                    const applyMomentum = () => {
-                        // Apply velocity with friction
-                        timelineContainer.scrollLeft += currentVelocity;
-                        currentVelocity *= friction;
-                        
-                        // Stop when velocity becomes very small
-                        if (Math.abs(currentVelocity) > 0.5) {
-                            momentum = requestAnimationFrame(applyMomentum);
-                        } else {
-                            momentum = null;
-                        }
-                    };
-                    
-                    momentum = requestAnimationFrame(applyMomentum);
-                }
-            }, { passive: true });
-            
-            // Mouse-based scrolling with momentum
-            let isDown = false;
-            let startX, scrollLeft;
-            let mouseVelocity = 0;
-            let lastMouseX = 0;
-            let lastMouseTime = 0;
-            let mouseMomentum = null;
-            
-            timelineContainer.addEventListener('mousedown', (e) => {
-                isDown = true;
-                timelineContainer.style.cursor = 'grabbing';
-                startX = e.pageX;
-                scrollLeft = timelineContainer.scrollLeft;
-                lastMouseX = startX;
-                lastMouseTime = Date.now();
-                mouseVelocity = 0;
-                
-                // Stop any ongoing momentum scrolling
-                if (mouseMomentum) {
-                    cancelAnimationFrame(mouseMomentum);
-                    mouseMomentum = null;
-                }
-                
-                e.preventDefault();
+            // Setup natural scrolling for timeline with slightly different parameters
+            setupNaturalScrolling(timelineContainer, {
+                resistance: 0.35,      // Lower resistance for smoother scrolling
+                deceleration: 0.9,     // Smoother momentum (longer distance)
+                snapToItems: false     // No snapping for timeline
             });
-            
-            timelineContainer.addEventListener('mouseleave', () => {
-                if (isDown) {
-                    isDown = false;
-                    timelineContainer.style.cursor = 'grab';
-                    
-                    // Apply momentum when mouse leaves while dragging
-                    applyMouseMomentum();
-                }
-            });
-            
-            timelineContainer.addEventListener('mouseup', () => {
-                if (isDown) {
-                    isDown = false;
-                    timelineContainer.style.cursor = 'grab';
-                    
-                    // Apply momentum when mouse is released
-                    applyMouseMomentum();
-                }
-            });
-            
-            timelineContainer.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                const x = e.pageX;
-                const now = Date.now();
-                const elapsed = now - lastMouseTime;
-                
-                // Calculate current velocity
-                if (elapsed > 0) {
-                    mouseVelocity = (lastMouseX - x) / elapsed;
-                }
-                
-                // Move the scrollLeft based on mouse movement
-                const walk = x - startX;
-                timelineContainer.scrollLeft = scrollLeft - walk;
-                
-                // Update tracking variables
-                lastMouseX = x;
-                lastMouseTime = now;
-            });
-            
-            function applyMouseMomentum() {
-                if (Math.abs(mouseVelocity) > 0.1) {
-                    // Start with current velocity
-                    let currentVelocity = mouseVelocity * 800; // Scale up for better feeling
-                    const friction = 0.95; // Friction factor
-                    
-                    // Apply momentum with requestAnimationFrame
-                    const applyMomentum = () => {
-                        timelineContainer.scrollLeft += currentVelocity;
-                        currentVelocity *= friction;
-                        
-                        if (Math.abs(currentVelocity) > 0.5) {
-                            mouseMomentum = requestAnimationFrame(applyMomentum);
-                        } else {
-                            mouseMomentum = null;
-                        }
-                    };
-                    
-                    mouseMomentum = requestAnimationFrame(applyMomentum);
-                }
-            }
-            
-            // Wheel event handling for horizontal scrolling
-            timelineContainer.addEventListener('wheel', function(e) {
-                // If shift key is pressed or deltaX is significant, use horizontal scroll
-                if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                    e.preventDefault();
-                    
-                    // If momentum from wheel already active, cancel it
-                    if (mouseMomentum) {
-                        cancelAnimationFrame(mouseMomentum);
-                        mouseMomentum = null;
-                    }
-                    
-                    timelineContainer.scrollLeft += e.deltaX || e.deltaY;
-                    
-                    // Calculate velocity from wheel event
-                    mouseVelocity = (e.deltaX || e.deltaY) * 0.01;
-                    
-                    // Apply gentle momentum for wheel scrolling
-                    clearTimeout(timelineContainer.wheelTimeout);
-                    timelineContainer.wheelTimeout = setTimeout(() => {
-                        applyMouseMomentum();
-                    }, 50);
-                }
-            }, { passive: false });
-            
-            // Initialize cursor style
-            timelineContainer.style.cursor = 'grab';
-        }
-    }
-    
-    // Services scroll functionality (for mobile) with momentum-based scrolling
-    function initServicesScroll() {
-        const servicesContainer = document.querySelector('.services-scroll-container');
-        if (servicesContainer && window.innerWidth <= 768) {
-            // Variables for momentum scrolling
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let lastTouchX = 0;
-            let lastTouchTime = 0;
-            let velocity = 0;
-            let momentum = null;
-            let touchMoved = false;
-            
-            // Touch start handler
-            servicesContainer.addEventListener('touchstart', function(e) {
-                // Stop any ongoing momentum scrolling
-                if (momentum) {
-                    cancelAnimationFrame(momentum);
-                    momentum = null;
-                }
-                
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                lastTouchX = touchStartX;
-                lastTouchTime = Date.now();
-                velocity = 0;
-                touchMoved = false;
-            }, { passive: true });
-            
-            // Touch move handler
-            servicesContainer.addEventListener('touchmove', function(e) {
-                const touchX = e.touches[0].clientX;
-                const touchY = e.touches[0].clientY;
-                const diffX = Math.abs(touchStartX - touchX);
-                const diffY = Math.abs(touchStartY - touchY);
-                const now = Date.now();
-                const elapsed = now - lastTouchTime;
-                
-                // Calculate velocity (pixels per millisecond)
-                if (elapsed > 0) {
-                    // Reduce velocity to slow down scrolling
-                    velocity = (lastTouchX - touchX) / elapsed * 0.5; // Apply resistance factor
-                }
-                
-                // If user has moved their finger by more than 10px, consider it a scroll, not a tap
-                if (diffX > 10 || diffY > 10) {
-                    touchMoved = true;
-                }
-                
-                // If clearly horizontal movement
-                if (diffX > diffY) {
-                    e.preventDefault();
-                    // Apply resistance to slow down scrolling
-                    servicesContainer.scrollLeft += (lastTouchX - touchX) * 0.5; // Move only half as fast
-                }
-                
-                // Update last position and time
-                lastTouchX = touchX;
-                lastTouchTime = now;
-            }, { passive: false });
-            
-            // Touch end handler
-            servicesContainer.addEventListener('touchend', function(e) {
-                // If touch moved, add a flag to identify any immediate click as a scroll
-                if (touchMoved) {
-                    const preventNextClick = (e) => {
-                        e._isScroll = true;
-                        document.removeEventListener('click', preventNextClick, true);
-                    };
-                    document.addEventListener('click', preventNextClick, true);
-                    
-                    // Apply momentum scrolling
-                    if (Math.abs(velocity) > 0.1) {
-                        // Start with current velocity (reduce by multiplier)
-                        let currentVelocity = velocity * 250; // Reduced from 800 to 250 for less momentum
-                        
-                        // Increase friction to stop faster
-                        const friction = 0.9; // Increased friction (was 0.95)
-                        
-                        // Apply momentum with requestAnimationFrame
-                        const applyMomentum = () => {
-                            // Apply velocity with friction
-                            servicesContainer.scrollLeft += currentVelocity;
-                            currentVelocity *= friction;
-                            
-                            // Stop when velocity becomes very small
-                            if (Math.abs(currentVelocity) > 0.5) {
-                                momentum = requestAnimationFrame(applyMomentum);
-                            } else {
-                                momentum = null;
-                            }
-                        };
-                        
-                        momentum = requestAnimationFrame(applyMomentum);
-                    }
-                }
-            }, { passive: true });
-            
-            // Add snapping to items when scrolling stops
-            function snapToNearestItem() {
-                const track = document.getElementById('services-track');
-                if (!track) return;
-                
-                const scrollPosition = servicesContainer.scrollLeft;
-                const containerWidth = servicesContainer.offsetWidth;
-                const items = Array.from(track.querySelectorAll('.mobile-service'));
-                
-                if (items.length === 0) return;
-                
-                let closestItem = null;
-                let closestDistance = Infinity;
-                
-                items.forEach(item => {
-                    const itemLeft = item.offsetLeft;
-                    const itemCenter = itemLeft + (item.offsetWidth / 2);
-                    const distanceToCenter = Math.abs(scrollPosition + (containerWidth / 2) - itemCenter);
-                    
-                    if (distanceToCenter < closestDistance) {
-                        closestDistance = distanceToCenter;
-                        closestItem = item;
-                    }
-                });
-                
-                if (closestItem) {
-                    const targetPosition = closestItem.offsetLeft - (containerWidth - closestItem.offsetWidth) / 2;
-                    
-                    // Smooth scroll to the target position
-                    servicesContainer.scrollTo({
-                        left: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-            
-            // Add event listener for when scrolling stops
-            let scrollTimeout;
-            servicesContainer.addEventListener('scroll', function() {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(snapToNearestItem, 150); // Wait for scrolling to stop
-            }, { passive: true });
-            
-            // Mouse-based scrolling with momentum
-            let isDown = false;
-            let startX, scrollLeft;
-            let mouseVelocity = 0;
-            let lastMouseX = 0;
-            let lastMouseTime = 0;
-            let mouseMomentum = null;
-            
-            servicesContainer.addEventListener('mousedown', (e) => {
-                isDown = true;
-                servicesContainer.style.cursor = 'grabbing';
-                startX = e.pageX;
-                scrollLeft = servicesContainer.scrollLeft;
-                lastMouseX = startX;
-                lastMouseTime = Date.now();
-                mouseVelocity = 0;
-                
-                // Stop any ongoing momentum scrolling
-                if (mouseMomentum) {
-                    cancelAnimationFrame(mouseMomentum);
-                    mouseMomentum = null;
-                }
-                
-                e.preventDefault();
-            });
-            
-            servicesContainer.addEventListener('mouseleave', () => {
-                if (isDown) {
-                    isDown = false;
-                    servicesContainer.style.cursor = 'grab';
-                    
-                    // Apply momentum when mouse leaves while dragging
-                    applyMouseMomentum();
-                }
-            });
-            
-            servicesContainer.addEventListener('mouseup', () => {
-                if (isDown) {
-                    isDown = false;
-                    servicesContainer.style.cursor = 'grab';
-                    
-                    // Apply momentum when mouse is released
-                    applyMouseMomentum();
-                }
-            });
-            
-            servicesContainer.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                const x = e.pageX;
-                const now = Date.now();
-                const elapsed = now - lastMouseTime;
-                
-                // Calculate current velocity
-                if (elapsed > 0) {
-                    mouseVelocity = (lastMouseX - x) / elapsed * 0.5; // Apply resistance
-                }
-                
-                // Move the scrollLeft based on mouse movement (with resistance)
-                const walk = x - startX;
-                servicesContainer.scrollLeft = scrollLeft - walk * 0.5; // Move only half as fast
-                
-                // Update tracking variables
-                lastMouseX = x;
-                lastMouseTime = now;
-            });
-            
-            function applyMouseMomentum() {
-                if (Math.abs(mouseVelocity) > 0.1) {
-                    // Start with current velocity (reduced)
-                    let currentVelocity = mouseVelocity * 250; // Reduced from 800 to 250
-                    const friction = 0.9; // Increased friction
-                    
-                    // Apply momentum with requestAnimationFrame
-                    const applyMomentum = () => {
-                        servicesContainer.scrollLeft += currentVelocity;
-                        currentVelocity *= friction;
-                        
-                        if (Math.abs(currentVelocity) > 0.5) {
-                            mouseMomentum = requestAnimationFrame(applyMomentum);
-                        } else {
-                            mouseMomentum = null;
-                            // When momentum stops, snap to nearest item
-                            snapToNearestItem();
-                        }
-                    };
-                    
-                    mouseMomentum = requestAnimationFrame(applyMomentum);
-                    
-                    // Prevent clicks after momentum scrolling
-                    const preventNextClick = (e) => {
-                        e._isScroll = true;
-                        document.removeEventListener('click', preventNextClick, true);
-                    };
-                    document.addEventListener('click', preventNextClick, true);
-                } else {
-                    // If no significant momentum, still snap to nearest item
-                    snapToNearestItem();
-                }
-            }
-            
-            // Initialize cursor style
-            servicesContainer.style.cursor = 'grab';
         }
     }
     
