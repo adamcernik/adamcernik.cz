@@ -74,6 +74,63 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
+    // Load services content from external file
+    const servicesTrack = document.getElementById('services-track');
+    if (servicesTrack) {
+        console.log('Services track found, attempting to load content...');
+        fetch('includes/services.html')
+            .then(response => {
+                console.log('Services fetch response:', response.status);
+                if (!response.ok) {
+                    throw new Error(`Network response not ok: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                console.log('Services content loaded successfully');
+                servicesTrack.innerHTML = html;
+                
+                // Initialize services scroll functionality after content is loaded
+                initServicesScroll();
+                
+                // Add click event listeners to service tiles in the scrollable container
+                const mobileTiles = servicesTrack.querySelectorAll('.service-tile[data-modal]');
+                console.log(`Found ${mobileTiles.length} mobile service tiles to add click events to`);
+                
+                mobileTiles.forEach(tile => {
+                    // Use direct click handler for mobile tiles to avoid issues with function references
+                    tile.addEventListener('click', function(event) {
+                        // Direct check for scroll action
+                        if (event._isScroll) {
+                            console.log('Ignoring click because it was part of a scroll action');
+                            return;
+                        }
+                        
+                        const modalId = this.getAttribute('data-modal');
+                        console.log(`Opening mobile modal: ${modalId}`);
+                        openModal(modalId);
+                    });
+                });
+                
+                // Add visual feedback on touch for mobile tiles
+                mobileTiles.forEach(tile => {
+                    tile.addEventListener('touchstart', function() {
+                        this.classList.add('touch-active');
+                    }, {passive: true});
+                    
+                    tile.addEventListener('touchend', function() {
+                        this.classList.remove('touch-active');
+                    }, {passive: true});
+                });
+            })
+            .catch(error => {
+                console.error('Error loading services content:', error);
+                servicesTrack.innerHTML = '<p class="services-error">Failed to load services content.</p>';
+            });
+    } else {
+        console.warn('Services track element not found in the DOM');
+    }
+    
     // Timeline scroll functionality
     function initTimelineScroll() {
         const timelineContainer = document.querySelector('.timeline-scroll-container');
@@ -148,6 +205,107 @@ document.addEventListener('DOMContentLoaded', function() {
                     touchStartX = touchX;
                 }
             }, { passive: false });
+        }
+    }
+    
+    // Services scroll functionality (for mobile)
+    function initServicesScroll() {
+        const servicesContainer = document.querySelector('.services-scroll-container');
+        if (servicesContainer) {
+            // Only initialize for mobile views
+            if (window.innerWidth <= 768) {
+                let touchStartTime = 0;
+                let touchEndTime = 0;
+                let touchMoved = false;
+                let touchStartX = 0;
+                let touchStartY = 0;
+                
+                servicesContainer.addEventListener('touchstart', function(e) {
+                    touchStartTime = new Date().getTime();
+                    touchMoved = false;
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+                
+                servicesContainer.addEventListener('touchmove', function(e) {
+                    const touchX = e.touches[0].clientX;
+                    const touchY = e.touches[0].clientY;
+                    const diffX = Math.abs(touchStartX - touchX);
+                    const diffY = Math.abs(touchStartY - touchY);
+                    
+                    // If user has moved their finger by more than 10px, consider it a scroll, not a tap
+                    if (diffX > 10 || diffY > 10) {
+                        touchMoved = true;
+                    }
+                    
+                    // If clearly horizontal movement
+                    if (diffX > diffY) {
+                        e.preventDefault();
+                        servicesContainer.scrollLeft += (touchStartX - touchX);
+                        touchStartX = touchX;
+                    }
+                }, { passive: false });
+                
+                servicesContainer.addEventListener('touchend', function(e) {
+                    touchEndTime = new Date().getTime();
+                    const touchDuration = touchEndTime - touchStartTime;
+                    
+                    // If the touch was short (<300ms) and the finger didn't move much, treat as a tap
+                    // Otherwise, treat as a scroll and prevent click
+                    if (touchDuration > 300 || touchMoved) {
+                        // Add flag to upcoming click event to identify it as part of a scroll action
+                        const preventNextClick = (e) => {
+                            console.log('Marking click as part of scroll');
+                            e._isScroll = true;
+                            document.removeEventListener('click', preventNextClick, true);
+                        };
+                        document.addEventListener('click', preventNextClick, true);
+                    }
+                }, { passive: true });
+                
+                // Mouse-based scrolling (less important on mobile but still useful)
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                
+                servicesContainer.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    servicesContainer.style.cursor = 'grabbing';
+                    startX = e.pageX - servicesContainer.offsetLeft;
+                    scrollLeft = servicesContainer.scrollLeft;
+                    e.preventDefault();
+                });
+                
+                servicesContainer.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    servicesContainer.style.cursor = 'grab';
+                });
+                
+                servicesContainer.addEventListener('mouseup', () => {
+                    isDown = false;
+                    servicesContainer.style.cursor = 'grab';
+                });
+                
+                servicesContainer.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    const x = e.pageX - servicesContainer.offsetLeft;
+                    const walk = (x - startX) * 1.5;
+                    
+                    if (Math.abs(walk) > 5) {
+                        // If user has dragged more than 5px, treat as a scroll action
+                        const preventNextClick = (e) => {
+                            e._isScroll = true;
+                            document.removeEventListener('click', preventNextClick, true);
+                        };
+                        document.addEventListener('click', preventNextClick, true);
+                    }
+                    
+                    servicesContainer.scrollLeft = scrollLeft - walk;
+                });
+                
+                // Initialize cursor style
+                servicesContainer.style.cursor = 'grab';
+            }
         }
     }
     
@@ -423,14 +581,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 400);
     }
     
-    // Add click event listeners to service tiles
-    document.querySelectorAll('.service-tile[data-modal]').forEach(tile => {
-        tile.addEventListener('click', function() {
-            const modalId = this.getAttribute('data-modal');
-            openModal(modalId);
-        });
-    });
-    
     // Close modal when clicking the close button
     if (modalClose) {
         modalClose.addEventListener('click', closeModal);
@@ -565,4 +715,103 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+    
+    // Initialize services scroll when window is resized
+    window.addEventListener('resize', function() {
+        initServicesScroll();
+    });
+    
+    // Add click event listeners to desktop service tiles
+    document.querySelectorAll('.bento-grid .service-tile[data-modal]').forEach(tile => {
+        // Remove any existing click event listeners first to avoid duplicates
+        tile.removeEventListener('click', handleServiceTileClick);
+        // Add click event listener
+        tile.addEventListener('click', handleServiceTileClick);
+    });
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('.desktop-menu a, .mobile-menu a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Close mobile menu if open
+            const mobileNav = document.querySelector('.mobile-nav');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const html = document.documentElement;
+            
+            if (mobileNav && mobileNav.classList.contains('active')) {
+                mobileNav.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                html.classList.remove('mobile-menu-open');
+            }
+            
+            // Get the target element
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // Special handling for services on mobile
+                if (targetId === 'services-container' && window.innerWidth <= 768) {
+                    console.log('Scrolling to services container on mobile');
+                    // Ensure services are loaded before scrolling
+                    if (servicesTrack && !servicesTrack.children.length) {
+                        console.log('Services not loaded yet, loading before scrolling');
+                        fetch('includes/services.html')
+                            .then(response => response.text())
+                            .then(html => {
+                                servicesTrack.innerHTML = html;
+                                setTimeout(() => {
+                                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                                }, 100);
+                            })
+                            .catch(error => console.error('Error loading services:', error));
+                    } else {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+    
+    // Function to handle service tile clicks
+    function handleServiceTileClick(event) {
+        // Prevent horizontal scrolling from triggering modal
+        if (window.innerWidth <= 768 && event._isScroll) {
+            return;
+        }
+        
+        const modalId = this.getAttribute('data-modal');
+        console.log(`Opening modal from ${window.innerWidth <= 768 ? 'mobile' : 'desktop'} view: ${modalId}`);
+        openModal(modalId);
+    }
+    
+    // Add debugging for clicks on services container
+    const debugServiceClicks = () => {
+        const servicesContainer = document.querySelector('.services-scroll-container');
+        if (servicesContainer) {
+            servicesContainer.addEventListener('click', function(e) {
+                console.log('Click detected on services container', {
+                    target: e.target,
+                    isScroll: e._isScroll,
+                    clientX: e.clientX,
+                    clientY: e.clientY
+                });
+                
+                // If click is on a service tile or its child elements
+                let targetTile = e.target.closest('.service-tile');
+                if (targetTile && !e._isScroll) {
+                    const modalId = targetTile.getAttribute('data-modal');
+                    if (modalId) {
+                        console.log('Manual click handling for service tile:', modalId);
+                        openModal(modalId);
+                    }
+                }
+            });
+        }
+    };
+    
+    // Run after a short delay to ensure everything is loaded
+    setTimeout(debugServiceClicks, 1000);
 });

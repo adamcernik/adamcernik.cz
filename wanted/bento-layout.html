@@ -24,7 +24,7 @@
             <!-- Desktop Navigation -->
             <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
                 <div class="desktop-menu">
-                    <a href="#service-01">Services</a>
+                    <a href="#services-container">Services</a>
                     <a href="#movie-grid">Production</a>
                     <a href="#history">History</a>
                     <a href="#lukas-contact">Contact</a>
@@ -76,7 +76,7 @@
             <div class="mobile-nav" id="mobile-nav">
                 <div class="mobile-nav-content">
                     <div class="mobile-menu">
-                        <a href="#service-01">Services</a>
+                        <a href="#services-container">Services</a>
                         <a href="#movie-grid">Production</a>
                         <a href="#history">History</a>
                         <a href="#lukas-contact">Contact</a>
@@ -199,7 +199,15 @@
             </div>
         </div>
 
-        <!-- Services section -->
+        <!-- Services scroll container for mobile view -->
+        <div id="services-container" class="services-scroll-container">
+            <div class="services-track" id="services-track">
+                <!-- Services items will be loaded from includes/services.html -->
+            </div>
+        </div>
+
+        <!-- Services section - desktop view (inside bento-grid) -->
+        <!-- Service 01 tile -->
         <div id="service-01" class="tile service-tile" data-modal="service-01">
             <img src="images/services/01.jpg" alt="Print & Design">
             <div class="service-content">
@@ -518,5 +526,28 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script>
+        // Debug script to check services loading
+        console.log('Loading services check - HTML loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            const servicesTrack = document.getElementById('services-track');
+            console.log('Services track exists:', !!servicesTrack);
+            if (servicesTrack) {
+                console.log('Services track HTML:', servicesTrack.innerHTML);
+            }
+            
+            // Force loading services if needed
+            if (servicesTrack && !servicesTrack.children.length) {
+                console.log('Attempting to manually load services');
+                fetch('includes/services.html')
+                    .then(response => response.text())
+                    .then(html => {
+                        servicesTrack.innerHTML = html;
+                        console.log('Services manually loaded');
+                    })
+                    .catch(error => console.error('Manual services load failed:', error));
+            }
+        });
+    </script>
 </body>
 </html>
