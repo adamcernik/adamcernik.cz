@@ -337,6 +337,8 @@
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     position: relative;
+    scroll-behavior: auto;
+    display: none; /* Hidden by default on desktop */
 }
 
 .services-scroll-container::-webkit-scrollbar {
@@ -345,16 +347,31 @@
 
 .services-scroll-container.mobile-scrolling {
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity; /* Change from mandatory to proximity for more natural scrolling */
     padding-bottom: 15px;
 }
 
 .services-scroll-container.mobile-scrolling .service-tile {
     scroll-snap-align: center;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal; /* Change from always to normal to enable smoother scrolling */
     flex-shrink: 0;
     transition: none !important;
     transform: none !important;
+}
+
+/* Mobile Services scroll - ensure displayed properly */
+@media (max-width: 768px) {
+    .services-scroll-container {
+        display: block !important; /* Force display on mobile */
+        overflow-x: auto;
+        width: 100%;
+        margin: 1rem 0 2rem;
+    }
+    
+    /* Hide desktop service tiles when on mobile */
+    .bento-grid .service-tile:not(.mobile-service) {
+        display: none;
+    }
 }
 
 /* Scroll Indicators */
@@ -402,19 +419,22 @@
 /* Mobile Service Tiles */
 .services-track {
     display: flex;
-    gap: 15px;
-    padding: 15px;
+    gap: 12px;
+    padding: 10px 15px 20px;
+    will-change: transform;
 }
 
 .mobile-service {
-    min-width: 250px;
-    width: 80%;
-    max-width: 300px;
+    min-width: 220px;
+    width: 70%;
+    max-width: 280px;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #2a2a2a;
+    touch-action: pan-x;
+    will-change: transform;
 }
 
 /* Mobile service tile image */

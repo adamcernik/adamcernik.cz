@@ -793,42 +793,46 @@
 
 @media (max-width: 768px) {
     .services-scroll-container {
-        display: block; /* Show on mobile */
+        display: block !important; /* Always show on mobile */
         overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -15px; /* Extend slightly beyond container to improve scrolling feel */
+        padding: 0 15px;
+        width: calc(100% + 30px);
+    }
+    
+    /* Ensure momentum scrolling works well on iOS */
+    .services-scroll-container.mobile-scrolling {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto !important;
         touch-action: pan-x;
-        position: relative;
-        padding-bottom: 1rem;
-        cursor: grab;
     }
     
-    .services-scroll-container::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+    /* Mobile service tiles */
+    .mobile-service {
+        min-width: 220px;
+        width: 70%;
+        max-width: 280px;
+        touch-action: pan-x;
+        user-select: none;
+        -webkit-user-select: none;
     }
     
+    /* Services track for mobile */
     .services-track {
-        display: inline-flex;
-        gap: 1rem;
-        padding: 0.5rem;
+        display: flex;
+        gap: 12px;
+        padding: 10px 15px 20px;
+        will-change: transform;
     }
     
-    .services-track .service-tile {
-        display: inline-block;
-        width: 250px;
-        min-width: 250px;
-        white-space: normal;
-        height: 300px;
-        flex-shrink: 0;
-        margin-right: 0;
-        vertical-align: top;
-    }
-    
-    /* Remove conflicting styles - only keep one rule to hide service tiles in bento-grid */
-    .bento-grid .service-tile {
-        display: none;
+    /* Prevent unwanted text selection during scrolling */
+    .services-track * {
+        user-select: none;
+        -webkit-user-select: none;
     }
 }
 
