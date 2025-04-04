@@ -55,8 +55,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: var(--accent-gold);
-    color: #000;
+    background: var(--light-tile);
+    color: #fff;
     font-weight: 700;
     font-size: 1.2rem;
     padding: 4px 15px;
