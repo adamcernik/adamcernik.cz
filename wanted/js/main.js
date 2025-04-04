@@ -130,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
             minSwipeDistance: 5,       // Minimum distance to consider a swipe (not a tap)
             snapToItems: false,        // Whether to snap to items
             itemSelector: null,        // Selector for items to snap to
+            overscrollEnabled: true,   // Whether to allow overscroll effect
+            overscrollResistance: 0.3, // Higher = less overscroll stretch (0-1)
+            overscrollReturnDelay: 500, // Time in ms to hold the overscroll before returning
             ...options
         };
         
@@ -146,10 +149,17 @@ document.addEventListener('DOMContentLoaded', function() {
         let lastDeltaX = 0;
         let isTap = true;
         let scrollDistanceTraveled = 0;
+        let isOverscrolling = false;
+        let overscrollAmount = 0;
+        let overscrollReturnTimeoutId = null;
+        
+        // Get the scrollable track element (first child of container)
+        const getTrack = () => container.querySelector(':scope > div');
         
         // Touch start event
         function onTouchStart(e) {
             cancelMomentumTracking();
+            clearOverscrollReturn();
             
             const touch = e.touches[0];
             startX = touch.clientX;
@@ -163,6 +173,15 @@ document.addEventListener('DOMContentLoaded', function() {
             isTap = true;
             scrollDistanceTraveled = 0;
             isDragging = true;
+            isOverscrolling = false;
+            overscrollAmount = 0;
+            
+            // Reset any existing transform on the track
+            const track = getTrack();
+            if (track) {
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(0)';
+            }
         }
         
         // Touch move event
@@ -185,21 +204,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 isTap = false;
             }
             
-            // If horizontal scrolling dominates, prevent default
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Only prevent default and apply horizontal scroll if the movement is 
+            // significantly more horizontal than vertical (1.5x more horizontal)
+            if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
                 e.preventDefault();
                 
-                // Apply resistance factor to make scrolling feel natural
-                const resistedDeltaX = deltaX * config.resistance;
-                container.scrollLeft += resistedDeltaX;
+                // Check if we're at the edge of scrolling and should apply overscroll effect
+                const isAtLeftEdge = container.scrollLeft <= 0;
+                const isAtRightEdge = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
                 
-                // Calculate velocity (pixels per millisecond)
-                if (elapsed > 0) {
-                    // Smooth velocity calculation
-                    velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+                if (config.overscrollEnabled && ((isAtLeftEdge && deltaX < 0) || (isAtRightEdge && deltaX > 0))) {
+                    // We're at an edge and trying to scroll beyond it - apply overscroll effect
+                    isOverscrolling = true;
+                    
+                    // Calculate overscroll amount with progressive resistance
+                    const resistedDeltaX = -deltaX * config.overscrollResistance;
+                    overscrollAmount += resistedDeltaX;
+                    
+                    // Apply a maximum limit to overscroll amount (25% of container width)
+                    const maxOverscroll = container.offsetWidth * 0.25;
+                    overscrollAmount = Math.max(
+                        Math.min(overscrollAmount, maxOverscroll), 
+                        -maxOverscroll
+                    );
+                    
+                    // Apply transform to the track element for visual feedback
+                    const track = getTrack();
+                    if (track) {
+                        track.style.transform = `translateX(${overscrollAmount}px)`;
+                    }
+                } else {
+                    // Normal scrolling
+                    isOverscrolling = false;
+                    
+                    // Apply resistance factor to make scrolling feel natural
+                    const resistedDeltaX = deltaX * config.resistance;
+                    container.scrollLeft += resistedDeltaX;
+                    
+                    // Calculate velocity (pixels per millisecond)
+                    if (elapsed > 0) {
+                        // Smooth velocity calculation
+                        velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+                    }
                 }
                 
                 lastDeltaX = deltaX;
+            } else {
+                // If more vertical than horizontal (or close to equal),
+                // let the browser handle vertical scrolling normally
+                // and reset our horizontal velocity tracking
+                velocityX = 0;
             }
             
             lastX = currentX;
@@ -207,21 +261,74 @@ document.addEventListener('DOMContentLoaded', function() {
             lastTimestamp = timestamp;
         }
         
+        // Handle returning from overscroll state
+        function returnFromOverscroll(immediate = false) {
+            clearTimeout(overscrollReturnTimeoutId);
+            
+            const track = getTrack();
+            if (!track) return;
+            
+            if (immediate) {
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(0)';
+                overscrollAmount = 0;
+                return;
+            }
+            
+            // Apply smooth transition back to original position with spring physics
+            // Using a more natural spring curve that mimics iOS behavior
+            track.style.transition = 'transform 0.5s cubic-bezier(0.13, 0.67, 0.24, 0.99)';
+            track.style.transform = 'translateX(0)';
+            
+            // Reset overscroll amount
+            overscrollAmount = 0;
+            
+            // Clear transition after it completes
+            setTimeout(() => {
+                if (track) track.style.transition = 'none';
+            }, 550);
+        }
+        
+        function clearOverscrollReturn() {
+            if (overscrollReturnTimeoutId) {
+                clearTimeout(overscrollReturnTimeoutId);
+                overscrollReturnTimeoutId = null;
+            }
+        }
+        
         // Touch end event
         function onTouchEnd() {
             if (!isDragging) return;
             isDragging = false;
             
+            // If overscrolling, return to normal position immediately unless it's a significant overscroll
+            if (isOverscrolling && overscrollAmount !== 0) {
+                // Immediate spring back for small overscrolls to feel more responsive
+                // Delayed return for larger overscrolls to give the elastic feeling
+                const delay = Math.abs(overscrollAmount) > container.offsetWidth * 0.1 ? 
+                              Math.min(Math.abs(overscrollAmount) * 2, config.overscrollReturnDelay) : 0;
+                
+                overscrollReturnTimeoutId = setTimeout(() => {
+                    returnFromOverscroll();
+                }, delay);
+                return;
+            }
+            
             // If it's just a tap, don't apply momentum
             if (isTap) return;
             
-            // Apply momentum only if there's enough velocity
-            if (Math.abs(velocityX) > 0.1) {
+            // For services, use custom snap behavior instead of momentum for more immediate stopping
+            if (config.customSnapBehavior) {
+                // Use the custom snap behavior which will position items directly without momentum
+                config.customSnapBehavior(container, config);
+            } else if (Math.abs(velocityX) > 0.1) {
+                // Apply momentum only if there's enough velocity and no custom snap behavior
                 const amplifier = 15; // Boost the initial velocity
                 const initialVelocity = velocityX * amplifier;
                 
                 startMomentumTracking(initialVelocity);
             } else if (config.snapToItems) {
+                // Default snap behavior for other components
                 snapToNearestItem();
             }
         }
@@ -229,12 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Momentum scrolling
         function startMomentumTracking(initialVelocity) {
             let velocity = initialVelocity;
-            
-            // Easing function for natural deceleration
-            const ease = (x) => {
-                // Custom easing curve for more natural feel
-                return 1 - Math.pow(1 - x, 3);
-            };
+            let totalScrolled = 0;
             
             const scroll = () => {
                 // Apply deceleration
@@ -242,6 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Calculate how much to scroll on this frame
                 const delta = velocity;
+                totalScrolled += Math.abs(delta);
                 
                 // If movement is very small, stop animation and snap if needed
                 if (Math.abs(delta) < 0.1) {
@@ -252,8 +355,51 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
+                // Check if we're at the edge of scrolling and should apply overscroll effect
+                const wasAtLeftEdge = container.scrollLeft <= 0;
+                const wasAtRightEdge = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
+                
                 // Apply the movement
                 container.scrollLeft += delta;
+                
+                // Check if we hit an edge after applying scroll
+                const isAtLeftEdge = container.scrollLeft <= 0;
+                const isAtRightEdge = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
+                
+                // If we just hit an edge and overscroll is enabled, apply bounce effect
+                if (config.overscrollEnabled && 
+                    ((isAtLeftEdge && !wasAtLeftEdge && velocity < 0) || 
+                     (isAtRightEdge && !wasAtRightEdge && velocity > 0))) {
+                    // Cancel momentum and apply bounce
+                    cancelMomentumTracking();
+                    
+                    // Calculate overscroll amount based on remaining velocity and a damping factor
+                    // Use velocity + totalScrolled for more realistic bounce proportional to momentum
+                    const momentumFactor = Math.min(Math.abs(totalScrolled) / 500, 1);
+                    overscrollAmount = velocity * 12 * momentumFactor; // Scale for visual effect
+                    
+                    // Apply maximum limit - higher for faster swipes
+                    const maxOverscroll = container.offsetWidth * (0.05 + (momentumFactor * 0.1));
+                    overscrollAmount = Math.max(
+                        Math.min(overscrollAmount, maxOverscroll), 
+                        -maxOverscroll
+                    );
+                    
+                    // Apply transform for visual feedback with a tiny bit of easing for natural feel
+                    const track = getTrack();
+                    if (track) {
+                        track.style.transition = 'transform 0.05s ease-out';
+                        track.style.transform = `translateX(${overscrollAmount}px)`;
+                        
+                        // Return after a proportional delay based on bounce amount
+                        const returnDelay = Math.abs(overscrollAmount) * 2; // Longer delay for bigger bounce
+                        overscrollReturnTimeoutId = setTimeout(() => {
+                            returnFromOverscroll();
+                        }, Math.min(returnDelay, 200)); // Cap at 200ms
+                    }
+                    
+                    return;
+                }
                 
                 // Continue animation
                 momentumID = requestAnimationFrame(scroll);
@@ -274,6 +420,13 @@ document.addEventListener('DOMContentLoaded', function() {
         function snapToNearestItem() {
             if (!config.itemSelector) return;
             
+            // If there's a custom snap behavior, use it
+            if (config.customSnapBehavior) {
+                config.customSnapBehavior(container, config);
+                return;
+            }
+            
+            // Otherwise use the default smooth snap behavior
             const scrollPosition = container.scrollLeft;
             const containerWidth = container.offsetWidth;
             const items = Array.from(container.querySelectorAll(config.itemSelector));
@@ -323,9 +476,19 @@ document.addEventListener('DOMContentLoaded', function() {
             isTap = true;
             scrollDistanceTraveled = 0;
             isDragging = true;
+            isOverscrolling = false;
+            overscrollAmount = 0;
             container.style.cursor = 'grabbing';
             
+            // Reset any existing transform on the track
+            const track = getTrack();
+            if (track) {
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(0)';
+            }
+            
             cancelMomentumTracking();
+            clearOverscrollReturn();
         });
         
         container.addEventListener('mousemove', (e) => {
@@ -346,13 +509,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 isTap = false;
             }
             
-            // Apply movement with resistance
-            const resistedDeltaX = deltaX * config.resistance;
-            container.scrollLeft += resistedDeltaX;
+            // Check if we're at the edge of scrolling and should apply overscroll effect
+            const isAtLeftEdge = container.scrollLeft <= 0;
+            const isAtRightEdge = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
             
-            // Calculate velocity
-            if (elapsed > 0) {
-                velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+            if (config.overscrollEnabled && ((isAtLeftEdge && deltaX < 0) || (isAtRightEdge && deltaX > 0))) {
+                // We're at an edge and trying to scroll beyond it - apply overscroll effect
+                isOverscrolling = true;
+                
+                // Calculate overscroll amount with progressive resistance
+                const resistedDeltaX = -deltaX * config.overscrollResistance;
+                overscrollAmount += resistedDeltaX;
+                
+                // Apply a maximum limit to overscroll amount (25% of container width)
+                const maxOverscroll = container.offsetWidth * 0.25;
+                overscrollAmount = Math.max(
+                    Math.min(overscrollAmount, maxOverscroll), 
+                    -maxOverscroll
+                );
+                
+                // Apply transform to the track element for visual feedback
+                const track = getTrack();
+                if (track) {
+                    track.style.transform = `translateX(${overscrollAmount}px)`;
+                }
+            } else {
+                // Normal scrolling
+                isOverscrolling = false;
+                
+                // Apply movement with resistance
+                const resistedDeltaX = deltaX * config.resistance;
+                container.scrollLeft += resistedDeltaX;
+                
+                // Calculate velocity
+                if (elapsed > 0) {
+                    velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+                }
             }
             
             lastX = currentX;
@@ -366,8 +558,20 @@ document.addEventListener('DOMContentLoaded', function() {
             isDragging = false;
             container.style.cursor = 'grab';
             
+            // If overscrolling, return to normal position after a delay
+            if (isOverscrolling && overscrollAmount !== 0) {
+                overscrollReturnTimeoutId = setTimeout(() => {
+                    returnFromOverscroll();
+                }, config.overscrollReturnDelay);
+                return;
+            }
+            
+            // Use custom snap behavior instead of momentum if available
+            if (config.customSnapBehavior) {
+                config.customSnapBehavior(container, config);
+            }
             // Only apply momentum if it's not a tap and has velocity
-            if (!isTap && Math.abs(velocityX) > 0.1) {
+            else if (!isTap && Math.abs(velocityX) > 0.1) {
                 const amplifier = 15; // Boost initial velocity
                 const initialVelocity = velocityX * amplifier;
                 
@@ -388,10 +592,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Cancel existing momentum scrolling
                 cancelMomentumTracking();
+                clearOverscrollReturn();
                 
-                // Apply scroll with natural feel
-                const wheelDelta = e.deltaX || e.deltaY;
-                container.scrollLeft += wheelDelta;
+                // Check if at edge and apply overscroll
+                const isAtLeftEdge = container.scrollLeft <= 0;
+                const isAtRightEdge = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
+                
+                if (config.overscrollEnabled && 
+                    ((isAtLeftEdge && e.deltaX < 0) || (isAtRightEdge && e.deltaX > 0))) {
+                    // Calculate overscroll amount
+                    overscrollAmount += e.deltaX * -0.1; // Scale for visual effect
+                    
+                    // Apply maximum limit
+                    const maxOverscroll = container.offsetWidth * 0.1;
+                    overscrollAmount = Math.max(
+                        Math.min(overscrollAmount, maxOverscroll), 
+                        -maxOverscroll
+                    );
+                    
+                    // Apply transform to the track element
+                    const track = getTrack();
+                    if (track) {
+                        track.style.transform = `translateX(${overscrollAmount}px)`;
+                        
+                        // Return after a delay
+                        clearTimeout(overscrollReturnTimeoutId);
+                        overscrollReturnTimeoutId = setTimeout(() => {
+                            returnFromOverscroll();
+                        }, 150);
+                    }
+                } else {
+                    // Normal scrolling
+                    const wheelDelta = e.deltaX || e.deltaY;
+                    container.scrollLeft += wheelDelta;
+                }
                 
                 // Add gentle momentum for wheel scrolling
                 clearTimeout(container._wheelTimeout);
@@ -409,7 +643,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Return public methods
         return {
             snapToNearestItem,
-            cancelMomentumTracking
+            cancelMomentumTracking,
+            returnFromOverscroll
         };
     }
     
@@ -417,13 +652,77 @@ document.addEventListener('DOMContentLoaded', function() {
     function initServicesScroll() {
         const servicesContainer = document.querySelector('.services-scroll-container');
         if (servicesContainer && window.innerWidth <= 768) {
-            // Set up natural scrolling with item snapping
+            // Set up natural scrolling with item snapping but prevent unwanted movement after scrolling
             setupNaturalScrolling(servicesContainer, {
-                resistance: 0.4,       // Lower resistance for better responsiveness
-                deceleration: 0.87,    // Good balance between smooth momentum and quick stop
-                snapToItems: true,     // Enable snapping to items
-                itemSelector: '.mobile-service'  // Class for mobile service tiles
+                resistance: 0.35,         // Lower resistance for better responsiveness
+                deceleration: 0.92,       // Higher deceleration for more natural momentum
+                snapToItems: true,        // Enable snapping to items
+                itemSelector: '.mobile-service',  // Class for mobile service tiles
+                overscrollEnabled: true,
+                overscrollResistance: 0.18,  // Lower resistance for more elastic bounce
+                overscrollReturnDelay: 350,  // Moderate delay for natural bounce return
+                // Custom function to update the default snap behavior
+                customSnapBehavior: function(container, config) {
+                    // Immediately calculate the target item without animation
+                    const scrollPosition = container.scrollLeft;
+                    const containerWidth = container.offsetWidth;
+                    const items = Array.from(container.querySelectorAll(config.itemSelector));
+                    
+                    if (items.length === 0) return;
+                    
+                    // Find which item is closest to center
+                    let closestItem = null;
+                    let closestDistance = Infinity;
+                    
+                    items.forEach(item => {
+                        const itemLeft = item.offsetLeft;
+                        const itemCenter = itemLeft + (item.offsetWidth / 2);
+                        const distanceToCenter = Math.abs(scrollPosition + (containerWidth / 2) - itemCenter);
+                        
+                        if (distanceToCenter < closestDistance) {
+                            closestDistance = distanceToCenter;
+                            closestItem = item;
+                        }
+                    });
+                    
+                    if (closestItem) {
+                        // Calculate center position for the item
+                        const targetPosition = closestItem.offsetLeft - (containerWidth - closestItem.offsetWidth) / 2;
+                        
+                        // Use a shorter, more immediate snap with a subtle ease
+                        container.scrollTo({
+                            left: targetPosition,
+                            behavior: 'auto'  // Use 'auto' for immediate positioning without animation
+                        });
+                    }
+                }
             });
+            
+            // Add touch handler to help with vertical scrolling on mobile
+            const servicesSection = document.getElementById('services-container');
+            if (servicesSection) {
+                let touchStartY = 0;
+                let touchIdentified = false;
+                
+                servicesSection.addEventListener('touchstart', function(e) {
+                    touchStartY = e.touches[0].clientY;
+                    touchIdentified = false;
+                }, { passive: true });
+                
+                // Handler to identify vertical scrolls and remove preventDefault
+                servicesSection.addEventListener('touchmove', function(e) {
+                    if (touchIdentified) return;
+                    
+                    const touchY = e.touches[0].clientY;
+                    const deltaY = Math.abs(touchY - touchStartY);
+                    
+                    // If clearly vertical movement (over 10px), mark as a vertical scroll
+                    if (deltaY > 10) {
+                        touchIdentified = true;
+                        // This allows the default browser behavior for vertical scrolling
+                    }
+                }, { passive: true });
+            }
             
             // Mark service clicks to distinguish from scrolls
             servicesContainer.addEventListener('click', function(e) {
@@ -444,9 +743,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timelineContainer) {
             // Setup natural scrolling for timeline with slightly different parameters
             setupNaturalScrolling(timelineContainer, {
-                resistance: 0.35,      // Lower resistance for smoother scrolling
-                deceleration: 0.9,     // Smoother momentum (longer distance)
-                snapToItems: false     // No snapping for timeline
+                resistance: 0.3,        // Lower resistance for smoother scrolling
+                deceleration: 0.94,     // Higher value for smoother, longer momentum
+                snapToItems: false,     // No snapping for timeline
+                overscrollEnabled: true,
+                overscrollResistance: 0.15,  // Very elastic overscroll for timeline
+                overscrollReturnDelay: 400   // Balanced delay for natural bounce
             });
         }
     }
