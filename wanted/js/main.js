@@ -254,14 +254,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Normal scrolling
                     isOverscrolling = false;
                     
+                    // Special case for timeline: check if the container is the timeline
+                    const isTimeline = container.classList.contains('timeline-scroll-container');
+                    
                     // Apply resistance factor to make scrolling feel natural
-                    const resistedDeltaX = deltaX * config.resistance;
+                    // Use lower resistance for timeline to make it faster
+                    const resistedDeltaX = deltaX * (isTimeline ? config.resistance * 1.8 : config.resistance);
                     container.scrollLeft += resistedDeltaX;
                     
                     // Calculate velocity (pixels per millisecond)
                     if (elapsed > 0) {
-                        // Smooth velocity calculation
-                        velocityX = 0.8 * velocityX + 0.2 * (deltaX / elapsed);
+                        // Smooth velocity calculation with boost for timeline
+                        const velocityWeight = isTimeline ? 0.4 : 0.2; // Higher weight for timeline
+                        velocityX = (1 - velocityWeight) * velocityX + velocityWeight * (deltaX / elapsed);
                     }
                 }
                 
@@ -337,13 +342,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // If it's just a tap, don't apply momentum
             if (isTap) return;
             
+            // Check if this is the timeline
+            const isTimeline = container.classList.contains('timeline-scroll-container');
+            
             // For services, use custom snap behavior instead of momentum for more immediate stopping
             if (config.customSnapBehavior) {
                 // Use the custom snap behavior which will position items directly without momentum
                 config.customSnapBehavior(container, config);
             } else if (Math.abs(velocityX) > 0.1) {
                 // Apply momentum only if there's enough velocity and no custom snap behavior
-                const amplifier = 15; // Boost the initial velocity
+                // Use higher amplification for timeline to make it move faster
+                const amplifier = isTimeline ? 25 : 15; // Much higher boost for timeline
                 const initialVelocity = velocityX * amplifier;
                 
                 startMomentumTracking(initialVelocity);
@@ -783,7 +792,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (timelineContainer) {
             // Setup natural scrolling for timeline with parameters optimized for mobile
             setupNaturalScrolling(timelineContainer, {
-                resistance: 0.4,           // Adjusted for smoother scrolling
+                resistance: 0.2,           // Much lower resistance for faster scrolling
                 deceleration: 0.85,        // Match services section for consistent feel
                 minSwipeDistance: 5,       // Standard threshold for swipe detection
                 snapToItems: false,        // No snapping for timeline
