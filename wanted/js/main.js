@@ -275,18 +275,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Apply smooth transition back to original position with spring physics
-            // Using a more natural spring curve that mimics iOS behavior
-            track.style.transition = 'transform 0.5s cubic-bezier(0.13, 0.67, 0.24, 0.99)';
+            // Apply smooth transition back with shorter animation time
+            // Faster spring curve that still feels natural but doesn't linger
+            track.style.transition = 'transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)';
             track.style.transform = 'translateX(0)';
             
             // Reset overscroll amount
             overscrollAmount = 0;
             
-            // Clear transition after it completes
+            // Clear transition after it completes (shorter time)
             setTimeout(() => {
                 if (track) track.style.transition = 'none';
-            }, 550);
+            }, 350);
         }
         
         function clearOverscrollReturn() {
@@ -301,12 +301,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isDragging) return;
             isDragging = false;
             
-            // If overscrolling, return to normal position immediately unless it's a significant overscroll
+            // If overscrolling, return to normal position with minimal delay
             if (isOverscrolling && overscrollAmount !== 0) {
-                // Immediate spring back for small overscrolls to feel more responsive
-                // Delayed return for larger overscrolls to give the elastic feeling
+                // Calculate delay based on device type and amount of overscroll
+                // Desktop gets faster return, mobile slightly longer for better feel
+                const isMobile = 'ontouchstart' in window;
+                const maxDelay = isMobile ? 250 : 150; // Much shorter delays
+                
                 const delay = Math.abs(overscrollAmount) > container.offsetWidth * 0.1 ? 
-                              Math.min(Math.abs(overscrollAmount) * 2, config.overscrollReturnDelay) : 0;
+                              Math.min(Math.abs(overscrollAmount), maxDelay) : 0;
                 
                 overscrollReturnTimeoutId = setTimeout(() => {
                     returnFromOverscroll();
@@ -373,29 +376,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Cancel momentum and apply bounce
                     cancelMomentumTracking();
                     
-                    // Calculate overscroll amount based on remaining velocity and a damping factor
-                    // Use velocity + totalScrolled for more realistic bounce proportional to momentum
+                    // Calculate overscroll amount based on remaining velocity with reduced effect
                     const momentumFactor = Math.min(Math.abs(totalScrolled) / 500, 1);
-                    overscrollAmount = velocity * 12 * momentumFactor; // Scale for visual effect
+                    const isMobile = 'ontouchstart' in window;
+                    const velocityMultiplier = isMobile ? 8 : 5; // Less pronounced on desktop
                     
-                    // Apply maximum limit - higher for faster swipes
-                    const maxOverscroll = container.offsetWidth * (0.05 + (momentumFactor * 0.1));
+                    overscrollAmount = velocity * velocityMultiplier * momentumFactor;
+                    
+                    // Apply maximum limit - smaller for desktop
+                    const maxOverscroll = container.offsetWidth * (isMobile ? 0.05 : 0.03) + (momentumFactor * 0.05);
                     overscrollAmount = Math.max(
                         Math.min(overscrollAmount, maxOverscroll), 
                         -maxOverscroll
                     );
                     
-                    // Apply transform for visual feedback with a tiny bit of easing for natural feel
+                    // Apply transform with minimal transition
                     const track = getTrack();
                     if (track) {
-                        track.style.transition = 'transform 0.05s ease-out';
+                        // No transition for instant effect
+                        track.style.transition = 'none';
                         track.style.transform = `translateX(${overscrollAmount}px)`;
                         
-                        // Return after a proportional delay based on bounce amount
-                        const returnDelay = Math.abs(overscrollAmount) * 2; // Longer delay for bigger bounce
+                        // Return after a very short delay
+                        const returnDelay = isMobile ? 
+                            Math.min(Math.abs(overscrollAmount) * 1.5, 150) : // Mobile can have slightly longer delay (max 150ms)
+                            Math.min(Math.abs(overscrollAmount), 80);         // Desktop has very short delay (max 80ms)
+                            
                         overscrollReturnTimeoutId = setTimeout(() => {
                             returnFromOverscroll();
-                        }, Math.min(returnDelay, 200)); // Cap at 200ms
+                        }, returnDelay);
                     }
                     
                     return;
@@ -652,50 +661,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function initServicesScroll() {
         const servicesContainer = document.querySelector('.services-scroll-container');
         if (servicesContainer && window.innerWidth <= 768) {
-            // Set up natural scrolling with item snapping but prevent unwanted movement after scrolling
+            // Set up natural scrolling with identical physics to timeline
             setupNaturalScrolling(servicesContainer, {
-                resistance: 0.35,         // Lower resistance for better responsiveness
-                deceleration: 0.92,       // Higher deceleration for more natural momentum
-                snapToItems: true,        // Enable snapping to items
-                itemSelector: '.mobile-service',  // Class for mobile service tiles
+                resistance: 0.3,        // Same as timeline - smoother scrolling
+                deceleration: 0.94,     // Same as timeline - longer, smoother momentum
+                snapToItems: false,     // Disable snap-to-item to match timeline behavior
+                itemSelector: '.mobile-service',  // Keep selector for reference but don't snap
                 overscrollEnabled: true,
-                overscrollResistance: 0.18,  // Lower resistance for more elastic bounce
-                overscrollReturnDelay: 350,  // Moderate delay for natural bounce return
-                // Custom function to update the default snap behavior
-                customSnapBehavior: function(container, config) {
-                    // Immediately calculate the target item without animation
-                    const scrollPosition = container.scrollLeft;
-                    const containerWidth = container.offsetWidth;
-                    const items = Array.from(container.querySelectorAll(config.itemSelector));
-                    
-                    if (items.length === 0) return;
-                    
-                    // Find which item is closest to center
-                    let closestItem = null;
-                    let closestDistance = Infinity;
-                    
-                    items.forEach(item => {
-                        const itemLeft = item.offsetLeft;
-                        const itemCenter = itemLeft + (item.offsetWidth / 2);
-                        const distanceToCenter = Math.abs(scrollPosition + (containerWidth / 2) - itemCenter);
-                        
-                        if (distanceToCenter < closestDistance) {
-                            closestDistance = distanceToCenter;
-                            closestItem = item;
-                        }
-                    });
-                    
-                    if (closestItem) {
-                        // Calculate center position for the item
-                        const targetPosition = closestItem.offsetLeft - (containerWidth - closestItem.offsetWidth) / 2;
-                        
-                        // Use a shorter, more immediate snap with a subtle ease
-                        container.scrollTo({
-                            left: targetPosition,
-                            behavior: 'auto'  // Use 'auto' for immediate positioning without animation
-                        });
-                    }
-                }
+                overscrollResistance: 0.15,  // Same as timeline - more elastic bounce
+                overscrollReturnDelay: 200   // Shorter delay for more responsive feel
             });
             
             // Add touch handler to help with vertical scrolling on mobile
@@ -748,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 snapToItems: false,     // No snapping for timeline
                 overscrollEnabled: true,
                 overscrollResistance: 0.15,  // Very elastic overscroll for timeline
-                overscrollReturnDelay: 400   // Balanced delay for natural bounce
+                overscrollReturnDelay: 200   // Shorter delay for more responsive feel
             });
         }
     }
