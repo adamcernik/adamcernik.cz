@@ -661,45 +661,63 @@ document.addEventListener('DOMContentLoaded', function() {
     function initServicesScroll() {
         const servicesContainer = document.querySelector('.services-scroll-container');
         if (servicesContainer && window.innerWidth <= 768) {
-            // Set up natural scrolling with identical physics to timeline
-            setupNaturalScrolling(servicesContainer, {
-                resistance: 0.3,        // Same as timeline - smoother scrolling
-                deceleration: 0.94,     // Same as timeline - longer, smoother momentum
-                snapToItems: false,     // Disable snap-to-item to match timeline behavior
-                itemSelector: '.mobile-service',  // Keep selector for reference but don't snap
-                overscrollEnabled: true,
-                overscrollResistance: 0.15,  // Same as timeline - more elastic bounce
-                overscrollReturnDelay: 200   // Shorter delay for more responsive feel
-            });
+            // Variables for tracking scroll
+            let startX = 0;
+            let startY = 0;
+            let scrollLeft = 0;
+            let isDown = false;
+            let hasScrolled = false;
+            let scrollTimeout;
             
-            // Add touch handler to help with vertical scrolling on mobile
-            const servicesSection = document.getElementById('services-container');
-            if (servicesSection) {
-                let touchStartY = 0;
-                let touchIdentified = false;
+            // Touch start event
+            servicesContainer.addEventListener('touchstart', function(e) {
+                isDown = true;
+                hasScrolled = false;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                scrollLeft = servicesContainer.scrollLeft;
+                // Clear any ongoing scroll momentum
+                clearTimeout(scrollTimeout);
+            }, { passive: true });
+            
+            // Touch move event with minimal logic for smooth scrolling
+            servicesContainer.addEventListener('touchmove', function(e) {
+                if (!isDown) return;
                 
-                servicesSection.addEventListener('touchstart', function(e) {
-                    touchStartY = e.touches[0].clientY;
-                    touchIdentified = false;
-                }, { passive: true });
+                const x = e.touches[0].clientX;
+                const y = e.touches[0].clientY;
+                const deltaX = startX - x;
+                const deltaY = Math.abs(startY - y);
                 
-                // Handler to identify vertical scrolls and remove preventDefault
-                servicesSection.addEventListener('touchmove', function(e) {
-                    if (touchIdentified) return;
-                    
-                    const touchY = e.touches[0].clientY;
-                    const deltaY = Math.abs(touchY - touchStartY);
-                    
-                    // If clearly vertical movement (over 10px), mark as a vertical scroll
-                    if (deltaY > 10) {
-                        touchIdentified = true;
-                        // This allows the default browser behavior for vertical scrolling
+                // Only handle horizontal scrolls to avoid blocking vertical page scrolling
+                if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 5) {
+                    if (!hasScrolled) {
+                        hasScrolled = true;
                     }
-                }, { passive: true });
-            }
+                    
+                    // Simple direct scrolling without resistance for better responsiveness
+                    servicesContainer.scrollLeft = scrollLeft + deltaX;
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Touch end event - clean up and mark scrolls to prevent accidental clicks
+            servicesContainer.addEventListener('touchend', function(e) {
+                isDown = false;
+                if (hasScrolled) {
+                    // Mark as scroll to prevent modal opening on scroll
+                    const preventNextClick = (e) => {
+                        e._isScroll = true;
+                        document.removeEventListener('click', preventNextClick, true);
+                    };
+                    document.addEventListener('click', preventNextClick, true);
+                }
+            }, { passive: true });
             
             // Mark service clicks to distinguish from scrolls
             servicesContainer.addEventListener('click', function(e) {
+                if (hasScrolled) return;
+                
                 const targetTile = e.target.closest('.service-tile');
                 if (targetTile && !e._isScroll) {
                     const modalId = targetTile.getAttribute('data-modal');
@@ -708,6 +726,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
+            
+            // Add mouse events for desktop testing with same direct approach
+            servicesContainer.addEventListener('mousedown', function(e) {
+                isDown = true;
+                hasScrolled = false;
+                startX = e.pageX;
+                scrollLeft = servicesContainer.scrollLeft;
+                servicesContainer.style.cursor = 'grabbing';
+                clearTimeout(scrollTimeout);
+                e.preventDefault();
+            });
+            
+            servicesContainer.addEventListener('mousemove', function(e) {
+                if (!isDown) return;
+                
+                const x = e.pageX;
+                const walk = startX - x;
+                
+                if (Math.abs(walk) > 5) {
+                    hasScrolled = true;
+                    servicesContainer.scrollLeft = scrollLeft + walk;
+                }
+            });
+            
+            servicesContainer.addEventListener('mouseup', function() {
+                isDown = false;
+                servicesContainer.style.cursor = 'grab';
+            });
+            
+            servicesContainer.addEventListener('mouseleave', function() {
+                isDown = false;
+                servicesContainer.style.cursor = 'grab';
+            });
+            
+            // Simple overflow indicator for natural bounce effect at edges
+            servicesContainer.style.overscrollBehavior = 'auto';
+            servicesContainer.style.cursor = 'grab';
         }
     }
     
