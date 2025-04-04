@@ -332,6 +332,118 @@
     margin-top: 40px;
 }
 
+/* Basic Mobile Services - Simple Scrolling Approach */
+.mobile-only-services {
+    display: none; /* Hidden by default (desktop) */
+}
+
+#basic-services-scroll {
+    /* Basic display */
+    display: flex;
+    white-space: nowrap;
+    width: 100%;
+    
+    /* Scrolling behavior */
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    
+    /* Remove any snapping */
+    scroll-snap-type: none;
+    -webkit-scroll-snap-type: none;
+    
+    /* Spacing */
+    padding: 15px 0;
+    margin: 0;
+    
+    /* Prevent text selection during scroll */
+    user-select: none;
+    -webkit-user-select: none;
+    
+    /* Fix for iOS */
+    -webkit-overflow-scrolling: touch;
+    
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#basic-services-scroll::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.basic-service-tile {
+    flex: 0 0 auto;
+    width: 210px;
+    border-radius: 10px;
+    margin-right: 15px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    position: relative;
+    height: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.basic-service-tile img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    opacity: 0.7;
+}
+
+.basic-service-tile div {
+    padding: 10px 15px;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 80%, transparent);
+}
+
+.basic-service-tile .number {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--accent-gold);
+    margin-bottom: 5px;
+}
+
+.basic-service-tile h3 {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.basic-service-tile p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .mobile-only-services {
+        display: block;
+        width: 100%;
+        margin: 1rem 0 2rem;
+        padding: 0;
+    }
+    
+    /* Hide desktop service tiles when on mobile */
+    .bento-grid .service-tile {
+        display: none;
+    }
+    
+    #basic-services-scroll {
+        /* Add horizontal padding to avoid items touching screen edge */
+        padding: 15px 15px;
+        /* Force hardware acceleration for smoother scrolling */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
 /* Services Scroll Container - Mobile Optimized */
 .services-scroll-container {
     -webkit-overflow-scrolling: touch;

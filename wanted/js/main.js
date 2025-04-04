@@ -659,85 +659,66 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Services scroll functionality (for mobile)
     function initServicesScroll() {
-        // Get the services container
-        const servicesContainer = document.querySelector('.services-scroll-container');
-        if (!servicesContainer) return;
+        // Get the basic services container
+        const basicServicesScroll = document.getElementById('basic-services-scroll');
+        if (!basicServicesScroll) return;
         
-        // Check viewport
+        // Check for mobile viewport
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-            console.log('Setting up mobile services - simple native approach');
+            console.log('Setting up basic mobile services');
             
-            // STEP 1: Reset everything by replacing the container with a clean clone
-            const newContainer = servicesContainer.cloneNode(false); // shallow clone
-            const parent = servicesContainer.parentNode;
+            // Set up basic variables to track scrolling vs clicking
+            let isScrolling = false;
+            let startX = 0;
+            let startTime = 0;
             
-            // Save the original HTML to restore
-            const originalHTML = servicesContainer.innerHTML;
-            newContainer.innerHTML = originalHTML;
-            
-            // Replace with clean container
-            parent.replaceChild(newContainer, servicesContainer);
-            
-            // Get fresh reference
-            const container = document.querySelector('.services-scroll-container');
-            
-            // STEP 2: Configure container with minimal styling
-            container.style.display = 'block';
-            container.style.overflowX = 'scroll';
-            container.classList.add('mobile-scrolling');
-            
-            // STEP 3: Setup minimal touch/click handling
-            let lastTouchTime = 0;
-            let scrolling = false;
-            let scrollTimeout;
-            
-            // Monitor scrolling state
-            container.addEventListener('scroll', function() {
-                // Mark as scrolling
-                scrolling = true;
-                lastTouchTime = Date.now();
-                
-                // Clear any existing timeout
-                clearTimeout(scrollTimeout);
-                
-                // Set timeout to clear scrolling flag
-                scrollTimeout = setTimeout(function() {
-                    scrolling = false;
-                }, 200); // 200ms debounce
+            // When the user starts touching the container
+            basicServicesScroll.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startTime = Date.now();
+                isScrolling = false;
             }, { passive: true });
             
-            // Direct click handler for each service tile
-            const serviceTiles = container.querySelectorAll('.service-tile');
+            // When the user moves their finger
+            basicServicesScroll.addEventListener('touchmove', function() {
+                isScrolling = true;
+            }, { passive: true });
+            
+            // Clean up click handlers for all service tiles
+            const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+            
             serviceTiles.forEach(tile => {
-                // Remove any existing listeners
-                const newTile = tile.cloneNode(true);
-                tile.parentNode.replaceChild(newTile, tile);
+                // Override the onclick attribute with a proper event listener
+                tile.removeAttribute('onclick');
                 
-                // Add new clean listener
-                newTile.addEventListener('click', function(e) {
-                    // If we've scrolled recently, ignore the click
-                    if (scrolling || (Date.now() - lastTouchTime < 300)) {
+                tile.addEventListener('click', function(e) {
+                    // If the user was scrolling, don't trigger the modal
+                    if (isScrolling) {
                         e.preventDefault();
-                        e.stopPropagation();
                         return false;
                     }
                     
-                    // Get the modal ID and open it
-                    const modalId = this.getAttribute('data-modal');
+                    // Extract the modal ID from the original onclick attribute
+                    const modalId = this.getAttribute('data-target') || 
+                                   this.onclick?.toString().match(/openModal\(['"]([^'"]+)['"]\)/)?.[1];
+                    
                     if (modalId) {
-                        console.log('Opening service modal:', modalId);
+                        console.log('Opening modal:', modalId);
                         openModal(modalId);
                     }
                 });
+                
+                // Store the modal ID as a data attribute
+                const onclickStr = tile.getAttribute('onclick') || '';
+                const modalMatch = onclickStr.match(/openModal\(['"]([^'"]+)['"]\)/);
+                if (modalMatch && modalMatch[1]) {
+                    tile.setAttribute('data-target', modalMatch[1]);
+                }
             });
             
-            console.log('Mobile services setup complete - using simple native scrolling');
-        } else {
-            // Desktop: hide mobile container
-            servicesContainer.style.display = 'none';
-            servicesContainer.classList.remove('mobile-scrolling');
+            console.log('Basic mobile services setup complete');
         }
     }
     
