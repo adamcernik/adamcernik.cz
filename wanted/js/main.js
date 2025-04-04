@@ -2,6 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS
     emailjs.init("hUdCH3u0SC6LkmOaD");
     
+    // Add loaded class to mobile services to enable swipe hint
+    const mobileServices = document.querySelector('.mobile-only-services');
+    if (mobileServices) {
+        // Add loaded class after a short delay to enable the swipe hint animation
+        setTimeout(() => {
+            mobileServices.classList.add('loaded');
+        }, 1000);
+    }
+    
     // Logo click handler to scroll to top
     const logoLink = document.querySelector('.logo-link');
     if (logoLink) {

@@ -279,9 +279,10 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(to right,
-        rgba(15, 25, 35, 0.9) 0%,
-        rgba(15, 25, 35, 0.75) 40%,
-        rgba(15, 25, 35, 0.65) 100%
+        rgba(15, 25, 35, 0.95) 0%,
+        rgba(15, 25, 35, 0.85) 40%,
+        rgba(15, 25, 35, 0.75) 70%,
+        rgba(15, 25, 35, 0.70) 100%
     );
     z-index: 1;
 }
@@ -295,7 +296,7 @@
 .resources-content {
     position: relative;
     z-index: 2;
-    padding: 2.5rem;
+    padding: 2.5rem 2.5rem 4rem;
     width: 100%;
     height: 100%;
     display: flex;
@@ -436,7 +437,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1A1A1A;
     padding: 2rem 1.5rem;
     max-height: 300px;
 }
@@ -490,6 +490,10 @@
         min-height: 250px;
     }
     
+    .resources-content {
+        padding: 2rem 2rem 3.5rem;
+    }
+    
     .quote-tile,
     .renault-tile {
         max-height: 220px;
@@ -511,6 +515,10 @@
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
         height: 300px;
+    }
+    
+    .resources-content {
+        padding: 2rem 1.75rem 3.5rem;
     }
     
     .quote-tile,
@@ -608,6 +616,11 @@
         padding: 1.5rem 1.5rem 2rem;
     }
     
+    /* Add bottom padding to resources content on mobile */
+    .resources-content {
+        padding-bottom: 3rem;
+    }
+    
     /* Larger text for better readability on mobile */
     #movie-grid .movie-content .headline {
         font-size: 1.8rem;
@@ -631,6 +644,15 @@
     
     .renault-document img {
         max-height: 120px;
+    }
+    
+    /* Further adjust resources tile for very small screens */
+    .resources-content {
+        padding: 2rem 1.5rem 3.5rem;
+    }
+    
+    .resources-content .headline {
+        margin-bottom: 1.25rem;
     }
     
     /* Further reduce component paddings for smaller screens */
