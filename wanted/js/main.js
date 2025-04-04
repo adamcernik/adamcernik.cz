@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         timelineContainer.classList.add('loaded');
                     }
                 }, 1000);
+                
+                // Also initialize the new timeline implementation
+                initNewTimeline(html);
             })
             .catch(error => {
                 console.error('Error loading timeline content:', error);
@@ -1311,5 +1314,164 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalId = this.getAttribute('data-modal');
         console.log(`Opening modal from ${window.innerWidth <= 768 ? 'mobile' : 'desktop'} view: ${modalId}`);
         openModal(modalId);
+    }
+    
+    // Initialize new timeline implementation with services-like scrolling
+    function initNewTimeline(timelineHtml) {
+        const timelineNewContainer = document.getElementById('history-new');
+        const timelineBasicScroll = document.getElementById('timeline-basic-scroll');
+        
+        if (!timelineNewContainer || !timelineBasicScroll) return;
+        
+        // Parse the HTML to extract timeline items
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(timelineHtml, 'text/html');
+        const timelineItems = Array.from(doc.querySelectorAll('.timeline-item'));
+        
+        // Clear container first
+        timelineBasicScroll.innerHTML = '';
+        
+        // Create new timeline items in the services-style format
+        timelineItems.forEach(item => {
+            // Extract year
+            const year = item.querySelector('.timeline-year').textContent;
+            
+            // Extract list items
+            const listItems = Array.from(item.querySelectorAll('.timeline-event-list li'))
+                .map(li => li.textContent);
+            
+            // Create new timeline tile
+            const newTile = document.createElement('div');
+            newTile.className = 'timeline-basic-tile';
+            
+            // Create year label
+            const yearLabel = document.createElement('div');
+            yearLabel.className = 'timeline-basic-year';
+            yearLabel.textContent = year;
+            
+            // Create content container
+            const content = document.createElement('div');
+            content.className = 'timeline-basic-content';
+            
+            // Create list
+            const list = document.createElement('ul');
+            list.className = 'timeline-basic-list';
+            
+            // Add list items
+            listItems.forEach(text => {
+                const li = document.createElement('li');
+                li.textContent = text;
+                list.appendChild(li);
+            });
+            
+            // Assemble the tile
+            content.appendChild(list);
+            newTile.appendChild(yearLabel);
+            newTile.appendChild(content);
+            
+            // Add to container
+            timelineBasicScroll.appendChild(newTile);
+        });
+        
+        // Set up direct scrolling for mobile - similar to services
+        // This is the key part that makes the scrolling feel identical to services
+        if (window.innerWidth <= 1024) {
+            console.log('Setting up services-style scrolling for timeline');
+            
+            // Show the new timeline container and hide the original
+            timelineNewContainer.style.display = 'block';
+            document.querySelector('.timeline-container').style.display = 'none';
+            
+            // Set up basic variables to track scrolling vs clicking
+            let isScrolling = false;
+            let startX = 0;
+            let startTime = 0;
+            
+            // When the user starts touching the container
+            timelineBasicScroll.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startTime = Date.now();
+                isScrolling = false;
+            }, { passive: true });
+            
+            // When the user moves their finger
+            timelineBasicScroll.addEventListener('touchmove', function() {
+                isScrolling = true;
+            }, { passive: true });
+            
+            // Make the scroll container scroll properly with momentum
+            // This directly uses the browser's native scrolling with momentum
+            timelineBasicScroll.style.webkitOverflowScrolling = 'touch';
+            timelineBasicScroll.style.overflowX = 'auto';
+            timelineBasicScroll.style.overflowY = 'hidden';
+            
+            // Fix for some mobile browsers that need a repaint to enable smooth scrolling
+            setTimeout(function() {
+                const parent = timelineBasicScroll.parentNode;
+                const next = timelineBasicScroll.nextSibling;
+                parent.removeChild(timelineBasicScroll);
+                parent.insertBefore(timelineBasicScroll, next);
+                console.log('Timeline scroll container reinitialized for smooth scrolling');
+            }, 100);
+        } else {
+            // For desktop, show both so user can choose
+            timelineNewContainer.style.display = 'block';
+        }
+        
+        // Add loaded class after a short delay to enable the swipe hint animation
+        setTimeout(() => {
+            timelineNewContainer.classList.add('loaded');
+        }, 1000);
+        
+        // Optional: Add a toggle button to switch between old and new timeline
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Switch Timeline View';
+        toggleButton.className = 'timeline-toggle-btn';
+        toggleButton.style.cssText = `
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            z-index: 10;
+        `;
+        
+        toggleButton.addEventListener('click', function() {
+            const originalTimeline = document.querySelector('.timeline-container');
+            
+            if (timelineNewContainer.style.display === 'none') {
+                timelineNewContainer.style.display = 'block';
+                originalTimeline.style.display = 'none';
+                this.textContent = 'Switch to Original Timeline';
+            } else {
+                timelineNewContainer.style.display = 'none';
+                originalTimeline.style.display = 'block';
+                this.textContent = 'Switch to New Timeline';
+            }
+        });
+        
+        // Add toggle button to both containers
+        const origToggle = toggleButton.cloneNode(true);
+        origToggle.addEventListener('click', function() {
+            const originalTimeline = document.querySelector('.timeline-container');
+            
+            if (timelineNewContainer.style.display === 'none') {
+                timelineNewContainer.style.display = 'block';
+                originalTimeline.style.display = 'none';
+                this.textContent = 'Switch to Original Timeline';
+            } else {
+                timelineNewContainer.style.display = 'none';
+                originalTimeline.style.display = 'block';
+                this.textContent = 'Switch to New Timeline';
+            }
+        });
+        
+        document.querySelector('.timeline-container').appendChild(origToggle);
+        timelineNewContainer.appendChild(toggleButton);
     }
 });

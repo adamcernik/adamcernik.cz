@@ -817,4 +817,161 @@
     font-size: 18px;
     font-weight: 600;
     color: #fff;
+}
+
+/* New Timeline Implementation (duplicating services structure) */
+.timeline-new-container {
+    display: none; /* Hidden initially, will be shown through JS */
+    width: 100%;
+    margin: 25px 0 40px;
+    grid-column: span 4;
+    position: relative;
+    z-index: 1;
+}
+
+#timeline-basic-scroll {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    -webkit-scroll-snap-type: none;
+    padding: 15px 0;
+    margin: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#timeline-basic-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.timeline-basic-tile {
+    flex: 0 0 auto;
+    width: 300px;
+    border-radius: 10px;
+    margin-right: 60px;
+    overflow: hidden;
+    background-color: transparent;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.timeline-basic-tile:last-child {
+    margin-right: 0;
+}
+
+.timeline-basic-year {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-gold);
+    color: #000;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 4px 15px;
+    border-radius: 4px;
+    z-index: 2;
+    border: none;
+    min-width: 70px;
+    text-align: center;
+}
+
+.timeline-basic-content {
+    margin-top: 30px;
+    background-color: transparent;
+    border-radius: 1rem;
+    padding: 20px;
+    box-shadow: none;
+    min-height: 220px;
+    transition: transform 0.2s ease;
+    border: 0.5px solid rgba(215, 125, 50, 0.5);
+    width: 100%;
+}
+
+.timeline-basic-title {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.timeline-basic-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline-basic-list li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+.timeline-basic-list li::before {
+    content: '•';
+    color: var(--accent-gold);
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Timeline swipe indicator (like services) */
+.timeline-new-container.loaded .timeline-basic-tile:first-child::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    width: 8px;
+    height: 30px;
+    background: rgba(215, 125, 50, 0.4);
+    border-radius: 5px 0 0 5px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    animation: swipeHint 2s ease-in-out infinite;
+}
+
+@media (max-width: 1024px) {
+    .timeline-new-container {
+        grid-column: 1 / -1; /* Span all columns */
+        margin: 20px 0 30px;
+        width: 100%; /* Full width without extra calculations */
+        justify-self: center;
+    }
+}
+
+@media (max-width: 768px) {
+    #timeline-basic-scroll {
+        padding: 15px 15px;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        /* Make container slightly wider than the viewport to show next tile */
+        width: calc(100% + 30px);
+        margin-left: -15px;
+        padding-right: 45px; /* Extra padding on the right to ensure next tile is visible */
+        /* Set scroll padding to enforce stopping at consistent positions */
+        scroll-padding: 0 70px 0 15px;
+    }
+    
+    .timeline-basic-tile {
+        width: 280px;
+        margin-right: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-basic-tile {
+        width: 260px;
+        margin-right: 30px;
+    }
 } 
