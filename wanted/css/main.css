@@ -366,11 +366,33 @@
         overflow-x: auto;
         width: 100%;
         margin: 1rem 0 2rem;
+        /* Remove scroll snap completely for more natural feel */
+        scroll-snap-type: none;
+        /* Enhanced touch properties */
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: auto;
+        touch-action: pan-x;
+        /* Momentum-based scrolling */
+        scroll-behavior: auto;
     }
     
     /* Hide desktop service tiles when on mobile */
     .bento-grid .service-tile:not(.mobile-service) {
         display: none;
+    }
+    
+    /* Improve scrolling feel */
+    .services-track {
+        padding: 10px 15px 20px;
+        gap: 10px; /* Tighter gap for more items visible */
+    }
+    
+    /* Optimize service tiles for smoother scrolling */
+    .mobile-service {
+        min-width: 200px; /* Slightly smaller min-width */
+        width: 65%; /* Smaller width */
+        max-width: 260px; /* Smaller max-width */
+        will-change: transform; /* Hardware acceleration hint */
     }
 }
 

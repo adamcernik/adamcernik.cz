@@ -664,100 +664,145 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Only apply mobile scrolling specific code for mobile viewport
         if (window.innerWidth <= 768) {
-            // Reset any previous styles or event listeners
+            console.log('Initializing mobile services scrolling with enhanced momentum');
+            
+            // Reset completely to ensure no conflicting styles
             servicesContainer.style = '';
             
-            // Enable native scrolling behavior - match timeline settings
-            servicesContainer.style.overscrollBehavior = 'touch';
-            servicesContainer.style.webkitOverflowScrolling = 'touch'; // For iOS momentum scrolling
-            
-            // Add class for mobile styling
+            // Ensure mobile scrolling is properly set up
             servicesContainer.classList.add('mobile-scrolling');
             
-            // Simple click detection to properly handle clicking vs. scrolling
+            // Apply optimal scrolling properties directly
+            Object.assign(servicesContainer.style, {
+                display: 'block',
+                overflowX: 'auto',
+                overscrollBehaviorX: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                scrollBehavior: 'auto',
+                scrollSnapType: 'none',
+                touchAction: 'pan-x'
+            });
+            
+            // Add momentum scroll script
+            const enhanceMomentumScroll = () => {
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let startScrollLeft = 0;
+                let scrolling = false;
+                let velocity = 0;
+                let amplitude = 0;
+                let timestamp = 0;
+                let frame = null;
+                let ticker = null;
+                let target = 0;
+                
+                // Constants for physics-based scrolling
+                const SCROLL_TIME = 300; // Time constant for deceleration
+                const MIN_VELOCITY = 0.1; // Minimum velocity to continue scrolling
+                
+                // Touch start - record position and current scroll
+                servicesContainer.addEventListener('touchstart', (e) => {
+                    cancelMomentumTracking();
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    startScrollLeft = servicesContainer.scrollLeft;
+                    velocity = 0;
+                    timestamp = Date.now();
+                }, { passive: true });
+                
+                // Touch move - update velocity for momentum scrolling
+                servicesContainer.addEventListener('touchmove', (e) => {
+                    const now = Date.now();
+                    const elapsed = now - timestamp;
+                    timestamp = now;
+                    
+                    // Calculate horizontal scroll velocity
+                    const dx = e.touches[0].clientX - touchStartX;
+                    touchStartX = e.touches[0].clientX;
+                    
+                    if (elapsed > 0) {
+                        velocity = 0.8 * (1000 * dx / elapsed) + 0.2 * velocity;
+                    }
+                }, { passive: true });
+                
+                // Touch end - apply momentum scrolling
+                servicesContainer.addEventListener('touchend', (e) => {
+                    // Only apply momentum if velocity is significant
+                    if (Math.abs(velocity) > MIN_VELOCITY) {
+                        amplitude = 0.8 * velocity;
+                        target = Math.round(servicesContainer.scrollLeft - amplitude);
+                        timestamp = Date.now();
+                        requestAnimationFrame(autoScroll);
+                    }
+                }, { passive: true });
+                
+                function autoScroll() {
+                    const elapsed = Date.now() - timestamp;
+                    const delta = -amplitude * Math.exp(-elapsed / SCROLL_TIME);
+                    
+                    if (Math.abs(delta) > MIN_VELOCITY) {
+                        servicesContainer.scrollLeft = target + delta;
+                        requestAnimationFrame(autoScroll);
+                    } else {
+                        servicesContainer.scrollLeft = target;
+                    }
+                }
+                
+                function cancelMomentumTracking() {
+                    cancelAnimationFrame(ticker);
+                    ticker = null;
+                }
+            };
+            
+            // Initialize momentum scrolling
+            enhanceMomentumScroll();
+            
+            // Simple detection for tile clicks vs scrolling
+            const CLICK_THRESHOLD = 3; // Very small threshold to differentiate clicks
+            const TIME_THRESHOLD = 150; // Short time threshold for better responsiveness
+            
             let startX = 0;
             let startY = 0;
             let startTime = 0;
             let moved = false;
-            const CLICK_THRESHOLD = 5; // Lower threshold to match timeline (was 10px)
-            const TIME_THRESHOLD = 200; // Lower time threshold for faster response (was 300ms)
             
-            // Clean up any previous event listeners if they exist
-            const oldClone = servicesContainer.cloneNode(false);
-            oldClone.innerHTML = servicesContainer.innerHTML;
-            servicesContainer.parentNode.replaceChild(oldClone, servicesContainer);
-            
-            // Get the new element reference
-            const newContainer = document.querySelector('.services-scroll-container');
-            
-            // Touch start - record position and time
-            newContainer.addEventListener('touchstart', (e) => {
+            servicesContainer.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 startTime = Date.now();
                 moved = false;
             }, { passive: true });
             
-            // Touch move - detect significant movement with lower threshold
-            newContainer.addEventListener('touchmove', (e) => {
-                if (moved) return;
-                
+            servicesContainer.addEventListener('touchmove', (e) => {
                 const deltaX = Math.abs(e.touches[0].clientX - startX);
                 const deltaY = Math.abs(e.touches[0].clientY - startY);
                 
-                // If moved more than threshold in any direction, mark as moved
                 if (deltaX > CLICK_THRESHOLD || deltaY > CLICK_THRESHOLD) {
                     moved = true;
                 }
             }, { passive: true });
             
-            // Handle modal opening - only if wasn't a scroll
-            newContainer.addEventListener('click', (e) => {
-                // If we've moved significantly or it's been too long since touch start, ignore click
+            // Handle modal opening for service tiles
+            servicesContainer.addEventListener('click', (e) => {
                 const timeDiff = Date.now() - startTime;
-                if (moved || timeDiff > TIME_THRESHOLD) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
                 
-                // Only proceed if clicking on a service tile
-                const targetTile = e.target.closest('.service-tile');
-                if (targetTile) {
-                    const modalId = targetTile.getAttribute('data-modal');
-                    if (modalId) {
-                        openModal(modalId);
+                // Only open modal if it was a genuine tap (not a scroll)
+                if (!moved && timeDiff < TIME_THRESHOLD) {
+                    const targetTile = e.target.closest('.service-tile');
+                    if (targetTile) {
+                        const modalId = targetTile.getAttribute('data-modal');
+                        if (modalId) {
+                            openModal(modalId);
+                        }
                     }
                 }
             });
             
-            // Make services container behave more like the timeline scrolling
-            // Adding styles directly to match the timeline's feel
-            newContainer.style.scrollBehavior = 'auto';
-            
-            // Reduce friction for faster scrolling
-            // This adds a small script to slightly boost scroll momentum for a more responsive feel
-            let lastScrollLeft = 0;
-            let scrolling = false;
-            
-            newContainer.addEventListener('scroll', () => {
-                lastScrollLeft = newContainer.scrollLeft;
-                if (!scrolling) {
-                    scrolling = true;
-                    requestAnimationFrame(() => {
-                        scrolling = false;
-                    });
-                }
-            }, { passive: true });
-            
-            // Add visual indicator for scroll position if needed
-            addScrollIndicators(newContainer);
-            
-            console.log('Mobile scrolling initialized with optimized timeline-like approach');
+            console.log('Enhanced mobile scrolling initialized with natural momentum');
         } else {
-            // For desktop/tablet, we don't need to do anything special
-            // Just make sure any mobile-specific classes are removed
+            // Desktop/tablet - hide mobile scrolling container
             servicesContainer.classList.remove('mobile-scrolling');
+            servicesContainer.style.display = 'none';
         }
     }
     
