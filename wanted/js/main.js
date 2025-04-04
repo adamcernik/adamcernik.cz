@@ -659,150 +659,85 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Services scroll functionality (for mobile)
     function initServicesScroll() {
+        // Get the services container
         const servicesContainer = document.querySelector('.services-scroll-container');
         if (!servicesContainer) return;
         
-        // Only apply mobile scrolling specific code for mobile viewport
-        if (window.innerWidth <= 768) {
-            console.log('Initializing mobile services scrolling with enhanced momentum');
+        // Check viewport
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            console.log('Setting up mobile services - simple native approach');
             
-            // Reset completely to ensure no conflicting styles
-            servicesContainer.style = '';
+            // STEP 1: Reset everything by replacing the container with a clean clone
+            const newContainer = servicesContainer.cloneNode(false); // shallow clone
+            const parent = servicesContainer.parentNode;
             
-            // Ensure mobile scrolling is properly set up
-            servicesContainer.classList.add('mobile-scrolling');
+            // Save the original HTML to restore
+            const originalHTML = servicesContainer.innerHTML;
+            newContainer.innerHTML = originalHTML;
             
-            // Apply optimal scrolling properties directly
-            Object.assign(servicesContainer.style, {
-                display: 'block',
-                overflowX: 'auto',
-                overscrollBehaviorX: 'auto',
-                WebkitOverflowScrolling: 'touch',
-                scrollBehavior: 'auto',
-                scrollSnapType: 'none',
-                touchAction: 'pan-x'
-            });
+            // Replace with clean container
+            parent.replaceChild(newContainer, servicesContainer);
             
-            // Add momentum scroll script
-            const enhanceMomentumScroll = () => {
-                let touchStartX = 0;
-                let touchStartY = 0;
-                let startScrollLeft = 0;
-                let scrolling = false;
-                let velocity = 0;
-                let amplitude = 0;
-                let timestamp = 0;
-                let frame = null;
-                let ticker = null;
-                let target = 0;
+            // Get fresh reference
+            const container = document.querySelector('.services-scroll-container');
+            
+            // STEP 2: Configure container with minimal styling
+            container.style.display = 'block';
+            container.style.overflowX = 'scroll';
+            container.classList.add('mobile-scrolling');
+            
+            // STEP 3: Setup minimal touch/click handling
+            let lastTouchTime = 0;
+            let scrolling = false;
+            let scrollTimeout;
+            
+            // Monitor scrolling state
+            container.addEventListener('scroll', function() {
+                // Mark as scrolling
+                scrolling = true;
+                lastTouchTime = Date.now();
                 
-                // Constants for physics-based scrolling
-                const SCROLL_TIME = 300; // Time constant for deceleration
-                const MIN_VELOCITY = 0.1; // Minimum velocity to continue scrolling
+                // Clear any existing timeout
+                clearTimeout(scrollTimeout);
                 
-                // Touch start - record position and current scroll
-                servicesContainer.addEventListener('touchstart', (e) => {
-                    cancelMomentumTracking();
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                    startScrollLeft = servicesContainer.scrollLeft;
-                    velocity = 0;
-                    timestamp = Date.now();
-                }, { passive: true });
-                
-                // Touch move - update velocity for momentum scrolling
-                servicesContainer.addEventListener('touchmove', (e) => {
-                    const now = Date.now();
-                    const elapsed = now - timestamp;
-                    timestamp = now;
-                    
-                    // Calculate horizontal scroll velocity
-                    const dx = e.touches[0].clientX - touchStartX;
-                    touchStartX = e.touches[0].clientX;
-                    
-                    if (elapsed > 0) {
-                        velocity = 0.8 * (1000 * dx / elapsed) + 0.2 * velocity;
-                    }
-                }, { passive: true });
-                
-                // Touch end - apply momentum scrolling
-                servicesContainer.addEventListener('touchend', (e) => {
-                    // Only apply momentum if velocity is significant
-                    if (Math.abs(velocity) > MIN_VELOCITY) {
-                        amplitude = 0.8 * velocity;
-                        target = Math.round(servicesContainer.scrollLeft - amplitude);
-                        timestamp = Date.now();
-                        requestAnimationFrame(autoScroll);
-                    }
-                }, { passive: true });
-                
-                function autoScroll() {
-                    const elapsed = Date.now() - timestamp;
-                    const delta = -amplitude * Math.exp(-elapsed / SCROLL_TIME);
-                    
-                    if (Math.abs(delta) > MIN_VELOCITY) {
-                        servicesContainer.scrollLeft = target + delta;
-                        requestAnimationFrame(autoScroll);
-                    } else {
-                        servicesContainer.scrollLeft = target;
-                    }
-                }
-                
-                function cancelMomentumTracking() {
-                    cancelAnimationFrame(ticker);
-                    ticker = null;
-                }
-            };
-            
-            // Initialize momentum scrolling
-            enhanceMomentumScroll();
-            
-            // Simple detection for tile clicks vs scrolling
-            const CLICK_THRESHOLD = 3; // Very small threshold to differentiate clicks
-            const TIME_THRESHOLD = 150; // Short time threshold for better responsiveness
-            
-            let startX = 0;
-            let startY = 0;
-            let startTime = 0;
-            let moved = false;
-            
-            servicesContainer.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                startTime = Date.now();
-                moved = false;
+                // Set timeout to clear scrolling flag
+                scrollTimeout = setTimeout(function() {
+                    scrolling = false;
+                }, 200); // 200ms debounce
             }, { passive: true });
             
-            servicesContainer.addEventListener('touchmove', (e) => {
-                const deltaX = Math.abs(e.touches[0].clientX - startX);
-                const deltaY = Math.abs(e.touches[0].clientY - startY);
+            // Direct click handler for each service tile
+            const serviceTiles = container.querySelectorAll('.service-tile');
+            serviceTiles.forEach(tile => {
+                // Remove any existing listeners
+                const newTile = tile.cloneNode(true);
+                tile.parentNode.replaceChild(newTile, tile);
                 
-                if (deltaX > CLICK_THRESHOLD || deltaY > CLICK_THRESHOLD) {
-                    moved = true;
-                }
-            }, { passive: true });
-            
-            // Handle modal opening for service tiles
-            servicesContainer.addEventListener('click', (e) => {
-                const timeDiff = Date.now() - startTime;
-                
-                // Only open modal if it was a genuine tap (not a scroll)
-                if (!moved && timeDiff < TIME_THRESHOLD) {
-                    const targetTile = e.target.closest('.service-tile');
-                    if (targetTile) {
-                        const modalId = targetTile.getAttribute('data-modal');
-                        if (modalId) {
-                            openModal(modalId);
-                        }
+                // Add new clean listener
+                newTile.addEventListener('click', function(e) {
+                    // If we've scrolled recently, ignore the click
+                    if (scrolling || (Date.now() - lastTouchTime < 300)) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
                     }
-                }
+                    
+                    // Get the modal ID and open it
+                    const modalId = this.getAttribute('data-modal');
+                    if (modalId) {
+                        console.log('Opening service modal:', modalId);
+                        openModal(modalId);
+                    }
+                });
             });
             
-            console.log('Enhanced mobile scrolling initialized with natural momentum');
+            console.log('Mobile services setup complete - using simple native scrolling');
         } else {
-            // Desktop/tablet - hide mobile scrolling container
-            servicesContainer.classList.remove('mobile-scrolling');
+            // Desktop: hide mobile container
             servicesContainer.style.display = 'none';
+            servicesContainer.classList.remove('mobile-scrolling');
         }
     }
     
@@ -1337,32 +1272,4 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Opening modal from ${window.innerWidth <= 768 ? 'mobile' : 'desktop'} view: ${modalId}`);
         openModal(modalId);
     }
-    
-    // Add debugging for clicks on services container
-    const debugServiceClicks = () => {
-        const servicesContainer = document.querySelector('.services-scroll-container');
-        if (servicesContainer) {
-            servicesContainer.addEventListener('click', function(e) {
-                console.log('Click detected on services container', {
-                    target: e.target,
-                    isScroll: e._isScroll,
-                    clientX: e.clientX,
-                    clientY: e.clientY
-                });
-                
-                // If click is on a service tile or its child elements
-                let targetTile = e.target.closest('.service-tile');
-                if (targetTile && !e._isScroll) {
-                    const modalId = targetTile.getAttribute('data-modal');
-                    if (modalId) {
-                        console.log('Manual click handling for service tile:', modalId);
-                        openModal(modalId);
-                    }
-                }
-            });
-        }
-    };
-    
-    // Run after a short delay to ensure everything is loaded
-    setTimeout(debugServiceClicks, 1000);
 });

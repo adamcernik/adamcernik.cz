@@ -17,7 +17,7 @@
             <div class="logo-container">
                 <a href="#" class="logo-link">
                     <img src="images/wanted-logo2.png" alt="WANTED Logo" class="logo" width="96" height="96">
-                    <span class="logo-text">WANTED 13:52</span>
+                    <span class="logo-text">WANTED 13:58</span>
                 </a>
             </div>
             
@@ -548,6 +548,39 @@
                     .catch(error => console.error('Manual services load failed:', error));
             }
         });
+        
+        // iOS-specific scrolling fix - must be inline for immediate execution
+        (function() {
+            // Detect iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                // Create a style element for critical iOS fixes
+                const style = document.createElement('style');
+                style.textContent = `
+                    .services-scroll-container {
+                        -webkit-overflow-scrolling: touch !important;
+                        overflow-x: scroll !important;
+                    }
+                    .services-track {
+                        display: flex !important;
+                        transition: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Apply direct DOM fixes when loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    const container = document.querySelector('.services-scroll-container');
+                    if (container) {
+                        // Force redraw to trigger proper iOS scroll behavior
+                        container.style.display = 'none';
+                        setTimeout(() => {
+                            container.style.display = 'block';
+                        }, 10);
+                    }
+                });
+            }
+        })();
     </script>
 </body>
 </html>

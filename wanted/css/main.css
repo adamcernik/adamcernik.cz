@@ -5,6 +5,7 @@
 @import 'header.css';
 @import 'components.css';
 @import 'modal.css';
+@import 'reset-mobile.css'; /* Mobile fixes for scrolling issues */
 
 /* Timeline Section Styles */
 .timeline-container {
@@ -362,18 +363,21 @@
 /* Mobile Services scroll - ensure displayed properly */
 @media (max-width: 768px) {
     .services-scroll-container {
-        display: block !important; /* Force display on mobile */
-        overflow-x: auto;
+        display: block !important;
+        overflow-x: scroll;
         width: 100%;
         margin: 1rem 0 2rem;
-        /* Remove scroll snap completely for more natural feel */
+        /* Reset all scroll properties to defaults for native scrolling */
         scroll-snap-type: none;
-        /* Enhanced touch properties */
         -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
         touch-action: pan-x;
-        /* Momentum-based scrolling */
+        /* Remove any custom scroll behavior */
         scroll-behavior: auto;
+        will-change: transform;
+        /* Add some horizontal padding to improve scrolling at edges */
+        padding: 0 15px;
     }
     
     /* Hide desktop service tiles when on mobile */
@@ -381,18 +385,45 @@
         display: none;
     }
     
-    /* Improve scrolling feel */
+    /* Simple track layout without fancy styling */
     .services-track {
-        padding: 10px 15px 20px;
-        gap: 10px; /* Tighter gap for more items visible */
+        display: flex;
+        gap: 15px;
+        padding: 10px 0 20px;
+        /* Remove transforms and transitions */
+        transform: none !important;
+        transition: none !important;
     }
     
-    /* Optimize service tiles for smoother scrolling */
+    /* Simplified mobile service tiles */
     .mobile-service {
-        min-width: 200px; /* Slightly smaller min-width */
-        width: 65%; /* Smaller width */
-        max-width: 260px; /* Smaller max-width */
-        will-change: transform; /* Hardware acceleration hint */
+        min-width: 200px;
+        width: 70%;
+        max-width: 270px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+        /* Remove all animations and transitions */
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto;
+    }
+    
+    /* Make sure nothing interferes with scrolling */
+    .services-scroll-container *,
+    .services-track *,
+    .mobile-service * {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    /* Remove all scroll indicators and pseudo-elements that could interfere */
+    .services-scroll-container:before,
+    .services-scroll-container:after,
+    .scroll-indicators {
+        display: none !important;
     }
 }
 
