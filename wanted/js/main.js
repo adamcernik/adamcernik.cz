@@ -76,6 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 timelineTrack.innerHTML = html;
                 // Initialize timeline scroll functionality after content is loaded
                 initTimelineScroll();
+                
+                // Add loaded class after a short delay to enable the swipe hint animation
+                setTimeout(() => {
+                    const timelineContainer = document.querySelector('.timeline-container');
+                    if (timelineContainer) {
+                        timelineContainer.classList.add('loaded');
+                    }
+                }, 1000);
             })
             .catch(error => {
                 console.error('Error loading timeline content:', error);
@@ -773,15 +781,48 @@ document.addEventListener('DOMContentLoaded', function() {
     function initTimelineScroll() {
         const timelineContainer = document.querySelector('.timeline-scroll-container');
         if (timelineContainer) {
-            // Setup natural scrolling for timeline with slightly different parameters
+            // Setup natural scrolling for timeline with parameters optimized for mobile
             setupNaturalScrolling(timelineContainer, {
-                resistance: 0.3,        // Lower resistance for smoother scrolling
-                deceleration: 0.94,     // Higher value for smoother, longer momentum
-                snapToItems: false,     // No snapping for timeline
+                resistance: 0.3,         // Lower resistance for smoother scrolling
+                deceleration: 0.92,      // Higher value for smoother, longer momentum (slightly reduced from 0.94)
+                minSwipeDistance: 4,     // Slightly lower threshold for swipe detection
+                snapToItems: false,      // No snapping for timeline
                 overscrollEnabled: true,
-                overscrollResistance: 0.15,  // Very elastic overscroll for timeline
-                overscrollReturnDelay: 200   // Shorter delay for more responsive feel
+                overscrollResistance: 0.2,   // Elastic overscroll for timeline, not too much
+                overscrollReturnDelay: 180   // Shorter delay for more responsive feel
             });
+            
+            // Add special handling for mobile devices
+            if (window.innerWidth <= 768) {
+                // Create a visual cue that the timeline is scrollable
+                // (We're already adding the 'loaded' class in the fetch callback)
+                
+                // Add touch event listeners to prevent click events during scroll
+                let isScrolling = false;
+                let startX = 0;
+                let startTime = 0;
+                
+                timelineContainer.addEventListener('touchstart', function(e) {
+                    startX = e.touches[0].clientX;
+                    startTime = Date.now();
+                    isScrolling = false;
+                }, { passive: true });
+                
+                timelineContainer.addEventListener('touchmove', function() {
+                    isScrolling = true;
+                }, { passive: true });
+                
+                // Prevent accidental clicks if the user was scrolling
+                const timelineItems = timelineContainer.querySelectorAll('.timeline-item');
+                timelineItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        if (isScrolling) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    });
+                });
+            }
         }
     }
     
