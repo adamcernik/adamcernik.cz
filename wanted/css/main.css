@@ -144,6 +144,13 @@
         width: 280px;
         margin-right: 20px;
     }
+
+    .tile.project-slider-tile {
+        height: 250px !important;
+        min-height: 250px !important;
+        max-height: 300px !important;
+        aspect-ratio: auto !important;
+    }
 }
 
 @media (max-width: 480px) {

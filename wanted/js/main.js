@@ -1,6 +1,127 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the project slider
+    initProjectSlider();
+    
     // Initialize EmailJS
     emailjs.init("hUdCH3u0SC6LkmOaD");
+    
+    // Function to initialize and control the project slider
+    function initProjectSlider() {
+        const slider = document.querySelector('.project-slider-tile');
+        if (!slider) return;
+        
+        const backgrounds = slider.querySelectorAll('.project-slide-bg');
+        const slides = slider.querySelectorAll('.project-slide');
+        const dots = slider.querySelectorAll('.project-dot');
+        const slidesWrapper = slider.querySelector('.project-slides-wrapper');
+        
+        let currentIndex = 0;
+        let autoplayInterval;
+        let startX, startY, moveX, isSwiping = false;
+        
+        // Start autoplay
+        startAutoplay();
+        
+        // Set up event listeners
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.getAttribute('data-slide'));
+                if (slideIndex !== currentIndex) {
+                    goToSlide(slideIndex);
+                    resetAutoplay();
+                }
+            });
+        });
+        
+        // Touch events for mobile swiping
+        slidesWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+        slidesWrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
+        slidesWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+        
+        // Mouse enter/leave to pause/resume autoplay
+        slider.addEventListener('mouseenter', () => {
+            clearInterval(autoplayInterval);
+        });
+        
+        slider.addEventListener('mouseleave', () => {
+            startAutoplay();
+        });
+        
+        // Functions
+        function startAutoplay() {
+            clearInterval(autoplayInterval);
+            autoplayInterval = setInterval(() => {
+                const nextIndex = (currentIndex + 1) % backgrounds.length;
+                goToSlide(nextIndex);
+            }, 5000); // Change slides every 5 seconds
+        }
+        
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
+        
+        function goToSlide(index) {
+            // Update active classes
+            backgrounds.forEach((bg, i) => {
+                bg.classList.toggle('active', i === index);
+            });
+            
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentIndex = index;
+        }
+        
+        function handleTouchStart(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isSwiping = true;
+        }
+        
+        function handleTouchMove(e) {
+            if (!isSwiping) return;
+            
+            moveX = e.touches[0].clientX;
+            const moveY = e.touches[0].clientY;
+            
+            // Detect horizontal vs vertical scrolling
+            const diffX = Math.abs(moveX - startX);
+            const diffY = Math.abs(moveY - startY);
+            
+            // If more vertical than horizontal movement, exit
+            if (diffY > diffX) {
+                isSwiping = false;
+                return;
+            }
+        }
+        
+        function handleTouchEnd() {
+            if (!isSwiping) return;
+            
+            const diff = moveX - startX;
+            const threshold = 50; // Minimum swipe distance
+            
+            if (diff > threshold) {
+                // Swiped right, go to previous slide
+                const prevIndex = (currentIndex - 1 + backgrounds.length) % backgrounds.length;
+                goToSlide(prevIndex);
+                resetAutoplay();
+            } else if (diff < -threshold) {
+                // Swiped left, go to next slide
+                const nextIndex = (currentIndex + 1) % backgrounds.length;
+                goToSlide(nextIndex);
+                resetAutoplay();
+            }
+            
+            isSwiping = false;
+        }
+    }
     
     // Add loaded class to mobile services to enable swipe hint
     const mobileServices = document.querySelector('.mobile-only-services');

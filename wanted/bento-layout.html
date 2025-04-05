@@ -151,33 +151,44 @@
         <div class="tile project-slider-tile">
             <!-- Background image container -->
             <div class="project-backgrounds">
-                <div class="project-slide-bg active"></div>
-                <div class="project-slide-bg"></div>
+                <div class="project-slide-bg active" style="background-image: url('images/tiles/wanted-map.jpg');"></div>
+                <div class="project-slide-bg" style="background-image: url('images/tiles/renault-r.jpg'); background-size: cover; background-position: center;"></div>
             </div>
             
             <div class="project-slider-container">
-                <!-- Slides container -->
+                <!-- Slides container with touch support -->
                 <div class="project-slides-wrapper">
                     <!-- Dark overlay with gradient -->
                     <div class="overlay-gradient"></div>
                     
                     <!-- First slide content -->
                     <div class="project-slide active">
-                        <h3 class="project-title">European Presence</h3>
-                        <p class="project-text">Based in Prague, operating across Europe</p>
+                        <p class="project-status">In progress</p>
+                        <h3 class="project-title">Dacia NVI Project</h3>
+                        <div class="project-tags">
+                            <span class="project-tag">CZ</span>
+                            <span class="project-tag">SK</span>
+                            <span class="project-tag">HU</span>
+                            <span class="project-tag">PL</span>
+                            <span class="project-tag">EST</span>
+                            <span class="project-tag">LV</span>
+                            <span class="project-tag">LT</span>
+                            <span class="project-tag">SWE</span>
+                            <span class="project-tag">DK</span>
+                        </div>
                     </div>
                     
                     <!-- Second slide content -->
-                    <div class="project-slide">
-                        <h3 class="project-title">Global Experience</h3>
-                        <p class="project-text">Projects delivered across international markets</p>
+                    <div class="project-slide slide-bottom-half">
+                        <h3 class="project-title">Renault new'R store</h3>
+                        <p class="project-text">Coming Soon</p>
                     </div>
                 </div>
                 
                 <!-- Navigation dots -->
                 <div class="project-dots">
-                    <button class="project-dot active" aria-label="View slide 1"></button>
-                    <button class="project-dot" aria-label="View slide 2"></button>
+                    <button class="project-dot active" aria-label="View slide 1" data-slide="0"></button>
+                    <button class="project-dot" aria-label="View slide 2" data-slide="1"></button>
                 </div>
             </div>
         </div>
