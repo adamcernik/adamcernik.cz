@@ -636,5 +636,119 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    <script>
+        // Debug script to check services loading
+        console.log('Loading services check - HTML loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            const servicesTrack = document.getElementById('services-track');
+            console.log('Services track exists:', !!servicesTrack);
+            if (servicesTrack) {
+                console.log('Services track HTML:', servicesTrack.innerHTML);
+            }
+            
+            // Force loading services if needed
+            if (servicesTrack && !servicesTrack.children.length) {
+                console.log('Attempting to manually load services');
+                fetch('includes/services.html')
+                    .then(response => response.text())
+                    .then(html => {
+                        servicesTrack.innerHTML = html;
+                        console.log('Services manually loaded');
+                    })
+                    .catch(error => console.error('Manual services load failed:', error));
+            }
+        });
+        
+        // iOS-specific scrolling fix - must be inline for immediate execution
+        (function() {
+            // Detect iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                // Create a style element for critical iOS fixes
+                const style = document.createElement('style');
+                style.textContent = `
+                    .services-scroll-container {
+                        -webkit-overflow-scrolling: touch !important;
+                        overflow-x: scroll !important;
+                    }
+                    .services-track {
+                        display: flex !important;
+                        transition: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Apply direct DOM fixes when loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    const container = document.querySelector('.services-scroll-container');
+                    if (container) {
+                        // Force redraw to trigger proper iOS scroll behavior
+                        container.style.display = 'none';
+                        setTimeout(() => {
+                            container.style.display = 'block';
+                        }, 10);
+                    }
+                });
+            }
+        })();
+        
+        // Basic services scrolling helper - ensures scrolling works on all devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const basicServicesScroll = document.getElementById('basic-services-scroll');
+            
+            if (basicServicesScroll) {
+                console.log('Applying basic services scrolling fixes');
+                
+                // Force optimal settings for mobile scrolling
+                if (window.innerWidth <= 768) {
+                    // Force mobile optimizations
+                    basicServicesScroll.style.webkitOverflowScrolling = 'touch';
+                    basicServicesScroll.style.overflowX = 'auto';
+                    basicServicesScroll.style.overflowY = 'hidden';
+                    
+                    // Fix for some mobile browsers that need a repaint
+                    setTimeout(function() {
+                        const parent = basicServicesScroll.parentNode;
+                        const next = basicServicesScroll.nextSibling;
+                        parent.removeChild(basicServicesScroll);
+                        parent.insertBefore(basicServicesScroll, next);
+                        console.log('Basic services scroll container reinitialized');
+                    }, 100);
+                }
+                
+                // Add direct click handlers that won't conflict with scrolling
+                const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+                
+                serviceTiles.forEach(tile => {
+                    // Track if the user is scrolling or tapping
+                    let startX, startTime, isScrolling = false;
+                    
+                    tile.addEventListener('touchstart', e => {
+                        startX = e.touches[0].clientX;
+                        startTime = Date.now();
+                        isScrolling = false;
+                    }, { passive: true });
+                    
+                    tile.addEventListener('touchmove', () => {
+                        isScrolling = true;
+                    }, { passive: true });
+                    
+                    tile.addEventListener('click', e => {
+                        if (isScrolling) {
+                            e.preventDefault();
+                            return;
+                        }
+                        
+                        const modalId = tile.getAttribute('data-target');
+                        if (modalId) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openModal(modalId);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

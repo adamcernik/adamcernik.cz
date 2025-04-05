@@ -843,44 +843,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Helper function to add scroll position indicators
-    function addScrollIndicators(container) {
-        if (!container) return;
-        
-        // Create indicators container if it doesn't exist
-        let indicators = container.querySelector('.scroll-indicators');
-        if (!indicators) {
-            indicators = document.createElement('div');
-            indicators.className = 'scroll-indicators';
-            container.appendChild(indicators);
-        }
-        
-        // Update indicators on scroll
-        const updateIndicators = () => {
-            const scrollLeft = container.scrollLeft;
-            const maxScroll = container.scrollWidth - container.clientWidth;
-            const scrollPercent = (scrollLeft / maxScroll) * 100;
-            
-            // Add "can-scroll-left" class if not at the beginning
-            if (scrollLeft > 10) {
-                container.classList.add('can-scroll-left');
-            } else {
-                container.classList.remove('can-scroll-left');
-            }
-            
-            // Add "can-scroll-right" class if not at the end
-            if (scrollLeft < maxScroll - 10) {
-                container.classList.add('can-scroll-right');
-            } else {
-                container.classList.remove('can-scroll-right');
-            }
-        };
-        
-        // Initial update and scroll event listener
-        updateIndicators();
-        container.addEventListener('scroll', updateIndicators, { passive: true });
-    }
-    
     // Header Scroll Effect
     const header = document.querySelector('.header');
     window.addEventListener('scroll', function() {
@@ -1548,4 +1510,120 @@ document.addEventListener('DOMContentLoaded', function() {
             timelineContainer.classList.add('loaded');
         }, 1000);
     }
+    
+    // Debug script to check services loading
+    function checkServicesLoading() {
+        console.log('Loading services check - HTML loaded');
+        const servicesTrack = document.getElementById('services-track');
+        console.log('Services track exists:', !!servicesTrack);
+        if (servicesTrack) {
+            console.log('Services track HTML:', servicesTrack.innerHTML);
+        }
+        
+        // Force loading services if needed
+        if (servicesTrack && !servicesTrack.children.length) {
+            console.log('Attempting to manually load services');
+            fetch('includes/services.html')
+                .then(response => response.text())
+                .then(html => {
+                    servicesTrack.innerHTML = html;
+                    console.log('Services manually loaded');
+                })
+                .catch(error => console.error('Manual services load failed:', error));
+        }
+    }
+    
+    // iOS-specific scrolling fix
+    function applyIOSScrollingFix() {
+        // Detect iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+            // Create a style element for critical iOS fixes
+            const style = document.createElement('style');
+            style.textContent = `
+                .services-scroll-container {
+                    -webkit-overflow-scrolling: touch !important;
+                    overflow-x: scroll !important;
+                }
+                .services-track {
+                    display: flex !important;
+                    transition: none !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Apply direct DOM fixes when loaded
+            const container = document.querySelector('.services-scroll-container');
+            if (container) {
+                // Force redraw to trigger proper iOS scroll behavior
+                container.style.display = 'none';
+                setTimeout(() => {
+                    container.style.display = 'block';
+                }, 10);
+            }
+        }
+    }
+    
+    // Basic services scrolling helper - ensures scrolling works on all devices
+    function initBasicServicesScroll() {
+        const basicServicesScroll = document.getElementById('basic-services-scroll');
+        
+        if (basicServicesScroll) {
+            console.log('Applying basic services scrolling fixes');
+            
+            // Force optimal settings for mobile scrolling
+            if (window.innerWidth <= 768) {
+                // Force mobile optimizations
+                basicServicesScroll.style.webkitOverflowScrolling = 'touch';
+                basicServicesScroll.style.overflowX = 'auto';
+                basicServicesScroll.style.overflowY = 'hidden';
+                
+                // Fix for some mobile browsers that need a repaint
+                setTimeout(function() {
+                    const parent = basicServicesScroll.parentNode;
+                    const next = basicServicesScroll.nextSibling;
+                    parent.removeChild(basicServicesScroll);
+                    parent.insertBefore(basicServicesScroll, next);
+                    console.log('Basic services scroll container reinitialized');
+                }, 100);
+            }
+            
+            // Add direct click handlers that won't conflict with scrolling
+            const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+            
+            serviceTiles.forEach(tile => {
+                // Track if the user is scrolling or tapping
+                let startX, startTime, isScrolling = false;
+                
+                tile.addEventListener('touchstart', e => {
+                    startX = e.touches[0].clientX;
+                    startTime = Date.now();
+                    isScrolling = false;
+                }, { passive: true });
+                
+                tile.addEventListener('touchmove', () => {
+                    isScrolling = true;
+                }, { passive: true });
+                
+                tile.addEventListener('click', e => {
+                    if (isScrolling) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    const modalId = tile.getAttribute('data-target');
+                    if (modalId) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openModal(modalId);
+                    }
+                });
+            });
+        }
+    }
+    
+    // Call these new functions when the DOM is loaded
+    checkServicesLoading();
+    applyIOSScrollingFix();
+    initBasicServicesScroll();
 });
