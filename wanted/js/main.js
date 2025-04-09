@@ -986,7 +986,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="modal-list two-columns">
                         <li>Custom furniture design</li>
                         <li>Commercial furniture</li>
-                        <li>Film set furniture</li>
                         <li>Exhibition furniture</li>
                         <li>Interior solutions</li>
                     </ul>
@@ -1016,7 +1015,6 @@ document.addEventListener('DOMContentLoaded', function() {
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
-                        <li>Glass work and design</li>
                         <li>Custom craftsmanship</li>
                         <li>Artisanal solutions</li>
                         <li>Specialized finishes</li>
@@ -1032,11 +1030,12 @@ document.addEventListener('DOMContentLoaded', function() {
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
-                        <li>Custom prop creation</li>
+                        <li>Unique custom pieces</li>
                         <li>Set decoration</li>
                         <li>Period-accurate items</li>
-                        <li>Special effects props</li>
+                        <li>Special effect props</li>
                         <li>Production design support</li>
+                        <li>Custom craftsmanship</li>
                     </ul>
                 </div>
             `
@@ -1331,6 +1330,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Timeline data with actual content from timeline.md
         const timelineData = [
             {
+                year: '2025',
+                events: [
+                    'DNVI',
+                    'RS NEW R',
+                    'FBI INT. S4 CZ',
+                ]
+            },
+            {
                 year: '2024',
                 events: [
                     'The Wheel of Time / Season 3 / South Africa',
@@ -1385,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 events: [
                     'Wheel of Time - Amazon',
                     'Zátopek',
-                    'Oblivious /Bez Vědomí/ - HBO',
+                    'Oblivious / Bez Vědomí',
                     'Jojo Rabbit',
                     'The Painted Bird'
                 ]

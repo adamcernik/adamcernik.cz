@@ -169,6 +169,11 @@
     opacity: 0.8;
 }
 
+/* ID Group styles for contact person tiles */
+.id-group {
+    padding-top: 10px;
+}
+
 /* Timeline Title Styles */
 .timeline-title {
     text-align: center;
