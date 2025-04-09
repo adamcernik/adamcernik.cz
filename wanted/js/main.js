@@ -1332,9 +1332,9 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 year: '2025',
                 events: [
-                    'DNVI',
-                    'RS NEW R',
-                    'FBI INT. S4 CZ',
+                    'Dacia New Visual Identity across 9 European countries',
+                    'Renault Store NewR',
+                    'FBI International S4 CZ',
                 ]
             },
             {
