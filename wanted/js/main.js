@@ -944,7 +944,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-01': {
             title: 'Print & design',
             subtitle: 'Professional printing and design services for various media',
-            image: 'images/services/01.jpg',
+            image: 'images/services/01.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -964,7 +964,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-02': {
             title: 'Corporate Identities',
             subtitle: 'Comprehensive brand identity development and implementation',
-            image: 'images/services/02.jpg',
+            image: 'images/services/02.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -980,7 +980,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-03': {
             title: 'Furniture',
             subtitle: 'Custom furniture design and manufacturing solutions',
-            image: 'images/services/03.jpg',
+            image: 'images/services/03.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -995,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-04': {
             title: 'Production',
             subtitle: 'Full-scale production services and project management',
-            image: 'images/services/04.jpg',
+            image: 'images/services/04.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-05': {
             title: 'Crafts',
             subtitle: 'Specialized craftsmanship including glass work and custom solutions',
-            image: 'images/services/05.jpg',
+            image: 'images/services/05.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -1026,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-06': {
             title: 'Film Props & Decorations',
             subtitle: 'Custom props and set decorations for film and television',
-            image: 'images/services/06.jpg',
+            image: 'images/services/06.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -1043,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-07': {
             title: 'Logistics',
             subtitle: 'Comprehensive logistics and transportation services',
-            image: 'images/services/07.jpg',
+            image: 'images/services/07.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
@@ -1059,7 +1059,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'service-08': {
             title: 'Documentation',
             subtitle: 'Professional documentation and project documentation services',
-            image: 'images/services/08.jpg',
+            image: 'images/services/08.jpeg',
             content: `
                 <div class="modal-section">
                     <ul class="modal-list two-columns">
