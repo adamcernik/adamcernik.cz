@@ -192,4 +192,87 @@
     .tile {
         overflow: hidden;
     }
+}
+
+@media (max-width: 768px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tile {
+        min-height: 180px;
+    }
+    
+    .big {
+        min-height: 250px;
+    }
+    
+    .full-image {
+        min-height: 280px;
+    }
+    
+    .big.full-image {
+        min-height: 300px;
+    }
+    
+    .content-overlay {
+        background: linear-gradient(to top, 
+            rgba(26, 42, 58, 1) 0%,
+            rgba(26, 42, 58, 0.98) 25%,
+            rgba(26, 42, 58, 0.95) 50%,
+            rgba(26, 42, 58, 0.85) 75%,
+            rgba(26, 42, 58, 0) 95%
+        );
+        padding: 1.5rem 1.25rem 1.5rem;
+    }
+    
+    .content-overlay .headline {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .content-overlay .text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        max-width: 100%;
+    }
+    
+    /* Specifically target Who We Are section */
+    #who-we-are .content-overlay {
+        padding-top: 2rem;
+        bottom: 0;
+        top: auto;
+        height: auto;
+        max-height: 70%;
+    }
+}
+
+@media (max-width: 480px) {
+    .full-image {
+        min-height: 250px;
+    }
+    
+    .big.full-image {
+        min-height: 280px;
+    }
+    
+    .content-overlay {
+        padding: 1.25rem 1rem 1.25rem;
+    }
+    
+    .content-overlay .headline {
+        font-size: 1.35rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .content-overlay .text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    /* Further adjust Who We Are section for very small screens */
+    #who-we-are .content-overlay {
+        max-height: 75%;
+    }
 } 
