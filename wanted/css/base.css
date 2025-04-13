@@ -47,35 +47,29 @@ body {
     hyphens: auto;
 }
 
-/* Add scroll margin to target elements */
-#who-we-are, #service-01, #movie-grid, #lukas-contact {
-    scroll-margin-top: 20px;
+/* Scroll margin for targets - prevent header overlapping content when scrolling to anchors */
+#who-we-are, #service-01, #movie-grid, #lukas-contact, #history, #mobile-services, #desktop-services {
+    scroll-margin-top: 120px; /* Enough space for the header */
 }
 
 @media (max-width: 1024px) {
-    /* Adjust scroll margin for medium screens */
-    #who-we-are, #service-01, #movie-grid, #lukas-contact {
-        scroll-margin-top: 30px;
+    #who-we-are, #service-01, #movie-grid, #lukas-contact, #history, #mobile-services, #desktop-services {
+        scroll-margin-top: 140px; /* Slightly more space on medium screens */
     }
 }
 
 @media (max-width: 768px) {
-    /* Adjust scroll margin for small screens */
-    #who-we-are, #service-01, #movie-grid, #lukas-contact {
-        scroll-margin-top: 40px;
+    #who-we-are, #service-01, #movie-grid, #lukas-contact, #history, #mobile-services, #desktop-services {
+        scroll-margin-top: 80px; /* Reduced space on mobile */
     }
-
+    
     body {
-        padding: 1rem;
-        padding-top: 120px;
+        font-size: 14px;
+        padding-bottom: 40px;
     }
-
-    .headline {
-        font-size: 1.4rem;
-    }
-
+    
     .text {
-        font-size: 0.95rem;
+        font-size: 14px;
     }
 }
 

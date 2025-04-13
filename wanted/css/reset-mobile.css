@@ -37,7 +37,6 @@
 /* Ensure overflow is properly set */
 @media (max-width: 768px) {
     .services-scroll-container {
-        display: none !important;
         overflow-x: auto !important;
         overflow-y: hidden !important;
         /* Use auto scroll behavior, not smooth, for better mobile perf */
