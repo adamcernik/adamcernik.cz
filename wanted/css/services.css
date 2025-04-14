@@ -1,0 +1,257 @@
+/* Desktop Service Tiles */
+.service-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #2a2a2a;
+    transition: transform 0.3s ease;
+}
+
+.service-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 1;
+}
+
+.service-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.service-tile:hover img {
+    opacity: 0.8;
+}
+
+.service-tile .service-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 15px 8px;
+    background: rgba(215, 125, 50, 0.9);
+    z-index: 10;
+    height: auto;
+    min-height: 50px;
+}
+
+.service-tile .service-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.service-tile .service-title {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #ffffff;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.service-tile .text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #ffffff;
+    position: relative;
+    z-index: 11;
+}
+
+/* Modal Styles */
+#service-modal .modal-header {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+}
+
+#service-modal .modal-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+#service-modal .modal-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 1;
+}
+
+#service-modal .modal-header-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    z-index: 2;
+}
+
+#service-modal .modal-title {
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#service-modal .modal-subtitle {
+    color: #ffffff;
+    font-size: 16px;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Service Tiles */
+.mobile-only-services {
+    display: none;
+}
+
+#basic-services-scroll {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    padding: 15px 0;
+    margin: 0;
+    user-select: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#basic-services-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.basic-service-tile {
+    flex: 0 0 auto;
+    width: 322px;
+    border-radius: 10px;
+    margin-right: 15px;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    position: relative;
+    height: calc((280px * 9/16) + 50px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.basic-service-tile img {
+    width: 100%;
+    height: calc(280px * 9/16);
+    object-fit: cover;
+    opacity: 0.7;
+}
+
+.basic-service-tile .service-content-mobile {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 15px 8px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(215, 125, 50, 0.9);
+    z-index: 10;
+}
+
+.basic-service-tile .service-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 11;
+}
+
+.basic-service-tile .number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.basic-service-tile h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.basic-service-tile p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #ffffff;
+    position: relative;
+    z-index: 11;
+}
+
+/* Mobile Media Queries */
+@media (max-width: 768px) {
+    .mobile-only-services {
+        display: block;
+        width: 100%;
+        margin: 1rem 0 2rem;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .bento-grid .service-tile {
+        display: none;
+    }
+    
+    #basic-services-scroll {
+        padding: 15px 15px;
+        width: calc(100% + 30px);
+        margin-left: -15px;
+        padding-right: 45px;
+        scroll-padding: 0 70px 0 15px;
+    }
+    
+    .basic-service-tile {
+        width: 300px;
+        height: calc((280px * 9/16) + 50px);
+        margin-right: 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .basic-service-tile {
+        width: 260px;
+        height: calc((260px * 9/16) + 50px);
+    }
+    
+    .basic-service-tile img {
+        height: calc(260px * 9/16);
+    }
+    
+    #basic-services-scroll {
+        padding-right: 60px;
+    }
+} 

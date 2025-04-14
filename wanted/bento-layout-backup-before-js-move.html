@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WANTED s.f.o. - Film Production Support and Services">
+    <title>WANTED - Film Production Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <div class="logo-container">
+                <a href="#" class="logo-link">
+                    <img src="images/wanted-logo2.png" alt="WANTED Logo" class="logo" width="96" height="96">
+                    <span class="logo-text">WANTED</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav" role="navigation" aria-label="Desktop navigation">
+                <div class="desktop-menu">
+                    <a href="#services-container">Services</a>
+                    <a href="#movie-grid">Production</a>
+                    <a href="#history">History</a>
+                    <a href="#lukas-contact">Contact</a>
+                    <div class="language-select">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="desktop-language-dropdown">
+                            <span>EN</span>
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="language-dropdown" id="desktop-language-dropdown" role="menu">
+                            <div class="language-option" data-lang="cz">
+                                <img src="images/flags/cz.png" alt="Czech">
+                                <span>Česky</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                <img src="images/flags/gb.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="de">
+                                <img src="images/flags/de.png" alt="German">
+                                <span>Deutsch</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                <img src="images/flags/fr.png" alt="French">
+                                <span>Français</span>
+                            </div>
+                            <div class="language-option" data-lang="pl">
+                                <img src="images/flags/pl.png" alt="Polish">
+                                <span>Polski</span>
+                            </div>
+                            <div class="language-option" data-lang="hu">
+                                <img src="images/flags/hu.png" alt="Hungarian">
+                                <span>Magyar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="mobile-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav">
+                <span class="bar-top"></span>
+                <span class="bar-middle"></span>
+                <span class="bar-bottom"></span>
+            </button>
+            
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav" id="mobile-nav">
+                <div class="mobile-nav-content">
+                    <div class="mobile-menu">
+                        <a href="#services-container">Services</a>
+                        <a href="#movie-grid">Production</a>
+                        <a href="#history">History</a>
+                        <a href="#lukas-contact">Contact</a>
+                    </div>
+                    <div class="language-select">
+                        <button class="language-current" aria-label="Select language" aria-expanded="false" aria-controls="mobile-language-dropdown">
+                            <span>EN</span>
+                            <svg width="12" height="8" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="language-dropdown" id="mobile-language-dropdown" role="menu">
+                            <div class="language-option" data-lang="cz">
+                                <img src="images/flags/cz.png" alt="Czech">
+                                <span>Česky</span>
+                            </div>
+                            <div class="language-option" data-lang="en">
+                                <img src="images/flags/gb.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="de">
+                                <img src="images/flags/de.png" alt="German">
+                                <span>Deutsch</span>
+                            </div>
+                            <div class="language-option" data-lang="fr">
+                                <img src="images/flags/fr.png" alt="French">
+                                <span>Français</span>
+                            </div>
+                            <div class="language-option" data-lang="pl">
+                                <img src="images/flags/pl.png" alt="Polish">
+                                <span>Polski</span>
+                            </div>
+                            <div class="language-option" data-lang="hu">
+                                <img src="images/flags/hu.png" alt="Hungarian">
+                                <span>Magyar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="bento-grid">
+        <!-- Big tile with full image and content -->
+        <div id="who-we-are" class="tile big full-image">
+            <img src="images/wanted-main.jpg" alt="WANTED Office">
+            <div class="content-overlay">
+                <h2 class="headline">Who We Are</h2>
+                <p class="text">WANTED s.f.o. was founded in Prague, where our headquarters and production facilities remain. We've grown substantially since inception, establishing ourselves in the film industry, fit-out projects, custom furniture manufacturing, interior design implementation, and sales support products.</p>
+            </div>
+        </div>
+
+        <!-- What We Do tile -->
+        <div class="tile gradient what-we-do-tile">
+            <div class="resources-background">
+                <img src="images/about/onas.jpg" alt="What We Do">
+            </div>
+            <div class="overlay-gradient"></div>
+            <h2 class="headline">What We Do</h2>
+            <ul class="service-list">
+                <li>Film</li>
+                <li>Decorations</li>
+                <li>Props</li>
+                <li>Events</li>
+                <li>Interiors</li>
+                <li>Exhibitions</li>
+            </ul>
+        </div>
+
+        <!-- Project Slider Tile -->
+        <div class="tile project-slider-tile">
+            <!-- Background image container -->
+            <div class="project-backgrounds">
+                <div class="project-slide-bg active" style="background-image: url('images/tiles/wanted-map.jpg');"></div>
+                <div class="project-slide-bg" style="background-image: url('images/tiles/renault-r.jpg'); background-size: cover; background-position: center;"></div>
+            </div>
+            
+            <div class="project-slider-container">
+                <!-- Slides container with touch support -->
+                <div class="project-slides-wrapper">
+                    <!-- Dark overlay with gradient -->
+                    <div class="overlay-gradient"></div>
+                    
+                    <!-- First slide content -->
+                    <div class="project-slide active">
+                        <p class="project-status">In progress</p>
+                        <h3 class="project-title">Dacia NVI Project</h3>
+                        <div class="project-tags">
+                            <span class="project-tag">CZ</span>
+                            <span class="project-tag">SK</span>
+                            <span class="project-tag">HU</span>
+                            <span class="project-tag">PL</span>
+                            <span class="project-tag">EST</span>
+                            <span class="project-tag">LV</span>
+                            <span class="project-tag">LT</span>
+                            <span class="project-tag">SWE</span>
+                            <span class="project-tag">DK</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Second slide content -->
+                    <div class="project-slide slide-bottom-half">
+                        <h3 class="project-title">Renault new'R store</h3>
+                        <p class="project-text">Coming Soon</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation dots -->
+                <div class="project-dots">
+                    <button class="project-dot active" aria-label="View slide 1" data-slide="0"></button>
+                    <button class="project-dot" aria-label="View slide 2" data-slide="1"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Resources Tile (2-column wide) -->
+        <div class="tile wide resources-tile">
+            <div class="resources-background">
+                <img src="images/about/onas-2.jpg" alt="WANTED Resources">
+            </div>
+            <div class="resources-content">
+                <h2 class="headline">Our Resources</h2>
+                <ul class="resource-list">
+                    <li>Own transportation fleet</li>
+                    <li>Storage and production facilities</li>
+                    <li>Extensive network of verified suppliers</li>
+                    <li>Hands-on film set experience</li>
+                    <li>Qualified and dedicated personnel</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Services scroll container for mobile view -->
+        <div id="services-container" class="services-scroll-container">
+            <div class="services-track" id="services-track">
+                <!-- Services items will be loaded from includes/services.html -->
+            </div>
+        </div>
+
+        <!-- Mobile Services Basic Scrolling -->
+        <div id="services-container" class="mobile-only-services">
+            <div id="basic-services-scroll">
+                <!-- Service 01 -->
+                <div class="basic-service-tile" data-target="service-01">
+                    <img src="images/services/01.jpg" alt="Print & Design">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">01</span>
+                            <h3>Print & Design</h3>
+                        </div>
+                        <p>Professional printing and design services</p>
+                    </div>
+                </div>
+                
+                <!-- Service 02 -->
+                <div class="basic-service-tile" data-target="service-02">
+                    <img src="images/services/02.jpg" alt="Corporate Identities">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">02</span>
+                            <h3>Corporate Identities</h3>
+                        </div>
+                        <p>Comprehensive brand identity development</p>
+                    </div>
+                </div>
+                
+                <!-- Service 03 -->
+                <div class="basic-service-tile" data-target="service-03">
+                    <img src="images/services/03.jpg" alt="Furniture">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">03</span>
+                            <h3>Furniture</h3>
+                        </div>
+                        <p>Custom furniture design and manufacturing</p>
+                    </div>
+                </div>
+                
+                <!-- Service 04 -->
+                <div class="basic-service-tile" data-target="service-04">
+                    <img src="images/services/04.jpg" alt="Production">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">04</span>
+                            <h3>Production</h3>
+                        </div>
+                        <p>Full-scale production services</p>
+                    </div>
+                </div>
+                
+                <!-- Service 05 -->
+                <div class="basic-service-tile" data-target="service-05">
+                    <img src="images/services/05.jpg" alt="Crafts">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">05</span>
+                            <h3>Crafts</h3>
+                        </div>
+                        <p>Specialized craftsmanship for custom solutions</p>
+                    </div>
+                </div>
+                
+                <!-- Service 06 -->
+                <div class="basic-service-tile" data-target="service-06">
+                    <img src="images/services/06.jpg" alt="Film Props & Deco">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">06</span>
+                            <h3>Film Props & Deco</h3>
+                        </div>
+                        <p>Custom props and set decorations</p>
+                    </div>
+                </div>
+                
+                <!-- Service 07 -->
+                <div class="basic-service-tile" data-target="service-07">
+                    <img src="images/services/07.jpg" alt="Logistics">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">07</span>
+                            <h3>Logistics</h3>
+                        </div>
+                        <p>Comprehensive logistics services</p>
+                    </div>
+                </div>
+                
+                <!-- Service 08 -->
+                <div class="basic-service-tile" data-target="service-08">
+                    <img src="images/services/08.jpg" alt="Documentation">
+                    <div class="service-content-mobile">
+                        <div class="service-header">
+                            <span class="number">08</span>
+                            <h3>Documentation</h3>
+                        </div>
+                        <p>Professional documentation services</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Services section - desktop view (inside bento-grid) -->
+        <!-- Service 01 tile -->
+        <div id="service-01" class="tile service-tile" data-modal="service-01">
+            <img src="images/services/01.jpg" alt="Print & Design">
+            <div class="service-content">
+                <div class="service-number">01</div>
+                <h3 class="service-title">Print & Design</h3>
+                <p class="text">Professional printing and design services for various media</p>
+            </div>
+        </div>
+
+        <!-- Service 02 tile -->
+        <div class="tile service-tile service-02" data-modal="service-02">
+            <img src="images/services/02.jpg" alt="Corporate Identities">
+            <div class="service-content">
+                <div class="service-number">02</div>
+                <h3 class="service-title">Corporate Identities</h3>
+                <p class="text">Comprehensive brand identity development and implementation</p>
+            </div>
+        </div>
+
+        <!-- Service 03 tile -->
+        <div class="tile service-tile service-03" data-modal="service-03">
+            <img src="images/services/03.jpg" alt="Furniture">
+            <div class="service-content">
+                <div class="service-number">03</div>
+                <h3 class="service-title">Furniture</h3>
+                <p class="text">Custom furniture design and manufacturing solutions</p>
+            </div>
+        </div>
+
+        <!-- Service 04 tile -->
+        <div class="tile service-tile service-04" data-modal="service-04">
+            <img src="images/services/04.jpg" alt="Production">
+            <div class="service-content">
+                <div class="service-number">04</div>
+                <h3 class="service-title">Production</h3>
+                <p class="text">Full-scale production services and project management</p>
+            </div>
+        </div>
+
+        <!-- Service 05 tile -->
+        <div class="tile service-tile service-05" data-modal="service-05">
+            <img src="images/services/05.jpg" alt="Crafts">
+            <div class="service-content">
+                <div class="service-number">05</div>
+                <h3 class="service-title">Crafts</h3>
+                <p class="text">Specialized craftsmanship including glass work and custom solutions</p>
+            </div>
+        </div>
+
+        <!-- Service 06 tile -->
+        <div class="tile service-tile service-06" data-modal="service-06">
+            <img src="images/services/06.jpg" alt="Film Props & Decorations">
+            <div class="service-content">
+                <div class="service-number">06</div>
+                <h3 class="service-title">Film Props & Deco</h3>
+                <p class="text">Custom props and set decorations for film and television</p>
+            </div>
+        </div>
+
+        <!-- Service 07 tile -->
+        <div class="tile service-tile service-07" data-modal="service-07">
+            <img src="images/services/07.jpg" alt="Logistics">
+            <div class="service-content">
+                <div class="service-number">07</div>
+                <h3 class="service-title">Logistics</h3>
+                <p class="text">Comprehensive logistics and transportation services</p>
+            </div>
+        </div>
+
+        <!-- Service 08 tile -->
+        <div class="tile service-tile service-08" data-modal="service-08">
+            <img src="images/services/08.jpg" alt="Documentation">
+            <div class="service-content">
+                <div class="service-number">08</div>
+                <h3 class="service-title">Documentation</h3>
+                <p class="text">Professional documentation and project documentation services</p>
+            </div>
+        </div>
+
+        <!-- Center big tile with movie grid -->
+        <div id="movie-grid" class="tile big gradient">
+            <div class="movie-grid">
+                <div class="movie-item">
+                    <img src="images/movies/wheeloftime.jpg" alt="Wheel of Time" class="active">
+                    <img src="images/movies/jojo.jpg" alt="Jojo">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/bathory.JPG" alt="Bathory" class="active">
+                    <img src="images/movies/sarlatan.jpg" alt="Sarlatan">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/paintedbird.jpg" alt="Painted Bird" class="active">
+                    <img src="images/movies/modelar.jpg" alt="Modelar">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/zatopek.jpg" alt="Zatopek" class="active">
+                    <img src="images/movies/e-o.jpg" alt="EO">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/lastknights.jpg" alt="Last Knights" class="active">
+                    <img src="images/movies/musketeers.jpg" alt="Musketeers">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/snowpiercer.jpg" alt="Snowpiercer" class="active">
+                    <img src="images/movies/redtails.jpg" alt="Red Tails">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/bezvedomi.jpg" alt="Bezvedomi" class="active">
+                    <img src="images/movies/lidice.jpg" alt="Lidice">
+                </div>
+                <div class="movie-item">
+                    <img src="images/movies/principslasti.jpg" alt="Princip Slasti" class="active">
+                    <img src="images/movies/catcherwasaspy.jpg" alt="Catcher Was a Spy">
+                </div>
+            </div>
+            <div class="movie-overlay"></div>
+            <div class="movie-content">
+                <h2 class="headline">Film & TV Production Support</h2>
+                <p class="text">WANTED s.f.o. has contributed to the creation of numerous acclaimed films and television series. Our expertise in props, decorations, and set design has helped bring stories to life across various genres and productions.</p>
+            </div>
+        </div>
+
+        <!-- Notable Film Projects tile -->
+        <div class="tile gradient">
+            <h2 class="headline">Notable Film Projects</h2>
+            <ul class="project-list">
+                <li>The Wheel of Time <span class="year">(2020-2023)</span></li>
+                <li>Jojo Rabbit <span class="year">(2018)</span></li>
+                <li>The Painted Bird <span class="year">(2018)</span></li>
+                <li>The Zookeeper's Wife <span class="year">(2017)</span></li>
+                <li>Snowpiercer <span class="year">(2013)</span></li>
+                <li>Mission: Impossible - Ghost Protocol <span class="year">(2011)</span></li>
+            </ul>
+            <a href="#" class="show-more-btn">
+                <span>Show More</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Commercial Projects tile -->
+        <div class="tile light">
+            <h2 class="headline">Commercial Projects</h2>
+            <ul class="project-list">
+                <li>Renault Group (Homologated supplier)</li>
+                <li>Dacia New Visual Identity</li>
+                <li>Renault Store rebranding</li>
+                <li>Renault Alpine Store</li>
+                <li>Renault Care Service</li>
+                <li>Various commercial campaigns and promotional events</li>
+            </ul>
+        </div>
+
+        <!-- Aristotle quote tile -->
+        <div class="tile quote-tile">
+            <img src="images/aristotle.png" alt="Aristotle">
+            <div class="quote-content">
+                <div class="quote-text">Pleasure in the job puts perfection in the work</div>
+                <div class="quote-author">— Aristotle</div>
+            </div>
+        </div>
+
+        <!-- Renault Group tile -->
+        <div class="tile renault-tile light">
+            <div class="renault-content">
+                <img src="images/tiles/renault-group-text.png" alt="Renault Group" class="renault-logo">
+                <p class="renault-text">approved supplier</p>
+            </div>
+            <div class="renault-document">
+                <img src="images/tiles/renault-group-paper.png" alt="Renault Group Document">
+            </div>
+        </div>
+
+        <!-- History Timeline Section -->
+        <div id="history" class="timeline-container">
+            <div id="timeline-basic-scroll">
+                <!-- Timeline items will be loaded dynamically by JS -->
+            </div>
+        </div>
+
+        <!-- Contact Person Tile - Lukas -->
+        <div id="lukas-contact" class="tile contact-person-tile">
+            <h2 class="headline" style="color: black !important; font-weight: 900 !important;">Lukas Katakalidis</h2>
+            <div class="contact-links">
+                <a href="tel:+420606042031" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    +420 606 042 031
+                </a>
+                <a href="mailto:lukas@wanted-sfo.cz" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    lukas@wanted-sfo.cz
+                </a>
+            </div>
+        </div>
+
+        <!-- Contact Person Tile - Pepi Borik -->
+        <div class="tile contact-person-tile">
+            <h2 class="headline" style="color: black !important; font-weight: 900 !important;">Pepi Borik</h2>
+            <div class="contact-links">
+                <a href="tel:+420602335335" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    +420 602 335 335
+                </a>
+                <a href="mailto:pepi@wanted-sfo.cz" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    pepi@wanted-sfo.cz
+                </a>
+            </div>
+        </div>
+
+        <!-- Company Contact Tile -->
+        <div class="tile light company-contact-tile">
+            <h2 class="headline">WANTED s.f.o.</h2>
+            <div class="company-address">
+                <div class="address-group">
+                    <p class="address-line">Zásadská 569/3</p>
+                    <p class="address-line">190 00 Praha 9</p>
+                </div>
+                <div class="id-group">
+                    <p class="id-line"><span class="id-label">IČO:</span> 71382186, 74241486</p>
+                </div>
+                <div class="id-group">
+                    <p class="id-line"><span class="id-label">DIČ:</span> CZ8211270144, CZ7907132475</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warehouse Contact Tile -->
+        <div class="tile light warehouse-contact-tile">
+            <h2 class="headline">Office / Warehouse</h2>
+            <div class="company-address">
+                <div class="address-group">
+                    <p class="address-line">Stoliňská 4</p>
+                    <p class="address-line">190 00 Praha 9</p>
+                </div>
+                <div class="contact-links warehouse-links">
+                    <!-- Phone number removed -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bento-grid">
+        <!-- Contact Form Tile - Two Columns -->
+        <div class="tile rect contact-form-tile">
+            <div class="contact-header">
+                <h2 class="headline">Contact Us</h2>
+                <a href="mailto:info@wanted-sfo.cz" class="contact-email">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    info@wanted-sfo.cz
+                </a>
+            </div>
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                <div class="form-group">
+                    <input type="text" name="from_name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="from_email" placeholder="Your Email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="subject" placeholder="Subject">
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+                <p class="form-disclaimer">By submitting this form, you agree to the processing of your personal data in accordance with GDPR.</p>
+            </form>
+        </div>
+
+        <!-- Map Tile - Two Columns -->
+        <div class="tile rect map-tile">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2558.3392488341844!2d14.583833576890811!3d50.108196071518465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94e8cf28b0d9%3A0x2600d91d3c54840!2sStoli%C5%88sk%C3%A1%204%2C%20190%2000%20Praha%209-Horn%C3%AD%20Po%C4%8Dernice%2C%20Czechia!5e0!3m2!1sen!2sus!4v1711905000276!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+    </div>
+
+    <!-- Modal container -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="service-modal">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <img src="" alt="" id="modal-image">
+            <div class="modal-header-content">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <div class="modal-subtitle" id="modal-subtitle"></div>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Debug script to check services loading
+        console.log('Loading services check - HTML loaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            const servicesTrack = document.getElementById('services-track');
+            console.log('Services track exists:', !!servicesTrack);
+            if (servicesTrack) {
+                console.log('Services track HTML:', servicesTrack.innerHTML);
+            }
+            
+            // Force loading services if needed
+            if (servicesTrack && !servicesTrack.children.length) {
+                console.log('Attempting to manually load services');
+                fetch('includes/services.html')
+                    .then(response => response.text())
+                    .then(html => {
+                        servicesTrack.innerHTML = html;
+                        console.log('Services manually loaded');
+                    })
+                    .catch(error => console.error('Manual services load failed:', error));
+            }
+        });
+        
+        // iOS-specific scrolling fix - must be inline for immediate execution
+        (function() {
+            // Detect iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                // Create a style element for critical iOS fixes
+                const style = document.createElement('style');
+                style.textContent = `
+                    .services-scroll-container {
+                        -webkit-overflow-scrolling: touch !important;
+                        overflow-x: scroll !important;
+                    }
+                    .services-track {
+                        display: flex !important;
+                        transition: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Apply direct DOM fixes when loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    const container = document.querySelector('.services-scroll-container');
+                    if (container) {
+                        // Force redraw to trigger proper iOS scroll behavior
+                        container.style.display = 'none';
+                        setTimeout(() => {
+                            container.style.display = 'block';
+                        }, 10);
+                    }
+                });
+            }
+        })();
+        
+        // Basic services scrolling helper - ensures scrolling works on all devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const basicServicesScroll = document.getElementById('basic-services-scroll');
+            
+            if (basicServicesScroll) {
+                console.log('Applying basic services scrolling fixes');
+                
+                // Force optimal settings for mobile scrolling
+                if (window.innerWidth <= 768) {
+                    // Force mobile optimizations
+                    basicServicesScroll.style.webkitOverflowScrolling = 'touch';
+                    basicServicesScroll.style.overflowX = 'auto';
+                    basicServicesScroll.style.overflowY = 'hidden';
+                    
+                    // Fix for some mobile browsers that need a repaint
+                    setTimeout(function() {
+                        const parent = basicServicesScroll.parentNode;
+                        const next = basicServicesScroll.nextSibling;
+                        parent.removeChild(basicServicesScroll);
+                        parent.insertBefore(basicServicesScroll, next);
+                        console.log('Basic services scroll container reinitialized');
+                    }, 100);
+                }
+                
+                // Add direct click handlers that won't conflict with scrolling
+                const serviceTiles = basicServicesScroll.querySelectorAll('.basic-service-tile');
+                
+                serviceTiles.forEach(tile => {
+                    // Track if the user is scrolling or tapping
+                    let startX, startTime, isScrolling = false;
+                    
+                    tile.addEventListener('touchstart', e => {
+                        startX = e.touches[0].clientX;
+                        startTime = Date.now();
+                        isScrolling = false;
+                    }, { passive: true });
+                    
+                    tile.addEventListener('touchmove', () => {
+                        isScrolling = true;
+                    }, { passive: true });
+                    
+                    tile.addEventListener('click', e => {
+                        if (isScrolling) {
+                            e.preventDefault();
+                            return;
+                        }
+                        
+                        const modalId = tile.getAttribute('data-target');
+                        if (modalId) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openModal(modalId);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

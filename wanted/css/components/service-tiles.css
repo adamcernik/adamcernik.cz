@@ -1,0 +1,250 @@
+/* Service Tiles */
+.service-tile {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+}
+
+.service-tile[data-modal] {
+    cursor: pointer;
+}
+
+.service-tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 2.5s ease;
+}
+
+.service-tile:hover img {
+    opacity: 1;
+}
+
+/* Update service tile styles to be darker */
+.service-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.75rem;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(105, 10, 25, 0.95) 0%,
+        rgba(105, 10, 25, 0.85) 50%,
+        rgba(105, 10, 25, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+}
+
+/* All service tiles hover effect to darker gold */
+.service-tile:hover .service-content {
+    background: linear-gradient(
+        to top,
+        rgba(160, 80, 10, 0.98) 0%,
+        rgba(160, 80, 10, 0.88) 50%,
+        rgba(160, 80, 10, 0.78) 100%
+    );
+}
+
+/* Service tile colors */
+.service-08 .service-content { 
+    background: linear-gradient(to top, 
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+}
+
+.service-number {
+    font-family: var(--heading-font);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.service-title {
+    font-family: var(--heading-font);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.service-content .text {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.service-list {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    column-count: 2;
+    column-gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.service-list li {
+    margin-bottom: 0.75rem;
+    color: #FFFFFF;
+    font-weight: 500;
+    position: relative;
+}
+
+.service-list li::before {
+    content: '•';
+    position: absolute;
+    left: -1rem;
+    top: 0.1rem;
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Add keyframes for service tile hover animation */
+@keyframes serviceImageZoom {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+    100% {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+    }
+}
+
+/* Resource list for services */
+.resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resource-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.resource-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Resources tile styles */
+.resources-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.resources-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.resources-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(35, 52, 70, 0.95) 0%,
+        rgba(35, 52, 70, 0.8) 50%,
+        rgba(35, 52, 70, 0.5) 100%
+    );
+    z-index: 1;
+}
+
+.resources-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resources-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.75rem;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .resources-tile {
+        min-height: 250px;
+    }
+    
+    .service-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-list {
+        column-count: 1;
+    }
+    
+    .service-content {
+        padding: 1.5rem;
+    }
+    
+    .resources-tile {
+        height: auto !important; /* Override any fixed height */
+        min-height: unset; /* Remove min-height */
+    }
+    
+    .resources-content {
+        padding: 2rem 1.5rem; /* Increased vertical padding */
+    }
+    
+    .resources-tile .resource-list {
+        margin-top: 15px; /* Add some spacing between headline and list */
+    }
+    
+    .resources-tile .resource-list li {
+        margin-bottom: 10px; /* More spacing between list items */
+    }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 400px) {
+    .resources-tile {
+        height: auto !important; /* Ensure auto height */
+    }
+    
+    .resources-tile .resource-list li {
+        font-size: 0.9rem; /* Slightly smaller font for very small screens */
+        line-height: 1.3;
+        margin-bottom: 12px; /* Extra spacing between items */
+    }
+    
+    .resources-tile .headline {
+        margin-bottom: 1rem; /* More space after headline */
+    }
+} 

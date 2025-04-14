@@ -1,0 +1,86 @@
+/**
+ * Mobile scrolling fixes for services
+ * This file contains critical overrides to fix scrolling issues on mobile devices
+ */
+
+/* Force hardware acceleration for all scrollable elements */
+.services-scroll-container {
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch !important;
+    /* Enable hardware acceleration */
+    -webkit-transform: translateZ(0) !important;
+    -moz-transform: translateZ(0) !important;
+    -ms-transform: translateZ(0) !important;
+    -o-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    /* Improve performance */
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    perspective: 1000 !important;
+    -webkit-perspective: 1000 !important;
+    /* Remove any snapping behavior */
+    scroll-snap-type: none !important;
+    -webkit-scroll-snap-type: none !important;
+    /* Native scrollbar styles */
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+/* Hide scrollbars while keeping functionality */
+.services-scroll-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+/* Ensure overflow is properly set */
+@media (max-width: 768px) {
+    .services-scroll-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        /* Use auto scroll behavior, not smooth, for better mobile perf */
+        scroll-behavior: auto !important;
+        /* Enable panning in x direction */
+        touch-action: pan-x !important;
+    }
+    
+    /* Simplify service tiles for better performance */
+    .mobile-service {
+        /* Prevent selection while scrolling */
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+        /* Ensure consistent sizing */
+        min-width: 200px !important;
+        max-width: 270px !important;
+        width: 70% !important;
+        /* Prevent tile-specific styling from overriding */
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    /* Remove any potential pointer events issues */
+    .services-track {
+        pointer-events: auto !important;
+    }
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+    .services-scroll-container {
+        /* iOS needs this for reliable momentum scrolling */
+        -webkit-overflow-scrolling: touch !important;
+        /* Additional fix for iOS 13+ */
+        overscroll-behavior-x: none !important;
+    }
+}
+
+/* Fix potential text selection while scrolling */
+.mobile-service *,
+.services-track * {
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}

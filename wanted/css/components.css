@@ -1,0 +1,1571 @@
+/* Quote Tile */
+.quote {
+    font-style: italic;
+    font-size: 1.25rem;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.quote::before {
+    content: '"';
+    font-size: 4rem;
+    opacity: 0.15;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: Georgia, serif;
+    color: var(--accent-gold);
+}
+
+.quote-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    max-height: 300px;
+    background-color: transparent;
+    border: 2px solid rgba(215, 125, 50, 0.7);
+}
+
+.quote-tile img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 2px solid var(--accent-gold);
+}
+
+.quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.quote-text {
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    font-weight: 300;
+}
+
+.quote-author {
+    font-weight: 500;
+    color: var(--accent-gold);
+    font-size: 0.9rem;
+}
+
+/* Image Grid */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    height: 100%;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    transition: opacity 0.3s ease;
+}
+
+.image-grid img:hover {
+    opacity: 0.8;
+}
+
+/* Project Lists */
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.project-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+}
+
+.project-list .year {
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-left: 0.5rem;
+}
+
+.show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-gold);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.show-more-btn:hover {
+    color: #e5c14c;
+}
+
+/* Service Tiles */
+.service-tile {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+}
+
+.service-tile[data-modal] {
+    cursor: pointer;
+}
+
+.service-tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: opacity 2.5s ease;
+}
+
+.service-tile:hover img {
+    opacity: 1;
+}
+
+/* Update service tile styles to all use the gold color from service-08 */
+.service-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.75rem;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+}
+
+/* All service tiles hover effect */
+.service-tile:hover .service-content {
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.98) 0%,
+        rgba(215, 125, 50, 0.88) 50%,
+        rgba(215, 125, 50, 0.78) 100%
+    );
+}
+
+/* Fix for service-content at tablet breakpoints */
+@media (max-width: 1024px) and (min-width: 641px) {
+    .service-content {
+        height: 100%;
+        min-height: 100%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+}
+
+/* Specific fix for the 745px breakpoint where the issue occurs */
+@media (max-width: 767px) and (min-width: 730px) {
+    .service-content {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+    
+    .service-tile img {
+        z-index: 1;
+    }
+}
+
+/* Remove service-08 specific styling since all tiles now use the same color */
+/* .service-08 .service-content { 
+    background: linear-gradient(to top, 
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    );
+    transition: background 2.5s ease;
+} */
+
+.service-number {
+    font-family: var(--heading-font);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.service-title {
+    font-family: var(--heading-font);
+    font-size: 1.3rem; /* Reduced from 1.5rem */
+    font-weight: 700; /* Increased from 600 to 700 for bolder appearance */
+    letter-spacing: 0.01em;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.service-content .text {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Add styles for resource list */
+.resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.resource-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Resources tile */
+.resources-tile {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.resources-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.resources-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(15, 25, 35, 0.95) 0%,
+        rgba(15, 25, 35, 0.85) 40%,
+        rgba(15, 25, 35, 0.75) 70%,
+        rgba(15, 25, 35, 0.70) 100%
+    );
+    z-index: 1;
+}
+
+.resources-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resources-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem 2.5rem 4rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.resources-content .headline {
+    margin-bottom: 1.5rem;
+    font-size: 2.25rem;
+}
+
+/* Movie Grid */
+#movie-grid.tile.big {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: 100%;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.75rem;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    flex: 1;
+    margin-bottom: 1rem;
+    height: 400px;
+}
+
+.movie-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.movie-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.movie-item img.active {
+    opacity: 1;
+}
+
+.movie-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+        rgba(15, 21, 33, 0.95) 0%,
+        rgba(15, 21, 33, 0.8) 40%,
+        rgba(15, 21, 33, 0.6) 70%,
+        rgba(15, 21, 33, 0.2) 90%,
+        rgba(15, 21, 33, 0) 100%
+    );
+    z-index: 2;
+}
+
+#movie-grid .movie-content {
+    position: relative;
+    padding: 1rem 2rem 1rem;
+    z-index: 3;
+}
+
+@keyframes serviceImageZoom {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+    100% {
+        transform: scale(1.02);
+        filter: brightness(1.1);
+    }
+}
+
+/* Project slider */
+.project-slider-tile {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    touch-action: pan-y;
+    box-sizing: border-box;
+}
+
+.project-backgrounds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.project-slide-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.project-slide-bg.active {
+    opacity: 1;
+}
+
+.project-slider-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.project-slides-wrapper {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.overlay-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.2) 0%,
+        rgba(0,0,0,0.4) 40%,
+        rgba(0,0,0,0.6) 70%,
+        rgba(0,0,0,0.8) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+.project-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 3;
+    padding: 1.5rem 1.5rem 16px;
+    margin: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 65%; /* Takes up 65% of the height */
+    top: 30%; /* Positioned at 30% from the top, slightly above middle */
+}
+
+.project-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 1.5rem 1.5rem 16px;
+}
+
+.project-dot.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.project-status {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    margin: 0 0 0.5rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 0.03em;
+}
+
+.project-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 1rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    line-height: 1.2;
+}
+
+.project-text {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    margin: 0;
+    line-height: 1.4;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+    padding-right: 64px;
+}
+
+.project-tag {
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    background-color: rgba(215, 125, 50, 0.7);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+}
+
+.project-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    z-index: 10;
+    height: 10px;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+}
+
+.project-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.project-dot:hover {
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .project-slider-tile {
+        overflow: hidden;
+        position: relative;
+        height: 250px !important; /* Fixed height */
+        min-height: 250px !important;
+        aspect-ratio: unset !important;
+    }
+    
+    .tile.project-slider-tile {
+        height: 250px !important;
+        min-height: 250px !important;
+        max-height: 300px !important;
+        display: block !important;
+    }
+    
+    .project-slider-container {
+        padding: 0 !important;
+    }
+    
+    .project-slide.active {
+        padding: 1.25rem !important;
+    }
+    
+    /* Restore the original project slide status and tags positioning */
+    .project-status {
+        margin-bottom: 0.4rem !important;
+    }
+    
+    .project-title {
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .project-text {
+        font-size: 0.9rem;
+    }
+    
+    .project-tag {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.35rem;
+    }
+}
+
+/* Renault Tile */
+.renault-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+    max-height: 300px;
+}
+
+.renault-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.renault-logo {
+    max-width: 120px;
+    height: auto;
+    margin-bottom: 0.75rem;
+}
+
+.renault-text {
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 300;
+    margin: 0;
+    opacity: 0.85;
+    font-family: var(--body-font);
+}
+
+.renault-document {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: auto;
+}
+
+.renault-document img {
+    width: 95%;
+    max-height: 190px;
+    object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 350px;
+    }
+    
+    .resources-tile {
+        min-height: 250px;
+    }
+    
+    .resources-content {
+        padding: 2rem 2rem 3.5rem;
+    }
+    
+    .quote-tile,
+    .renault-tile {
+        max-height: 220px;
+    }
+    
+    .quote-tile {
+        padding: 1rem;
+    }
+    
+    .quote-tile img {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 300px;
+    }
+    
+    .resources-content {
+        padding: 2rem 1.75rem 3.5rem;
+    }
+    
+    .quote-tile,
+    .renault-tile {
+        max-height: 200px;
+    }
+    
+    .quote-tile {
+        padding: 0.75rem;
+    }
+    
+    .quote-tile img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .quote-text {
+        font-size: 1rem;
+    }
+    
+    /* Adjust Renault tile layout for mobile */
+    .renault-tile {
+        flex-direction: row;
+        padding: 1.5rem;
+        align-items: center;
+    }
+    
+    .renault-content {
+        width: 50%;
+        margin-bottom: 0;
+        align-items: flex-start;
+        text-align: left;
+        justify-content: center;
+    }
+    
+    .renault-document {
+        width: 50%;
+        justify-content: flex-end;
+        align-items: center;
+        display: flex;
+    }
+    
+    .renault-document img {
+        width: 100%;
+        max-height: 140px;
+    }
+
+    .map-tile {
+        height: 300px;
+    }
+    
+    /* Set 8px border radius on mobile for component tiles */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile,
+    .movie-item {
+        border-radius: 8px;
+    }
+    
+    /* Adjust component paddings for mobile */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* List padding adjustments */
+    .project-list li,
+    .service-list li,
+    .modal-list li,
+    .resource-list li {
+        padding-left: 1.25rem;
+    }
+
+    /* Remove duplicate services scroll container styles */
+}
+
+@media (max-width: 640px) {
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        margin-bottom: 1.5rem;
+        height: 500px;
+    }
+    
+    /* Ensure the movie content is properly spaced at the bottom */
+    #movie-grid .movie-content {
+        padding: 1.5rem 1.5rem 2rem;
+    }
+    
+    /* Add bottom padding to resources content on mobile */
+    .resources-content {
+        padding-bottom: 3rem;
+    }
+    
+    /* Larger text for better readability on mobile */
+    #movie-grid .movie-content .headline {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    #movie-grid .movie-content .text {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .renault-logo {
+        max-width: 100px;
+    }
+    
+    .renault-text {
+        font-size: 1.2rem;
+    }
+    
+    .renault-document img {
+        max-height: 120px;
+    }
+    
+    /* Further adjust resources tile for very small screens */
+    .resources-content {
+        padding: 2rem 1.5rem 3.5rem;
+    }
+    
+    .resources-content .headline {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Further reduce component paddings for smaller screens */
+    .service-content,
+    .contact-form-tile,
+    .contact-person-tile,
+    .map-tile,
+    .quote-tile,
+    .renault-tile {
+        padding: 1.25rem 0.75rem;
+    }
+    
+    /* List padding adjustments for smaller screens */
+    .project-list li,
+    .service-list li,
+    .modal-list li,
+    .resource-list li {
+        padding-left: 1rem;
+    }
+}
+
+.mobile-service {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    transition: none !important; /* Remove transitions */
+}
+
+.mobile-service.touch-active {
+    transform: none !important; /* Remove scale effect on touch */
+}
+
+.mobile-service img {
+    z-index: 1;
+    transition: none !important; /* Remove image transitions */
+    opacity: 0.7 !important; /* Fixed opacity */
+}
+
+.mobile-service:hover img {
+    opacity: 0.7 !important; /* Override hover opacity change */
+}
+
+.mobile-service .service-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    transition: none !important; /* Remove content transitions */
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    ) !important; /* Fixed background */
+}
+
+.mobile-service:hover .service-content {
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    ) !important; /* Override hover background change */
+}
+
+/* Services scroll container styles */
+.services-scroll-container {
+    display: none; /* Hidden by default on desktop */
+    width: 100%;
+    margin: 2rem 0;
+    padding: 0 1rem;
+    scroll-margin-top: 80px; /* Accounts for fixed header height */
+}
+
+.services-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 1.5rem;
+    text-align: left;
+    font-family: var(--heading-font);
+    padding-left: 0.5rem;
+}
+
+.services-track {
+    display: inline-flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    min-height: 320px;
+    width: max-content; /* Ensure track expands to fit all tiles */
+}
+
+.services-track .service-tile {
+    position: relative;
+    overflow: hidden;
+    width: 250px;
+    min-width: 250px;
+    height: 300px;
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transform: none !important;
+    transition: none !important;
+}
+
+.services-track .service-tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7 !important;
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.services-track .service-tile:hover img {
+    opacity: 0.7 !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.services-track .service-tile .service-content {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    ) !important;
+}
+
+.services-track .service-tile:hover .service-content {
+    background: linear-gradient(
+        to top,
+        rgba(215, 125, 50, 0.95) 0%,
+        rgba(215, 125, 50, 0.85) 50%,
+        rgba(215, 125, 50, 0.7) 100%
+    ) !important;
+    transform: none !important;
+}
+
+.services-error {
+    color: var(--text-color);
+    text-align: center;
+    padding: 2rem 1rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .services-scroll-container {
+        display: none !important; /* Always hide on mobile - changed from block */
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -15px; /* Extend slightly beyond container to improve scrolling feel */
+        padding: 0 15px;
+        width: calc(100% + 30px);
+    }
+    
+    /* Ensure momentum scrolling works well on iOS */
+    .services-scroll-container.mobile-scrolling {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto !important;
+        touch-action: pan-x;
+    }
+    
+    /* Mobile service tiles */
+    .mobile-service {
+        min-width: 220px;
+        width: 70%;
+        max-width: 280px;
+        touch-action: pan-x;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    
+    /* Services track for mobile */
+    .services-track {
+        display: flex;
+        gap: 12px;
+        padding: 10px 15px 20px;
+        will-change: transform;
+    }
+    
+    /* Prevent unwanted text selection during scrolling */
+    .services-track * {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+/* What We Do tile */
+.what-we-do-tile {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.what-we-do-tile .resources-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.what-we-do-tile .resources-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        rgba(15, 25, 35, 0.85) 0%,
+        rgba(15, 25, 35, 0.75) 50%,
+        rgba(15, 25, 35, 0.65) 100%
+    );
+    z-index: 1;
+}
+
+.what-we-do-tile .resources-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.what-we-do-tile .overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.what-we-do-tile .headline,
+.what-we-do-tile .service-list {
+    position: relative;
+    z-index: 2;
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.service-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+}
+
+#who-we-are .content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3.5rem 3rem 3rem;
+    background: linear-gradient(to top, 
+        rgba(26, 42, 58, 1) 0%,
+        rgba(26, 42, 58, 0.98) 20%,
+        rgba(26, 42, 58, 0.95) 40%,
+        rgba(26, 42, 58, 0.85) 60%,
+        rgba(26, 42, 58, 0.4) 80%,
+        rgba(26, 42, 58, 0) 100%
+    );
+}
+
+/* Unified bullet point styling */
+.project-list li::before,
+.resource-list li::before,
+.service-list li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.55rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-gold);
+}
+
+/* Contact Person Tiles */
+.contact-person-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1.75rem;
+    background: linear-gradient(to bottom right, #F3B52E, #B64600);
+    border-radius: 0.75rem;
+    --contact-text: #000000;
+    color: #000000 !important;
+}
+
+.contact-person-tile *,
+.contact-person-tile .headline,
+.contact-person-tile .contact-links, 
+.contact-person-tile .contact-link {
+    color: #000000 !important;
+}
+
+.contact-person-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    color: #000000 !important;
+    font-weight: 700;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.warehouse-links {
+    margin-top: 1rem;
+}
+
+.contact-person-tile svg,
+.contact-person-tile svg path,
+.contact-person-tile svg polyline {
+    stroke: #000000 !important;
+    color: #000000 !important;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #000000 !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.25s ease;
+}
+
+.contact-link svg {
+    color: #000000 !important;
+    stroke: #000000 !important;
+    fill: none !important;
+    flex-shrink: 0;
+}
+
+.contact-link:hover {
+    color: #000000 !important;
+    opacity: 0.8;
+}
+
+/* Warehouse Contact Tile */
+.warehouse-contact-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+}
+
+.warehouse-contact-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+/* Company Contact Tile */
+.company-contact-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+}
+
+.company-contact-tile .headline {
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.company-address {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.address-group {
+    margin-bottom: 0.5rem;
+}
+
+.address-line {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.id-group {
+    margin-bottom: 0.5rem;
+}
+
+.id-line {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.id-label {
+    color: var(--accent-gold);
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+/* Contact Form Tile */
+.contact-form-tile {
+    padding: 2rem;
+    background: var(--gradient-tile);
+    max-height: none;
+    min-height: 500px;
+    overflow-y: auto;
+}
+
+.contact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.contact-email {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.25s ease;
+}
+
+.contact-email svg {
+    color: var(--accent-gold);
+}
+
+.contact-email:hover {
+    color: var(--accent-gold);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    color: var(--text-color);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    max-height: 120px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-gold);
+}
+
+.submit-btn {
+    align-self: flex-start;
+    padding: 0.75rem 2rem;
+    background-color: var(--accent-gold);
+    color: #1A1A1A;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: var(--body-font);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.submit-btn:hover {
+    background-color: #d6b040;
+}
+
+.form-disclaimer {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.75rem;
+}
+
+/* Map Tile */
+.map-tile {
+    padding: 0;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.map-tile iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .contact-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .form-group textarea {
+        min-height: 80px;
+    }
+    
+    .contact-form-tile {
+        min-height: 450px;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-form-tile {
+        min-height: 500px;
+    }
+    
+    .form-disclaimer {
+        margin-top: 1rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form-tile {
+        min-height: 520px;
+        padding: 1.25rem;
+    }
+}
+
+/* Style for slide with overlay across the entire tile */
+.slide-bottom-half {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: center;
+    padding-top: 60px; /* Add padding to push content down */
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.8) 20%,
+        rgba(0,0,0,0.7) 40%,
+        rgba(0,0,0,0.6) 60%,
+        rgba(0,0,0,0.4) 80%,
+        rgba(0,0,0,0.3) 100%
+    );
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+
+.slide-bottom-half .project-title {
+    margin-bottom: 0.5rem;
+    font-size: 2.2rem;
+}
+
+.slide-bottom-half .project-text {
+    font-size: 1.2rem;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.slide-bottom-half.active {
+    opacity: 1;
+    position: absolute;
+}
+
+/* Make the overlay gradient only visible when the first slide is active */
+.first-slide-only {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.project-slide-bg:nth-child(2).active ~ .project-slider-container .first-slide-only {
+    opacity: 0;
+}
+
+/* Mobile styles for project slider */
+@media (max-width: 768px) {
+    .project-slider-tile {
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .project-slide-bg {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background-size: cover !important;
+        background-position: center !important;
+        border-radius: 0 !important;
+    }
+    
+    .overlay-gradient {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        border-radius: 0 !important;
+        z-index: 2 !important;
+    }
+    
+    .slide-bottom-half {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        padding-top: 40% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        z-index: 3 !important;
+    }
+    
+    .slide-bottom-half .project-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        padding: 0 1rem;
+    }
+    
+    .slide-bottom-half .project-text {
+        font-size: 1rem;
+        max-width: 90%;
+        padding: 0 1rem;
+    }
+    
+    .project-dots {
+        position: absolute !important;
+        bottom: 10px !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 4 !important;
+    }
+    
+    .project-slides-wrapper {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+    }
+    
+    .project-slide {
+        box-sizing: border-box !important;
+    }
+} 
