@@ -1,0 +1,23 @@
+:root {
+    /* Dark Color Scheme */
+    --primary: #0F1521; /* Dark Midnight */
+    --secondary: #7D0F1E; /* Deep Crimson */
+    --accent-gold: #B8860B; /* Dark Gold */
+    --accent-slate: #455A64; /* Deep Slate */
+    --dark-bg: #1E1E1E; /* Dark Grey */
+    --dark-tile: #262626; /* Slightly lighter than background */
+    --border-color: #333333; /* Dividers & subtle elements */
+    --text-color: #E0E0E0; /* Light grey for body text */
+    --heading-color: #FFFFFF; /* White for headings */
+    
+    /* Font variables */
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Raleway', sans-serif;
+    
+    /* Keep other values unchanged */
+    --background: #F5F5F7;
+    --light-tile: #2c4054;
+    --gradient-dark: linear-gradient(to bottom, #111922 0%, #1a2735 100%);
+    --gradient-tile: linear-gradient(135deg, var(--primary) 0%, #233446 100%);
+    --gradient-gold: linear-gradient(90deg, var(--accent-gold), #e5c14c);
+} 
