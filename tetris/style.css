@@ -18,16 +18,9 @@ canvas {
   display: inline-block;
 }
 
-.controls {
+/* Edge controls positioned outside canvas */
+.edge-btn {
   position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-}
-
-.controls button {
   width: 50px;
   height: 50px;
   font-size: 24px;
@@ -35,6 +28,25 @@ canvas {
   border: none;
   color: #fff;
   border-radius: 5px;
+  z-index: 1;
+}
+
+#left-btn {
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#right-btn {
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#down-btn {
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #reset-btn {

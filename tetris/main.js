@@ -256,10 +256,68 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Mobile touch controls
+// Mobile touch and swipe controls
+let touchStartX = null;
+let touchStartY = null;
+let touchStartTime = null;
+
 canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = Date.now();
+  }
+});
+
+canvas.addEventListener('touchend', e => {
+  if (touchStartX === null || e.changedTouches.length === 0) {
+    return;
+  }
   e.preventDefault();
-  playerRotate(1);
+  const touch = e.changedTouches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+  const threshold = 30;
+  if (absDx < threshold && absDy < threshold) {
+    // tap: rotate only if tapped on the current piece
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = COLS / rect.width;
+    const scaleY = ROWS / rect.height;
+    const x = (touch.clientX - rect.left) * scaleX;
+    const y = (touch.clientY - rect.top) * scaleY;
+    const blockX = Math.floor(x);
+    const blockY = Math.floor(y);
+    const px = blockX - player.pos.x;
+    const py = blockY - player.pos.y;
+    if (
+      py >= 0 && py < player.matrix.length &&
+      px >= 0 && px < player.matrix[0].length &&
+      player.matrix[py][px] !== 0
+    ) {
+      playerRotate(1);
+    }
+  } else {
+    if (absDx > absDy) {
+      // horizontal swipe
+      if (dx > 0) {
+        playerMove(1);
+      } else {
+        playerMove(-1);
+      }
+    } else {
+      // vertical swipe (down only)
+      if (dy > 0) {
+        playerDrop();
+      }
+    }
+  }
+  touchStartX = null;
+  touchStartY = null;
+  touchStartTime = null;
 });
 
 const leftBtn = document.getElementById('left-btn');
@@ -282,7 +340,7 @@ if (rightBtn) {
 if (downBtn) {
   downBtn.addEventListener('touchstart', e => {
     e.preventDefault();
-    playerHardDrop();
+    playerDrop();
   });
 }
 if (resetBtn) {
