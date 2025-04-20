@@ -254,7 +254,7 @@ body.dark-mode {
     color: #d6d6d6;
     transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
 }
-.dark.mode .tooltip:hover {
+.dark-mode .tooltip:hover {
     color: #fff;
     transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
 }
@@ -336,4 +336,20 @@ body.dark-mode h6 {
 /* Trigger button */
 .trigger-modal {
     cursor: pointer;
+}
+/* Additional utility classes used in HTML */
+.block {
+    display: block;
+}
+.text-3xl {
+    font-size: 1.875rem;
+}
+.font-bold {
+    font-weight: 700;
+}
+.text-lg {
+    font-size: 1.125rem;
+}
+.font-normal {
+    font-weight: 400;
 }
