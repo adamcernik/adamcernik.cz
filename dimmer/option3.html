@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Dimmer - Option 3</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        /* Video player container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+        
+        /* Video element */
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            background: url('video.png') center center no-repeat;
+            background-size: cover;
+        }
+        
+        /* Base dimmer with uniform opacity */
+        .base-dimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        
+        /* Gradient layer with top and bottom fades */
+        .gradient-dimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0) 15%,
+                rgba(0, 0, 0, 0) 85%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none; /* Let clicks pass through to base dimmer */
+        }
+        
+        /* Content container for play button and title */
+        .dimmer-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none; /* Let clicks pass through to base dimmer */
+        }
+        
+        /* Active states */
+        .base-dimmer.active,
+        .gradient-dimmer.active,
+        .dimmer-content.active {
+            opacity: 1;
+        }
+        
+        /* Play button */
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            pointer-events: auto; /* Make button clickable */
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 0 15px 25px;
+            border-color: transparent transparent transparent #ffffff;
+            margin-left: 5px;
+        }
+        
+        .video-title {
+            color: white;
+            font-size: 18px;
+            margin-top: 15px;
+            text-align: center;
+            max-width: 80%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Demo controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .control-button {
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .control-button:hover {
+            background-color: #005ea2;
+        }
+        
+        /* Code display box */
+        .code-box {
+            width: 100%;
+            background-color: #2d2d2d;
+            color: #f8f8f8;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        
+        .comment {
+            color: #6a9955;
+        }
+        
+        .property {
+            color: #9cdcfe;
+        }
+        
+        .value {
+            color: #ce9178;
+        }
+        
+        .selector {
+            color: #d7ba7d;
+        }
+        
+        /* Value explanation section */
+        .value-explanation {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .value-explanation h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Dimmer - Option 3</h1>
+        
+        <p class="description">
+            This example demonstrates a two-layer dimmer approach: a base layer with uniform opacity,
+            combined with a second layer that has gradients only at the top and bottom.
+        </p>
+        
+        <div class="controls">
+            <button class="control-button" id="toggle-dimmer">Toggle Dimmer</button>
+        </div>
+        
+        <div class="video-container" id="video-demo">
+            <!-- Static video image placeholder -->
+            <div class="video-placeholder"></div>
+            
+            <!-- Base dimmer with uniform opacity -->
+            <div class="base-dimmer active"></div>
+            
+            <!-- Gradient layer with top and bottom fades -->
+            <div class="gradient-dimmer active"></div>
+            
+            <!-- Content container -->
+            <div class="dimmer-content active">
+                <div class="play-button">
+                    <div class="play-icon"></div>
+                </div>
+                <div class="video-title">Video Title - Two-Layer Dimmer Effect</div>
+            </div>
+        </div>
+        
+        <!-- CSS Code Display -->
+        <div class="code-box"><span class="comment">/* Base dimmer with uniform opacity */</span>
+<span class="selector">.base-dimmer</span> {
+  <span class="property">position</span>: <span class="value">absolute</span>;
+  <span class="property">top</span>: <span class="value">0</span>;
+  <span class="property">left</span>: <span class="value">0</span>;
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">height</span>: <span class="value">100%</span>;
+  <span class="property">background-color</span>: <span class="value">rgba(0, 0, 0, 0.5)</span>;
+  <span class="property">opacity</span>: <span class="value">0</span>;
+  <span class="property">transition</span>: <span class="value">opacity 0.25s ease</span>;
+}
+
+<span class="comment">/* Gradient layer with top and bottom fades */</span>
+<span class="selector">.gradient-dimmer</span> {
+  <span class="property">position</span>: <span class="value">absolute</span>;
+  <span class="property">top</span>: <span class="value">0</span>;
+  <span class="property">left</span>: <span class="value">0</span>;
+  <span class="property">width</span>: <span class="value">100%</span>;
+  <span class="property">height</span>: <span class="value">100%</span>;
+  <span class="property">background</span>: <span class="value">linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0) 15%,
+    rgba(0, 0, 0, 0) 85%,
+    rgba(0, 0, 0, 0.3) 100%
+  )</span>;
+  <span class="property">opacity</span>: <span class="value">0</span>;
+  <span class="property">transition</span>: <span class="value">opacity 0.25s ease</span>;
+  <span class="property">pointer-events</span>: <span class="value">none</span>;
+}
+
+<span class="comment">/* Active states */</span>
+<span class="selector">.base-dimmer.active</span>,
+<span class="selector">.gradient-dimmer.active</span> {
+  <span class="property">opacity</span>: <span class="value">1</span>;
+}</div>
+
+        <div class="value-explanation">
+            <h3>CSS Values Explanation</h3>
+            
+            <h4>Base Dimmer Layer</h4>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>background-color</td>
+                    <td>rgba(0, 0, 0, 0.5)</td>
+                    <td>Uniform black overlay with 50% opacity that covers the entire video</td>
+                </tr>
+            </table>
+            
+            <h4>Gradient Dimmer Layer</h4>
+            <table>
+                <tr>
+                    <th>Position</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Top (0%)</td>
+                    <td>rgba(0, 0, 0, 0.3)</td>
+                    <td>Additional 30% black opacity at the very top</td>
+                </tr>
+                <tr>
+                    <td>Upper Middle (15%)</td>
+                    <td>rgba(0, 0, 0, 0)</td>
+                    <td>Completely transparent (0% opacity) - lets base layer show through</td>
+                </tr>
+                <tr>
+                    <td>Lower Middle (85%)</td>
+                    <td>rgba(0, 0, 0, 0)</td>
+                    <td>Completely transparent (0% opacity) - lets base layer show through</td>
+                </tr>
+                <tr>
+                    <td>Bottom (100%)</td>
+                    <td>rgba(0, 0, 0, 0.3)</td>
+                    <td>Additional 30% black opacity at the very bottom</td>
+                </tr>
+            </table>
+            
+            <h4>Composite Effect</h4>
+            <p>When both layers are combined:</p>
+            <ul>
+                <li><strong>Top (0%):</strong> ~65% effective opacity (0.5 base + 0.3 × 0.5 remaining = 0.65)</li>
+                <li><strong>Middle section:</strong> 50% opacity (from base layer only)</li>
+                <li><strong>Bottom (100%):</strong> ~65% effective opacity (0.5 base + 0.3 × 0.5 remaining = 0.65)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.getElementById('video-demo');
+            const baseDimmer = videoContainer.querySelector('.base-dimmer');
+            const gradientDimmer = videoContainer.querySelector('.gradient-dimmer');
+            const dimmerContent = videoContainer.querySelector('.dimmer-content');
+            const toggleButton = document.getElementById('toggle-dimmer');
+            
+            // Toggle dimmer on button click
+            toggleButton.addEventListener('click', function() {
+                baseDimmer.classList.toggle('active');
+                gradientDimmer.classList.toggle('active');
+                dimmerContent.classList.toggle('active');
+            });
+            
+            // Toggle dimmer on video container click
+            videoContainer.addEventListener('click', function() {
+                baseDimmer.classList.toggle('active');
+                gradientDimmer.classList.toggle('active');
+                dimmerContent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html> 
