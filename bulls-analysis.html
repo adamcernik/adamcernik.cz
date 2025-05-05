@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analýza e-commerce záměru - Bulls elektrokola</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #28a745;
+            --accent: #fd7e14;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --medium: #6c757d;
+            --border: #dee2e6;
+            --highlight-bg: #f1f8ff;
+            --success: #d4edda;
+            --success-border: #c3e6cb;
+            --success-text: #155724;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #003a75 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        header .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin: 1.5rem 0 0.75rem;
+        }
+        
+        h4 {
+            font-size: 1.1rem;
+            color: var(--medium);
+            margin: 1.25rem 0 0.5rem;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .intro {
+            background-color: var(--highlight-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .box {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .box-success {
+            background-color: var(--success);
+            border-color: var(--success-border);
+        }
+        
+        .box-success h3 {
+            color: var(--success-text);
+        }
+        
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag-primary {
+            background-color: var(--primary);
+        }
+        
+        .tag-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .budget-table th,
+        .budget-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+        
+        .budget-table th {
+            background-color: var(--light);
+            font-weight: 600;
+        }
+        
+        .budget-table tr:last-child td {
+            border-bottom: 2px solid var(--primary);
+            font-weight: bold;
+        }
+        
+        .priority-high {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        
+        .priority-medium {
+            color: #fd7e14;
+            font-weight: 500;
+        }
+        
+        .priority-low {
+            color: var(--medium);
+            font-weight: 500;
+        }
+        
+        .step {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.3rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .step-1:before {
+            content: "1";
+        }
+        
+        .step-2:before {
+            content: "2";
+        }
+        
+        .step-3:before {
+            content: "3";
+        }
+        
+        .step-4:before {
+            content: "4";
+        }
+        
+        .step-5:before {
+            content: "5";
+        }
+        
+        .step-6:before {
+            content: "6";
+        }
+        
+        .step h3 {
+            margin-top: 0;
+        }
+        
+        .highlight {
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .note {
+            font-style: italic;
+            color: var(--medium);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.35rem;
+            }
+            
+            h3 {
+                font-size: 1.15rem;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
+            
+            .column {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Primární analýza e-commerce záměru</h1>
+            <p>Prodej prémiových elektrokol Bulls v České republice</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <h2 style="margin-top:0">Zadání</h2>
+            <p>Cílem je spustit e-shop zaměřený na prodej prémiových horských elektrokol značky Bulls v České republice. Zakladatelé mají k dispozici dodavatele kol, sklad v Běchovicích (kapacita 20 kol) a síť partnerských míst pro výdej. E-shop poběží na platformě Shoptet.</p>
+            
+            <p>Jeden zakladatel přináší technické znalosti cyklistiky a sortimentu, druhý má zkušenosti s provozem e-shopu (projekt svetrsjelenem.cz). Startovní rozpočet je 100 000 Kč – na spuštění e-shopu, základní design a konzultace k PPC reklamě.</p>
+            
+            <p>Zakladatelé zvládnou značnou část marketingu svépomocí (sociální sítě, kampaně), externě chtějí spolupracovat s konzultantem na výkonnostní reklamě. Ceníková cena kol Bulls bude cca 80–200 tis. Kč (tj. prémiová úroveň).</p>
+            
+            <p>Prodej se plánuje zpočátku výhradně online, s výhledem případného showroomu/výdejny v Praze. Spuštění je plánováno do jednoho měsíce.</p>
+        </div>
+        
+        <section class="section" id="strengths-challenges">
+            <h2>1. Shrnutí silných stránek záměru a hlavních výzev</h2>
+            
+            <h3>Silné stránky záměru</h3>
+            <ul>
+                <li><strong>Prémiová značka Bulls:</strong> Značka elektrokol Bulls patří ke světové špičce a je považována za exkluzivního výrobce. To znamená, že e-shop bude nabízet vysoce kvalitní produkt, který osloví náročné zákazníky hledající špičková horská elektrokola. Tato kola kombinují nejmodernější technologie pohonu a know-how profesionálních cyklistů, což podporuje image kvality a výkonu.</li>
+                <li><strong>Odborné znalosti týmu:</strong> Jeden ze zakladatelů má hlubokou technickou znalost cyklistického sortimentu, což umožní fundovaně poradit zákazníkům s výběrem a zajistit kvalitní popisy produktů. Druhý zakladatel má podnikatelské zkušenosti s provozem e-shopu, což zvyšuje šanci na efektivní řízení provozu, marketingu a zákaznické podpory.</li>
+                <li><strong>Dostupný dodavatel a sklad:</strong> Přímý přístup k dodavateli kol a vlastní skladová kapacita (20 kol v Běchovicích) umožní relativně rychlé dodání zákazníkům a kontrolu nad zásobami. Další kola rozmístěná u partnerů rozšiřují dostupnost – zákazníci si mohou zboží vyzvednout v různých regionech, což usnadní logistiku a může zvýšit spokojenost (zákazník si může kolo prohlédnout při převzetí).</li>
+                <li><strong>Nízké fixní náklady zpočátku:</strong> Prodej výhradně online znamená, že zatím není potřeba investovat do kamenné prodejny (nájem, vybavení, personál). E-shop na platformě Shoptet snižuje technické bariéry – Shoptet nabízí kompletní řešení e-shopu formou SaaS za dostupný měsíční poplatek a řadu funkcí (platební brána, propojení na dopravce, Heureka a další jsou již integrovány).</li>
+                <li><strong>Tržní příležitost – rostoucí obliba elektrokol:</strong> Trh elektrokol v ČR v posledních letech dynamicky roste. Ročně se prodává přes 100 tisíc elektrokol a jejich podíl na všech prodaných kolech již tvoří zhruba třetinu. Zejména horská elektrokola jsou velmi žádaná – tvoří asi 55% prodejů elektrokol v ČR. Čeští zákazníci jsou navíc ochotni investovat do kvality; průměrná cena prodaného elektrokola v roce 2024 činila ~40 000 Kč a roste počet těch, kdo preferují vybavenější modely.</li>
+                <li><strong>Marketingové schopnosti in-house:</strong> Zakladatelé deklarují schopnost sami zajišťovat značnou část marketingu (správa sociálních sítí, tvorba obsahu, vedení kampaní). To je výhoda – ušetří se náklady na agenturu a díky znalosti produktu může být obsah autentičtější. Zároveň mohou pružně reagovat na dotazy zákazníků či trendy. Externí konzultant na PPC doplní jejich know-how o specializovanou oblast výkonnostní reklamy.</li>
+            </ul>
+            
+            <h3>Hlavní výzvy a rizika</h3>
+            <ul>
+                <li><strong>Silná konkurence na trhu e-kol:</strong> Segment prémiových elektrokol je v ČR konkurenční – existují zavedené specializované e-shopy i kamenné prodejny (např. Ekolo.cz, Svět elektrokol, kola specialisté jako Koloshop, Bikemax aj.), které prodávají Bulls i jiné značky. Někteří konkurenti disponují obrovskou skladovou zásobou (tisíce kol) a nabízejí možnost si kolo osobně vyzkoušet na prodejně a využít rozsáhlou síť servisů po celé zemi. Tato konkurence má náskok ve známosti značky, zákaznických recenzích a často i větší marketingové rozpočty.</li>
+                <li><strong>Omezený startovní rozpočet:</strong> 100 000 Kč je relativně malý kapitál na rozběh prémiového e-shopu. Z těchto prostředků se má pokrýt zprovoznění e-shopu, úpravy designu a také počáteční propagace (PPC kampaně). V kontextu toho, že malé a střední firmy běžně investují do PPC reklam i desítky tisíc měsíčně, je jasné, že rozpočet bude třeba využít velmi efektivně.</li>
+                <li><strong>Prodej drahého zboží čistě online:</strong> Přesvědčit zákazníka, aby utratil 100–200 tis. Kč za kolo bez fyzické prohlídky či zkušební jízdy, představuje výzvu v budování důvěry. U takto hodnotného produktu zákazníci často preferují si kolo osahat, projet se na něm a poradit se osobně. Online prodej musí tuto bariéru překonat vynikající prezentací produktu (detailní fotografie, videa, popisy, recenze), odbornou podporou (možnost konzultace po telefonu/chatu) a příslibem možnosti případného vrácení či servisu.</li>
+                <li><strong>Logistika objemného zboží:</strong> Elektrokola jsou rozměrná a poměrně těžká (cca 20–25 kg). Zajistit jejich bezpečné doručení zákazníkovi vyžaduje spolehlivého přepravce, pečlivé zabalení a pojištění zásilky. Náklady na dopravu jsou vyšší než u běžných balíků. Zákazníci v tomto cenovém segmentu ale budou očekávat dopravu zdarma či jiný komfort.</li>
+                <li><strong>Krátký čas na spuštění:</strong> Plán spustit e-shop do jednoho měsíce je velmi ambiciózní. Během této doby je nutné stihnout všechny přípravy – technické nastavení Shoptetu, naplnění produktů (fotky, popisy, ceny), logistické dohody s partnery a dopravci, právní náležitosti (obchodní podmínky, GDPR), a také nastartovat marketing (spuštění kampaní, obsah na sociálních sítích).</li>
+                <li><strong>Nutnost budovat značku a povědomí:</strong> Jako nový specializovaný e-shop bude zpočátku prakticky neznámý. Konkurenti jako Ekolo.cz mají značnou návštěvnost a povědomí mezi cyklisty. Bude výzvou dát cílové skupině vědět o nové možnosti nákupu kol Bulls online. Bez fyzické prodejny bude značka méně "na očích".</li>
+            </ul>
+        </section>
+        
+        <section class="section" id="implementation-steps">
+            <h2>2. Doporučený postup krok za krokem pro úspěšné spuštění</h2>
+            
+            <p>Aby se e-shop úspěšně spustil do jednoho měsíce a hned od začátku fungoval co nejlépe, je vhodné rozdělit přípravy na několik klíčových kroků:</p>
+            
+            <div class="step step-1">
+                <h3>Nastavení e-shopu na Shoptetu</h3>
+                <p>Ihned zahajte tvorbu e-shopu na platformě Shoptet (lze začít na 30 dní zdarma). Zaregistrujte vhodnou doménu (ideálně s názvem značky či kol, např. BullsEbike.cz – ověřte dostupnost). Nastavte v administraci Shoptetu veškeré základní údaje – kontakty, IČ/DIČ, fakturační údaje, platební metody a způsoby dopravy.</p>
+                <p>Využijte předpřipravené vzory Shoptetu pro obchodní podmínky a GDPR, upravte je na míru podniku. Vyberte šablonu designu z nabídky Shoptetu – zvolte tu, která se hodí pro sortiment kol (např. s dobrým zobrazením produktových fotek). Proveďte základní úpravy vzhledu pomocí dostupných nástrojů (logo, barvy, bannery).</p>
+            </div>
+            
+            <div class="step step-2">
+                <h3>Naplnění produktů a obsahová příprava</h3>
+                <p>Získejte od dodavatele kompletní data o nabízených modelech Bulls – kvalitní fotografie (ideálně více úhlů každého kola), detailní specifikace (rám, motor, baterie, komponenty), varianty velikostí rámu apod. Tyto produkty nahrajte do e-shopu.</p>
+                <p>Ke každému kolu vytvořte podrobný popis v češtině – zdůrazněte hlavní benefity modelu, pro jaký terén je určen, vyzdvihněte kvalitu Bulls. Pokud má zakladatel technické znalosti, přidejte jeho expert commentary (např. proč je daný model unikátní).</p>
+                <p>Dále připravte stránky O nás (příběh vaší firmy, mise – např. "přinášíme českým zákazníkům špičková elektrokola Bulls"), Kontakt (včetně telefonního čísla a e-mailu pro dotazy), a informace o dopravě a platbě. Zvažte přidání sekce Časté dotazy zaměřené na nákup kola online.</p>
+            </div>
+            
+            <div class="step step-3">
+                <h3>Zajištění logistiky a výdejních míst</h3>
+                <p>Paralelně dolaďte logistický plán. Domluvte se s partnery, kteří mají u sebe některá kola, jakým způsobem budou výdeje probíhat – ideálně stanovte jasný proces: zákazník si při objednávce zvolí výdejní místo (partnera), vám přijde objednávka, vy ji předáte danému partnerovi, ten připraví kolo k odběru (případně provede finální montáž) a zákazník si jej vyzvedne.</p>
+                <p>S každým partnerem si potvrďte kontaktní osobu, způsob předávání informací o objednávkách a případnou odměnu partnerovi (např. provize nebo paušál za výdej). Zajistěte také dopravu kurýrem pro zákazníky, kteří zvolí doručení domů – vyjednejte smlouvu s ověřeným přepravcem (např. PPL, Toptrans apod., ideálně s pojištěním zásilek).</p>
+                <p>Ještě před spuštěním připravte obalové materiály pro zasílání kol – pevné krabice (pokud dodavatel dodal v krabicích, lze použít ty), výztuhy, bublinkovou fólii na ochranu rámu.</p>
+            </div>
+            
+            <div class="step step-4">
+                <h3>Doladění designu a funkcionalit e-shopu</h3>
+                <p>Jakmile je základ webu a produkty připraveny, věnujte čas zlepšení uživatelského zážitku. U takto drahých produktů musí e-shop působit profesionálně. Zvažte investici do grafika či využití Shoptet Partnera pro úpravu šablony – například vytvořit kvalitní úvodní banner s promo fotkou Bulls elektrokola, zvýraznit unikátní prodejní argumenty (USP) na homepage ikonami (např. Doprava zdarma, Odborné poradenství, Záruční servis), sladit barevnost s logem Bulls.</p>
+                <p>Tyto úpravy nemusí být časově náročné (Shoptet umožňuje rychlé zásahy do CSS/HTML pro zkušené kodéry). Pokud nemáte kapacitu na větší zásahy hned, alespoň zajistěte, že vše důležité funguje – testujte přidání produktů do košíku, průchod objednávkou, platební bránu (Shoptet Pay), e-mailové notifikace.</p>
+            </div>
+            
+            <div class="step step-5">
+                <h3>Nastavení analytiky a měření</h3>
+                <p>Ještě před spuštěním ostrého provozu implementujte nástroje pro měření návštěvnosti a konverzí. Založte si účet Google Analytics 4 a propojte jej s e-shopem (Shoptet umožňuje vložit měřicí kód snadno). Nastavte také Google Search Console pro sledování indexace ve vyhledávačích.</p>
+                <p>Připravte si conversion tracking pro budoucí PPC kampaně – např. Google Ads konverzní kód pro dokončenou objednávku, Facebook Pixel (pokud budete dělat Facebook/Instagram reklamy) atd. Tato nastavení jsou technická, ale Shoptet k nim má návody a podpora partnera/konzultanta může pomoci.</p>
+                <p>Ujistěte se, že budete schopni sledovat klíčové metriky od prvního dne (počet návštěv, zdroje návštěv, konverzní poměr, tržby, míra opuštění košíku apod.).</p>
+            </div>
+            
+            <div class="step step-6">
+                <h3>Příprava marketingových kanálů (předstartovní kampaň)</h3>
+                <p>Ještě než e-shop oficiálně spustíte, připravte si půdu v marketingu:</p>
+                <ul>
+                    <li>Vytvořte si profily na sociálních sítích – minimálně Facebook a Instagram, zaměřené na značku e-shopu a kola Bulls. Naplňte je prvními příspěvky: představte, co chystáte, zveřejněte atraktivní fotografie modelů Bulls, představte tým.</li>
+                    <li>Připravte si kampaně PPC "do šuplíku": spolu s PPC konzultantem identifikujte hlavní klíčová slova pro Google Ads. Vytvořte strukturu účtu Google Ads (kampaně pro vyhledávání, případně i Google Nákupy/Shopping).</li>
+                    <li>Zvažte vytvoření účtu na Heureka.cz a Zboží.cz – tam co nejdříve nahrajte XML feed z Shoptetu.</li>
+                    <li>Připravte si drobnou e-mailingovou kampaň na start (pokud máte nějaké kontakty, třeba známé nebo zákazníky z jiných projektů, kterým by e-bike mohl být relevantní).</li>
+                    <li>Zvažte PR oznámení: Krátká tisková zpráva/blogový článek o vstupu prémiové značky Bulls na český online trh by mohla zaujmout některá cyklistická média či blogy.</li>
+                    <li>Nastavte si počáteční rozpočet pro kampaně – rozhodněte, kolik z oněch 100k půjde do prvního měsíce inzerce (např. 20–30 tis. Kč).</li>
+                </ul>
+            </div>
+            
+            <div class="box">
+                <h3>Otestování a spuštění ostrého provozu</h3>
+                <p>Než vypustíte e-shop do světa, proveďte důkladné testování. Projděte celým procesem objednávky jako zákazník (ideálně poproste někoho nezaujatého, ať zkusí objednat – třeba kolegu či známého). Otestujte různé scénáře: objednávku s doručením, s osobním odběrem, platbu online kartou i na dobírku, atd.</p>
+                <p>Jakmile jste si jisti funkčností, oficiálně spusťte e-shop – tzn. odeberte případné testovací režimy, převeďte doménu na ostrou verzi, a začněte web propagovat veřejně. V den spuštění zveřejněte oznámení na sociálních sítích, zapněte připravené PPC kampaně.</p>
+                <p>První týdny se soustřeďte na získání prvních objednávek – může pomoci např. omezená startovní sleva nebo dárek k nákupu (např. cyklistické příslušenství zdarma), aby zákazníci měli motivaci nakoupit hned.</p>
+            </div>
+            
+            <div class="box box-success">
+                <h3>Poprodejní aktivity a optimalizace</h3>
+                <p>Spuštěním práce nekončí, naopak začíná fáze zlepšování. Sledujte denně výsledky – kolik lidí chodí na web, z jakých zdrojů, jaký je konverzní poměr. Pokud některý kanál nefunguje, upravte strategii či pozastavte, abyste neplýtvali rozpočtem.</p>
+                <p>Sbírejte zpětnou vazbu od prvních zákazníků – co je zaujalo, co jim případně chybělo. Začněte budovat databázi kontaktů (ti, co souhlasili se zasíláním newsletteru) pro budoucí e-mail marketing.</p>
+                <p>Pravidelně doplňujte obsah – přidávejte nové články (např. blog s radami "Jak vybrat elektrokolo", "Jak pečovat o baterii" apod.), což zlepší SEO. Optimalizujte kampaně: PPC konzultant by měl první týdny kampaně ladit – klíčová slova, nabídky za klik, vypnout neefektivní.</p>
+            </div>
+        </section>
+        
+        <section class="section" id="budget-priorities">
+            <h2>3. Prioritizace aktivit s ohledem na rozpočet 100 000 Kč</h2>
+            
+            <p>Rozpočet 100 tisíc Kč je nutné pečlivě rozdělit tak, aby pokryl nezbytné položky pro start, a přitom co nejvíce podpořil rychlé získání zákazníků. Níže je návrh priorit a orientační rozpočtové struktury:</p>
+            
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th>Položka / aktivita</th>
+                        <th>Odhad nákladů (Kč)</th>
+                        <th>Priorita a poznámka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Platforma Shoptet – tarif na 6 měsíců</td>
+                        <td>6 000 (cca 1 000/měs.)</td>
+                        <td><span class="priority-high">Vysoká</span> – nezbytný základ pro provoz e-shopu.</td>
+                    </tr>
+                    <tr>
+                        <td>Doména a základní SSL</td>
+                        <td>500</td>
+                        <td><span class="priority-high">Vysoká</span> – roční poplatek za doménu (.cz) a SSL je v ceně Shoptetu.</td>
+                    </tr>
+                    <tr>
+                        <td>Grafický design a úprava šablony</td>
+                        <td>10 000</td>
+                        <td><span class="priority-high">Vysoká</span> – investice do profesionálnějšího vzhledu (např. logo, bannery, CSS úpravy) zvýší důvěryhodnost.</td>
+                    </tr>
+                    <tr>
+                        <td>Produktové materiály</td>
+                        <td>0 – 5 000</td>
+                        <td><span class="priority-high">Vysoká</span> – kvalitní fotografie možná dodá dodavatel zdarma. Případně menší částka na vlastní fotografie či video ukázky.</td>
+                    </tr>
+                    <tr>
+                        <td>PPC konzultant (start kampaní)</td>
+                        <td>15 000</td>
+                        <td><span class="priority-medium">Střední</span> – důležité pro rychlé rozběhnutí výkonné reklamy. Může jít o jednorázovou částku za nastavení kampaní a školení zakladatelů.</td>
+                    </tr>
+                    <tr>
+                        <td>Počáteční PPC rozpočet (1–2 měsíce)</td>
+                        <td>30 000</td>
+                        <td><span class="priority-high">Vysoká</span> – palivo pro získání návštěv a prvních objednávek. Návrh: 15k Google, 5k Seznam, 5k Facebook, 5k rezerva/optimalizace.</td>
+                    </tr>
+                    <tr>
+                        <td>Základní poradenství pro SEO/obsah</td>
+                        <td>0</td>
+                        <td><span class="priority-medium">Střední</span> – lze řešit vlastními silami (články, popisky). Investice spíše času než peněz.</td>
+                    </tr>
+                    <tr>
+                        <td>Rezerva na nepředvídané výdaje</td>
+                        <td>~5 000</td>
+                        <td><span class="priority-medium">Střední</span> – polštář pro věci jako dodatečné doplňky Shoptet, drobná právní konzultace, nebo první měsíce provozních nákladů.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Celkem (orientačně)</strong></td>
+                        <td><strong>~100 000</strong></td>
+                        <td>Pokryje základní zajištění spuštění a marketing rozjezdu.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="box">
+                <h3>Komentář k prioritám</h3>
+                <p>Absolutní prioritou je zprovoznění funkčního e-shopu a důvěryhodná prezentace produktů – proto první část rozpočtu jde na platformu, doménu a design. Bez těchto základů by drahé PPC návštěvníky nepřesvědčilo k nákupu.</p>
+                <p>Dále, neméně důležitá je alokace dostatečné sumy na marketing (PPC kampaně). I sebelepší e-shop nevygeneruje tržby bez návštěvnosti. Proto navrhujeme kolem 30% rozpočtu (cca 30 tis. Kč) přímo do kreditu reklam, a dalších ~15% (15k) na expertní nastavení, aby peníze byly využity efektivně.</p>
+                <p>Ostatní aktivity se snažíme řešit svépomocí nebo nízkonákladově. Například obsah (popisy, články) vytvoří zakladatelé sami, focení produktů snad zajistí dodavatel.</p>
+            </div>
+            
+            <h3>Kde případně ušetřit nebo co odložit</h3>
+            <p>Pokud by 100k bylo napjatých, lze ušetřit například na profesionálním designu (využít jen defaultní šablonu Shoptet a upravit svépomocí – zakladatel se zkušeností s e-shopem to může zvládnout dostatečně). Dále je možné omezit počáteční PPC rozpočet třeba na 20k Kč a zbytek investovat až po prvních objednávkách (ze získaných tržeb). Nicméně to zpomalí akvizici zákazníků.</p>
+            <p>Důležité je nešetřit na věcech, které přímo ovlivňují konverzi – například naprosté minimum je mít responzivní a rychlý web, kvalitní fotografie a jasné informace.</p>
+            
+            <h3>Postup investic v čase</h3>
+            <p>Na úplném začátku (první měsíc) padne část rozpočtu na setup (Shoptet, design) a zbytek půjde do marketingu během prvních třeba tří měsíců. Je nutné bedlivě sledovat, jak se investice vrací. Pokud by např. po utracení 20 tis. Kč za reklamy nepřišla žádná objednávka, je třeba se zastavit a hledat chybu (targeting? web?).</p>
+            <p>V ideálním případě se ale z prvních kampaní povede získat několik objednávek – ty přinesou tržby (řádově jednotky statisíc Kč) a z nich marže, kterou lze opět investovat do dalšího rozvoje.</p>
+        </section>
+        
+        <section class="section" id="marketing-strategy">
+            <h2>4. Návrh marketingové a reklamní strategie</h2>
+            
+            <p>Marketingová strategie se zaměří na výkonnostní online kanály (PPC), podporené obsahem a komunitním marketingem, aby se co nejdříve začaly generovat prodeje a postupně budovala značka e-shopu.</p>
+            
+            <div class="box">
+                <h3>Cílová skupina</h3>
+                <p>Pravděpodobně půjde o muže i ženy ve věku cca 30–60 let, se středními a vyššími příjmy, nadšené cyklisty, případně technologické nadšence. Někteří mohou být sportovci hledající špičkové vybavení, jiní třeba aktivní senioři či manažeři, kteří si chtějí usnadnit horskou cyklistiku pomocí elektrokola, ale přitom chtějí prémiovou kvalitu.</p>
+            </div>
+            
+            <h3>Hlavní marketingové kanály a taktiky</h3>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>PPC reklama ve vyhledávání (Google Ads, Seznam Sklik)</h4>
+                    <p>Toto bude klíčový kanál pro okamžité oslovení zákazníků s jasným záměrem nákupu. Nastavte Google Ads kampaně cílené na relevantní klíčová slova. Prioritou jsou brandové dotazy typu "Bulls elektrokolo [model]" – pokud někdo hledá konkrétní model Bulls, chceme ho zachytit a nabídnout mu náš e-shop.</p>
+                    <p>V inzerátech zdůrazněte konkurenční výhody: např. "Oficiální prodejce Bulls – skladem v ČR", "Doprava zdarma, servis v ceně" (pokud to nabízíte), "Možnost osobního odběru" atd.</p>
+                    <p><span class="highlight">Výkonnostní metriky:</span> Sledujte míru prokliku (CTR) u reklam – ta napoví, zda inzerát oslovuje (u velmi úzce cílených klíčových slov může být CTR i 5% a více). Cena za proklik (CPC) bude zřejmě vyšší (odhadem 10–30 Kč i více podle konkurence).</p>
+                </div>
+                <div class="column">
+                    <h4>Produktové reklamy a srovnávače zboží</h4>
+                    <p>Využijte naplno kanály jako Google Nákupy (Shopping) a české srovnávače Heureka.cz a Zbozi.cz. Google Shopping zobrazí přímo obrázek kola, cenu a váš obchod při relevantním hledání – to je velmi efektivní způsob, jak zaujmout ty, co porovnávají konkrétní produkty.</p>
+                    <p>Ujistěte se, že máte aktualizovaný XML feed produktů (Shoptet jej generuje automaticky) a registrujte e-shop do Google Merchant Center, Heuréky a Zboží.</p>
+                    <p><span class="highlight">Výkonnostní metriky:</span> sledujte náklad / obrat (PNO) na Heuréce a Zboží – udržitelná hodnota závisí na marži; např. pokud máte marži 20%, chcete PNO < 20% (ideálně 10–15%).</p>
+                </div>
+            </div>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>Sociální sítě (Facebook/Instagram reklama)</h4>
+                    <p>Na Facebooku a Instagramu můžete cílit na uživatele podle zájmů – např. "horská cyklistika", "elektrokola", nebo fanoušky stránek konkurence. Výkonnostní reklama na soc. sítích může fungovat pro retargeting (oslovit znovu lidi, co byli na webu a nekoupili) i pro akvizici povědomí.</p>
+                    <p>Vzhledem k omezenému rozpočtu zde postupujte opatrně – spíše než plošné kampaně zkuste dynamický remarketing (ukáže lidem přesně ta kola, na která se dívali, s výzvou k návratu).</p>
+                    <p><span class="highlight">Metriky:</span> u kampaní sledujte CPC a CTR (u Facebooku spíše cost-per-engagement nebo per-click). Důležité je vyhodnocovat konverze – nastavte Facebook Pixel, abyste viděli, kolik objednávek přišlo z FB/IG.</p>
+                </div>
+                <div class="column">
+                    <h4>Obsahový marketing a SEO</h4>
+                    <p>I s minimálním rozpočtem je nutné myslet na dlouhodobé SEO, aby e-shop získával návštěvnost i organicky (bez placení za klik). Zakladatel s odbornými znalostmi může psát články – např. recenze jednotlivých modelů Bulls, srovnání motorů Bosch vs Shimano, rady pro údržbu e-kola apod.</p>
+                    <p>SEO optimalizace produktových stránek: ujistěte se, že každé kolo má unikátní titulek a meta description obsahující klíčová slova ("Bulls Sonic EVO AM3 2024 elektrokolo"). Vyplňte všechny technické parametry v Shoptetu (motor, kapacita baterie, velikost kol…).</p>
+                </div>
+            </div>
+            
+            <h4>E-mail marketing a CRM</h4>
+            <p>Od začátku umožněte sběr kontaktů – formulář pro odběr newsletteru (např. výměnou za slevový kód na příslušenství). Až se databáze trošku naplní, využijte e-mail k udržení vztahu se zákazníky: posílejte novinky (nové modely, sezónní nabídky), tipy a triky, nebo speciální akce.</p>
+            <p>E-mail má výbornou ROI, protože náklady jsou nízké. Dále budujte CRM – evidujte si zákazníky a jejich kola (např. kdo koupil jaký model a kdy), abyste jim po čase mohli nabídnout servisní prohlídku nebo upgrade.</p>
+            
+            <h3>Výkonnostní metriky ke sledování</h3>
+            <ul>
+                <li><strong>Návštěvnost a zdroje:</strong> Po spuštění sledujte denní návštěvy webu a podíl zdrojů (organické vyhledávání, PPC, sociální sítě, přímé návštěvy). První měsíc třeba 100–200 návštěv denně, poté i více.</li>
+                <li><strong>Míra prokliku (CTR) u reklam:</strong> Jak již zmíněno, vysoké CTR naznačuje, že reklama je relevantní. Např. u Google Ads u úzce cílených slov očekávejte CTR > 5%. Pokud jsou čísla nízká (&lt;1%), je třeba lépe zacílit nebo napsat poutavější inzerát.</li>
+                <li><strong>Konverzní poměr e-shopu:</strong> Klíčová metrika – procento návštěvníků, kteří nakoupí. Ideální konverzní poměr e-shopů bývá 2–5%. V našem prémiovém segmentu může být zpočátku nižší.</li>
+                <li><strong>Počet objednávek a průměrná hodnota objednávky:</strong> Sledujte, kolik objednávek denně/týdně přichází. Zpočátku jich asi bude jednotky za týden. Průměrná hodnota by mohla být kolem 100–150 tis. Kč.</li>
+                <li><strong>Náklady na konverzi (CPA) a ROAS:</strong> U placených kampaní vypočítejte cost per acquisition (CPA) – kolik stojí jedna objednávka v průměru z daného kanálu. ROAS (Return on Ad Spend) je obráceně poměr tržeb k nákladům na reklamu.</li>
+                <li><strong>Míra opuštění košíku:</strong> Poměr lidí, kteří vloží zboží do košíku, ale nedokončí objednávku. U drahého zboží to může být vyšší, protože zákazník třeba váhá.</li>
+            </ul>
+            
+            <div class="box">
+                <p>Shrnuto, marketingová strategie kombinuje okamžité výkonnostní kampaně (PPC, srovnávače) k získání prodejů a dlouhodobé budování značky a organiky (obsah, SEO, sociální sítě, recenze). Důsledným měřením a optimalizací podle výše zmíněných metrik zajistíte, že peníze vydané za marketing se budou vracet v tržbách.</p>
+            </div>
+        </section>
+        
+        <section class="section" id="logistics">
+            <h2>5. Doporučení k logistice, výdeji a případnému showroomu</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Doručování a přeprava kol</h3>
+                    <p>Pro zásilkovou službu zvolte ověřeného dopravce, který má zkušenosti s přepravou kol či rozměrných zásilek. V ČR má dobré reference např. PPL (speciální služba pro jízdní kola), DHL, nebo Geis (teď pod DPD cargo).</p>
+                    <p>Zásilku pojistěte na plnou hodnotu kola pro případ poškození či ztráty. Doporučuje se kolo před odesláním kompletně seřídit (zkontrolovat brzdy, převody) a poté částečně demontovat jen nutné části (většinou řídítka otočit nebo sundat, pedály odmontovat) aby se vešlo do krabice.</p>
+                    <p>Přiložte podrobný návod k opětovnému složení pro zákazníka (v ideálním případě i s fotografiemi nebo odkazem na video).</p>
+                </div>
+                <div class="column">
+                    <h3>Doprava zdarma</h3>
+                    <p>V této cenové kategorii by měla být doprava zdarma standardem – zákazník investující 100k očekává, že dopravu neplatí. Náklady cca 300–800 Kč na přepravu k vám, jako prodejci, se rozpustí v marži.</p>
+                    <p>Můžete to komunikovat jako benefit ("Doručení zdarma po celé ČR do 2 dnů" apod.). Alternativně můžete nabídnout i osobní doručení v okolí Prahy vlastní dopravou (pokud to zvládnete časově) – osobní předání umožní navázat vztah se zákazníkem a případně rovnou na místě seřídit detaily kola.</p>
+                </div>
+            </div>
+            
+            <h3>Osobní odběr u partnerů</h3>
+            <p>Jelikož již máte partnery s rozloženými koly, maximálně toho využijte v marketingu – uveďte na webu, že nabízíte osobní vyzvednutí v určitých městech (vyjmenujte, kde jsou partneři). Někteří zákazníci upřednostní osobní odběr, aby se vyhnuli rizikům dopravy a třeba se na kolo hned podívali.</p>
+            <p>S partnery si domluvte, zda umožní zákazníkovi v místě krátkou zkušební jízdu (byť jen okolo prodejny) – to by byl velký bonus a zvýšení šance prodeje. Partner by také mohl zajistit záruční servis – ideálně pokud jsou to cykloservisy.</p>
+            <p>Pro hladký průběh výdeje je dobré předem zákazníkovi potvrdit, kdy kolo na výdejním místě bude připraveno. Partnerovi zase poskytněte kopii faktury nebo dodací list, aby měl přehled, co vydává.</p>
+            
+            <h3>Řešení servisních požadavků a vratek</h3>
+            <p>U e-shopu musíte počítat i s tím, že zákazník má zákonné právo do 14 dnů zboží vrátit. U kola za 100k to nerad uslyšíte, ale je to potřeba akceptovat. Připravte si plán: pokud někdo chce kolo vrátit, jak to provede?</p>
+            <p>Nabídněte třeba, že vy osobně zajistíte odvoz kola zpět (aby se minimalizovalo poškození a zákazník s tím neměl práci). Případně by to mohl opět řešit partner v místě – zákazník by kolo donesl tam a vy si ho od partnera odvezete.</p>
+            <p>Co se týče reklamací (např. závada motoru), ideální je síť servisů. Zjistěte u dodavatele Bulls, zda nemá oficiální servisní centra v ČR – pokud ano, můžete zákazníka nasměrovat tam s tím, že vy pokryjete komunikaci.</p>
+            
+            <h3>Showroom nebo kamenné zázemí do budoucna</h3>
+            <p>Z krátkodobého hlediska (první rok) se budete soustředit na online. Výhledově ale dává smysl otevřít showroom/výdejnu v Praze. Může to být i malý showroom spojený se skladem – např. v Běchovicích máte sklad 20 kol; pokud prostor dovolí, můžete jej částečně upravit na předváděcí místnost, kam se zákazník po domluvě může přijít podívat a kolo vyzkoušet.</p>
+            <p>Kdy do toho jít? Až bude jasné, že prodeje rostou a významná část zákazníků by uvítala osobní kontakt. Můžete například po půl roce zjistit, že spousta lidí volá a ptá se, zda se mohou na kola podívat – to je signál, že showroom by konverze zvýšil.</p>
+            <p>Z finančního hlediska počítejte, že provoz kamenné prodejny v Praze může stát desítky tisíc měsíčně (nájem, služby, personál) – proto to musí být podloženo odpovídajícím obratem e-shopu, jinak by to ohrozilo cashflow.</p>
+        </section>
+        
+        <section class="section" id="future-expansion">
+            <h2>6. Možné formy spolupráce s partnery a rozšíření do budoucna</h2>
+            
+            <p>Do budoucna existuje několik směrů, jak e-shop rozvíjet – ať už prohloubením spolupráce s partnery, nebo expanzí sortimentu a služeb. Zde je přehled možných forem spolupráce a rozvojových příležitostí:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="box">
+                        <h3>Rozšíření sítě partnerských výdejních a servisních míst</h3>
+                        <p>Stávající partneři (výdejny) mohou být začátkem. Pokud se koncept osvědčí, lze oslovit další cyklo prodejny či servisy v dalších regionech ČR, aby fungovaly jako partnerská odběrná místa pro Bulls e-shop.</p>
+                        <p>Výhoda: pokrytí většího území, zákazník si vybere místo nejblíž jeho bydlišti. Partner získá provizi z prodeje nebo zvýší šanci, že u něj zákazník utratí za doplňky či servis.</p>
+                    </div>
+                    
+                    <h3>Servisní spolupráce a poprodejní služby</h3>
+                    <p>Navážete-li úzké vztahy s cykloservisy (mohou to být totožní partneři jako výdejny, nebo i jiní), můžete nabízet k prodaným kolům zvýhodněné servisní služby. Např. roční servisní prohlídka zdarma u partnerského servisu, výměna opotřebených dílů se slevou, apod.</p>
+                    <p>Do budoucna lze uvažovat i o mobilním servisu (dodávka vybavená pro opravy, která dojede k zákazníkovi domů) – třeba ve spolupráci s existující mobilní cyklodílnou.</p>
+                    
+                    <h3>Financování a splátkový prodej</h3>
+                    <p>Cena 80–200k je pro mnoho lidí vysoká jednorázově. Už od začátku zvažte spolupráci s poskytovateli spotřebitelských úvěrů na splátky (např. Cofidis, HomeCredit aj.). Shoptet má modul Cofidis iPlatba, který umožní zákazníkům pohodlně nakoupit na splátky online.</p>
+                </div>
+                <div class="column">
+                    <h3>Affiliate program a provizní partneři</h3>
+                    <p>Můžete zavést affiliate program, kde blogeři, média nebo influenceři, kteří přivedou zákazníka, dostanou provizi z prodeje. To by mohlo motivovat např. majitele cyklistických webů psát o vašem e-shopu a odkazovat.</p>
+                    <p>Provize by mohla být třeba 3–5% z ceny kola (tj. 3–10k za prodej – což je pro ně atraktivní částka).</p>
+                    
+                    <h3>Influenceři a ambasadoři značky</h3>
+                    <p>Navázání spolupráce s cyklistickými influencery či sportovci může značku zviditelnit. Např. oslovit známého bikera, zda by nechtěl jezdit na Bulls e-biku výměnou za slevu či provizi z doporučení.</p>
+                    <p>Nebo menší mikro-influencery (cyklo nadšenci s 5-10k sledujícími), kterým půjčíte kolo na testování a oni o tom natočí video/napíšou recenzi.</p>
+                    
+                    <h3>Rozšíření sortimentu</h3>
+                    <p>Jakmile se e-shop etablueje s elektrokoly Bulls, lze uvažovat o širším sortimentu pro cross-selling. Například začít nabízet i příslušenství k elektrokolům – značkové helmy, cyklo oblečení, náhradní díly (baterie, nabíječky, pláště).</p>
+                    <p>Také se nabízí rozšířit portfolio elektrokol – Bulls má různé modely (městská, trekkingová, dětská e-kola), případně přidat příbuzné prémiové značky (pokud by dodavatel umožnil více značek).</p>
+                </div>
+            </div>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Expanze na zahraniční trhy</h3>
+                    <p>Pokud uspějete v ČR, logickým krokem může být rozšíření do Slovenska (minimální jazyková bariéra, Shoptet umí vícejazyčné mutace). Už nyní můžete zvážit, že e-shop spustíte dvojjazyčně (CZ/SK) a nabídnete dodání i na Slovensko.</p>
+                    <p>Budgetově to není velká zátěž (jen přeložit obsah do slovenštiny, což lze interně), a rozšíří se potenciální trh. Další případné trhy (Německo, Polsko) jsou složitější kvůli konkurenci a jazyku, to spíše až po několika letech úspěchu.</p>
+                </div>
+                <div class="column">
+                    <h3>Fyzická přítomnost a franšízy</h3>
+                    <p>Kromě vlastního showroomu v Praze by šlo uvažovat i o franšízovém konceptu – najít podnikatele v jiných velkých městech (Brno, Ostrava apod.), kteří by si pod vaší značkou otevřeli showroom Bulls a fungovali by jako partneři.</p>
+                    <p>Vy byste jim dodávali kola, online systém a know-how, oni by investovali do prodejny a personálu. To už je komplexnější model, vyžadující silnou značku a dohled nad kvalitou, ale může to být cesta jak fyzicky pokrýt celý trh bez obří vlastní investice.</p>
+                </div>
+            </div>
+            
+            <h3>Spolupráce s firemní sférou</h3>
+            <p>Prémiová elektrokola by mohla zajímat i firmy – např. jako benefity pro zaměstnance (některé firmy nakupují kola pro zaměstnance v rámci wellness programů) nebo pro půjčovny/rezorty. Můžete tedy oslovit například korporátní klienty či hotely v horských oblastech, zda nechtějí flotilu Bulls e-biků.</p>
+            
+            <h3>Značkové akce a komunita</h3>
+            <p>Pro budoucí rozvoj značky e-shopu (a Bulls v ČR) zvažte pořádání či sponzorování akcí. Například testovací dny Bulls – domluvit se s partnerem nebo v rámci nějaké cyklo akce (veletrh, závod), že přivezete x kol Bulls a lidé si je mohou projet.</p>
+            <p>Nebo uspořádat sraz majitelů Bulls elektrokol (buduje loajalitu a získáte obsah na sítě). Také můžete spolupracovat s organizátory závodů e-biků, event. postavit vlastní firemní tým na závody apod.</p>
+            
+            <div class="box box-success">
+                <h3>Shrnutí</h3>
+                <p>Záměr e-shopu s elektrokoly Bulls má solidní základy v silné značce a zkušenostech týmu. Bude důležité efektivně využít omezený rozpočet na klíčové aktivity (e-shop, marketing) a překonat počáteční nedůvěru zákazníků čistě online nákupu.</p>
+                <p>Krok za krokem, s důrazem na kvalitu servisu a marketingovou preciznost, lze vybudovat specializovaný prémiový e-shop, který se prosadí mezi konkurencí. Do budoucna pak otevřené možnosti partnerství a expanze mohou z projektu učinit významného hráče na poli elektrokol v ČR.</p>
+                <p>Systematickou prací na výše zmíněných oblastech by si měl e-shop postupně získat jméno a stabilní zákaznickou základnu, která ocení kvalitu značky Bulls i služeb prodejce.</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
