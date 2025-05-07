@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam Cernik's Design Tasks Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #0055a4;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #0055a4;
+            border-bottom: 2px solid #0055a4;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+        
+        .task-card {
+            background: #f9f9f9;
+            border-left: 5px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .high-priority {
+            border-left-color: #e74c3c;
+        }
+        
+        .normal-priority {
+            border-left-color: #f39c12;
+        }
+        
+        .low-priority {
+            border-left-color: #3498db;
+        }
+        
+        .on-hold {
+            border-left-color: #95a5a6;
+            opacity: 0.8;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .task-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .task-id {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .task-description {
+            margin-top: 10px;
+        }
+        
+        .progress-bar-container {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: #2ecc71;
+        }
+        
+        .task-notes {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .status-label {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-in-progress {
+            background-color: #2ecc71;
+        }
+        
+        .status-reopen {
+            background-color: #9b59b6;
+        }
+        
+        .status-waiting {
+            background-color: #f1c40f;
+        }
+        
+        .status-new {
+            background-color: #3498db;
+        }
+        
+        .status-blocked {
+            background-color: #e74c3c;
+        }
+        
+        .status-on-hold {
+            background-color: #95a5a6;
+        }
+        
+        .action-needed {
+            background-color: #ffedda;
+            border-left: 5px solid #ff9800;
+            padding: 10px 15px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .target-version {
+            background-color: #e8f4fd;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+        
+        .summary-section {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .summary-data {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 120px;
+        }
+        
+        .summary-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0055a4;
+        }
+        
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .next-meeting {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .next-meeting h3 {
+            margin-top: 0;
+            color: #0055a4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Adam Cernik's Design Tasks Overview</h1>
+    
+    <div class="summary-section">
+        <h2>Summary Dashboard</h2>
+        <div class="summary-data">
+            <div class="summary-item">
+                <div class="summary-number">7</div>
+                <div class="summary-label">In Progress</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">1</div>
+                <div class="summary-label">Reopened</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">1</div>
+                <div class="summary-label">Waiting</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">5</div>
+                <div class="summary-label">New/Blocked/Hold</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-number">65.25</div>
+                <div class="summary-label">Estimated Hours</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="next-meeting">
+        <h3>Next Bi-Weekly Meeting: 19.05.2025</h3>
+        <p><strong>Key topics:</strong> Present focused items with borders prototype, provide update on Hero/Big Lane gradient contrast issue, discuss navigation bar selected tabs issue</p>
+    </div>
+
+    <h2>Priority Tasks This Week</h2>
+    
+    <div class="task-card normal-priority">
+        <div class="task-header">
+            <div class="task-title">Implement redesigned live edge button (+ UX for live indicator)</div>
+            <div class="task-id">#73529</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-reopen">Reopened</span></div>
+            <div>Priority: Normal</div>
+            <div>Target: <span class="target-version">Android 6.11.0 NEXT</span></div>
+            <div>Time spent: 7h</div>
+        </div>
+        <div class="task-description">
+            <p>Implement the redesigned live edge button and live indicator UI/UX with three states:</p>
+            <ol>
+                <li>Not watching live edge: Show jump-to-live button on right side</li>
+                <li>User selects button: Button disappears, focus moves to seekbar, live indicator shows</li>
+                <li>User leaves live mode: Indicator hides, jump-to-live button reappears</li>
+            </ol>
+        </div>
+        <div class="action-needed">
+            ✅ Update ticket with implementation details from Teams! Meeting note: "Kann implementiert werden."
+        </div>
+    </div>
+    
+    <div class="task-card high-priority">
+        <div class="task-header">
+            <div class="task-title">Design: [Access-69/109]: Live: Bad contrast for player controls</div>
+            <div class="task-id">#74830</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-in-progress">In Progress</span></div>
+            <div>Priority: High</div>
+            <div>Target: <span class="target-version">Android 6.11.0 NEXT</span></div>
+            <div>Time spent: 13h</div>
+        </div>
+        <div class="task-description">
+            <p>Improve the contrast/gradient for player controls to ensure better visibility and accessibility (min. 3:1 contrast ratio).</p>
+        </div>
+        <div class="task-notes">
+            Meeting note: "Ist abgenommen. Es hätte auch gereicht deren ihr Gradient zu kopieren und Astufungen zu reduzieren"
+        </div>
+    </div>
+
+    <h2>TV Focus States Design Work</h2>
+    
+    <div class="task-card high-priority">
+        <div class="task-header">
+            <div class="task-title">[Design] TV: Develop prototypes for focused items with borders</div>
+            <div class="task-id">#74613</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-waiting">Waiting for approval</span></div>
+            <div>Priority: High</div>
+            <div>Target: <span class="target-version">Android 6.11.0 NEXT</span></div>
+            <div>Est. time: 35h</div>
+            <div>Time spent: 6h</div>
+        </div>
+        <div class="task-description">
+            <p>Create design prototypes for focused states with white borders for different elements:</p>
+            <ul>
+                <li>Standard lane item</li>
+                <li>Grid item</li>
+                <li>Buttons</li>
+                <li>Category boxes</li>
+            </ul>
+            <p><strong>Key decisions needed:</strong></p>
+            <ul>
+                <li>White vs. purple-blue background?</li>
+                <li>Border appearance</li>
+                <li>Scaling factor</li>
+                <li>How do different focused states work together on the same page</li>
+            </ul>
+        </div>
+        <div class="action-needed">
+            ✅ Present current state and clarify open questions at next meeting (19.05)
+        </div>
+    </div>
+    
+    <div class="task-card high-priority">
+        <div class="task-header">
+            <div class="task-title">[Design] TV: Create button component with white border</div>
+            <div class="task-id">#74881</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-in-progress">In Progress</span></div>
+            <div>Priority: High</div>
+            <div>Target: <span class="target-version">Android 6.11.0 NEXT</span></div>
+            <div>Time spent: 12.01h</div>
+        </div>
+        <div class="task-description">
+            <p>Create button component with white border for TV platforms (part of the focused items redesign).</p>
+        </div>
+    </div>
+    
+    <div class="task-card normal-priority">
+        <div class="task-header">
+            <div class="task-title">Design: Redesign UI Elements on TV (active, focused, selected States)</div>
+            <div class="task-id">#73110</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-in-progress">In Progress</span></div>
+            <div>Priority: Normal</div>
+            <div>Target: <span class="target-version">Android 6.11.0 NEXT</span></div>
+            <div>Time spent: 19.75h</div>
+        </div>
+        <div class="task-description">
+            <p>Redesign UI Elements on TV with consistent styling of active, selected, focused states:</p>
+            <ul>
+                <li>Action Buttons</li>
+                <li>Icon Buttons</li>
+                <li>List Items in Modals</li>
+            </ul>
+            <p><strong>Current issues:</strong></p>
+            <ul>
+                <li>Inconsistent button styling throughout the apps</li>
+                <li>No proper default state (button has no background when not selected)</li>
+                <li>Hard to tell if a button is selected (only changes size, not styling)</li>
+                <li>Too many button hierarchies</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Other In-Progress Tasks</h2>
+    
+    <div class="task-card normal-priority">
+        <div class="task-header">
+            <div class="task-title">Design: Episode preview screen: Add design for missing episode detail genre/category</div>
+            <div class="task-id">#73097</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-in-progress">In Progress</span></div>
+            <div>Priority: Normal</div>
+            <div>Est. time: 10h</div>
+            <div>Time spent: 0.42h</div>
+        </div>
+        <div class="task-description">
+            <p>Add design for missing episode detail genre/category on the episode preview screen.</p>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 4%;"></div>
+        </div>
+    </div>
+
+    <h2>Blocked/On Hold Tasks (For Future Discussion)</h2>
+    
+    <div class="task-card high-priority on-hold">
+        <div class="task-header">
+            <div class="task-title">Design: Accessibility: Hero/Big Lane/Archive etc.: Improve gradient/contrast for text on image</div>
+            <div class="task-id">#72811</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-blocked">Blocked</span></div>
+            <div>Priority: High</div>
+            <div>Time spent: 7h</div>
+        </div>
+        <div class="task-description">
+            <p>Improve the gradient/contrast for text on images in Hero, Big Lane, Archive and other components to enhance readability and accessibility.</p>
+        </div>
+        <div class="action-needed">
+            ✅ Prepare status update for next meeting (19.05). Meeting note: "Status? Wann gibt es hierzu ein Update?"
+        </div>
+    </div>
+    
+    <div class="task-card high-priority on-hold">
+        <div class="task-header">
+            <div class="task-title">Design: [Access-49/80] Bottom tab/navigation bar: selected tabs are hardly recognizable as such</div>
+            <div class="task-id">#74824</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-on-hold">On Hold</span></div>
+            <div>Priority: High</div>
+            <div>Time spent: 19.75h</div>
+        </div>
+        <div class="task-description">
+            <p>Improve the visual distinction of selected tabs in the bottom navigation bar to make them more recognizable.</p>
+        </div>
+        <div class="task-notes">
+            Meeting note: "Kein Update, weiterhin abwarten -> nachfragen am 19.05"
+        </div>
+    </div>
+
+    <h2>New Tasks (Lower Priority)</h2>
+    
+    <div class="task-card normal-priority">
+        <div class="task-header">
+            <div class="task-title">Design: Android tv platforms: Instant page load when switching menu items</div>
+            <div class="task-id">#79505</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-new">New</span></div>
+            <div>Priority: Normal</div>
+            <div>Est. time: 10h</div>
+        </div>
+        <div class="task-description">
+            <p>Create design for instant page loading when switching between menu items on Android TV platforms.</p>
+        </div>
+    </div>
+    
+    <div class="task-card normal-priority">
+        <div class="task-header">
+            <div class="task-title">Implement updated icons</div>
+            <div class="task-id">#74532</div>
+        </div>
+        <div class="task-meta">
+            <div><span class="status-label status-new">New</span></div>
+            <div>Priority: Normal</div>
+            <div>Time spent: 2h</div>
+        </div>
+        <div class="task-description">
+            <p>Implement updated icons across the platform.</p>
+        </div>
+    </div>
+</body>
+</html>
