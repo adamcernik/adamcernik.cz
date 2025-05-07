@@ -246,15 +246,38 @@
             <div>Time spent: 7h</div>
         </div>
         <div class="task-description">
-            <p>Implement the redesigned live edge button and live indicator UI/UX with three states:</p>
+            <p><strong>Agreed Implementation Details (from Flo):</strong></p>
             <ol>
-                <li>Not watching live edge: Show jump-to-live button on right side</li>
-                <li>User selects button: Button disappears, focus moves to seekbar, live indicator shows</li>
-                <li>User leaves live mode: Indicator hides, jump-to-live button reappears</li>
+                <li><strong>Not watching live edge:</strong> 
+                    <ul>
+                        <li>Show "jump-to-live" button on right side of player controls (default state)</li>
+                        <li>When navigating to the icon, it switches to focused state</li>
+                    </ul>
+                </li>
+                <li><strong>User selects "jump-to-live" button:</strong>
+                    <ul>
+                        <li>Button disappears completely</li>
+                        <li>Focus state moves to the seekbar (since button is no longer available)</li>
+                        <li>Live indicator appears on the left side above seekbar</li>
+                    </ul>
+                </li>
+                <li><strong>User leaves live mode (via seekbar or older episode):</strong>
+                    <ul>
+                        <li>Live indicator disappears</li>
+                        <li>"jump-to-live" button reappears in default state</li>
+                    </ul>
+                </li>
             </ol>
+            <p><strong>Additional Considerations:</strong></p>
+            <ul>
+                <li>Currently, the live indicator only exists on Android TV</li>
+                <li>For tvOS: Implement the same design pattern (this is a new feature for tvOS)</li>
+                <li>Per Verena's suggestion: Consider transforming the jump-to-live button into a non-clickable live indicator icon after activation</li>
+                <li>Per Flo's feedback: Show live indicator on left side when in live mode</li>
+            </ul>
         </div>
         <div class="action-needed">
-            ✅ Update ticket with implementation details from Teams! Meeting note: "Kann implementiert werden."
+            ✅ Update Figma designs based on conversations and check the Figma TV Library for Secondary Controls Component (jump-to-live states)
         </div>
     </div>
     
