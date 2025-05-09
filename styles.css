@@ -1,131 +1,285 @@
- * {
+/* Modern CSS Reset and Base Styles */
+:root {
+    --primary-color: #007BFF;
+    --text-color: #333;
+    --bg-color: #f9f9f9;
+    --dark-bg: #1a1a1a;
+    --dark-text: #e0e0e0;
+    --dark-secondary: #a0a0a0;
+    --dark-border: #404040;
+    --dark-hover: #ffffff;
+    --transition: all 0.3s ease;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --max-width: 800px;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    background-color: #f9f9f9; /* Almost white background */
-    color: #333; /* Dark grey text */
-    font-family: "Libre Baskerville", Arial, sans-serif;
-    font-size: 15px; /* Small font size */
-    font-weight: 300;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Hanken Grotesk", "Libre Baskerville", Arial, sans-serif;
+    font-size: 16px;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s, color 0.3s;
+    transition: var(--transition);
+}
+
+.content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typography */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
 }
 
 p {
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
 }
 
-small {
-    font-size: 0.5em;
-    color: #333;
-    font-weight: 100;
-    margin-top: 0px;
-    padding-top: 0px;
-}
-.content {
-    padding: 36px 40px 36px 40px;
-    width: 600px;
-    text-align: left;
-}
-.contact, .projects, footer {
-    margin-top: 30px;
-}
-.profile {
-    margin-left: -15px;
-}
-.contact h2, .projects h2 {
-    color: #333;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.mode {
-    text-align: right;
-    font-size: 13px;
-}   
-
-.toggle {
-    border: none;
-    background-color: none;
-    font-size: 18px;
-
-}
-
-.link-top {
-    margin: 30px;
-}
-
-.tooltip {
-    color: #000000;
+/* Links and Interactive Elements */
+a {
+    color: var(--primary-color);
     text-decoration: none;
-    border-bottom: 1px dotted #bcbdf8;
-    display: inline-block;
-    line-height: 1.2;
-    transition: all 0.3s ease; /* Smooth transition */
-    position: relative; /* Required for positioning the tooltip */
-    cursor: pointer; /* Change cursor to indicate interactivity */
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+    position: relative;
 }
 
-.tooltip:hover {
-    position: relative; /* Required for positioning the tooltip */
-    cursor: pointer; /* Change cursor to indicate interactivity */
-    color: #333;
-    border-bottom: 1px dotted #6B6CE2;
+a:hover {
+    color: var(--text-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Profile Image */
+.profile {
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    margin: 2rem 0;
+}
+
+.profile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tooltips */
+.tooltip {
+    position: relative;
+    cursor: pointer;
+    border-bottom: 1px dotted var(--primary-color);
+    transition: var(--transition);
 }
 
 .tooltip::after {
-    content: attr(data-tooltip); /* Dynamically set content from data-tooltip */
+    content: attr(data-tooltip);
     position: absolute;
-    bottom: 100%; /* Position above the text */
+    bottom: 100%;
     left: 50%;
-    transform: translateX(-50%); /* Center the tooltip */
-    background-color: white; /* Tooltip background */
-    color: #333; /* Tooltip text color */
-    padding: 6px 12px; /* Padding for the tooltip */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 14px; /* Tooltip font size */
-    white-space: nowrap; /* Prevent text from wrapping */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Start hidden */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+    transform: translateX(-50%);
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
 }
 
 .tooltip:hover::after {
-    opacity: 1; /* Show tooltip */
-    visibility: visible; /* Show tooltip */
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-8px);
 }
 
-ul {
-    list-style-type: square;
-    padding-left: 20px;
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
+
+.modal {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: var(--transition);
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.trigger-modal {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    transition: var(--transition);
+}
+
+.trigger-modal:hover {
+    color: var(--text-color);
+}
+
+/* Dark mode modal styles */
+.dark-mode .modal {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+.dark-mode .close-btn {
+    color: var(--dark-text);
+}
+
+.dark-mode .close-btn:hover {
+    color: var(--primary-color);
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+.dark-mode .tooltip::after {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}
+
+/* Projects Section */
+.projects {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 2rem 0;
+}
+
+.projects ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.projects li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.projects li::before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Contact Section */
+.contact {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Footer */
 footer {
-    margin-top: 50px;
-    color: #777;
-    font-size: 12px;
-}
-a {
-    color: #007BFF;
-    text-decoration: none;
-    border-bottom: 1px dotted #4244bf;
-    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
-}
-a:hover {
-    color: #000000;
-    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
+    text-align: center;
+    padding: 2rem 0;
+    color: #666;
+    font-size: 0.875rem;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+/* Tap Hint */
+.tap {
+    font-size: 0.875rem;
+    color: #666;
+    font-style: italic;
+    display: block;
+    margin: 0.5rem 0;
 }
-
 
 /* ==========================================================================
    #TYPOGRAPHY
@@ -288,8 +442,6 @@ body.dark-mode h6 {
     font-size: 10px;
 }
 
-
-
 /* ==========================================================================
    #BLUR MODAL
    ========================================================================== */
@@ -352,4 +504,121 @@ body.dark-mode h6 {
 }
 .font-normal {
     font-weight: 400;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: var(--dark-text);
+}
+
+.dark-mode a {
+    color: #4dabff;
+}
+
+.dark-mode a:hover {
+    color: var(--dark-hover);
+    border-bottom-color: #4dabff;
+}
+
+.dark-mode .tooltip {
+    color: var(--dark-text);
+    border-bottom-color: #4dabff;
+}
+
+.dark-mode .tooltip:hover {
+    color: var(--dark-hover);
+}
+
+.dark-mode .tooltip::after {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+    border: 1px solid var(--dark-border);
+}
+
+.dark-mode .modal {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+    border: 1px solid var(--dark-border);
+}
+
+.dark-mode .modal h2 {
+    color: var(--dark-text);
+}
+
+.dark-mode .close-btn {
+    color: var(--dark-text);
+}
+
+.dark-mode .close-btn:hover {
+    color: #4dabff;
+}
+
+.dark-mode .projects,
+.dark-mode .contact {
+    background: var(--dark-bg);
+    border: 1px solid var(--dark-border);
+}
+
+.dark-mode .projects li::before {
+    color: #4dabff;
+}
+
+.dark-mode .tap {
+    color: var(--dark-secondary);
+}
+
+.dark-mode footer {
+    color: var(--dark-secondary);
+}
+
+.dark-mode .trigger-modal {
+    color: #4dabff;
+}
+
+.dark-mode .trigger-modal:hover {
+    color: var(--dark-hover);
+}
+
+/* Player Dimmer */
+.player-dimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(14, 16, 20, 0.75) 0%,
+        rgba(14, 16, 20, 0.5) 20%,
+        rgba(14, 16, 20, 0.5) 80%,
+        rgba(14, 16, 20, 0.75) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+.player-dimmer.hidden {
+    opacity: 0;
+}
+
+/* Dark mode support for player dimmer */
+.dark-mode .player-dimmer {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.6) 20%,
+        rgba(0, 0, 0, 0.6) 80%,
+        rgba(0, 0, 0, 0.85) 100%
+    );
 }

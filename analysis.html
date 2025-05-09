@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analýza trhu elektrokol v ČR</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --text-color: #333;
+            --light-text: #666;
+            --highlight: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .data-point {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
+            
+            .column {
+                min-width: 100%;
+            }
+        }
+        
+        .chart-container {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .chart-placeholder {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #f6f8fa, #e9eef2);
+            border-radius: 4px;
+            color: var(--light-text);
+            font-style: italic;
+        }
+        
+        .key-stat {
+            display: inline-block;
+            margin-right: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .key-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        .key-stat-label {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--light-bg);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .stat-card {
+                min-width: 100%;
+            }
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+        
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            list-style-type: none;
+        }
+        
+        .bullet-list li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .month-plan {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .month-plan h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .month-plan h3:before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Analýza trhu elektrokol v ČR</h1>
+        <p>Komplexní přehled tržního potenciálu, konkurence a marketingové strategie pro prodej prémiových e-kol značky Bulls</p>
+    </header>
+    
+    <main>
+        <section class="section" id="market-potential">
+            <h2>1. Tržní potenciál elektrokol v ČR</h2>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">110 000</div>
+                    <div class="stat-label">Prodaných e-kol v ČR (2023)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">35%</div>
+                    <div class="stat-label">Podíl e-kol na celkovém trhu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">76,8 tis. Kč</div>
+                    <div class="stat-label">Průměrná cena elektrokola</div>
+                </div>
+            </div>
+            
+            <p>Trh elektrokol v České republice zaznamenal po pandemické vlně rekordní růst. V roce 2019 bylo prodáno přibližně 80 000 kusů (25% podíl z celkových prodejů kol), zatímco v roce 2020 tento počet vzrostl na více než 100 000 kusů. Podle dat ekolo.cz dosáhl prodej v roce 2020 až 120 000 kusů (přibližně třetina trhu) s průměrnou prodejní cenou kolem 76,8 tisíc Kč.</p>
+            
+            <p>V roce 2022 objem trhu vzrostl na přibližně 130 000 prodaných e-kol (asi 40% všech kol). V roce 2023 došlo k mírnému poklesu (15% pokles oproti roku 2022) na přibližně 110 000 kusů, přičemž podíl elektrokol zůstal na úrovni kolem 35%.</p>
+            
+            <div class="chart-container">
+                <h3>Vývoj prodeje elektrokol v ČR (2019-2023)</h3>
+                <div class="chart-placeholder">
+                    Graf prodejů e-kol v ČR: 2019: 80 000 ks, 2020: 120 000 ks, 2022: 130 000 ks, 2023: 110 000 ks
+                </div>
+            </div>
+            
+            <p>Trh je v převážné míře tvořen elektrokoly horskými (přibližně 65%, z toho asi 10% celoodpružených), dále trekkingovými a městskými modely. Průměrná prodejní cena (76-77 tisíc Kč) naznačuje, že český spotřebitel preferuje kvalitní a dražší modely.</p>
+            
+            <p>Podobně i evropské analýzy poukazují na posun k prémiovým segmentům – "premiumizaci" trhu – kdy zákazníci poptávají špičkové modely s pokročilými materiály, elektronikou a přizpůsobením různým účelům (město, sport, treking).</p>
+            
+            <div class="highlight">
+                <p>Český trh nabízí značný potenciál v prémiovém segmentu (80–200 tisíc Kč), protože i v současnosti představují stabilně tisíce těchto kusů ročně.</p>
+            </div>
+        </section>
+        
+        <section class="section" id="competitors">
+            <h2>2. Přehled hlavních konkurentů</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Dominantní značky</h3>
+                    <ul class="bullet-list">
+                        <li><strong>Domácí výrobci:</strong> Crussis a Bike Fun (Rock Machine/Superior) s téměř polovinou trhu</li>
+                        <li><strong>Zahraniční značky:</strong> Cube, Haibike a Giant</li>
+                        <li><strong>Další značky:</strong> Specialized, Trek, Ghost - menší distribuční síť</li>
+                    </ul>
+                </div>
+                
+                <div class="column">
+                    <h3>Hlavní prodejci</h3>
+                    <ul class="bullet-list">
+                        <li><strong>E-shopy:</strong> Svět-elektrokol.cz (3000+ modelů), ekolo.cz (včetně značky Bulls), akumo.cz (zaměřeno na Bulls)</li>
+                        <li><strong>Další e-shopy:</strong> mtbiker.cz, koloshop.cz</li>
+                        <li><strong>Kamenné prodejny:</strong> Sport-Expres, FSpare, prodejny Rock Machine/Superior, Apache</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Další prodejní kanály</h3>
+            <p>Některé velké e-commerce portály (Mall.cz, Alza.cz) a externí tržiště nabízejí omezený sortiment elektrokol, ale prémiový segment zde není jejich hlavní doménou. Důležitým prodejním místem jsou také specializované cykloservisy a půjčovny elektrokol, které klientům poskytují možnost vyzkoušet a pořídit špičkové e-kolo.</p>
+        </section>
+        
+        <section class="section" id="target-group">
+            <h2>3. Profilace cílové skupiny</h2>
+            
+            <div class="highlight">
+                <p>Cílovou skupinu tvoří převážně sportovně založení zákazníci středního až vyššího věku (zhruba 30–50 let), často páry či rodiny s dětmi, s nadprůměrným příjmem.</p>
+            </div>
+            
+            <p>Tito lidé mají obvykle vlastní automobil a garáž – investice do prémiového elektrokola někdy převyšuje cenu ojetého auta, proto požadují kvalitní úložné a parkovací podmínky. Sdílení garážového prostoru s autem naznačuje, že pro ně elektrokolo není levnou hračkou, ale prestižní a užitkový prostředek.</p>
+            
+            <h3>Životní styl a chování</h3>
+            <ul class="bullet-list">
+                <li>Dbá na zdravý a aktivní životní styl</li>
+                <li>Ráda tráví čas v přírodě (cykloturistika, horská cyklistika)</li>
+                <li>Postupuje analyticky při nákupu – důkladně porovnává technické parametry</li>
+                <li>Čte recenze a odborné články (iVelo.cz, ElectricBike.cz, Heureka.cz)</li>
+                <li>Oceňuje důvěryhodnou značku</li>
+                <li>Zapojuje se do cyklistických fór a komunit</li>
+                <li>Ovlivňuje ji osobní doporučení známých i online recenze</li>
+            </ul>
+            
+            <h3>Marketingové kanály</h3>
+            <p>Pro oslovení cílové skupiny doporučujeme kombinaci online kanálů:</p>
+            <ul class="bullet-list">
+                <li><strong>PPC kampaně:</strong> Google Ads, Sklik (klíčová spojení jako "elektrokolo", "Bulls elektrokolo", "prémiové horské kolo")</li>
+                <li><strong>Sociální sítě:</strong> Facebook a Instagram cílené na sportovní zájmy</li>
+                <li><strong>Video obsah:</strong> YouTube testy a recenze elektrokol</li>
+                <li><strong>Influencer marketing:</strong> Spolupráce s cyklistickými influencery a blogery</li>
+                <li><strong>PR články:</strong> Odborná média (iVelo, ElectricBike, Časopis Elektrokola)</li>
+                <li><strong>Lokální marketing:</strong> Cyklistické veletrhy, testovací akce, outdoorové eventy</li>
+            </ul>
+        </section>
+        
+        <section class="section" id="marketing-strategy">
+            <h2>4. Marketingová strategie (1. a 2. měsíc, rozpočet ~100 000 Kč)</h2>
+            
+            <div class="month-plan">
+                <h3>1. měsíc</h3>
+                <ul class="bullet-list">
+                    <li>Připravit finální verzi e-shopu (SEO, základní obsah)</li>
+                    <li>Spustit úvodní PPC kampaň na Google/Sklik</li>
+                    <li>Založit a oživit profily na sociálních sítích (Facebook, Instagram)</li>
+                    <li>Investovat počáteční budget (40–50 tis. Kč) do reklam:
+                        <ul>
+                            <li>30–35 tis. Kč Google</li>
+                            <li>10–15 tis. Kč Facebook</li>
+                        </ul>
+                    </li>
+                    <li>Zprovoznit retargetingové trackery (Facebook Pixel, Google Analytics)</li>
+                    <li>Vytvořit kvalitní obsah:
+                        <ul>
+                            <li>Blogový článek "Jak vybrat prémiové horské elektrokolo"</li>
+                            <li>Newsletter s nabídkou 5–10% slevy za registraci</li>
+                        </ul>
+                    </li>
+                    <li>Připravit profesionální vizuály (fotografie, krátké video)</li>
+                    <li>Navázat kontakty s médii</li>
+                    <li>Domluvit testovací den u vybraného partnera</li>
+                </ul>
+            </div>
+            
+            <div class="month-plan">
+                <h3>2. měsíc</h3>
+                <ul class="bullet-list">
+                    <li>Analyzovat metriky z 1. měsíce (návštěvnost, prokliky, konverze)</li>
+                    <li>Upravit a doplnit reklamní kampaně</li>
+                    <li>Spustit remarketingové kampaně:
+                        <ul>
+                            <li>Facebook/Instagram: připomenutí zanechaných košíků</li>
+                            <li>Google Display: banner na cyklistických webech</li>
+                        </ul>
+                    </li>
+                    <li>Publikovat další obsah:
+                        <ul>
+                            <li>Testy konkrétních modelů Bulls</li>
+                            <li>Zkušenosti zákazníků</li>
+                            <li>Přehledné infografiky</li>
+                        </ul>
+                    </li>
+                    <li>Vyhodnotit možnost zapojení mikroinfluencera</li>
+                    <li>Pokračovat v PPC kampaních (dalších ~40 tis. Kč)</li>
+                    <li>Věnovat se budování databáze – e-mailové kampaně</li>
+                    <li>Možné uspořádat malou soutěž pro zvýšení dosahu</li>
+                    <li>Podpořit prodej offline (letáky, bannery na akcích)</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="section" id="eshop-specifics">
+            <h2>5. Specifika e-shopu na Shoptetu (UX a důvěryhodnost)</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Jednoduchý proces nákupu</h3>
+                    <p>Nežádejte od zákazníka povinnou registraci – umožněte "nákup jako host" s minimem polí. Čím méně formulářů, tím nižší riziko opuštění košíku.</p>
+                    
+                    <h3>Kvalitní šablona a obsah</h3>
+                    <p>Využijte moderní responzivní šablonu (např. Dolomit), optimalizovanou pro mobil a obsahově bohatý layout. Dbejte na přehledné menu (kategorie: Horská, Trekking, Příslušenství…), viditelné odkazy na kontakty a sociální sítě. "Sticky" (přilehlá) hlavička pomáhá navigaci.</p>
+                    
+                    <p>Každý produktní detail musí mít profesionální fotografie (cca 5–8 úhlů), případně video, a úplný popis s technickými parametry (výkon motoru, baterie, dojezd, hmotnost, odpružení apod.). Zákazníci prémiového segmentu očekávají důkladné informace a srovnávání modelů.</p>
+                </div>
+                
+                <div class="column">
+                    <h3>Důvěryhodnost</h3>
+                    <p>Shoptet automaticky zajišťuje bezpečnost (SSL) a podporuje integraci zákaznických recenzí. Doporučujeme aktivovat modul Ověřený web, který zobrazuje hodnocení z Heureky a Zboží.cz – zvyšuje to konverzní poměr až o 20%.</p>
+                    
+                    <p>Uveďte v patičce všechny důležité informace (IČO, DIČ, podmínky reklamačního řízení, obchodní podmínky) a kontakty (telefon, e-mail, provozní adresu). Zvýrazněte loga bezpečných plateb a Heureka Ověřeno zákazníky.</p>
+                    
+                    <h3>Platby a doprava</h3>
+                    <p>Nabídněte standardní platby – online kartou, převodem i dobírkou. Pro prémiový segment doporučujeme i možnost financování (Cetelem, Home Credit) či Splátky ShoptetPay.</p>
+                    
+                    <p>Vypište dopravu – pro Bulls kola lze zdůraznit rychlé dodání od externího skladu a výdejní místa partnerů (zdarma či se slevou na dopravu). Napište jasně záruční podmínky (min. 2 roky) a nabídku servisu, aby se zákazník cítil v bezpečí.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section" id="future-development">
+            <h2>6. Rozšíření sortimentu a rozvoj značky do budoucna</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Doplňky a oblečení</h3>
+                    <p>Po zavedení kol je přirozené rozšířit nabídku o kvalitní doplňky – cyklistické přilby, tretry, rukavice, cyklo batohy, nosiče kol a bezpečnostní zařízení. Dále servisní zboží (výbava, náhradní díly, baterie).</p>
+                    
+                    <p>Klíčovou pozicí jsou vlastní designové cyklistické dresy a oblečení (trička, vesty, bundy) s logem firmy. Takové zboží pomáhá budovat identity značky a zvyšuje hodnotu košíku.</p>
+                    
+                    <h3>Vlastní značka</h3>
+                    <p>Mnoho úspěšných e-shopů buduje privátní značky i v prémiových segmentech – v módě vlastní značky tvoří ~15% obratu (cílem do 30%). V našem případě lze vyvinout vlastní řadu cyklooblečení či doplňků (např. Bulls Performance Wear). Tyto produkty by byly vyrobeny s důrazem na funkčnost a design, čímž se zvýší marže a loajalita zákazníků.</p>
+                </div>
+                
+                <div class="column">
+                    <h3>Nové služby a komunita</h3>
+                    <p>Rozvoj značky může zahrnovat i širší služby – organizování testovacích jízd, cyklovýletů pro zákazníky, klubové výhody (slevy pro členy newsletteru, věrnostní systém). Spolupráce se sportovními kluby či sponzorování cyklistických událostí by dále posílilo povědomí o značce.</p>
+                    
+                    <h3>Další kategorie</h3>
+                    <p>V delším horizontu lze přidat další typy kol (např. silniční elektrická kola, městská skládací e-biky) nebo segmenty (dětská e-kola, elektrické koloběžky či tříkolky) a rozvíjet "smart" příslušenství (GPS jednotky, aplikace).</p>
+                    
+                    <p>Postupný růst portfolia i vlastními produkty umožní značce stát se komplexním dodavatelem cyklistického vybavení v prémiovém segmentu.</p>
+                </div>
+            </div>
+            
+            <div class="highlight">
+                <p>Zdroje: Oficiální statistiky prodejů elektrokol v ČR (iVelo, BusinessInfo) a odborné analýzy. Požadavky na e-shop a marketing vycházejí z best practices pro e‑commerce a lokální znalosti cílového segmentu.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
