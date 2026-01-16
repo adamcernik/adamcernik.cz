@@ -128,6 +128,12 @@
         color: var(--muted);
       }
 
+      .reveal {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
       .menu {
         display: grid;
         gap: 10px;
@@ -200,6 +206,7 @@
       @media (max-width: 520px) {
         body.mode-level2 .wrap {
           padding: 0;
+          min-height: calc(var(--vvh, 1vh) * 100);
         }
 
         body.mode-level2 header {
@@ -219,13 +226,8 @@
         }
 
         body.mode-level2 #animalImg {
-          height: 50vh;
-        }
-
-        @supports (height: 1svh) {
-          body.mode-level2 #animalImg {
-            height: 50svh;
-          }
+          /* Use visual viewport height so keyboard doesn't "push" the image off-screen */
+          height: calc(var(--vvh, 1vh) * 50);
         }
 
         body.mode-level2 #level2Panel,
@@ -277,6 +279,7 @@
             <button class="btn" id="l2HelpBtn" type="button">HELP</button>
           </div>
           <div class="hint" id="l2Hint"></div>
+          <div class="reveal" id="l2Reveal" aria-live="polite"></div>
         </div>
 
         <div class="msg" id="message"></div>
@@ -327,6 +330,7 @@
       const $l2Panel = document.getElementById("level2Panel");
       const $l2Input = document.getElementById("l2Input");
       const $l2Hint = document.getElementById("l2Hint");
+      const $l2Reveal = document.getElementById("l2Reveal");
       const $l2HelpBtn = document.getElementById("l2HelpBtn");
       const $l2OkBtn = document.getElementById("l2OkBtn");
 
@@ -432,6 +436,14 @@
         $l2Panel.classList.toggle("show", isL2);
 
         document.body.classList.toggle("mode-level2", isL2);
+        updateViewportVars();
+      }
+
+      function updateViewportVars() {
+        // --vvh = 1% of the *visual* viewport (accounts for mobile keyboard)
+        const vv = window.visualViewport;
+        const h = vv && typeof vv.height === "number" ? vv.height : window.innerHeight;
+        document.documentElement.style.setProperty("--vvh", `${h * 0.01}px`);
       }
 
       async function showCurrentLevel1() {
@@ -514,6 +526,7 @@
 
         $l2Input.value = "";
         $l2HelpBtn.disabled = false;
+        $l2Reveal.textContent = "";
         renderL2Hint();
         $l2Input.focus();
       }
@@ -537,8 +550,11 @@
 
         l2.locked = true;
         l2.score += 1;
-        setMessage(`Správně: ${l2.current.answer}`);
-        await sleep(900);
+        // Show the full name clearly before advancing (helps memorization)
+        $l2Reveal.textContent = l2.current.answer;
+        setMessage("Správně.");
+        $l2Input.blur(); // hide keyboard so the image/name are visible
+        await sleep(1600);
         l2.index += 1;
         await showCurrentLevel2();
       }
@@ -578,6 +594,13 @@
 
       async function init() {
         try {
+          updateViewportVars();
+          window.addEventListener("resize", updateViewportVars);
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", updateViewportVars);
+            window.visualViewport.addEventListener("scroll", updateViewportVars);
+          }
+
           const res = await fetch(MANIFEST_URL, { cache: "no-store" });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const data = await res.json();
