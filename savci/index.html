@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Poznávačka savců</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --good: #16a34a;
+        --bad: #dc2626;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+      }
+
+      h1 {
+        font-size: 16px;
+        margin: 0;
+        font-weight: 650;
+      }
+
+      .stats {
+        font-size: 13px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .imgWrap {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fafafa;
+        min-height: 240px;
+        display: grid;
+        place-items: center;
+      }
+
+      #animalImg {
+        width: 100%;
+        height: min(52vh, 520px);
+        object-fit: contain;
+        display: block;
+      }
+
+      .choices {
+        display: grid;
+        gap: 10px;
+      }
+
+      button.choice {
+        width: 100%;
+        text-align: left;
+        padding: 12px 12px;
+        font-size: 16px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      button.choice:disabled {
+        cursor: default;
+      }
+
+      button.choice.good {
+        border-color: rgba(22, 163, 74, 0.45);
+        background: rgba(22, 163, 74, 0.1);
+      }
+
+      button.choice.bad {
+        border-color: rgba(220, 38, 38, 0.45);
+        background: rgba(220, 38, 38, 0.1);
+      }
+
+      .msg {
+        min-height: 20px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 12px;
+        font-size: 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      .end {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        display: none;
+        color: var(--muted);
+      }
+
+      .end.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Poznávačka savců</h1>
+        <div class="stats">
+          Skóre: <strong id="score">0</strong> · <span id="progress">0/0</span>
+        </div>
+      </header>
+
+      <div class="card">
+        <div class="imgWrap">
+          <img id="animalImg" alt="Zvíře" />
+        </div>
+
+        <div class="choices" id="choices"></div>
+
+        <div class="msg" id="message"></div>
+
+        <div class="controls">
+          <button class="btn" id="restartBtn" type="button">Restart</button>
+          <button class="btn" id="skipBtn" type="button">Přeskočit</button>
+        </div>
+      </div>
+
+      <div class="end" id="endPanel"></div>
+    </div>
+
+    <script>
+      const MANIFEST_URL = "animals_manifest.json";
+
+      /** @type {{id:number, answer:string, image:string}[]} */
+      let items = [];
+      /** @type {{id:number, answer:string, image:string}[]} */
+      let queue = [];
+
+      let score = 0;
+      let index = 0;
+      let locked = false;
+      let current = null;
+
+      const $score = document.getElementById("score");
+      const $progress = document.getElementById("progress");
+      const $img = document.getElementById("animalImg");
+      const $choices = document.getElementById("choices");
+      const $msg = document.getElementById("message");
+      const $end = document.getElementById("endPanel");
+
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function sampleWrongAnswers(correct, count) {
+        const pool = items.map((x) => x.answer).filter((a) => a !== correct);
+        const picked = [];
+        while (picked.length < count && pool.length) {
+          const idx = Math.floor(Math.random() * pool.length);
+          picked.push(pool[idx]);
+          pool.splice(idx, 1);
+        }
+        return picked;
+      }
+
+      function encodePath(p) {
+        return p
+          .split("/")
+          .map((seg) => encodeURIComponent(seg))
+          .join("/");
+      }
+
+      function setMessage(text) {
+        $msg.textContent = text || "";
+      }
+
+      function setProgress() {
+        $score.textContent = String(score);
+        $progress.textContent = `${Math.min(index + 1, queue.length)}/${queue.length}`;
+      }
+
+      function setEnd(show, text = "") {
+        $end.classList.toggle("show", show);
+        $end.textContent = text;
+      }
+
+      function clearChoices() {
+        $choices.innerHTML = "";
+      }
+
+      async function showCurrent() {
+        locked = false;
+        setEnd(false);
+        setMessage("");
+        clearChoices();
+
+        if (index >= queue.length) {
+          setProgress();
+          setEnd(true, `Hotovo! Skóre: ${score} / ${queue.length}.`);
+          return;
+        }
+
+        current = queue[index];
+        setProgress();
+
+        $img.src = encodePath(current.image);
+        $img.alt = `Zvíře ${index + 1}`;
+
+        const options = shuffle([current.answer, ...sampleWrongAnswers(current.answer, 2)]);
+        for (const opt of options) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => onPick(btn, opt));
+          $choices.appendChild(btn);
+        }
+      }
+
+      async function onPick(btn, picked) {
+        if (locked) return;
+        locked = true;
+
+        const buttons = Array.from($choices.querySelectorAll("button.choice"));
+        for (const b of buttons) b.disabled = true;
+
+        const ok = picked === current.answer;
+        if (ok) {
+          btn.classList.add("good");
+          score += 1;
+          setMessage("Správně.");
+          await sleep(350);
+        } else {
+          btn.classList.add("bad");
+          const correctBtn = buttons.find((b) => b.textContent === current.answer);
+          if (correctBtn) correctBtn.classList.add("good");
+          setMessage(`Správně je: ${current.answer}`);
+          await sleep(2000);
+        }
+
+        index += 1;
+        await showCurrent();
+      }
+
+      function restart() {
+        score = 0;
+        index = 0;
+        queue = shuffle(items);
+        showCurrent();
+      }
+
+      async function init() {
+        try {
+          const res = await fetch(MANIFEST_URL, { cache: "no-store" });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          items = Array.isArray(data.items) ? data.items : [];
+          if (items.length < 3) throw new Error("Moc málo zvířat v manifestu.");
+          restart();
+        } catch (e) {
+          setMessage(`Nelze načíst data. Spusť stránku přes server. (${e.message})`);
+          clearChoices();
+        }
+      }
+
+      document.getElementById("restartBtn").addEventListener("click", restart);
+      document.getElementById("skipBtn").addEventListener("click", async () => {
+        if (locked) return;
+        locked = true;
+        index += 1;
+        await showCurrent();
+      });
+
+      init();
+    </script>
+  </body>
+</html>
+
+
