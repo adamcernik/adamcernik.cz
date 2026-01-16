@@ -83,6 +83,55 @@
         gap: 10px;
       }
 
+      .level2 {
+        display: none;
+        gap: 10px;
+      }
+
+      .level2.show {
+        display: grid;
+      }
+
+      .l2Row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      #l2Input {
+        flex: 0 0 auto;
+        width: 10ch;
+        padding: 10px 12px;
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        outline: none;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #l2Input:focus {
+        box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+      }
+
+      .hint {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .menu {
+        display: grid;
+        gap: 10px;
+      }
+
+      .menuTitle {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
       button.choice {
         width: 100%;
         text-align: left;
@@ -151,16 +200,43 @@
         </div>
       </header>
 
-      <div class="card">
+      <div class="card menu" id="menuCard">
+        <div class="menuTitle">Vyber úroveň</div>
+        <div class="controls">
+          <button class="btn" id="level1Btn" type="button">Level 1 (výběr)</button>
+          <button class="btn" id="level2Btn" type="button">Level 2 (3 písmena)</button>
+        </div>
+        <div class="msg" id="menuMessage"></div>
+      </div>
+
+      <div class="card" id="gameCard" style="display: none">
         <div class="imgWrap">
           <img id="animalImg" alt="Zvíře" />
         </div>
 
         <div class="choices" id="choices"></div>
 
+        <div class="level2" id="level2Panel">
+          <div class="l2Row">
+            <input
+              id="l2Input"
+              inputmode="text"
+              maxlength="3"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              aria-label="Napiš první tři písmena"
+            />
+            <button class="btn" id="l2OkBtn" type="button">OK</button>
+            <button class="btn" id="l2HelpBtn" type="button">HELP</button>
+          </div>
+          <div class="hint" id="l2Hint"></div>
+        </div>
+
         <div class="msg" id="message"></div>
 
         <div class="controls">
+          <button class="btn" id="backBtn" type="button">Výběr úrovně</button>
           <button class="btn" id="restartBtn" type="button">Restart</button>
           <button class="btn" id="skipBtn" type="button">Přeskočit</button>
         </div>
@@ -174,13 +250,24 @@
 
       /** @type {{id:number, answer:string, image:string}[]} */
       let items = [];
-      /** @type {{id:number, answer:string, image:string}[]} */
-      let queue = [];
+      let mode = "menu"; // "menu" | "level1" | "level2"
 
-      let score = 0;
-      let index = 0;
-      let locked = false;
-      let current = null;
+      const l1 = {
+        /** @type {{id:number, answer:string, image:string}[]} */ queue: [],
+        score: 0,
+        index: 0,
+        locked: false,
+        /** @type {{id:number, answer:string, image:string} | null} */ current: null,
+      };
+
+      const l2 = {
+        /** @type {{id:number, answer:string, image:string}[]} */ queue: [],
+        score: 0,
+        index: 0,
+        locked: false,
+        helpUsed: 0,
+        /** @type {{id:number, answer:string, image:string} | null} */ current: null,
+      };
 
       const $score = document.getElementById("score");
       const $progress = document.getElementById("progress");
@@ -188,6 +275,14 @@
       const $choices = document.getElementById("choices");
       const $msg = document.getElementById("message");
       const $end = document.getElementById("endPanel");
+      const $menu = document.getElementById("menuCard");
+      const $menuMsg = document.getElementById("menuMessage");
+      const $game = document.getElementById("gameCard");
+      const $l2Panel = document.getElementById("level2Panel");
+      const $l2Input = document.getElementById("l2Input");
+      const $l2Hint = document.getElementById("l2Hint");
+      const $l2HelpBtn = document.getElementById("l2HelpBtn");
+      const $l2OkBtn = document.getElementById("l2OkBtn");
 
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -222,9 +317,8 @@
         $msg.textContent = text || "";
       }
 
-      function setProgress() {
-        $score.textContent = String(score);
-        $progress.textContent = `${Math.min(index + 1, queue.length)}/${queue.length}`;
+      function setMenuMessage(text) {
+        $menuMsg.textContent = text || "";
       }
 
       function setEnd(show, text = "") {
@@ -236,65 +330,202 @@
         $choices.innerHTML = "";
       }
 
-      async function showCurrent() {
-        locked = false;
+      function setProgressFrom(state) {
+        $score.textContent = String(state.score);
+        $progress.textContent = `${Math.min(state.index + 1, state.queue.length)}/${state.queue.length}`;
+      }
+
+      function normalizeText(s) {
+        const str = String(s || "").toLowerCase();
+        // Strip diacritics (works in modern browsers; falls back for older ones)
+        try {
+          return str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+        } catch {
+          return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+      }
+
+      function getFirstWord(answer) {
+        return String(answer || "").trim().split(/\s+/)[0] || "";
+      }
+
+      function l2TargetDisplay(item) {
+        return getFirstWord(item.answer).slice(0, 3);
+      }
+
+      function l2TargetNorm(item) {
+        return normalizeText(getFirstWord(item.answer)).slice(0, 3);
+      }
+
+      function renderL2Hint() {
+        if (!l2.current) {
+          $l2Hint.textContent = "";
+          return;
+        }
+        const target = l2TargetDisplay(l2.current);
+        const revealCount = Math.min(3, Math.max(0, l2.helpUsed));
+        const shown =
+          target.slice(0, revealCount) +
+          "_".repeat(Math.max(0, 3 - revealCount));
+        $l2Hint.textContent = `Nápověda: ${shown.split("").join(" ")}`;
+      }
+
+      function setMode(next) {
+        mode = next;
+        setEnd(false);
+        setMessage("");
+        setMenuMessage("");
+
+        const inMenu = mode === "menu";
+        $menu.style.display = inMenu ? "grid" : "none";
+        $game.style.display = inMenu ? "none" : "grid";
+
+        const isL1 = mode === "level1";
+        const isL2 = mode === "level2";
+        $choices.style.display = isL1 ? "grid" : "none";
+        $l2Panel.classList.toggle("show", isL2);
+      }
+
+      async function showCurrentLevel1() {
+        l1.locked = false;
         setEnd(false);
         setMessage("");
         clearChoices();
 
-        if (index >= queue.length) {
-          setProgress();
-          setEnd(true, `Hotovo! Skóre: ${score} / ${queue.length}.`);
+        if (l1.index >= l1.queue.length) {
+          setProgressFrom(l1);
+          setEnd(true, `Hotovo! Skóre: ${l1.score} / ${l1.queue.length}.`);
           return;
         }
 
-        current = queue[index];
-        setProgress();
+        l1.current = l1.queue[l1.index];
+        setProgressFrom(l1);
 
-        $img.src = encodePath(current.image);
-        $img.alt = `Zvíře ${index + 1}`;
+        $img.src = encodePath(l1.current.image);
+        $img.alt = `Zvíře ${l1.index + 1}`;
 
-        const options = shuffle([current.answer, ...sampleWrongAnswers(current.answer, 2)]);
+        const options = shuffle([
+          l1.current.answer,
+          ...sampleWrongAnswers(l1.current.answer, 2),
+        ]);
         for (const opt of options) {
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "choice";
           btn.textContent = opt;
-          btn.addEventListener("click", () => onPick(btn, opt));
+          btn.addEventListener("click", () => onPickLevel1(btn, opt));
           $choices.appendChild(btn);
         }
       }
 
-      async function onPick(btn, picked) {
-        if (locked) return;
-        locked = true;
+      async function onPickLevel1(btn, picked) {
+        if (l1.locked) return;
+        l1.locked = true;
 
         const buttons = Array.from($choices.querySelectorAll("button.choice"));
         for (const b of buttons) b.disabled = true;
 
-        const ok = picked === current.answer;
+        const ok = picked === l1.current.answer;
         if (ok) {
           btn.classList.add("good");
-          score += 1;
+          l1.score += 1;
           setMessage("Správně.");
           await sleep(350);
         } else {
           btn.classList.add("bad");
-          const correctBtn = buttons.find((b) => b.textContent === current.answer);
+          const correctBtn = buttons.find(
+            (b) => b.textContent === l1.current.answer
+          );
           if (correctBtn) correctBtn.classList.add("good");
-          setMessage(`Správně je: ${current.answer}`);
+          setMessage(`Správně je: ${l1.current.answer}`);
           await sleep(2000);
         }
 
-        index += 1;
-        await showCurrent();
+        l1.index += 1;
+        await showCurrentLevel1();
+      }
+
+      async function showCurrentLevel2() {
+        l2.locked = false;
+        l2.helpUsed = 0;
+        setEnd(false);
+        setMessage("");
+        clearChoices();
+
+        if (l2.index >= l2.queue.length) {
+          setProgressFrom(l2);
+          setEnd(true, `Hotovo! Skóre: ${l2.score} / ${l2.queue.length}.`);
+          return;
+        }
+
+        l2.current = l2.queue[l2.index];
+        setProgressFrom(l2);
+
+        $img.src = encodePath(l2.current.image);
+        $img.alt = `Zvíře ${l2.index + 1}`;
+
+        $l2Input.value = "";
+        $l2HelpBtn.disabled = false;
+        renderL2Hint();
+        $l2Input.focus();
+      }
+
+      async function checkLevel2() {
+        if (mode !== "level2") return;
+        if (l2.locked) return;
+        if (!l2.current) return;
+
+        const guess = normalizeText($l2Input.value).trim();
+        if (guess.length < 3) {
+          setMessage("Napiš 3 písmena.");
+          return;
+        }
+
+        const ok = guess.slice(0, 3) === l2TargetNorm(l2.current);
+        if (!ok) {
+          setMessage("To není ono. Zkus to znovu, nebo dej HELP.");
+          return;
+        }
+
+        l2.locked = true;
+        l2.score += 1;
+        setMessage(`Správně: ${l2.current.answer}`);
+        await sleep(900);
+        l2.index += 1;
+        await showCurrentLevel2();
+      }
+
+      function helpLevel2() {
+        if (mode !== "level2") return;
+        if (l2.locked) return;
+        if (!l2.current) return;
+        if (l2.helpUsed >= 3) return;
+
+        l2.helpUsed += 1;
+        const target = l2TargetDisplay(l2.current);
+        $l2Input.value = target.slice(0, Math.min(3, l2.helpUsed));
+        $l2HelpBtn.disabled = l2.helpUsed >= 3;
+        renderL2Hint();
+        $l2Input.focus();
+      }
+
+      function restartLevel1() {
+        l1.score = 0;
+        l1.index = 0;
+        l1.queue = shuffle(items);
+        showCurrentLevel1();
+      }
+
+      function restartLevel2() {
+        l2.score = 0;
+        l2.index = 0;
+        l2.queue = shuffle(items);
+        showCurrentLevel2();
       }
 
       function restart() {
-        score = 0;
-        index = 0;
-        queue = shuffle(items);
-        showCurrent();
+        if (mode === "level1") restartLevel1();
+        if (mode === "level2") restartLevel2();
       }
 
       async function init() {
@@ -304,19 +535,67 @@
           const data = await res.json();
           items = Array.isArray(data.items) ? data.items : [];
           if (items.length < 3) throw new Error("Moc málo zvířat v manifestu.");
-          restart();
+          setMode("menu");
+          setProgressFrom({ score: 0, index: 0, queue: items });
+          setMenuMessage("Tip: Level 2 chce první 3 písmena prvního slova názvu.");
         } catch (e) {
-          setMessage(`Nelze načíst data. Spusť stránku přes server. (${e.message})`);
+          setMode("menu");
+          setMenuMessage(`Nelze načíst data. Spusť stránku přes server. (${e.message})`);
           clearChoices();
         }
       }
 
+      document.getElementById("level1Btn").addEventListener("click", () => {
+        if (!items.length) return;
+        setMode("level1");
+        restartLevel1();
+      });
+
+      document.getElementById("level2Btn").addEventListener("click", () => {
+        if (!items.length) return;
+        setMode("level2");
+        restartLevel2();
+      });
+
+      document.getElementById("backBtn").addEventListener("click", () => {
+        setMode("menu");
+        setProgressFrom({ score: 0, index: 0, queue: items });
+      });
+
       document.getElementById("restartBtn").addEventListener("click", restart);
       document.getElementById("skipBtn").addEventListener("click", async () => {
-        if (locked) return;
-        locked = true;
-        index += 1;
-        await showCurrent();
+        if (mode === "level1") {
+          if (l1.locked) return;
+          l1.locked = true;
+          l1.index += 1;
+          await showCurrentLevel1();
+          return;
+        }
+        if (mode === "level2") {
+          if (l2.locked) return;
+          l2.locked = true;
+          l2.index += 1;
+          await showCurrentLevel2();
+        }
+      });
+
+      $l2HelpBtn.addEventListener("click", helpLevel2);
+      $l2OkBtn.addEventListener("click", checkLevel2);
+      $l2Input.addEventListener("input", () => {
+        if (mode !== "level2") return;
+        // keep only letters/spaces, limit to 3, auto-check when ready
+        const v = String($l2Input.value || "");
+        const cleaned = v.replace(/[^a-zA-ZáéěíóúůýčďňřšťžÁÉĚÍÓÚŮÝČĎŇŘŠŤŽ]/g, "");
+        if (cleaned !== v) $l2Input.value = cleaned;
+        if ($l2Input.value.length >= 3) checkLevel2();
+      });
+
+      $l2Input.addEventListener("keydown", (e) => {
+        if (mode !== "level2") return;
+        if (e.key === "Enter") {
+          e.preventDefault();
+          checkLevel2();
+        }
       });
 
       init();
