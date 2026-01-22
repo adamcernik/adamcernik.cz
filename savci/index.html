@@ -144,6 +144,125 @@
         color: var(--muted);
       }
 
+      .level3 {
+        display: none;
+        gap: 12px;
+      }
+
+      .level3.show {
+        display: grid;
+      }
+
+      .level4 {
+        display: none;
+        gap: 10px;
+      }
+
+      .level4.show {
+        display: grid;
+      }
+
+      .l4Note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .l3Note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .memoryGrid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+      }
+
+      .tile {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
+      }
+
+      .tile:disabled {
+        cursor: default;
+        opacity: 0.95;
+      }
+
+      .tile .front,
+      .tile .back {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      .tile .back {
+        background: linear-gradient(135deg, #f3f4f6, #ffffff);
+        color: var(--muted);
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 0.06em;
+      }
+
+      .tile .front {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: #fff;
+      }
+
+      .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .tile .label {
+        padding: 6px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.1;
+        border-top: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.94);
+      }
+
+      .tile[data-revealed="false"] .front {
+        display: none;
+      }
+
+      .tile[data-revealed="true"] .back {
+        display: none;
+      }
+
+      .tile.matched {
+        border-color: rgba(22, 163, 74, 0.45);
+        box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+      }
+
+      /* Roomier layout for the 6x6 grid */
+      body.mode-level3 .wrap {
+        max-width: 980px;
+      }
+
+      @media (max-width: 820px) {
+        .memoryGrid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .memoryGrid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
       button.choice {
         width: 100%;
         text-align: left;
@@ -253,6 +372,8 @@
         <div class="controls">
           <button class="btn" id="level1Btn" type="button">Level 1 (výběr)</button>
           <button class="btn" id="level2Btn" type="button">Level 2 (3 písmena)</button>
+          <button class="btn" id="level3Btn" type="button">Level 3 (pexeso)</button>
+          <button class="btn" id="level4Btn" type="button">Level 4 (odhalení)</button>
         </div>
         <div class="msg" id="menuMessage"></div>
       </div>
@@ -282,12 +403,27 @@
           <div class="reveal" id="l2Reveal" aria-live="polite"></div>
         </div>
 
+        <div class="level3" id="level3Panel">
+          <div class="l3Note">
+            Klikni na 2 kartičky. Když jsou stejné, zůstanou otočené a máš bod.
+          </div>
+          <div class="memoryGrid" id="memoryGrid"></div>
+        </div>
+
+        <div class="level4" id="level4Panel">
+          <div class="l4Note">
+            Stiskni Enter pro odhalení názvu. Další Enter = další zvíře.
+          </div>
+          <div class="reveal" id="l4Reveal" aria-live="polite"></div>
+        </div>
+
         <div class="msg" id="message"></div>
 
         <div class="controls">
           <button class="btn" id="backBtn" type="button">Výběr úrovně</button>
           <button class="btn" id="restartBtn" type="button">Restart</button>
           <button class="btn" id="skipBtn" type="button">Přeskočit</button>
+          <button class="btn" id="fullscreenBtn" type="button">Fullscreen</button>
         </div>
       </div>
 
@@ -318,6 +454,28 @@
         /** @type {{id:number, answer:string, image:string} | null} */ current: null,
       };
 
+      const l3 = {
+        /** @type {{id:number, answer:string, image:string}[]} */ picked: [],
+        /** @type {{pairId:number, item:{id:number, answer:string, image:string}, revealed:boolean, matched:boolean}[]} */ tiles:
+          [],
+        score: 0,
+        matchedPairs: 0,
+        totalPairs: 18,
+        locked: false,
+        firstIdx: -1,
+        secondIdx: -1,
+        pendingMismatch: false,
+        /** @type {number | null} */ mismatchTimer: null,
+      };
+
+      const l4 = {
+        /** @type {{id:number, answer:string, image:string}[]} */ queue: [],
+        score: 0,
+        index: 0,
+        revealed: false,
+        /** @type {{id:number, answer:string, image:string} | null} */ current: null,
+      };
+
       const $score = document.getElementById("score");
       const $progress = document.getElementById("progress");
       const $img = document.getElementById("animalImg");
@@ -333,6 +491,11 @@
       const $l2Reveal = document.getElementById("l2Reveal");
       const $l2HelpBtn = document.getElementById("l2HelpBtn");
       const $l2OkBtn = document.getElementById("l2OkBtn");
+      const $l3Panel = document.getElementById("level3Panel");
+      const $grid = document.getElementById("memoryGrid");
+      const $l4Panel = document.getElementById("level4Panel");
+      const $l4Reveal = document.getElementById("l4Reveal");
+      const $fsBtn = document.getElementById("fullscreenBtn");
 
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -432,11 +595,20 @@
 
         const isL1 = mode === "level1";
         const isL2 = mode === "level2";
+        const isL3 = mode === "level3";
+        const isL4 = mode === "level4";
         $choices.style.display = isL1 ? "grid" : "none";
         $l2Panel.classList.toggle("show", isL2);
+        $l3Panel.classList.toggle("show", isL3);
+        $l4Panel.classList.toggle("show", isL4);
 
         document.body.classList.toggle("mode-level2", isL2);
+        document.body.classList.toggle("mode-level3", isL3);
+        document.body.classList.toggle("mode-level4", isL4);
         updateViewportVars();
+
+        // Skip button doesn't make sense for pexeso / Level 4 (Enter-driven)
+        document.getElementById("skipBtn").style.display = isL3 || isL4 ? "none" : "";
       }
 
       function updateViewportVars() {
@@ -444,6 +616,40 @@
         const vv = window.visualViewport;
         const h = vv && typeof vv.height === "number" ? vv.height : window.innerHeight;
         document.documentElement.style.setProperty("--vvh", `${h * 0.01}px`);
+      }
+
+      function updateFullscreenUi() {
+        if (!$fsBtn) return;
+        const supported =
+          !!document.fullscreenEnabled ||
+          // Safari iOS uses prefixed API on some versions
+          !!document.webkitFullscreenEnabled;
+        if (!supported) {
+          $fsBtn.style.display = "none";
+          return;
+        }
+        const active =
+          !!document.fullscreenElement ||
+          // Safari
+          !!document.webkitFullscreenElement;
+        $fsBtn.textContent = active ? "Exit fullscreen" : "Fullscreen";
+      }
+
+      async function toggleFullscreen() {
+        const el = document.documentElement;
+        const active =
+          !!document.fullscreenElement || !!document.webkitFullscreenElement;
+        try {
+          if (active) {
+            if (document.exitFullscreen) await document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+          } else {
+            if (el.requestFullscreen) await el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          }
+        } finally {
+          updateFullscreenUi();
+        }
       }
 
       async function showCurrentLevel1() {
@@ -587,9 +793,188 @@
         showCurrentLevel2();
       }
 
+      function setProgressLevel3() {
+        $score.textContent = String(l3.score);
+        $progress.textContent = `${l3.matchedPairs}/${l3.totalPairs}`;
+      }
+
+      function renderLevel3() {
+        $grid.innerHTML = "";
+        for (let i = 0; i < l3.tiles.length; i++) {
+          const t = l3.tiles[i];
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "tile" + (t.matched ? " matched" : "");
+          btn.dataset.revealed = t.revealed || t.matched ? "true" : "false";
+          btn.disabled = t.matched;
+          btn.addEventListener("click", () => onPickLevel3(i));
+
+          const back = document.createElement("div");
+          back.className = "back";
+          back.textContent = "SAVCI";
+
+          const front = document.createElement("div");
+          front.className = "front";
+
+          const img = document.createElement("img");
+          img.alt = t.item.answer;
+          img.src = encodePath(t.item.image);
+
+          const label = document.createElement("div");
+          label.className = "label";
+          label.textContent = t.item.answer;
+
+          front.appendChild(img);
+          front.appendChild(label);
+          btn.appendChild(back);
+          btn.appendChild(front);
+          $grid.appendChild(btn);
+        }
+      }
+
+      async function onPickLevel3(idx) {
+        if (mode !== "level3") return;
+        if (l3.pendingMismatch) return; // wait for outside click (or timer) to flip back
+        if (l3.locked) return;
+        const t = l3.tiles[idx];
+        if (!t || t.matched || t.revealed) return;
+
+        t.revealed = true;
+        renderLevel3();
+
+        if (l3.firstIdx === -1) {
+          l3.firstIdx = idx;
+          return;
+        }
+
+        l3.secondIdx = idx;
+        const a = l3.tiles[l3.firstIdx];
+        const b = l3.tiles[l3.secondIdx];
+        if (!a || !b) return;
+
+        const isMatch = a.pairId === b.pairId;
+        if (isMatch) {
+          a.matched = true;
+          b.matched = true;
+          l3.score += 1;
+          l3.matchedPairs += 1;
+          l3.firstIdx = -1;
+          l3.secondIdx = -1;
+          setMessage("Správně!");
+          setProgressLevel3();
+          renderLevel3();
+          if (l3.matchedPairs >= l3.totalPairs) {
+            setEnd(true, `Hotovo! Skóre: ${l3.score} / ${l3.totalPairs}.`);
+          }
+          return;
+        }
+
+        l3.locked = true;
+        l3.pendingMismatch = true;
+        setMessage("Nesedí. Klikni pro otočení zpět (nebo počkej 2 s).");
+        // Auto-flip after 2s, but allow a click to flip earlier.
+        l3.mismatchTimer = window.setTimeout(resolveMismatchLevel3, 2000);
+      }
+
+      function resolveMismatchLevel3() {
+        if (!l3.pendingMismatch) return;
+        if (l3.mismatchTimer != null) {
+          clearTimeout(l3.mismatchTimer);
+          l3.mismatchTimer = null;
+        }
+        const a = l3.tiles[l3.firstIdx];
+        const b = l3.tiles[l3.secondIdx];
+        if (a) a.revealed = false;
+        if (b) b.revealed = false;
+        l3.firstIdx = -1;
+        l3.secondIdx = -1;
+        l3.locked = false;
+        l3.pendingMismatch = false;
+        renderLevel3();
+      }
+
+      function restartLevel3() {
+        l3.score = 0;
+        l3.matchedPairs = 0;
+        l3.locked = false;
+        l3.firstIdx = -1;
+        l3.secondIdx = -1;
+        l3.pendingMismatch = false;
+        if (l3.mismatchTimer != null) {
+          clearTimeout(l3.mismatchTimer);
+          l3.mismatchTimer = null;
+        }
+        setEnd(false);
+        setMessage("");
+
+        // Pick N unique animals, duplicate them into pairs, then shuffle.
+        const picked = shuffle(items).slice(0, l3.totalPairs);
+        l3.picked = picked;
+        const tiles = [];
+        for (let i = 0; i < picked.length; i++) {
+          tiles.push({ pairId: i, item: picked[i], revealed: false, matched: false });
+          tiles.push({ pairId: i, item: picked[i], revealed: false, matched: false });
+        }
+        l3.tiles = shuffle(tiles);
+
+        // Image area isn't needed in Level 3; keep it empty.
+        $img.removeAttribute("src");
+        $img.alt = "Pexeso";
+
+        setProgressLevel3();
+        renderLevel3();
+      }
+
+      async function showCurrentLevel4() {
+        setEnd(false);
+        setMessage("");
+        clearChoices();
+        if ($l2Reveal) $l2Reveal.textContent = "";
+        if ($l4Reveal) $l4Reveal.textContent = "";
+
+        if (l4.index >= l4.queue.length) {
+          setProgressFrom(l4);
+          setEnd(true, `Hotovo! ${l4.queue.length} / ${l4.queue.length}.`);
+          return;
+        }
+
+        l4.current = l4.queue[l4.index];
+        l4.revealed = false;
+        setProgressFrom(l4);
+
+        $img.src = encodePath(l4.current.image);
+        $img.alt = `Zvíře ${l4.index + 1}`;
+      }
+
+      async function toggleRevealOrNextLevel4() {
+        if (mode !== "level4") return;
+        if (!l4.current) return;
+
+        if (!l4.revealed) {
+          l4.revealed = true;
+          $l4Reveal.textContent = l4.current.answer;
+          return;
+        }
+
+        // Next
+        l4.index += 1;
+        await showCurrentLevel4();
+      }
+
+      function restartLevel4() {
+        l4.score = 0;
+        l4.index = 0;
+        l4.queue = shuffle(items);
+        l4.current = null;
+        l4.revealed = false;
+        showCurrentLevel4();
+      }
+
       function restart() {
         if (mode === "level1") restartLevel1();
         if (mode === "level2") restartLevel2();
+        if (mode === "level3") restartLevel3();
+        if (mode === "level4") restartLevel4();
       }
 
       async function init() {
@@ -600,6 +985,20 @@
             window.visualViewport.addEventListener("resize", updateViewportVars);
             window.visualViewport.addEventListener("scroll", updateViewportVars);
           }
+          updateFullscreenUi();
+          document.addEventListener("fullscreenchange", updateFullscreenUi);
+          document.addEventListener("webkitfullscreenchange", updateFullscreenUi);
+          // Level 3: allow flipping mismatched cards back early, but ONLY by clicking outside the board.
+          document.addEventListener(
+            "click",
+            (e) => {
+              if (mode !== "level3") return;
+              if (!l3.pendingMismatch) return;
+              if ($grid && $grid.contains(e.target)) return;
+              resolveMismatchLevel3();
+            },
+            true
+          );
 
           const res = await fetch(MANIFEST_URL, { cache: "no-store" });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -628,6 +1027,18 @@
         restartLevel2();
       });
 
+      document.getElementById("level3Btn").addEventListener("click", () => {
+        if (!items.length) return;
+        setMode("level3");
+        restartLevel3();
+      });
+
+      document.getElementById("level4Btn").addEventListener("click", () => {
+        if (!items.length) return;
+        setMode("level4");
+        restartLevel4();
+      });
+
       document.getElementById("backBtn").addEventListener("click", () => {
         setMode("menu");
         setProgressFrom({ score: 0, index: 0, queue: items });
@@ -652,6 +1063,7 @@
 
       $l2HelpBtn.addEventListener("click", helpLevel2);
       $l2OkBtn.addEventListener("click", checkLevel2);
+      $fsBtn.addEventListener("click", toggleFullscreen);
       $l2Input.addEventListener("input", () => {
         if (mode !== "level2") return;
         // keep only letters/spaces, limit to 3, auto-check when ready
@@ -666,6 +1078,17 @@
         if (e.key === "Enter") {
           e.preventDefault();
           checkLevel2();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (mode !== "level4") return;
+        // Avoid interfering if focus is inside an input elsewhere
+        const el = document.activeElement;
+        if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA")) return;
+        if (e.key === "Enter") {
+          e.preventDefault();
+          toggleRevealOrNextLevel4();
         }
       });
 
