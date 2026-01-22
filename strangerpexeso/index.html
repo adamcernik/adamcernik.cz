@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stranger Pexeso</title>
+    <style>
+      :root {
+        --bg: #070a12;
+        --card: rgba(255, 255, 255, 0.06);
+        --card2: rgba(255, 255, 255, 0.1);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.6);
+        --border: rgba(255, 255, 255, 0.14);
+        --good: #22c55e;
+        --bad: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(1000px 700px at 30% 10%, rgba(255, 0, 80, 0.12), transparent 60%),
+          radial-gradient(900px 700px at 80% 20%, rgba(110, 0, 255, 0.14), transparent 60%),
+          var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      }
+
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 750;
+        letter-spacing: 0.02em;
+      }
+
+      .stats {
+        font-size: 13px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.22);
+        border-radius: 14px;
+        padding: 12px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .wrap {
+          padding: 12px;
+        }
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .tile {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card);
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+      }
+
+      .tile:disabled {
+        cursor: default;
+      }
+
+      .tile .front,
+      .tile .back {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      .tile .back {
+        margin: 0;
+        border-radius: 0;
+        /* Darken the back image but keep it visible */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+          url("back.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(1.05) contrast(1.05);
+      }
+
+      .tile[data-revealed="false"] .front {
+        display: none;
+      }
+
+      .tile[data-revealed="true"] .back {
+        display: none;
+      }
+
+      .tile.matched {
+        border-color: rgba(34, 197, 94, 0.5);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.14), 0 10px 30px rgba(0, 0, 0, 0.28);
+      }
+
+      .msg {
+        min-height: 20px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 10px 12px;
+        font-size: 13px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Stranger Pexeso</h1>
+        <div class="stats">
+          Body: <strong id="score">0</strong> · <span id="progress">0/18</span> · Pokusy:
+          <span id="tries">0</span>
+        </div>
+      </header>
+
+      <div class="card">
+        <div class="grid" id="grid" aria-label="Memory board"></div>
+        <div class="msg" id="msg"></div>
+        <div class="controls">
+          <button class="btn" id="restartBtn" type="button">Restart</button>
+          <button class="btn" id="fullscreenBtn" type="button">Fullscreen</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const IMAGES = [
+        "2iuzhm7hp48f1.jpeg",
+        "734f87810742a966ebe83f96ecefeb65.webp",
+        "AAAAQT6NuL_BGpWTwRNqlIuX1eJyLasD6bYJs6Ny4CQ6WneBiP-wETaCYT0TAh6A6aPEEOM-UzE_lTOYPNnCIzDxpOQ3xaFrBL2YtENg5kTKPUH-KQZzbcxwx84rtbvt4jUNEXPOj1cMqwjWBBVQUymoxZiF9VU.jpg",
+        "aeba0a419527f0a9067271d659a73e1d.jpg",
+        "Bob_Newby.webp",
+        "Dart-920x518.png",
+        "dustin-henderson-e1571767360634.jpg",
+        "even-netflix-thought-stranger-things-creators-did-barb-v0-GAyZemPP4O-xqU8aOWFbNutwU95_k5aPy_hZe_ZcLck.png.webp",
+        "FknGUS3BNvwcT7njLKMqQN.jpg",
+        "hero-image.webp",
+        "image.webp",
+        "intro-1764249498.jpg",
+        "Lucas_Sinclair_001.webp",
+        "NancyWheeler.webp",
+        "resize.webp",
+        "ST3_Steve_Harrington_portrait.webp",
+        "Stranger-Things-2-Jonathan-4f8c946.jpg",
+        "StrangerThings_Season-4_Finn-Wolfhard.avif",
+      ];
+
+      const $grid = document.getElementById("grid");
+      const $msg = document.getElementById("msg");
+      const $score = document.getElementById("score");
+      const $progress = document.getElementById("progress");
+      const $tries = document.getElementById("tries");
+      const $fsBtn = document.getElementById("fullscreenBtn");
+
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function encodePath(p) {
+        return p
+          .split("/")
+          .map((seg) => encodeURIComponent(seg))
+          .join("/");
+      }
+
+      function updateFullscreenUi() {
+        const supported =
+          !!document.fullscreenEnabled || !!document.webkitFullscreenEnabled;
+        if (!supported) {
+          $fsBtn.style.display = "none";
+          return;
+        }
+        const active =
+          !!document.fullscreenElement || !!document.webkitFullscreenElement;
+        $fsBtn.textContent = active ? "Exit fullscreen" : "Fullscreen";
+      }
+
+      async function toggleFullscreen() {
+        const el = document.documentElement;
+        const active =
+          !!document.fullscreenElement || !!document.webkitFullscreenElement;
+        try {
+          if (active) {
+            if (document.exitFullscreen) await document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+          } else {
+            if (el.requestFullscreen) await el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          }
+        } finally {
+          updateFullscreenUi();
+        }
+      }
+
+      const state = {
+        /** @type {{pairId:number, src:string, revealed:boolean, matched:boolean}[]} */
+        tiles: [],
+        score: 0,
+        tries: 0,
+        matchedPairs: 0,
+        totalPairs: 18,
+        firstIdx: -1,
+        secondIdx: -1,
+        pendingMismatch: false,
+        /** @type {number | null} */
+        mismatchTimer: null,
+      };
+
+      function setMessage(t) {
+        $msg.textContent = t || "";
+      }
+
+      function updateStats() {
+        $score.textContent = String(state.score);
+        $tries.textContent = String(state.tries);
+        $progress.textContent = `${state.matchedPairs}/${state.totalPairs}`;
+      }
+
+      function render() {
+        $grid.innerHTML = "";
+        for (let i = 0; i < state.tiles.length; i++) {
+          const t = state.tiles[i];
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "tile" + (t.matched ? " matched" : "");
+          btn.dataset.revealed = t.revealed || t.matched ? "true" : "false";
+          btn.disabled = t.matched;
+          btn.addEventListener("click", () => onPick(i));
+
+          const back = document.createElement("div");
+          back.className = "back";
+
+          const front = document.createElement("div");
+          front.className = "front";
+
+          const img = document.createElement("img");
+          img.alt = "tile";
+          img.src = encodePath(t.src);
+
+          front.appendChild(img);
+          btn.appendChild(back);
+          btn.appendChild(front);
+          $grid.appendChild(btn);
+        }
+      }
+
+      function clearMismatchTimer() {
+        if (state.mismatchTimer != null) {
+          clearTimeout(state.mismatchTimer);
+          state.mismatchTimer = null;
+        }
+      }
+
+      function resolveMismatch() {
+        if (!state.pendingMismatch) return;
+        clearMismatchTimer();
+        const a = state.tiles[state.firstIdx];
+        const b = state.tiles[state.secondIdx];
+        if (a) a.revealed = false;
+        if (b) b.revealed = false;
+        state.firstIdx = -1;
+        state.secondIdx = -1;
+        state.pendingMismatch = false;
+        setMessage("");
+        render();
+      }
+
+      async function onPick(idx) {
+        if (state.pendingMismatch) return; // Space (or timer) flips back
+        const t = state.tiles[idx];
+        if (!t || t.matched || t.revealed) return;
+
+        t.revealed = true;
+        render();
+
+        if (state.firstIdx === -1) {
+          state.firstIdx = idx;
+          return;
+        }
+
+        state.secondIdx = idx;
+        state.tries += 1;
+        updateStats();
+
+        const a = state.tiles[state.firstIdx];
+        const b = state.tiles[state.secondIdx];
+        if (!a || !b) return;
+
+        if (a.pairId === b.pairId) {
+          a.matched = true;
+          b.matched = true;
+          state.score += 1;
+          state.matchedPairs += 1;
+          state.firstIdx = -1;
+          state.secondIdx = -1;
+          updateStats();
+          setMessage(state.matchedPairs === state.totalPairs ? "Hotovo!" : "Správně!");
+          render();
+          return;
+        }
+
+        state.pendingMismatch = true;
+        setMessage("Nesedí. Klikni kamkoli pro otočení zpět (nebo počkej 2 s).");
+        clearMismatchTimer();
+        state.mismatchTimer = window.setTimeout(resolveMismatch, 2000);
+      }
+
+      function restart() {
+        state.score = 0;
+        state.tries = 0;
+        state.matchedPairs = 0;
+        state.firstIdx = -1;
+        state.secondIdx = -1;
+        state.pendingMismatch = false;
+        clearMismatchTimer();
+        setMessage("");
+
+        const images = IMAGES.slice(0, state.totalPairs);
+        const tiles = [];
+        for (let i = 0; i < images.length; i++) {
+          tiles.push({ pairId: i, src: images[i], revealed: false, matched: false });
+          tiles.push({ pairId: i, src: images[i], revealed: false, matched: false });
+        }
+        state.tiles = shuffle(tiles);
+        updateStats();
+        render();
+      }
+
+      document.getElementById("restartBtn").addEventListener("click", restart);
+      $fsBtn.addEventListener("click", toggleFullscreen);
+      updateFullscreenUi();
+      document.addEventListener("fullscreenchange", updateFullscreenUi);
+      document.addEventListener("webkitfullscreenchange", updateFullscreenUi);
+
+      document.addEventListener("keydown", (e) => {
+        // Space flips mismatched tiles back immediately
+        if (e.code === "Space" && state.pendingMismatch) {
+          e.preventDefault();
+          resolveMismatch();
+        }
+      });
+
+      // Any click flips mismatched tiles back immediately.
+      // Important: while mismatch is pending, clicks on tiles must NOT flip a new tile.
+      document.addEventListener(
+        "click",
+        (e) => {
+          if (!state.pendingMismatch) return;
+          e.preventDefault();
+          e.stopPropagation();
+          resolveMismatch();
+        },
+        true
+      );
+
+      restart();
+    </script>
+  </body>
+</html>
+
+
