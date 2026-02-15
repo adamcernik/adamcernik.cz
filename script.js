@@ -25,24 +25,35 @@ function loadRandomImage() {
 }
 
 // Load a random image when the page loads
-window.onload = loadRandomImage;
+window.addEventListener('load', loadRandomImage);
 
-// Toggle dark mode and handle image click
-themeToggleImg.addEventListener('click', () => {
+// Toggle dark mode
+function toggleDarkMode() {
     body.classList.toggle('dark-mode');
-    
+
     // Save preference to localStorage
     if (body.classList.contains('dark-mode')) {
         localStorage.setItem('darkMode', 'enabled');
     } else {
         localStorage.setItem('darkMode', 'disabled');
     }
-    
+
     // Add a subtle animation when toggling
     themeToggleImg.style.transform = 'scale(1.1)';
     setTimeout(() => {
         themeToggleImg.style.transform = 'scale(1)';
     }, 200);
+}
+
+// Handle click
+themeToggleImg.addEventListener('click', toggleDarkMode);
+
+// Handle keyboard activation (Enter/Space) for accessibility
+themeToggleImg.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleDarkMode();
+    }
 });
 
 // Modal functionality
@@ -50,14 +61,23 @@ const modalTriggers = document.querySelectorAll('.trigger-modal');
 const modalOverlays = document.querySelectorAll('.modal-overlay');
 const closeButtons = document.querySelectorAll('.close-btn');
 
+// Track which trigger opened the modal so we can return focus
+let lastTrigger = null;
+
 // Open modal
 modalTriggers.forEach(trigger => {
     trigger.addEventListener('click', () => {
         const modalId = trigger.getAttribute('data-modal-id');
         const modal = document.getElementById(modalId);
         if (modal) {
+            lastTrigger = trigger;
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
+            // Move focus into the modal
+            const closeBtn = modal.querySelector('.close-btn');
+            if (closeBtn) {
+                closeBtn.focus();
+            }
         }
     });
 });
@@ -65,7 +85,12 @@ modalTriggers.forEach(trigger => {
 // Close modal
 function closeModal(modal) {
     modal.style.display = 'none';
-    document.body.style.overflow = ''; // Restore scrolling
+    document.body.style.overflow = '';
+    // Return focus to the element that opened the modal
+    if (lastTrigger) {
+        lastTrigger.focus();
+        lastTrigger = null;
+    }
 }
 
 // Close modal with close button
@@ -98,6 +123,39 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Trap focus inside open modal
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+
+    let openModal = null;
+    modalOverlays.forEach(overlay => {
+        if (overlay.style.display === 'flex') {
+            openModal = overlay;
+        }
+    });
+    if (!openModal) return;
+
+    const focusable = openModal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+        if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        }
+    } else {
+        if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+});
+
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -112,7 +170,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Add intersection observer for fade-in animations
+// Progressive enhancement: fade-in animations only when JS is available.
+// Mark body so CSS can target the enhanced state. If JS fails to load,
+// sections remain visible (opacity: 1) by default.
+body.classList.add('js-loaded');
+
 const observerOptions = {
     root: null,
     rootMargin: '0px',
@@ -122,16 +184,11 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('is-visible');
         }
     });
 }, observerOptions);
 
-// Observe sections for fade-in animation
 document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     observer.observe(section);
 });

@@ -1,4 +1,7 @@
-/* Modern CSS Reset and Base Styles */
+/* ==========================================================================
+   Variables
+   ========================================================================== */
+
 :root {
     --primary-color: #007BFF;
     --text-color: #333;
@@ -8,11 +11,16 @@
     --dark-secondary: #a0a0a0;
     --dark-border: #404040;
     --dark-hover: #ffffff;
+    --dark-link: #4dabff;
     --transition: all 0.3s ease;
     --border-radius: 8px;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --max-width: 800px;
 }
+
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
 
 * {
     margin: 0;
@@ -45,27 +53,37 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Typography */
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
 h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 2rem;
+    margin-bottom: 5px;
     color: var(--text-color);
 }
 
-h2 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 2rem 0 1rem;
-}
+h2 { font-size: 2rem; font-weight: 600; margin: 2rem 0 1rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
 
 p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-size: 1.1rem;
 }
 
-/* Links and Interactive Elements */
+.block {
+    display: block;
+}
+
+/* ==========================================================================
+   Links & Interactive Elements
+   ========================================================================== */
+
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -79,7 +97,16 @@ a:hover {
     border-bottom-color: var(--primary-color);
 }
 
-/* Profile Image */
+/* ==========================================================================
+   Profile Image
+   ========================================================================== */
+
+#theme-toggle-img {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+}
+
 .profile {
     border-radius: 50%;
     transition: var(--transition);
@@ -92,7 +119,10 @@ a:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Tooltips */
+/* ==========================================================================
+   Tooltips
+   ========================================================================== */
+
 .tooltip {
     position: relative;
     cursor: pointer;
@@ -106,7 +136,8 @@ a:hover {
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: white;
+    background: var(--bg-color);
+    color: var(--text-color);
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     font-size: 0.875rem;
@@ -123,44 +154,51 @@ a:hover {
     transform: translateX(-50%) translateY(-8px);
 }
 
-/* Modal Styles */
+/* ==========================================================================
+   Modal
+   ========================================================================== */
+
 .modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: none;
-    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
     justify-content: center;
+    align-items: center;
     z-index: 1000;
 }
 
 .modal {
     background: white;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    box-shadow: var(--shadow);
+    text-align: left;
+    font-size: 15px;
+    z-index: 1001;
 }
 
 .close-btn {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: none;
+    background: #ff4d4d;
+    color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--text-color);
     transition: var(--transition);
-    padding: 0.5rem;
     line-height: 1;
 }
 
@@ -185,51 +223,10 @@ a:hover {
     color: var(--text-color);
 }
 
-/* Dark mode modal styles */
-.dark-mode .modal {
-    background: var(--dark-bg);
-    color: var(--dark-text);
-}
+/* ==========================================================================
+   Sections
+   ========================================================================== */
 
-.dark-mode .close-btn {
-    color: var(--dark-text);
-}
-
-.dark-mode .close-btn:hover {
-    color: var(--primary-color);
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-}
-
-.dark-mode .tooltip::after {
-    background: var(--dark-bg);
-    color: var(--dark-text);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .content {
-        padding: 1rem;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-}
-
-/* Projects Section */
 .projects {
     background: white;
     padding: 2rem;
@@ -256,7 +253,6 @@ body.dark-mode {
     left: 0;
 }
 
-/* Contact Section */
 .contact {
     background: white;
     padding: 2rem;
@@ -264,7 +260,6 @@ body.dark-mode {
     box-shadow: var(--shadow);
 }
 
-/* Footer */
 footer {
     text-align: center;
     padding: 2rem 0;
@@ -272,9 +267,8 @@ footer {
     font-size: 0.875rem;
 }
 
-/* Tap Hint */
 .tap {
-    font-size: 0.875rem;
+    font-size: 10px;
     color: #666;
     font-style: italic;
     display: block;
@@ -282,231 +276,9 @@ footer {
 }
 
 /* ==========================================================================
-   #TYPOGRAPHY
+   Dark Mode
    ========================================================================== */
 
-/**
- * Typography styles.
- */
-
-h1 {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    line-height: 1.2;
-    color: #333; /* Slightly darker grey for the headline */
-    margin-bottom: 0px;
-}
-
-h1 {font-size: 1.5rem; line-height: 2rem; margin-bottom: 5px;}
-h2 {font-size: 2rem;}
-h3 {font-size: 1.75rem;}
-h4 {font-size: 1.5rem;}
-h5 {font-size: 1.25rem;}
-h6 {font-size: 1rem;}
-p {margin-bottom: 1rem;}
-
-/* ==========================================================================
-   #LAYOUT
-   ========================================================================== */
-
-/**
- * Layout styles.
- */
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -1rem;
-}
-
-.col {
-    flex: 1;
-    padding: 1rem;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-/* ==========================================================================
-   #UTILITIES
-   ========================================================================== */
-
-/**
- * Utility classes.
- */
-
-.text-center {
-    text-align: center;
-}
-
-.mt-1 {
-    margin-top: 1rem;
-}
-
-.mb-1 {
-    margin-bottom: 1rem;
-}
-
-.pt-1 {
-    padding-top: 1rem;
-}
-
-.pb-1 {
-    padding-bottom: 1rem;
-}
-
-/* ==========================================================================
-   #MEDIA QUERIES
-   ========================================================================== */
-
-/**
- * Responsive styles.
- */
-
-/* Mobile breakpoint (max-width 768px) */
-@media (max-width: 680px) {
-    body {
-        font-family: "Libre Baskerville", serif;
-        font-size: 18px;
-        font-weight: 100;
-    }
-    .content {
-        width: 90%; /* Full width on small screens */
-        padding: 20px;
-    }
-    .profile {
-    margin-left: -5px;
-}
-}
-
-/* Dark mode */
-
-body.dark-mode {
-    background-color: #171717;
-    color: #d6d6d6;
-}
-.dark-mode #theme-toggle-img {
-    filter: brightness(0.9);
-}
-
-.dark-mode a:hover {
-    color: #fff;
-}
-
-.dark-mode .tooltip {
-    color: #d6d6d6;
-    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
-}
-.dark-mode .tooltip:hover {
-    color: #fff;
-    transition: 0.3s ease, color 0.2s linear, transform 0.2s ease-in-out;
-}
-
-.dark-mode .modal h2 {
-    color: #333!important;
-}
-
-.dark-mode .dark {
-    color: #333!important;
-}
-.dark-mode small {
-    color: #d6d6d6;
-}
-
-#theme-toggle-img {
-    width: 120px;
-    height: 120px;
-    cursor: pointer;
-}
-
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6 {
-    color: #d6d6d6;
-}
-.tap {
-    font-size: 10px;
-}
-
-/* ==========================================================================
-   #BLUR MODAL
-   ========================================================================== */
-
-/* Blurred backdrop */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px); /* Blur the background */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's above everything */
-}
-
-/* Modal content */
-.modal {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 90%;
-    text-align: left;
-    font-size: 15px;
-    z-index: 1001; /* Ensure it's above the overlay */
-}
-
-/* Close button */
-.close-btn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Trigger button */
-.trigger-modal {
-    cursor: pointer;
-}
-/* Additional utility classes used in HTML */
-.block {
-    display: block;
-}
-.text-3xl {
-    font-size: 1.875rem;
-}
-.font-bold {
-    font-weight: 700;
-}
-.text-lg {
-    font-size: 1.125rem;
-}
-.font-normal {
-    font-weight: 400;
-}
-
-/* Dark Mode Styles */
 body.dark-mode {
     background-color: var(--dark-bg);
     color: var(--dark-text);
@@ -521,18 +293,26 @@ body.dark-mode {
     color: var(--dark-text);
 }
 
+.dark-mode small {
+    color: var(--dark-text);
+}
+
 .dark-mode a {
-    color: #4dabff;
+    color: var(--dark-link);
 }
 
 .dark-mode a:hover {
     color: var(--dark-hover);
-    border-bottom-color: #4dabff;
+    border-bottom-color: var(--dark-link);
+}
+
+.dark-mode #theme-toggle-img {
+    filter: brightness(0.9);
 }
 
 .dark-mode .tooltip {
     color: var(--dark-text);
-    border-bottom-color: #4dabff;
+    border-bottom-color: var(--dark-link);
 }
 
 .dark-mode .tooltip:hover {
@@ -560,7 +340,15 @@ body.dark-mode {
 }
 
 .dark-mode .close-btn:hover {
-    color: #4dabff;
+    color: var(--dark-link);
+}
+
+.dark-mode .trigger-modal {
+    color: var(--dark-link);
+}
+
+.dark-mode .trigger-modal:hover {
+    color: var(--dark-hover);
 }
 
 .dark-mode .projects,
@@ -570,7 +358,7 @@ body.dark-mode {
 }
 
 .dark-mode .projects li::before {
-    color: #4dabff;
+    color: var(--dark-link);
 }
 
 .dark-mode .tap {
@@ -581,44 +369,44 @@ body.dark-mode {
     color: var(--dark-secondary);
 }
 
-.dark-mode .trigger-modal {
-    color: #4dabff;
-}
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
 
-.dark-mode .trigger-modal:hover {
-    color: var(--dark-hover);
-}
+/* ==========================================================================
+   Progressive Enhancement: Fade-in Animations
+   Only applied when JS loads successfully (adds .js-loaded to body).
+   Without JS, sections remain fully visible.
+   ========================================================================== */
 
-/* Player Dimmer */
-.player-dimmer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(14, 16, 20, 0.75) 0%,
-        rgba(14, 16, 20, 0.5) 20%,
-        rgba(14, 16, 20, 0.5) 80%,
-        rgba(14, 16, 20, 0.75) 100%
-    );
-    pointer-events: none;
-    z-index: 1;
-    transition: opacity 0.3s ease;
-}
-
-.player-dimmer.hidden {
+.js-loaded section {
     opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Dark mode support for player dimmer */
-.dark-mode .player-dimmer {
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.85) 0%,
-        rgba(0, 0, 0, 0.6) 20%,
-        rgba(0, 0, 0, 0.6) 80%,
-        rgba(0, 0, 0, 0.85) 100%
-    );
+.js-loaded section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 680px) {
+    body {
+        font-family: "Libre Baskerville", serif;
+        font-size: 18px;
+        font-weight: 100;
+    }
+
+    .content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .profile {
+        margin-left: -5px;
+    }
 }
