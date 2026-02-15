@@ -1,6 +1,7 @@
 # Dotazník pro tvorbu webu
 
 Vyplň co nejvíc, klidně stručně. Co nevíš, přeskoč — dořešíme.
+*Šedě kurzívou jsou vzorové odpovědi pro inspiraci — smaž je a napiš svoje.*
 
 ---
 
@@ -9,17 +10,21 @@ Vyplň co nejvíc, klidně stručně. Co nevíš, přeskoč — dořešíme.
 **Jak se bude web jmenovat / jaká bude doména?**
 (např. jmenaprijmeni.cz, nazevfirmy.cz — nebo ještě nevím)
 
+> *Např.: atelierxyz.cz, artkolektiv.cz, studentart.cz — nebo ještě nevím, poradíme se*
+
 
 **O čem web bude? Co děláš / nabízíš?**
 (popiš 2–3 větami)
+
+> *Např.: Jsme skupina studentů umělecké školy. Tvoříme originální grafiku, ilustrace a merch — trička, plakáty, samolepky. Chceme mít místo, kde to lidi najdou a můžou si to koupit.*
 
 
 **Jaký je hlavní cíl webu?**
 - [ ] Prezentace mě / mé práce
 - [ ] Nabídka služeb a získání klientů
-- [ ] Prodej produktů (e-shop)
+- [x] Prodej produktů (e-shop) *← např. merch, plakáty, originály*
 - [ ] Blog / sdílení obsahu
-- [ ] Portfolio (fotky, projekty...)
+- [x] Portfolio (fotky, projekty...) *← ukázky prací studentů*
 - [ ] Jiné: ___
 
 ---
@@ -29,9 +34,13 @@ Vyplň co nejvíc, klidně stručně. Co nevíš, přeskoč — dořešíme.
 **Pro koho je web určený? Kdo ho bude navštěvovat?**
 (např. maminky na mateřské, firmy, lidé co hledají terapeuta...)
 
+> *Např.: Hlavně studenti, mladí lidé 18–30, co mají rádi umění, streetwear a originální věci. Taky kamarádi, rodiče, a lidi co hledají unikátní dárek.*
+
 
 **Co by měl návštěvník na webu udělat?**
 (např. objednat se, napsat mi, koupit produkt, přečíst si blog...)
+
+> *Např.: Prohlédnout si naše práce, koupit si merch nebo plakát, případně nás kontaktovat ohledně zakázky na míru.*
 
 
 ---
@@ -40,17 +49,17 @@ Vyplň co nejvíc, klidně stručně. Co nevíš, přeskoč — dořešíme.
 
 Zaškrtni co chceš, případně dopiš:
 
-- [ ] Úvodní stránka (homepage)
-- [ ] O mně
-- [ ] Služby / Nabídka
-- [ ] Ceník
-- [ ] Portfolio / Galerie
+- [x] Úvodní stránka (homepage)
+- [x] O nás *← kdo jsme, náš příběh*
+- [x] Služby / Nabídka *← co všechno děláme (grafika, ilustrace, malba...)*
+- [x] Ceník *← nebo ceny přímo u produktů v e-shopu*
+- [x] Portfolio / Galerie *← ukázky prací jednotlivých studentů*
 - [ ] Reference / Recenze
-- [ ] Blog / Články
-- [ ] Kontakt
+- [ ] Blog / Články *← volitelné, třeba později*
+- [x] Kontakt
 - [ ] Objednávkový formulář
-- [ ] E-shop
-- [ ] Jiné: ___
+- [x] E-shop *← merch, plakáty, originály*
+- [ ] Jiné: *např. stránka „Naši autoři" s profily jednotlivých studentů*
 
 ---
 
@@ -58,17 +67,17 @@ Zaškrtni co chceš, případně dopiš:
 
 **Máš už texty, nebo je potřeba napsat?**
 - [ ] Mám hotové texty
-- [ ] Mám poznámky, potřebuji doladit
+- [x] Mám poznámky, potřebuji doladit *← např. „vím co chci říct, ale potřebuji to hezky napsat"*
 - [ ] Nemám nic, potřebuji pomoct
 
 **Máš vlastní fotky?**
-- [ ] Ano, kvalitní fotky
+- [x] Ano, kvalitní fotky *← nafocené práce, produkty*
 - [ ] Ano, ale z mobilu / nižší kvalita
 - [ ] Ne, bude potřeba stock fotky nebo focení
 
 **Máš logo?**
 - [ ] Ano
-- [ ] Ne, ale chci vytvořit
+- [x] Ne, ale chci vytvořit *← třeba navrhnout v rámci projektu*
 - [ ] Nepotřebuji logo
 
 ---
@@ -76,8 +85,8 @@ Zaškrtni co chceš, případně dopiš:
 ## 5. Design a styl
 
 **Jaký vizuální styl se ti líbí?**
-- [ ] Minimalistický a čistý
-- [ ] Moderní a odvážný
+- [x] Minimalistický a čistý *← ať vyniknou samotné práce*
+- [x] Moderní a odvážný *← streetwear vibe*
 - [ ] Elegantní a luxusní
 - [ ] Hravý a barevný
 - [ ] Přírodní a jemný
@@ -86,12 +95,15 @@ Zaškrtni co chceš, případně dopiš:
 **Jaké barvy tě vystihují nebo se ti líbí?**
 (např. pudrová růžová, tmavě zelená, černá a zlatá...)
 
+> *Např.: Černá a bílá jako základ, s jednou výraznou akcentovou barvou — třeba neonově oranžová nebo limetkově zelená. Aby to bylo mladistvé a výrazné.*
+
 
 **Napiš 2–3 weby, které se ti líbí (a čím):**
 
-1.
-2.
-3.
+> *Např.:*
+> 1. *everpress.com — líbí se mi jak prezentují merch, čistý design*
+> 2. *behance.net — přehledné portfolio, každý autor má svůj profil*
+> 3. *nike.com — odvážný vizuál, velké fotky, moderní feeling*
 
 ---
 
@@ -99,15 +111,15 @@ Zaškrtni co chceš, případně dopiš:
 
 Zaškrtni co budeš potřebovat:
 
-- [ ] Kontaktní formulář
-- [ ] Napojení na sociální sítě (Instagram, Facebook...)
+- [x] Kontaktní formulář
+- [x] Napojení na sociální sítě (Instagram, Facebook...)
 - [ ] Rezervační systém / online objednávání
-- [ ] Newsletter (sběr e-mailů)
-- [ ] E-shop (platby online)
-- [ ] Vícejazyčnost (CZ + EN apod.)
+- [x] Newsletter (sběr e-mailů) *← informovat o nových produktech*
+- [x] E-shop (platby online) *← kartou, převodem*
+- [x] Vícejazyčnost (CZ + EN apod.) *← pokud chcete prodávat i do zahraničí*
 - [ ] Chat / online podpora
 - [ ] Mapa (kde mě najdete)
-- [ ] Jiné: ___
+- [ ] Jiné: *např. filtrování produktů podle autora nebo kategorie*
 
 ---
 
@@ -115,11 +127,12 @@ Zaškrtni co budeš potřebovat:
 
 **Jaké sítě používáš? Napiš odkazy:**
 
-- Instagram:
-- Facebook:
+> *Např.:*
+- Instagram: *@atelierxyz*
+- Facebook: *facebook.com/atelierxyz*
 - LinkedIn:
-- TikTok:
-- Jiné:
+- TikTok: *@atelierxyz — videa z tvorby, behind the scenes*
+- Jiné: *Behance, Pinterest...*
 
 ---
 
@@ -127,16 +140,16 @@ Zaškrtni co budeš potřebovat:
 
 **Máš už někde web nebo doménu?**
 - [ ] Ano — adresa: ___
-- [ ] Ne
+- [x] Ne
 
 **Jak naléhavé to je?**
 - [ ] Potřebuji co nejdřív
-- [ ] V klidu, do měsíce
+- [x] V klidu, do měsíce
 - [ ] Žádný spěch, plánuji dopředu
 
 **Rozpočet — kolik chceš do webu investovat?**
 - [ ] Minimálně, ideálně zdarma
-- [ ] Do 5 000 Kč
+- [x] Do 5 000 Kč *← realistické pro jednoduchý web s e-shopem*
 - [ ] Do 15 000 Kč
 - [ ] Do 30 000 Kč
 - [ ] Nemám limit, chci kvalitu
@@ -147,7 +160,9 @@ Zaškrtni co budeš potřebovat:
 
 **Je něco, co bys chtěla zmínit? Něco co nesmí chybět, nebo naopak co nechceš?**
 
+> *Např.: Chci, aby každý student/autor měl na webu svůj mini-profil s fotkou a bio. Nechci nic přeplácané — má to být jednoduché, ale cool. Důležité je, aby se dalo snadno přidávat nové produkty.*
+
 
 ---
 
-*Až to vyplníš, pošli mi to zpátky a já se o zbytek postarám.*
+*Až to vyplníš, smaž vzorové odpovědi a pošli mi to zpátky — já se o zbytek postarám.*
