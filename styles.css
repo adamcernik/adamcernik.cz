@@ -16,6 +16,7 @@
     --border-radius: 8px;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --max-width: 800px;
+    --overlay-bg: rgba(255, 255, 255, 0.4);
 }
 
 /* ==========================================================================
@@ -63,6 +64,15 @@ h1 {
     line-height: 2rem;
     margin-bottom: 5px;
     color: var(--text-color);
+}
+
+h1 .subtitle {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #666;
+    margin-top: 2px;
 }
 
 h2 { font-size: 2rem; font-weight: 600; margin: 2rem 0 1rem; }
@@ -159,24 +169,35 @@ a:hover {
    ========================================================================== */
 
 .modal-overlay {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--overlay-bg);
     backdrop-filter: blur(10px);
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .modal {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    padding-top: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     max-width: 500px;
     width: 90%;
     max-height: 90vh;
@@ -185,25 +206,39 @@ a:hover {
     text-align: left;
     font-size: 15px;
     z-index: 1001;
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.modal-overlay.is-open .modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
 }
 
 .close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1.5rem;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    font-size: 1.1rem;
     cursor: pointer;
+    color: #999;
     transition: var(--transition);
     line-height: 1;
+    padding: 0;
 }
 
 .close-btn:hover {
-    color: var(--primary-color);
+    color: var(--text-color);
+    border-color: rgba(0, 0, 0, 0.25);
     transform: scale(1.1);
 }
 
@@ -247,7 +282,7 @@ a:hover {
 }
 
 .projects li::before {
-    content: "•";
+    content: "\2022";
     color: var(--primary-color);
     position: absolute;
     left: 0;
@@ -258,6 +293,24 @@ a:hover {
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+}
+
+.contact-grid {
+    display: grid;
+    gap: 0.6rem;
+    font-style: normal;
+}
+
+.contact-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.contact-label {
+    color: #999;
+    font-size: 0.85rem;
+    min-width: 4.5rem;
 }
 
 footer {
@@ -284,6 +337,10 @@ body.dark-mode {
     color: var(--dark-text);
 }
 
+body.dark-mode {
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
 .dark-mode h1,
 .dark-mode h2,
 .dark-mode h3,
@@ -291,6 +348,10 @@ body.dark-mode {
 .dark-mode h5,
 .dark-mode h6 {
     color: var(--dark-text);
+}
+
+.dark-mode h1 .subtitle {
+    color: var(--dark-secondary);
 }
 
 .dark-mode small {
@@ -336,11 +397,13 @@ body.dark-mode {
 }
 
 .dark-mode .close-btn {
-    color: var(--dark-text);
+    color: var(--dark-secondary);
+    border-color: var(--dark-border);
 }
 
 .dark-mode .close-btn:hover {
-    color: var(--dark-link);
+    color: var(--dark-text);
+    border-color: var(--dark-text);
 }
 
 .dark-mode .trigger-modal {
@@ -365,13 +428,13 @@ body.dark-mode {
     color: var(--dark-secondary);
 }
 
-.dark-mode footer {
+.dark-mode .contact-label {
     color: var(--dark-secondary);
 }
 
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
+.dark-mode footer {
+    color: var(--dark-secondary);
+}
 
 /* ==========================================================================
    Progressive Enhancement: Fade-in Animations
@@ -408,5 +471,14 @@ body.dark-mode {
 
     .profile {
         margin-left: -5px;
+    }
+
+    .contact-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .contact-label {
+        min-width: auto;
     }
 }
