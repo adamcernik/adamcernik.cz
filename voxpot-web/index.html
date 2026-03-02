@@ -951,7 +951,12 @@
     const SUPABASE_URL = 'https://dvjnwjdhefbfunrtmylg.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2am53amRoZWZiZnVucnRteWxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0MzA2NjgsImV4cCI6MjA4ODAwNjY2OH0.82hWaT8cw97OmwZHQfZfGo-HDhi5U39AYlPxuCbCEQo';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabaseClient = null;
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (e) {
+        console.warn('Supabase failed to initialize:', e);
+    }
 
     // ═══════════════════════════════════════════════════════════
     // STATE
@@ -1267,7 +1272,8 @@
         };
 
         try {
-            const { error } = await supabase
+            if (!supabaseClient) throw new Error('Supabase not loaded');
+            const { error } = await supabaseClient
                 .from('survey_responses')
                 .insert([payload]);
 
