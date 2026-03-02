@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Voxpot – Dotazník</title>
+    <link rel="icon" href="../favicon-16x16.ico" sizes="16x16" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Variables ── */
+        :root {
+            --primary: #007BFF;
+            --primary-light: #e8f2ff;
+            --primary-dark: #0056b3;
+            --text: #333;
+            --text-light: #666;
+            --bg: #f9f9f9;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+            --success: #28a745;
+            --success-light: #e8f5e9;
+            --error: #dc3545;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+            --max-width: 640px;
+        }
+
+        /* ── Reset ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ── Base ── */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Hanken Grotesk", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .survey-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .survey-header .logo {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .survey-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+        }
+        .survey-header .subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ── Progress ── */
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--card-bg);
+            padding: 1rem 0 0.75rem;
+            margin: 0 -1.5rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        .progress-track {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        /* ── Steps ── */
+        .step {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+        .step.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        /* ── Form elements ── */
+        .field {
+            margin-bottom: 1.75rem;
+        }
+        .field:last-child { margin-bottom: 0; }
+
+        label.field-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .field-hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--card-bg);
+            color: var(--text);
+            transition: var(--transition);
+            outline: none;
+        }
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* ── Checkboxes & Radio ── */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+        .option-item:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .option-item.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .option-item input {
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .option-item span {
+            font-size: 0.95rem;
+        }
+
+        .other-input {
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .other-input.visible { display: block; }
+
+        /* ── Select (dropdown) ── */
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        /* ── Priority ranking ── */
+        .priority-list {
+            list-style: none;
+            counter-reset: priority;
+        }
+        .priority-item {
+            counter-increment: priority;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: grab;
+            transition: var(--transition);
+            user-select: none;
+        }
+        .priority-item:active { cursor: grabbing; }
+        .priority-item:hover { border-color: var(--primary); }
+        .priority-item .drag-handle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .priority-item .rank {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .priority-item.dragging {
+            opacity: 0.5;
+            border-color: var(--primary);
+        }
+
+        /* ── Buttons ── */
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            flex: 1;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 1.5px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-light);
+            color: var(--text);
+        }
+
+        /* ── Version selector ── */
+        .version-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .version-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .version-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .version-card.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .version-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .version-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .version-card p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* ── Success screen ── */
+        .success-screen {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+        .success-screen .checkmark {
+            width: 72px;
+            height: 72px;
+            background: var(--success-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+        .success-screen h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .success-screen p {
+            color: var(--text-light);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* ── Loading ── */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Error ── */
+        .error-msg {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .field.has-error input,
+        .field.has-error textarea {
+            border-color: var(--error);
+        }
+        .field.has-error .error-msg { display: block; }
+
+        /* ── Footer ── */
+        .survey-footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .survey-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 500px) {
+            .container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .version-cards { grid-template-columns: 1fr; }
+            .survey-header h1 { font-size: 1.4rem; }
+            .btn-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="survey-header">
+            <div class="logo">Voxpot × Adam Černík</div>
+            <h1>Mapování workflow</h1>
+            <p class="subtitle">Pomozte mi porozumět tomu, jak pracujete, abych vám mohl navrhnout aplikaci přesně na míru.</p>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-bar" id="progressBar" style="display:none;">
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText"></div>
+        </div>
+
+        <!-- Form -->
+        <form id="surveyForm" novalidate>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- STEP 0: Version Selector                       -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step active" data-step="0">
+                <div class="card">
+                    <div class="section-title">Jaká je vaše role?</div>
+                    <div class="version-cards">
+                        <div class="version-card" data-version="vedeni" tabindex="0">
+                            <div class="icon">📋</div>
+                            <h3>Vedení / Redakce</h3>
+                            <p>Řídím nebo koordinuji obsah a&nbsp;chod redakce</p>
+                        </div>
+                        <div class="version-card" data-version="prispevatel" tabindex="0">
+                            <div class="icon">✍️</div>
+                            <h3>Přispěvatel</h3>
+                            <p>Píšu články pro Voxpot</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 1 – Základní info                 -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v1">
+                <div class="card">
+                    <div class="section-title">Základní informace</div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_name">Jméno (nepovinné)</label>
+                        <input type="text" id="v_name" name="name" placeholder="Vaše jméno">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_role">Jaká je vaše konkrétní role ve Voxpotu?</label>
+                        <input type="text" id="v_role" name="role" placeholder="Např. šéfredaktor, editor, koordinátor..." required>
+                        <div class="error-msg">Vyplňte prosím svou roli</div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Jak dlouho ve Voxpotu působíte?</label>
+                        <select name="tenure" required>
+                            <option value="" disabled selected>Vyberte...</option>
+                            <option value="<1">Méně než rok</option>
+                            <option value="1-3">1–3 roky</option>
+                            <option value="3+">Více než 3 roky</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 2 – Plánování článků              -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v2">
+                <div class="card">
+                    <div class="section-title">Plánování článků</div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_planning_process">Jak aktuálně plánujete články? Popište stručně proces od nápadu po publikaci.</label>
+                        <textarea id="v_planning_process" name="planning_process" placeholder="Např. nápad → schválení → rešerše → psaní → editace → publikace..." required></textarea>
+                        <div class="error-msg">Popište prosím váš proces</div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Jaké nástroje k tomu dnes používáte?</label>
+                        <p class="field-hint">Zaškrtněte vše, co platí</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="tools" value="google_docs"><span>Google Docs</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="google_sheets"><span>Google Sheets</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="task_manager"><span>Trello / Asana / jiný task manager</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="messaging"><span>Slack / WhatsApp / Signal</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="email"><span>Email</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="meetings"><span>Osobní schůzky</span></label>
+                            <label class="option-item"><input type="checkbox" name="tools" value="other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="tools_other" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_decision">Kdo rozhoduje o tom, co se bude psát a kdy?</label>
+                        <input type="text" id="v_decision" name="decision_maker" placeholder="Např. šéfredaktor, kolektivně na poradě...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Jak daleko dopředu plánujete obsah?</label>
+                        <select name="planning_horizon">
+                            <option value="" disabled selected>Vyberte...</option>
+                            <option value="daily">Den po dni</option>
+                            <option value="weekly">Týden dopředu</option>
+                            <option value="monthly">Měsíc dopředu</option>
+                            <option value="quarterly">Kvartál a více</option>
+                            <option value="none">Neplánujeme systematicky</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_pain">Co vás při plánování článků nejvíc brzdí nebo frustruje?</label>
+                        <textarea id="v_pain" name="planning_pain" placeholder="Buďte upřímní – tohle je nejdůležitější otázka..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 3 – Newslettery & další obsah     -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v3">
+                <div class="card">
+                    <div class="section-title">Newslettery a další obsah</div>
+
+                    <div class="field">
+                        <label class="field-label">Jak často vydáváte newsletter?</label>
+                        <select name="newsletter_freq">
+                            <option value="" disabled selected>Vyberte...</option>
+                            <option value="weekly">Týdně</option>
+                            <option value="biweekly">Dvakrát měsíčně</option>
+                            <option value="monthly">Měsíčně</option>
+                            <option value="irregular">Nepravidelně</option>
+                            <option value="none">Newsletter nemáme</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_newsletter_owner">Kdo má na starosti přípravu newsletteru?</label>
+                        <input type="text" id="v_newsletter_owner" name="newsletter_owner" placeholder="Role nebo jméno">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Jaký další obsah kromě článků produkujete?</label>
+                        <p class="field-hint">Zaškrtněte vše, co platí</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="content_types" value="podcast"><span>Podcasty</span></label>
+                            <label class="option-item"><input type="checkbox" name="content_types" value="video"><span>Videa</span></label>
+                            <label class="option-item"><input type="checkbox" name="content_types" value="social"><span>Příspěvky na sociální sítě</span></label>
+                            <label class="option-item"><input type="checkbox" name="content_types" value="press"><span>Tiskové zprávy</span></label>
+                            <label class="option-item"><input type="checkbox" name="content_types" value="content_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="content_types_other" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Potřebujete v aplikaci řešit i plánování tohoto dalšího obsahu?</label>
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="plan_other_content" value="yes" required><span>Ano, určitě</span></label>
+                            <label class="option-item"><input type="radio" name="plan_other_content" value="nice_to_have"><span>Bylo by to fajn, ale není to priorita</span></label>
+                            <label class="option-item"><input type="radio" name="plan_other_content" value="no"><span>Ne, stačí články a newslettery</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 4 – Organizace & office           -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v4">
+                <div class="card">
+                    <div class="section-title">Organizace a office management</div>
+
+                    <div class="field">
+                        <label class="field-label">Jaké organizační věci kromě tvorby obsahu řešíte?</label>
+                        <p class="field-hint">Zaškrtněte vše, co platí</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="meetings"><span>Schůzky a porady redakce</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="contacts"><span>Správa kontaktů (zdroje, respondenti)</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="invoicing"><span>Fakturace a honoráře</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="documents"><span>Sdílení dokumentů a smluv</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="office"><span>Správa vybavení / kanceláře</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="onboarding"><span>Onboarding nových lidí</span></label>
+                            <label class="option-item"><input type="checkbox" name="org_tasks" value="org_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="org_tasks_other" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_org_app">Co z těchto organizačních věcí byste chtěli mít v aplikaci?</label>
+                        <textarea id="v_org_app" name="org_in_app" placeholder="Co by vám nejvíc pomohlo mít na jednom místě?"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_recurring">Existují opakující se úkoly, které děláte pravidelně?</label>
+                        <textarea id="v_recurring" name="recurring_tasks" placeholder="Např. týdenní porada, měsíční uzávěrka honorářů..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 5 – Komunikace                    -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v5">
+                <div class="card">
+                    <div class="section-title">Spolupráce a komunikace</div>
+
+                    <div class="field">
+                        <label class="field-label">Jak komunikujete v rámci redakce?</label>
+                        <p class="field-hint">Zaškrtněte hlavní kanály</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="slack"><span>Slack</span></label>
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="whatsapp"><span>WhatsApp / Signal</span></label>
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="email"><span>Email</span></label>
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="video"><span>Google Meet / Zoom</span></label>
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="in_person"><span>Osobně</span></label>
+                            <label class="option-item"><input type="checkbox" name="comm_channels" value="comm_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="comm_channels_other" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_comm_pain">Co je největší problém v komunikaci v týmu?</label>
+                        <textarea id="v_comm_pain" name="comm_pain" placeholder="Co se ztrácí, co nefunguje?"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_feedback">Jak předáváte úkoly nebo zpětnou vazbu k článkům?</label>
+                        <input type="text" id="v_feedback" name="feedback_method" placeholder="Např. komentáře v Google Docs, email, osobně...">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 6 – Požadavky na aplikaci         -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v6">
+                <div class="card">
+                    <div class="section-title">Požadavky na aplikaci</div>
+
+                    <div class="field">
+                        <label class="field-label">Seřaďte podle priority (přetáhněte)</label>
+                        <p class="field-hint">Nahoře = nejvyšší priorita</p>
+                        <ul class="priority-list" id="priorityList">
+                            <li class="priority-item" draggable="true" data-value="article_status"><span class="drag-handle">⠿</span><span class="rank"></span><span>Přehled o stavu článků</span></li>
+                            <li class="priority-item" draggable="true" data-value="calendar"><span class="drag-handle">⠿</span><span class="rank"></span><span>Plánování obsahu do kalendáře</span></li>
+                            <li class="priority-item" draggable="true" data-value="tasks"><span class="drag-handle">⠿</span><span class="rank"></span><span>Správa úkolů a deadlinů</span></li>
+                            <li class="priority-item" draggable="true" data-value="comments"><span class="drag-handle">⠿</span><span class="rank"></span><span>Komunikace / komentáře u článků</span></li>
+                            <li class="priority-item" draggable="true" data-value="org"><span class="drag-handle">⠿</span><span class="rank"></span><span>Organizační agenda</span></li>
+                            <li class="priority-item" draggable="true" data-value="stats"><span class="drag-handle">⠿</span><span class="rank"></span><span>Přehledy a statistiky</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_missing">Je něco, co vám v současných nástrojích chybí?</label>
+                        <textarea id="v_missing" name="missing_features" placeholder="Co byste chtěli, ale zatím nemáte?"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_unwanted">Jsou funkce, které rozhodně NECHCETE?</label>
+                        <textarea id="v_unwanted" name="unwanted_features" placeholder="Např. &quot;nechceme další chat&quot;..."></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_cms">Máte redakční systém / CMS? Pokud ano, jaký?</label>
+                        <input type="text" id="v_cms" name="cms" placeholder="Např. WordPress, Ghost, vlastní...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_integrations">Bylo by užitečné, aby se aplikace s něčím integrovala?</label>
+                        <textarea id="v_integrations" name="integrations" placeholder="Např. Google Calendar, CMS, Slack..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- VEDENI: Step 7 – Závěr                         -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="v7">
+                <div class="card">
+                    <div class="section-title">Závěr</div>
+
+                    <div class="field">
+                        <label class="field-label" for="v_anything_else">Je něco dalšího, co bychom měli vědět?</label>
+                        <textarea id="v_anything_else" name="anything_else" placeholder="Cokoliv, co vás napadne..."></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Byl/a byste ochotný/á zúčastnit se krátkého rozhovoru (30 min)?</label>
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="interview" value="yes"><span>Ano, rád/a</span></label>
+                            <label class="option-item"><input type="radio" name="interview" value="no"><span>Spíše ne</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" id="submitBtnVedeni" onclick="submitSurvey()">Odeslat dotazník</button>
+                </div>
+            </div>
+
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- PRISPEVATEL: Step 1 – Základní info            -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="p1">
+                <div class="card">
+                    <div class="section-title">Základní informace</div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_name">Jméno (nepovinné)</label>
+                        <input type="text" id="p_name" name="name" placeholder="Vaše jméno">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_role">Jaká je vaše konkrétní role ve Voxpotu?</label>
+                        <input type="text" id="p_role" name="role" placeholder="Např. autor, reportér, externista..." required>
+                        <div class="error-msg">Vyplňte prosím svou roli</div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Píšete pro Voxpot pravidelně, nebo nárazově?</label>
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="frequency" value="regular" required><span>Pravidelně</span></label>
+                            <label class="option-item"><input type="radio" name="frequency" value="occasional"><span>Nárazově</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- PRISPEVATEL: Step 2 – Pracovní proces          -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="p2">
+                <div class="card">
+                    <div class="section-title">Váš pracovní proces</div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_process">Jak vypadá váš typický proces psaní článku pro Voxpot?</label>
+                        <textarea id="p_process" name="writing_process" placeholder="Od nápadu po odevzdání – jak to u vás probíhá?" required></textarea>
+                        <div class="error-msg">Popište prosím váš proces</div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Jaké nástroje používáte při práci pro Voxpot?</label>
+                        <p class="field-hint">Zaškrtněte vše, co platí</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="google_docs"><span>Google Docs</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="google_sheets"><span>Google Sheets</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="task_manager"><span>Trello / Asana / jiný task manager</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="messaging"><span>Slack / WhatsApp / Signal</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="email"><span>Email</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_tools" value="p_tools_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="p_tools_other_text" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_pain">Co vás při práci pro Voxpot nejvíc zdržuje nebo frustruje?</label>
+                        <textarea id="p_pain" name="work_pain" placeholder="Buďte upřímní..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- PRISPEVATEL: Step 3 – Komunikace               -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="p3">
+                <div class="card">
+                    <div class="section-title">Komunikace a spolupráce</div>
+
+                    <div class="field">
+                        <label class="field-label">Jak komunikujete s redakcí?</label>
+                        <p class="field-hint">Zaškrtněte vše, co platí</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="checkbox" name="p_comm" value="slack"><span>Slack</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_comm" value="whatsapp"><span>WhatsApp / Signal</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_comm" value="email"><span>Email</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_comm" value="in_person"><span>Osobně</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_comm" value="p_comm_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="p_comm_other_text" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Máte jasno v tom, co se od vás čeká?</label>
+                        <p class="field-hint">Deadliny, rozsah, téma</p>
+                        <div class="option-group">
+                            <label class="option-item"><input type="radio" name="clarity" value="always" required><span>Vždy</span></label>
+                            <label class="option-item"><input type="radio" name="clarity" value="mostly"><span>Většinou ano</span></label>
+                            <label class="option-item"><input type="radio" name="clarity" value="sometimes"><span>Občas ne</span></label>
+                            <label class="option-item"><input type="radio" name="clarity" value="rarely"><span>Často tápám</span></label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_feedback">Jak dostáváte zpětnou vazbu k článkům?</label>
+                        <input type="text" id="p_feedback" name="feedback_method" placeholder="Např. komentáře v Docs, email, telefonát...">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" onclick="goNext()">Pokračovat →</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- PRISPEVATEL: Step 4 – Co by pomohlo + Závěr    -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="p4">
+                <div class="card">
+                    <div class="section-title">Co by vám pomohlo</div>
+
+                    <div class="field">
+                        <label class="field-label">Co by vám v práci pro Voxpot nejvíc pomohlo?</label>
+                        <p class="field-hint">Zaškrtněte max 3</p>
+                        <div class="option-group" data-max-select="3">
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="deadlines"><span>Jasný přehled deadlinů a úkolů</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="article_status"><span>Vědět, v jaké fázi je můj článek</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="communication"><span>Jednodušší komunikace s redakcí</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="team_overview"><span>Přehled, kdo na čem pracuje</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="pub_calendar"><span>Kalendář publikací</span></label>
+                            <label class="option-item"><input type="checkbox" name="p_wishes" value="p_wishes_other"><span>Jiné</span></label>
+                        </div>
+                        <input type="text" class="other-input" name="p_wishes_other_text" placeholder="Uveďte jaké...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_unwanted">Je něco, co byste v nové aplikaci rozhodně nechtěl/a?</label>
+                        <input type="text" id="p_unwanted" name="unwanted" placeholder="Např. další komunikační kanál...">
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="p_anything">Chcete k tomu ještě něco dodat?</label>
+                        <textarea id="p_anything" name="anything_else" placeholder="Cokoliv, co vás napadne..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">← Zpět</button>
+                    <button type="button" class="btn btn-primary" id="submitBtnPrispevatel" onclick="submitSurvey()">Odeslat dotazník</button>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- SUCCESS                                         -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="step" data-step="success">
+                <div class="card">
+                    <div class="success-screen">
+                        <div class="checkmark">✓</div>
+                        <h2>Děkujeme!</h2>
+                        <p>Vaše odpovědi byly odeslány. Na jejich základě připravím návrh aplikace, který s vámi budu dál konzultovat.</p>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="survey-footer">
+            Připravil <a href="https://adamcernik.cz" target="_blank">Adam Černík</a> pro Voxpot
+        </div>
+    </div>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════
+    // CONFIG – Replace with your Supabase credentials
+    // ═══════════════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://dvjnwjdhefbfunrtmylg.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2am53amRoZWZiZnVucnRteWxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0MzA2NjgsImV4cCI6MjA4ODAwNjY2OH0.82hWaT8cw97OmwZHQfZfGo-HDhi5U39AYlPxuCbCEQo';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ═══════════════════════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════════════════════
+    let currentVersion = null; // 'vedeni' or 'prispevatel'
+    let currentStep = '0';
+    let history = ['0'];
+
+    const vedeniSteps = ['0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'];
+    const prispevatelSteps = ['0', 'p1', 'p2', 'p3', 'p4'];
+
+    function getSteps() {
+        return currentVersion === 'vedeni' ? vedeniSteps : prispevatelSteps;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════════
+    function showStep(stepId) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        const target = document.querySelector(`.step[data-step="${stepId}"]`);
+        if (target) {
+            target.classList.add('active');
+            currentStep = stepId;
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function goNext() {
+        const activeStep = document.querySelector('.step.active');
+        if (!validateStep(activeStep)) return;
+
+        const steps = getSteps();
+        const idx = steps.indexOf(currentStep);
+        if (idx < steps.length - 1) {
+            const next = steps[idx + 1];
+            history.push(next);
+            showStep(next);
+        }
+    }
+
+    function goBack() {
+        if (history.length > 1) {
+            history.pop();
+            const prev = history[history.length - 1];
+            if (prev === '0') {
+                currentVersion = null;
+                document.querySelectorAll('.version-card').forEach(c => c.classList.remove('selected'));
+            }
+            showStep(prev);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PROGRESS
+    // ═══════════════════════════════════════════════════════════
+    function updateProgress() {
+        const bar = document.getElementById('progressBar');
+        const fill = document.getElementById('progressFill');
+        const text = document.getElementById('progressText');
+
+        if (!currentVersion || currentStep === '0' || currentStep === 'success') {
+            bar.style.display = 'none';
+            return;
+        }
+
+        bar.style.display = 'block';
+        const steps = getSteps();
+        const idx = steps.indexOf(currentStep);
+        const total = steps.length - 1; // exclude step 0
+        const pct = Math.round((idx / total) * 100);
+        fill.style.width = pct + '%';
+        text.textContent = `Krok ${idx} z ${total}`;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VALIDATION
+    // ═══════════════════════════════════════════════════════════
+    function validateStep(stepEl) {
+        let valid = true;
+        stepEl.querySelectorAll('.field').forEach(field => {
+            field.classList.remove('has-error');
+        });
+
+        stepEl.querySelectorAll('[required]').forEach(input => {
+            const field = input.closest('.field');
+            if (!field) return;
+
+            if (input.type === 'radio') {
+                const name = input.name;
+                const checked = stepEl.querySelector(`input[name="${name}"]:checked`);
+                if (!checked) {
+                    field.classList.add('has-error');
+                    valid = false;
+                }
+            } else if (!input.value.trim()) {
+                field.classList.add('has-error');
+                valid = false;
+            }
+        });
+
+        return valid;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // VERSION SELECTION
+    // ═══════════════════════════════════════════════════════════
+    document.querySelectorAll('.version-card').forEach(card => {
+        card.addEventListener('click', () => {
+            currentVersion = card.dataset.version;
+            document.querySelectorAll('.version-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            setTimeout(() => {
+                const firstStep = currentVersion === 'vedeni' ? 'v1' : 'p1';
+                history.push(firstStep);
+                showStep(firstStep);
+            }, 200);
+        });
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.click();
+            }
+        });
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    // CHECKBOX INTERACTIONS
+    // ═══════════════════════════════════════════════════════════
+    document.querySelectorAll('.option-item input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            const item = cb.closest('.option-item');
+            item.classList.toggle('selected', cb.checked);
+
+            // Show/hide "other" input
+            if (cb.value.includes('other')) {
+                const otherInput = cb.closest('.field').querySelector('.other-input');
+                if (otherInput) otherInput.classList.toggle('visible', cb.checked);
+            }
+
+            // Max select limit
+            const group = cb.closest('.option-group');
+            if (group && group.dataset.maxSelect) {
+                const max = parseInt(group.dataset.maxSelect);
+                const checked = group.querySelectorAll('input:checked');
+                if (checked.length >= max) {
+                    group.querySelectorAll('input:not(:checked)').forEach(i => i.disabled = true);
+                } else {
+                    group.querySelectorAll('input').forEach(i => i.disabled = false);
+                }
+            }
+        });
+    });
+
+    // Radio buttons styling
+    document.querySelectorAll('.option-item input[type="radio"]').forEach(rb => {
+        rb.addEventListener('change', () => {
+            const group = rb.closest('.option-group');
+            group.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+            rb.closest('.option-item').classList.add('selected');
+        });
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    // DRAG & DROP PRIORITY
+    // ═══════════════════════════════════════════════════════════
+    const priorityList = document.getElementById('priorityList');
+    if (priorityList) {
+        let dragItem = null;
+
+        priorityList.querySelectorAll('.priority-item').forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                dragItem = item;
+                item.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging');
+                dragItem = null;
+                updateRanks();
+            });
+
+            item.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                if (!dragItem || dragItem === item) return;
+                const rect = item.getBoundingClientRect();
+                const mid = rect.top + rect.height / 2;
+                if (e.clientY < mid) {
+                    priorityList.insertBefore(dragItem, item);
+                } else {
+                    priorityList.insertBefore(dragItem, item.nextSibling);
+                }
+            });
+        });
+
+        // Touch support for drag & drop
+        let touchItem = null;
+        let touchStartY = 0;
+
+        priorityList.addEventListener('touchstart', (e) => {
+            const item = e.target.closest('.priority-item');
+            if (!item) return;
+            touchItem = item;
+            touchStartY = e.touches[0].clientY;
+            item.classList.add('dragging');
+        }, { passive: true });
+
+        priorityList.addEventListener('touchmove', (e) => {
+            if (!touchItem) return;
+            e.preventDefault();
+            const touchY = e.touches[0].clientY;
+            const items = [...priorityList.querySelectorAll('.priority-item')];
+            for (const item of items) {
+                if (item === touchItem) continue;
+                const rect = item.getBoundingClientRect();
+                const mid = rect.top + rect.height / 2;
+                if (touchY < mid) {
+                    priorityList.insertBefore(touchItem, item);
+                    break;
+                } else if (touchY > mid && item === items[items.length - 1]) {
+                    priorityList.appendChild(touchItem);
+                }
+            }
+        }, { passive: false });
+
+        priorityList.addEventListener('touchend', () => {
+            if (touchItem) {
+                touchItem.classList.remove('dragging');
+                touchItem = null;
+                updateRanks();
+            }
+        });
+
+        function updateRanks() {
+            priorityList.querySelectorAll('.priority-item .rank').forEach((rank, i) => {
+                rank.textContent = i + 1;
+            });
+        }
+        updateRanks();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // COLLECT DATA
+    // ═══════════════════════════════════════════════════════════
+    function collectAnswers() {
+        const answers = {};
+        const steps = getSteps();
+
+        steps.forEach(stepId => {
+            const stepEl = document.querySelector(`.step[data-step="${stepId}"]`);
+            if (!stepEl || stepId === '0' || stepId === 'success') return;
+
+            // Text inputs & textareas
+            stepEl.querySelectorAll('input[type="text"], textarea').forEach(el => {
+                if (el.name && el.value.trim()) {
+                    answers[el.name] = el.value.trim();
+                }
+            });
+
+            // Selects
+            stepEl.querySelectorAll('select').forEach(el => {
+                if (el.name && el.value) {
+                    answers[el.name] = el.value;
+                }
+            });
+
+            // Checkboxes
+            const checkboxGroups = {};
+            stepEl.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                if (!checkboxGroups[cb.name]) checkboxGroups[cb.name] = [];
+                checkboxGroups[cb.name].push(cb.value);
+            });
+            Object.assign(answers, checkboxGroups);
+
+            // Radios
+            stepEl.querySelectorAll('input[type="radio"]:checked').forEach(rb => {
+                answers[rb.name] = rb.value;
+            });
+        });
+
+        // Priority list
+        if (currentVersion === 'vedeni' && priorityList) {
+            answers.priority = [...priorityList.querySelectorAll('.priority-item')]
+                .map(item => item.dataset.value);
+        }
+
+        return answers;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // SUBMIT
+    // ═══════════════════════════════════════════════════════════
+    async function submitSurvey() {
+        const btn = currentVersion === 'vedeni'
+            ? document.getElementById('submitBtnVedeni')
+            : document.getElementById('submitBtnPrispevatel');
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Odesílám...';
+
+        const answers = collectAnswers();
+
+        const payload = {
+            version: currentVersion,
+            respondent_name: answers.name || null,
+            role: answers.role || null,
+            answers: answers,
+            user_agent: navigator.userAgent
+        };
+
+        try {
+            const { error } = await supabase
+                .from('survey_responses')
+                .insert([payload]);
+
+            if (error) throw error;
+
+            showStep('success');
+            document.getElementById('progressBar').style.display = 'none';
+        } catch (err) {
+            console.error('Submit error:', err);
+            btn.disabled = false;
+            btn.textContent = 'Odeslat dotazník';
+            alert('Při odesílání došlo k chybě. Zkuste to prosím znovu.');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // URL PARAM SUPPORT (?v=vedeni or ?v=prispevatel)
+    // ═══════════════════════════════════════════════════════════
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const v = params.get('v');
+        if (v === 'vedeni' || v === 'prispevatel') {
+            currentVersion = v;
+            const firstStep = v === 'vedeni' ? 'v1' : 'p1';
+            history.push(firstStep);
+            showStep(firstStep);
+        }
+    })();
+    </script>
+</body>
+</html>
