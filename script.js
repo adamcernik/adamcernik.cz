@@ -2,13 +2,23 @@
 const themeToggleImg = document.getElementById('theme-toggle-img');
 const body = document.body;
 
-// Check if dark mode is enabled in localStorage
-const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-
-// Apply dark mode if it was previously enabled
-if (isDarkMode) {
+// Determine initial dark mode state:
+// 1. Explicit user preference in localStorage takes priority
+// 2. Otherwise, follow OS preference via prefers-color-scheme
+const storedPref = localStorage.getItem('darkMode');
+if (storedPref === 'enabled') {
+    body.classList.add('dark-mode');
+} else if (storedPref === 'disabled') {
+    body.classList.remove('dark-mode');
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
     body.classList.add('dark-mode');
 }
+
+// Listen for OS-level theme changes (only if user hasn't set a manual preference)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (localStorage.getItem('darkMode')) return;
+    body.classList.toggle('dark-mode', e.matches);
+});
 
 // Array of profile images
 const images = [
@@ -31,7 +41,7 @@ window.addEventListener('load', loadRandomImage);
 function toggleDarkMode() {
     body.classList.toggle('dark-mode');
 
-    // Save preference to localStorage
+    // Save explicit preference to localStorage
     if (body.classList.contains('dark-mode')) {
         localStorage.setItem('darkMode', 'enabled');
     } else {
@@ -71,7 +81,7 @@ modalTriggers.forEach(trigger => {
         const modal = document.getElementById(modalId);
         if (modal) {
             lastTrigger = trigger;
-            modal.style.display = 'flex';
+            modal.classList.add('is-open');
             document.body.style.overflow = 'hidden';
             // Move focus into the modal
             const closeBtn = modal.querySelector('.close-btn');
@@ -84,7 +94,7 @@ modalTriggers.forEach(trigger => {
 
 // Close modal
 function closeModal(modal) {
-    modal.style.display = 'none';
+    modal.classList.remove('is-open');
     document.body.style.overflow = '';
     // Return focus to the element that opened the modal
     if (lastTrigger) {
@@ -116,7 +126,7 @@ modalOverlays.forEach(overlay => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         modalOverlays.forEach(overlay => {
-            if (overlay.style.display === 'flex') {
+            if (overlay.classList.contains('is-open')) {
                 closeModal(overlay);
             }
         });
@@ -129,7 +139,7 @@ document.addEventListener('keydown', (e) => {
 
     let openModal = null;
     modalOverlays.forEach(overlay => {
-        if (overlay.style.display === 'flex') {
+        if (overlay.classList.contains('is-open')) {
             openModal = overlay;
         }
     });
