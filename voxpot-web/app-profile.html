@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Voxpot – Profil aplikace</title>
+    <link rel="icon" href="../favicon-16x16.ico" sizes="16x16" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text: #1a1a1a;
+            --text-light: #555;
+            --text-muted: #888;
+            --bg: #fafaf8;
+            --card-bg: #ffffff;
+            --border: #e8e6e1;
+            --accent: #007BFF;
+            --accent-light: #e8f2ff;
+            --orange: #e65100;
+            --orange-light: #fff3e0;
+            --green: #2e7d32;
+            --green-light: #e8f5e9;
+            --red: #c62828;
+            --red-light: #fce4ec;
+            --purple: #6a1b9a;
+            --purple-light: #f3e5f5;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Hanken Grotesk", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 6rem;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--text);
+        }
+        .page-header .kicker {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+        .page-header .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            max-width: 560px;
+        }
+        .meta {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+        }
+        p, li {
+            color: var(--text-light);
+        }
+        p + p {
+            margin-top: 0.75rem;
+        }
+        ul, ol {
+            padding-left: 1.25rem;
+            margin: 0.5rem 0;
+        }
+        li {
+            margin-bottom: 0.35rem;
+        }
+        li::marker {
+            color: var(--text-muted);
+        }
+
+        /* Respondent grid */
+        .respondents {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        .respondent {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .respondent .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .respondent .role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Insight cards */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        .insight {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+        .insight .number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--accent);
+        }
+        .insight .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* Pain / Need tags */
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 0.75rem 0;
+        }
+        .tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.3em 0.7em;
+            border-radius: 6px;
+        }
+        .tag-pain { background: var(--red-light); color: var(--red); }
+        .tag-need { background: var(--accent-light); color: var(--accent); }
+        .tag-tool { background: var(--green-light); color: var(--green); }
+        .tag-warn { background: var(--orange-light); color: var(--orange); }
+        .tag-misc { background: var(--purple-light); color: var(--purple); }
+
+        /* Priority ranking */
+        .priority-rank {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+        .priority-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .priority-rank-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .priority-bar {
+            flex: 1;
+            background: var(--accent-light);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .priority-score {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            width: 60px;
+            text-align: right;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.25rem;
+            margin: 1rem 0;
+        }
+        .workflow-step {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4em 0.8em;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .workflow-arrow {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Quote */
+        blockquote {
+            border-left: 3px solid var(--border);
+            padding: 0.5rem 0 0.5rem 1rem;
+            margin: 0.75rem 0;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        blockquote cite {
+            display: block;
+            font-style: normal;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Feature list */
+        .feature-list {
+            margin: 1rem 0;
+        }
+        .feature {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: flex-start;
+        }
+        .feature:last-child { border-bottom: none; }
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text strong {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .feature-text span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Divider */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 560px) {
+            .insight-grid { grid-template-columns: 1fr; }
+            .respondents { grid-template-columns: 1fr 1fr; }
+            .page-header h1 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="page-header">
+        <div class="kicker">Voxpot &times; Adam Cern&iacute;k</div>
+        <h1>Profil aplikace</h1>
+        <p class="subtitle">Synt&eacute;za odpov&ecaron;d&iacute; z redak&ccaron;n&iacute;ho dotazn&iacute;ku. Z&aacute;klad pro n&aacute;vrh intern&iacute;ho n&aacute;stroje pro redakci Voxpotu.</p>
+        <div class="meta">Vygenerov&aacute;no 3. 3. 2026 &middot; 4 respondenti &middot; 3 veden&iacute;, 1 p&rcaron;isp&ecaron;vatel</div>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- RESPONDENTS -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Kdo odpov&iacute;dal</h2>
+        <div class="respondents">
+            <div class="respondent">
+                <div class="name">Vojt&ecaron;ch</div>
+                <div class="role">&scaron;&eacute;fredaktor</div>
+            </div>
+            <div class="respondent">
+                <div class="name">Luk&aacute;&scaron;</div>
+                <div class="role">editor</div>
+            </div>
+            <div class="respondent">
+                <div class="name">Josefina</div>
+                <div class="role">marketing, eventy, s&iacute;t&ecaron;</div>
+            </div>
+            <div class="respondent">
+                <div class="name">Mat&ecaron;j</div>
+                <div class="role">redaktor / p&rcaron;isp&ecaron;vatel</div>
+            </div>
+        </div>
+        <p>V&scaron;ichni 3 z veden&iacute; jsou ochotni z&uacute;&ccaron;astnit se navazuj&iacute;c&iacute;ho rozhovoru.</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- CURRENT STACK -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Sou&ccaron;asn&yacute; stack</h2>
+        <p>N&aacute;stroje, kter&eacute; redakce dnes pou&zcaron;&iacute;v&aacute;:</p>
+        <div class="tag-list">
+            <span class="tag tag-tool">Mattermost (chat)</span>
+            <span class="tag tag-tool">Google Docs (psan&iacute;)</span>
+            <span class="tag tag-tool">Google Disk</span>
+            <span class="tag tag-tool">Notion</span>
+            <span class="tag tag-tool">Vlastn&iacute; CMS</span>
+            <span class="tag tag-tool">E-mail</span>
+            <span class="tag tag-tool">Google Kalend&aacute;&rcaron;</span>
+        </div>
+        <p>P&rcaron;isp&ecaron;vatel Mat&ecaron;j nav&iacute;c pou&zcaron;&iacute;v&aacute;: Canva, Transistor, Ecomail, YouTube, TurboScribe, Perplexity, Shutterstock.</p>
+
+        <h3>Pozn&aacute;mka ke stacku</h3>
+        <p>Mattermost je centr&aacute;ln&iacute; komunika&ccaron;n&iacute; n&aacute;stroj &mdash; v&scaron;ichni 4 respondenti ho uv&aacute;d&ecaron;j&iacute; jako prim&aacute;rn&iacute;. S obchodn&iacute;m t&yacute;mem a externisty se pou&zcaron;&iacute;v&aacute; tak&eacute; Telegram. Nov&yacute; n&aacute;stroj mus&iacute; s Mattermostem koexistovat nebo se do n&ecaron;j integrovat.</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- WORKFLOW -->
+    <!-- ============================================ -->
+    <section>
+        <h2>&Zcaron;ivotn&iacute; cyklus &ccaron;l&aacute;nku</h2>
+        <p>Souhrn procesu od n&aacute;padu po publikaci (podle Vojt&ecaron;cha):</p>
+        <div class="workflow">
+            <span class="workflow-step">N&aacute;pad</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Pond&ecaron;ln&iacute; porada</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Schv&aacute;len&iacute;</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Re&scaron;er&scaron;e</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Psan&iacute;</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Editace</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Vypo&rcaron;&aacute;d&aacute;n&iacute; pozn&aacute;mek</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Korektura</span>
+            <span class="workflow-arrow">&rarr;</span>
+            <span class="workflow-step">Publikace</span>
+        </div>
+        <p>Plánování probíhá primárně na <strong>týdenní bázi</strong> (Vojtěch říká denně, Lukáš a Josefina týdně). Redakce neustále balancuje mezi pokrýváním aktuálního dění a hlubšími magazínovými texty.</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PAIN POINTS -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Bolesti a problémy</h2>
+        <p>Co dnes nefunguje nebo brzdí:</p>
+
+        <div class="tag-list">
+            <span class="tag tag-pain">Nejasné, kdo co dělá</span>
+            <span class="tag tag-pain">Věci padají pod stůl</span>
+            <span class="tag tag-pain">Nedodržování termínů</span>
+            <span class="tag tag-pain">Roztříštěnost nástrojů</span>
+            <span class="tag tag-pain">Chybí přehled o stavu článků</span>
+            <span class="tag tag-pain">Manuální remindery</span>
+        </div>
+
+        <h3>Nejasná odpovědnost a accountability</h3>
+        <blockquote>Dodržování termínů, komunikace ohledně toho, zda se všechno stíhá podle plánu, projektový management u projektů na všech úrovních.<cite>Vojtěch, šéfredaktor</cite></blockquote>
+        <blockquote>Občas kdo ručí za splnění něčeho domluveného.<cite>Lukáš, editor</cite></blockquote>
+
+        <h3>Věci padají pod stůl</h3>
+        <blockquote>Občasná dezorganizace. Občas to, že věci padají pod stůl, což je částečně dezorganizací/nejasnou delegací, částečně proto, že si toho nakládáme hodně.<cite>Matěj, redaktor</cite></blockquote>
+
+        <h3>Roztříštěnost informací</h3>
+        <blockquote>Pořád máme trochu nepořádek na disku &mdash; co se píše do Notionu, co se píše na disk, kde uchováváme fotky, zápisy&hellip;<cite>Josefina, marketing</cite></blockquote>
+
+        <h3>Manuální práce místo systému</h3>
+        <p>Josefina každý pátek ručně posílá remindery na newslettery a služby. Zápisy z denních porad nejsou propojené s úkoly. Chybí automatické připomínky.</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PRIORITIES -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Priority funkcí</h2>
+        <p>Agregované pořadí ze 3 respondentů vedení (nižší = důležitější):</p>
+
+        <div class="priority-rank">
+            <div class="priority-row">
+                <div class="priority-rank-num">1</div>
+                <div class="priority-bar">Stav článku</div>
+                <div class="priority-score">Ø 1.3</div>
+            </div>
+            <div class="priority-row">
+                <div class="priority-rank-num">2</div>
+                <div class="priority-bar">Úkoly</div>
+                <div class="priority-score">Ø 1.7</div>
+            </div>
+            <div class="priority-row">
+                <div class="priority-rank-num">3</div>
+                <div class="priority-bar">Organizace</div>
+                <div class="priority-score">Ø 3.7</div>
+            </div>
+            <div class="priority-row">
+                <div class="priority-rank-num">4</div>
+                <div class="priority-bar">Komentáře</div>
+                <div class="priority-score">Ø 4.0</div>
+            </div>
+            <div class="priority-row">
+                <div class="priority-rank-num">5</div>
+                <div class="priority-bar">Kalendář</div>
+                <div class="priority-score">Ø 4.3</div>
+            </div>
+            <div class="priority-row">
+                <div class="priority-rank-num">6</div>
+                <div class="priority-bar">Statistiky</div>
+                <div class="priority-score">Ø 5.7</div>
+            </div>
+        </div>
+
+        <p>Přispěvatel Matěj chce hlavně <strong>publikační kalendář</strong> &mdash; vědět, co kdy vychází a kde je ve frontě.</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- WHAT THE APP SHOULD DO -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Co by aplikace měla řešit</h2>
+
+        <div class="feature-list">
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--accent-light);">📋</div>
+                <div class="feature-text">
+                    <strong>Stav článku / Pipeline</strong>
+                    <span>Kde je každý článek v procesu (nápad → rešerše → psaní → editace → publikace). Nejvyšší priorita všech respondentů. Přehledný kanban nebo seznam.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--orange-light);">✅</div>
+                <div class="feature-text">
+                    <strong>Úkoly s odpovědností</strong>
+                    <span>Kdo má co udělat a do kdy. Jasná accountability. Vč. opakujících se úkolů (služby, newslettery, porady). Vojtěch chce u každého člověka seznam úkolů.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--green-light);">🗓️</div>
+                <div class="feature-text">
+                    <strong>Služby a směny</strong>
+                    <span>Kdo má kdy službu v redakci. Kdo píše který newsletter (rotující). Kdo je kdy v redakci vs. home office. Automatické remindery.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--purple-light);">📰</div>
+                <div class="feature-text">
+                    <strong>Newsletter management</strong>
+                    <span>Přehled 7+ newsletterů: redakční sobotní, brífink, Yalla, American Idiot, Afrika, reportážní speciály, Checkout. Kdo kdy píše. Páteční reminder.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--red-light);">👥</div>
+                <div class="feature-text">
+                    <strong>Databáze kontaktů</strong>
+                    <span>Sdílené kontakty na zdroje, externisty, obchodní partnery. Zmiňují Vojtěch, Josefina i Lukáš.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--accent-light);">📊</div>
+                <div class="feature-text">
+                    <strong>Přehled lidí</strong>
+                    <span>Kdo na čem pracuje (články i nepíšící část). Dovolené a zbývající dny. Přítomnost v redakci. Vytížení.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--orange-light);">🎪</div>
+                <div class="feature-text">
+                    <strong>Plánování eventů a výjezdů</strong>
+                    <span>Živé akce, reportážní výjezdy, strategické plánovací výjezdy, vytížení studia. Checklist a timeline.</span>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="background: var(--green-light);">🚀</div>
+                <div class="feature-text">
+                    <strong>Onboarding</strong>
+                    <span>Centrální místo s odkazy na disky, přístupy, postupy. Pro nové členy redakce.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- CONSTRAINTS -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Omezení a rizika</h2>
+
+        <h3>⚠️ Nesmí přidat další fragmentaci</h3>
+        <blockquote>Máme Notion, máme Mattermost, máme Google Disk. Pokud bude další nástroj, tak musí něco stávajícího plně nahradit, ať jasně víme, kde se řeší co. Ne jen další možnost, kde můžeme psát, komunikovat.<cite>Josefina</cite></blockquote>
+        <blockquote>Další chat pouze pokud bychom do něj všichni přešli, netříštit do více různých.<cite>Lukáš</cite></blockquote>
+
+        <h3>⚠️ Nesmí oslabovat rozhodovací roli editora</h3>
+        <blockquote>Vnímám limity těchto nástrojů v tom, že to je práce editora a ten nad tím přemýšlí a plánuje&hellip; aby automatizace nevedla k oslabení jeho rozhodovací role. Spíš aby mu to zpřehlednilo práci, neubralo autonomii.<cite>Josefina</cite></blockquote>
+
+        <h3>⚠️ Podstav redakce</h3>
+        <p>Lukáš zmiňuje, že lidé sedí na více židlích. Nástroj musí být jednoduchý na údržbu &mdash; nikdo nemá čas na složitou administraci.</p>
+
+        <h3>Integrace</h3>
+        <p>Vojtěch explicitně žádá napojení na:</p>
+        <div class="tag-list">
+            <span class="tag tag-need">Google Kalendář</span>
+            <span class="tag tag-need">Mattermost</span>
+            <span class="tag tag-need">Web / CMS</span>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- RECOMMENDATION -->
+    <!-- ============================================ -->
+    <section>
+        <h2>Doporučený scope MVP</h2>
+        <p>Na základě analýzy navrhuji toto jádro první verze:</p>
+
+        <ol>
+            <li><strong>Článková pipeline</strong> &mdash; kanban / list view se stavy: Nápad → Schváleno → Rešerše → Psaní → Editace → Korektura → Publikováno. U každého článku: autor, editor, deadline, poznámky.</li>
+            <li><strong>Úkoly s přiřazením</strong> &mdash; jednoduché tasky s osobou, termínem a stavem. Opakující se úkoly pro rutiny (porady, newslettery, služby).</li>
+            <li><strong>Služby a rozvrh</strong> &mdash; týdenní přehled: kdo má službu, kdo píše newsletter, kdo je v redakci. Automatické remindery (pátek na další týden).</li>
+        </ol>
+
+        <h3>Co nechat na později</h3>
+        <ul>
+            <li>Kontakty (funguje přes stávající řešení)</li>
+            <li>Onboarding hub (jednorázová potřeba)</li>
+            <li>Statistiky (nejnižší priorita)</li>
+            <li>Event planning (nice-to-have)</li>
+        </ul>
+
+        <h3>Hlavní princip</h3>
+        <p><strong>Nahradit Notion pro redakční provoz.</strong> Ponechat Mattermost pro komunikaci, Google Docs pro psaní, vlastní CMS pro publikaci. Aplikace je ten „missing middle" &mdash; řídící centrum, které propojuje lidi, články a termíny.</p>
+    </section>
+
+    <footer class="footer">
+        Voxpot &times; Adam Černík &middot; Vygenerováno z odpovědí dotazníku &middot; Březen 2026
+    </footer>
+
+</div>
+</body>
+</html>
