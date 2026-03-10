@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Article Page Styles
+   Extends the base styles.css with article-specific typography and components
+   ========================================================================== */
+
+/* Navigation */
+.article-nav {
+    margin-bottom: 2.5rem;
+}
+
+.back-link {
+    font-size: 0.85rem;
+    color: #999;
+    border-bottom: none;
+}
+
+.back-link:hover {
+    color: var(--primary-color);
+    border-bottom: none;
+}
+
+.dark-mode .back-link {
+    color: var(--dark-secondary);
+}
+
+.dark-mode .back-link:hover {
+    color: var(--dark-link);
+}
+
+/* Article Header */
+.article-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.article-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+}
+
+.article-subtitle {
+    font-size: 0.85rem;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.reading-time {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: rgba(0, 123, 255, 0.08);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.article-promise {
+    font-size: 0.8rem;
+    color: #999;
+    font-style: italic;
+}
+
+.dark-mode .article-header {
+    border-bottom-color: var(--dark-border);
+}
+
+.dark-mode .article-subtitle {
+    color: var(--dark-secondary);
+}
+
+.dark-mode .reading-time {
+    color: var(--dark-link);
+    background: rgba(77, 171, 255, 0.1);
+}
+
+.dark-mode .article-promise {
+    color: var(--dark-secondary);
+}
+
+/* Article Body */
+.article {
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.article h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 2.5rem 0 0.75rem;
+    letter-spacing: -0.005em;
+}
+
+.article h2:first-child {
+    margin-top: 0;
+}
+
+.article h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.article p {
+    margin-bottom: 1rem;
+    font-size: inherit;
+}
+
+.article em {
+    font-style: italic;
+}
+
+.article strong {
+    font-weight: 600;
+}
+
+/* Ordered List — Steps */
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 1.5rem;
+    counter-reset: step;
+}
+
+.steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.dark-mode .steps li::before {
+    background: var(--dark-link);
+    color: var(--dark-bg);
+}
+
+/* Unordered Lists — Features */
+.features,
+.summary {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 1.5rem;
+}
+
+.features li,
+.summary li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.features li::before,
+.summary li::before {
+    content: "\2022";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.dark-mode .features li::before,
+.dark-mode .summary li::before {
+    color: var(--dark-link);
+}
+
+/* Comparison Table */
+.table-wrap {
+    margin: 1.25rem 0 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.comparison {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.comparison th,
+.comparison td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.comparison th {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #999;
+    border-bottom: 2px solid #ddd;
+}
+
+.comparison th:first-child {
+    width: 80px;
+}
+
+.comparison td:first-child {
+    font-weight: 500;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.comparison tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dark-mode .comparison th,
+.dark-mode .comparison td {
+    border-bottom-color: var(--dark-border);
+}
+
+.dark-mode .comparison th {
+    color: var(--dark-secondary);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark-mode .comparison td:first-child {
+    color: var(--dark-secondary);
+}
+
+/* Callout / Warning Box */
+.callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+}
+
+.callout p {
+    margin: 0;
+}
+
+.callout--warning {
+    background: #fff8f0;
+    border-left: 3px solid #e8850c;
+}
+
+.dark-mode .callout--warning {
+    background: rgba(232, 133, 12, 0.08);
+    border-left-color: #e8850c;
+}
+
+/* Summary Section */
+.summary-section {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 2.5rem 0 1.5rem;
+}
+
+.summary-section h2 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.summary-section .summary {
+    margin-bottom: 0;
+}
+
+.dark-mode .summary-section {
+    background: var(--dark-bg);
+    border: 1px solid var(--dark-border);
+}
+
+/* Article Footer */
+.article-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.article-footer p {
+    margin: 0;
+}
+
+.dark-mode .article-footer {
+    border-top-color: var(--dark-border);
+    color: var(--dark-secondary);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 680px) {
+    .article-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .article h2 {
+        font-size: 1.2rem;
+    }
+
+    .comparison {
+        font-size: 0.78rem;
+    }
+
+    .comparison th,
+    .comparison td {
+        padding: 0.5rem;
+    }
+
+    .summary-section {
+        padding: 1.25rem 1.5rem;
+    }
+}

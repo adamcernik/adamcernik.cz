@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI agenti: Jak funguje vývoj pomocí umělé inteligence. Srozumitelný článek o tom, co jsou AI agenti, jak fungují a proč mění způsob, jakým pracujeme.">
+    <meta property="og:title" content="AI agenti: Jak funguje vývoj pomocí umělé inteligence">
+    <meta property="og:description" content="Přečteš za 5 minut. Slibujeme žádné technické bláboly.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://adamcernik.cz/articles/ai-agenti.html">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="icon" href="../favicon-16x16.ico" sizes="16x16" type="image/x-icon">
+    <link rel="icon" href="../images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>AI agenti: Jak funguje vývoj pomocí umělé inteligence | Adam Cernik</title>
+</head>
+<body>
+    <div class="content">
+        <nav class="article-nav">
+            <a href="../index.html" class="back-link">&larr; Adam Černík</a>
+        </nav>
+
+        <article class="article">
+            <header class="article-header">
+                <h1>AI agenti: Jak funguje vývoj pomocí umělé inteligence</h1>
+                <p class="article-subtitle">Pro lajky</p>
+                <div class="article-meta">
+                    <span class="reading-time">5 min čtení</span>
+                    <span class="article-promise">Slibujeme žádné technické bláboly.</span>
+                </div>
+            </header>
+
+            <section>
+                <h2>Začni tady: Co vůbec AI agent je?</h2>
+
+                <p>Určitě znáš ChatGPT nebo Claude. Napíšeš otázku, dostaneš odpověď. Konec. Ty jsi řidič, AI je jenom mapy.</p>
+
+                <p>AI agent je něco jiného. Představ si, že přijdeš domů, hodíš klíče na stůl a řekneš: <em>„Potřebuju zařídit dovolenou na příští měsíc."</em> A pak odejdeš do sprchy. Když se vrátíš, dovolená je zamluvená, zaplacená a v kalendáři.</p>
+
+                <p>To dělá AI agent. Dostane úkol — a sám ho dotáhne do konce, krok za krokem, bez toho, aby ho někdo vodil za ručičku.</p>
+            </section>
+
+            <section>
+                <h2>Jak to funguje uvnitř?</h2>
+
+                <p>Normální AI je jako pokladní v obchodě. Čeká, ty přijdeš, ona obslouží, ty odejdeš.</p>
+
+                <p>AI agent je jako osobní asistent na plný úvazek. Má přístup k tvému e-mailu, kalendáři, telefonu. Každých půl hodiny se sám probudí a zkontroluje, jestli není něco, co má udělat. Zapisuje si poznámky, co jsi mu říkal minulý týden. A taky ti může napsat SMS.</p>
+
+                <p>Technicky vzato to funguje takto:</p>
+
+                <ol class="steps">
+                    <li><strong>Dostane zadání</strong> — třeba „každé ráno mi pošli shrnutí nových e-mailů"</li>
+                    <li><strong>Naplánuje kroky</strong> — připojí se k e-mailu, přečte zprávy, sepíše shrnutí</li>
+                    <li><strong>Vykoná je sám</strong> — bez tebe, klidně v noci</li>
+                    <li><strong>Zapamatuje si výsledek</strong> — příště ví, co tě zajímá</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>OpenClaw: Nejpopulárnější AI agent současnosti</h2>
+
+                <p>Začátkem roku 2026 se na internetu začaly šířit videa, kde lidé ukazují, jak jim AI agent ráno pošle shrnutí zpráv, objedná nákup nebo napíše kód, zatímco spí.</p>
+
+                <p>Za tím vším stojí projekt OpenClaw — zdarma dostupný nástroj, který si každý může nainstalovat na vlastní počítač.</p>
+
+                <h3>Co OpenClaw umí?</h3>
+
+                <ul class="features">
+                    <li>Píše ti zprávy přes WhatsApp, Telegram nebo iMessage</li>
+                    <li>Čte a odpovídá na e-maily</li>
+                    <li>Píše a opravuje kód</li>
+                    <li>Plánuje úkoly a hlídá termíny</li>
+                    <li>Každých 30 minut se sám „probudí" a zkontroluje, jestli má něco na práci</li>
+                    <li>Pamatuje si, co jsi mu říkal — vede si vlastní deník</li>
+                </ul>
+
+                <h3>Příklad z praxe</h3>
+
+                <p>Brandon, ředitel jedné firmy, nastavil agenta pro svoji rodinu. Agent sleduje docházku chůvy, připomene nákup, když dochází jídlo, a každý večer pošle Brandonovi shrnutí toho, co se ten den dělo doma. Všechno přes iMessage, jako by psal člověk.</p>
+            </section>
+
+            <section>
+                <h2>Jak se tohle liší od „normálního" programování?</h2>
+
+                <p>Klasický vývoj softwaru vypadá takto: programátor napíše přesné instrukce krok za krokem. Počítač je slepě vykoná. Pokud nastanou nečekané situace, program se zasekne.</p>
+
+                <p>S AI agentem je to jinak:</p>
+
+                <div class="table-wrap">
+                    <table class="comparison">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Klasický software</th>
+                                <th>AI agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Chování</td>
+                                <td>Dělá přesně to, co mu naprogramuješ</td>
+                                <td>Sám vymýšlí, jak splnit zadání</td>
+                            </tr>
+                            <tr>
+                                <td>Chyby</td>
+                                <td>Zasekne se při nečekané situaci</td>
+                                <td>Improvizuje a hledá řešení</td>
+                            </tr>
+                            <tr>
+                                <td>Kontext</td>
+                                <td>Nepotřebuje kontext</td>
+                                <td>Pamatuje si historii</td>
+                            </tr>
+                            <tr>
+                                <td>Aktivita</td>
+                                <td>Spustí se, když ho zavoláš</td>
+                                <td>Probudí se sám a jedná</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2>Kde to může být nebezpečné?</h2>
+
+                <aside class="callout callout--warning">
+                    <p><strong>Zlaté pravidlo:</strong> Dávej agentovi jen tolik přístupu, kolik opravdu potřebuje. A nic navíc.</p>
+                </aside>
+
+                <p>Bylo by neférové nezmínit i stinné stránky.</p>
+
+                <p>Agent má přístup ke všemu, co mu dáš. E-mail, kalendář, soubory, zprávy. Pokud si nainstaluješ skill (rozšíření) od neznámého autora, může se stát, že si stáhneš malware, který tvoje data pošle někam, kam nechceš. Přesně to se stalo s jedním populárním rozšířením pro OpenClaw — vypadalo nevinně, ale kradlo data.</p>
+            </section>
+
+            <section>
+                <h2>Proč je to důležité pro vývoj softwaru?</h2>
+
+                <p>Vývojáři jako první pochopili, jak mocný nástroj to je. Místo toho, aby celý den psali kód, zadají agentovi: <em>„Oprav tohle, otestuj tamto, nasaď na server."</em> A jdou na oběd.</p>
+
+                <p>Nejde o to, že AI nahradí programátory. Jde o to, že jeden programátor s AI agentem zvládne práci celého týmu.</p>
+            </section>
+
+            <section class="summary-section">
+                <h2>Shrnutí</h2>
+                <ul class="summary">
+                    <li><strong>AI agent</strong> = umělá inteligence, která jedná sama, ne jen odpovídá</li>
+                    <li><strong>OpenClaw</strong> = nejpopulárnější open-source AI agent, zdarma, pro každého</li>
+                    <li>Funguje přes WhatsApp, Telegram, e-mail — kde jsi ty</li>
+                    <li>Pamatuje si kontext, plánuje dopředu, pracuje i v noci</li>
+                    <li>Dávej mu jen tolik přístupu, kolik potřebuje — není důvod riskovat</li>
+                </ul>
+            </section>
+
+            <footer class="article-footer">
+                <p>Chceš vědět víc? Kompletní český seriál najdeš na <a href="https://dangottwald.cz" target="_blank" rel="noopener noreferrer">dangottwald.cz</a></p>
+            </footer>
+        </article>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>
