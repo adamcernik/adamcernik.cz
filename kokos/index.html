@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe – Hodinový ajťák Adam</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-bg: #f5f4f0;
+    --c-white: #ffffff;
+    --c-border: #c8c5bc;
+    --c-border-light: #e2e0d8;
+    --c-text: #1a1a18;
+    --c-text-muted: #6b6860;
+    --c-text-light: #9b9890;
+    --c-box: #eceae4;
+    --c-accent: #1a1a18;
+    --c-note-bg: #fff9e6;
+    --c-note-border: #e8d48a;
+    --c-note-text: #7a6520;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --max-w: 960px;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── REVIEW BANNER ── */
+  .review-banner {
+    background: #1a1a18;
+    color: #f5f4f0;
+    text-align: center;
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .review-banner strong { color: #f0d060; }
+
+  /* ── NOTE BOXES ── */
+  .note {
+    background: var(--c-note-bg);
+    border: 1px dashed var(--c-note-border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--c-note-text);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .note::before { content: '📝 Poznámka: '; font-weight: 500; }
+
+  /* ── SECTION WRAPPER ── */
+  .section-wrap {
+    border-bottom: 1px solid var(--c-border);
+    position: relative;
+  }
+
+  .section-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--c-text-light);
+    background: var(--c-border-light);
+    padding: 3px 10px;
+    border-bottom-left-radius: var(--radius);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ══════════════════════════════════
+     NAV
+  ══════════════════════════════════ */
+  .nav {
+    background: var(--c-white);
+    border-bottom: 2px solid var(--c-border);
+  }
+  .nav-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--c-text);
+    border: 2px solid var(--c-text);
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--c-text-muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .nav-cta-btn {
+    background: var(--c-text);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* ══════════════════════════════════
+     HERO
+  ══════════════════════════════════ */
+  .hero {
+    background: var(--c-white);
+    padding: 72px 24px 64px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+    border: 1px solid var(--c-border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 600;
+    line-height: 1.15;
+    max-width: 640px;
+    margin: 0 auto 20px;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--c-text-muted);
+    max-width: 520px;
+    margin: 0 auto 36px;
+    line-height: 1.55;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--c-text);
+    color: #fff;
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 2px solid var(--c-text);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--c-text);
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 2px solid var(--c-border);
+  }
+
+  /* ══════════════════════════════════
+     SEKCE nadpisy
+  ══════════════════════════════════ */
+  .section-head {
+    text-align: center;
+    padding: 56px 24px 40px;
+  }
+  .section-head h2 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .section-head p {
+    color: var(--c-text-muted);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════════
+     SLUŽBY
+  ══════════════════════════════════ */
+  .services-section {
+    background: var(--c-bg);
+    padding-bottom: 56px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .service-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .service-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--c-box);
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .service-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .service-card p {
+    font-size: 13px;
+    color: var(--c-text-muted);
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════
+     STORYBOARD
+  ══════════════════════════════════ */
+  .story-section {
+    background: var(--c-white);
+    padding-bottom: 64px;
+  }
+  .story-tabs {
+    display: flex;
+    gap: 8px;
+    max-width: var(--max-w);
+    margin: 0 auto 32px;
+    padding: 0 24px;
+  }
+  .story-tab {
+    padding: 8px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 2px solid var(--c-border);
+    background: transparent;
+    color: var(--c-text-muted);
+    font-family: var(--font-sans);
+  }
+  .story-tab.active {
+    background: var(--c-text);
+    color: #fff;
+    border-color: var(--c-text);
+  }
+  .story-panel {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: none;
+  }
+  .story-panel.active { display: block; }
+  .story-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .story-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--c-border-light);
+    background: var(--c-white);
+  }
+  .story-step:last-child { border-bottom: none; }
+  .step-badge {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border: 2px solid var(--c-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-text-muted);
+    margin-top: 2px;
+  }
+  .step-content h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .step-content p {
+    font-size: 14px;
+    color: var(--c-text-muted);
+    line-height: 1.55;
+  }
+
+  /* ══════════════════════════════════
+     TEAMVIEWER
+  ══════════════════════════════════ */
+  .tv-section {
+    background: var(--c-bg);
+    padding-bottom: 64px;
+  }
+  .tv-box {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+  }
+  .tv-box-inner {
+    padding: 36px;
+  }
+  .tv-steps-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 28px 0 32px;
+    position: relative;
+  }
+  .tv-steps-row::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: var(--c-border);
+    z-index: 0;
+  }
+  .tv-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .tv-step-num {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--c-border);
+    border-radius: 50%;
+    background: var(--c-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 auto 10px;
+    color: var(--c-text);
+  }
+  .tv-step h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .tv-step p {
+    font-size: 12px;
+    color: var(--c-text-muted);
+    line-height: 1.4;
+  }
+  .tv-cta-area {
+    text-align: center;
+    padding-top: 4px;
+  }
+  .tv-cta-area .btn-primary {
+    font-size: 14px;
+    padding: 12px 32px;
+  }
+  .tv-cta-area .note {
+    text-align: left;
+    max-width: 460px;
+    margin: 14px auto 0;
+  }
+
+  /* ══════════════════════════════════
+     USP
+  ══════════════════════════════════ */
+  .usp-section {
+    background: var(--c-white);
+    padding-bottom: 64px;
+  }
+  .usp-list {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .usp-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 24px;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    background: var(--c-bg);
+  }
+  .usp-num {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--c-border);
+    min-width: 32px;
+    line-height: 1;
+    padding-top: 3px;
+  }
+  .usp-item h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .usp-item p {
+    font-size: 14px;
+    color: var(--c-text-muted);
+    line-height: 1.55;
+  }
+
+  /* ══════════════════════════════════
+     FORMULÁŘ
+  ══════════════════════════════════ */
+  .form-section {
+    background: var(--c-bg);
+    padding-bottom: 64px;
+  }
+  .form-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .form-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 36px;
+  }
+  .form-group {
+    margin-bottom: 18px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--c-text);
+  }
+  .form-group label .req { color: #c0392b; margin-left: 2px; }
+  .form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--c-text);
+    background: var(--c-bg);
+    outline: none;
+  }
+  .form-control:focus { border-color: var(--c-text); }
+  .form-control select, select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239b9890' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  textarea.form-control { resize: vertical; min-height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--c-text);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .form-footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--c-text-muted);
+    margin-top: 12px;
+  }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  .footer {
+    background: var(--c-text);
+    color: #f5f4f0;
+    padding: 40px 24px;
+  }
+  .footer-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .footer-tagline {
+    font-size: 13px;
+    color: #9b9890;
+  }
+  .footer-contact {
+    text-align: right;
+  }
+  .footer-contact a {
+    display: block;
+    color: #f5f4f0;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .footer-region {
+    font-size: 12px;
+    color: #6b6860;
+    margin-top: 8px;
+  }
+
+  /* ══════════════════════════════════
+     SECTION DIVIDERS
+  ══════════════════════════════════ */
+  .divider-label {
+    background: var(--c-border-light);
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+    padding: 6px 24px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--c-text-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .divider-label span {
+    background: var(--c-border);
+    color: var(--c-white);
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 9px;
+  }
+
+  @media (max-width: 640px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; }
+    .footer-contact { text-align: left; }
+    .tv-steps-row { flex-direction: column; gap: 16px; }
+    .tv-steps-row::before { display: none; }
+  }
+  @media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- REVIEW BANNER -->
+<div class="review-banner">
+  🔍 WIREFRAME K ODSOUHLASENÍ — <strong>Hodinový ajťák Adam</strong> — obsah a struktura jsou orientační, texty upřesníme
+</div>
+
+<!-- NAV -->
+<div class="divider-label"><span>01</span> Navigace</div>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">Adam / ajťák</div>
+    <ul class="nav-links">
+      <li><a href="#">Služby</a></li>
+      <li><a href="#">Jak pracuji</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+    <button class="nav-cta-btn">605 102 440</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="divider-label"><span>02</span> Hero — první obrazovka</div>
+<section class="hero">
+  <div class="hero-tag">Praha a okolí · Servis online i osobně</div>
+  <h1>Váš osobní ajťák na zavolání</h1>
+  <p class="hero-sub">Pomalý počítač, výpadky wifi, nový PC nebo firemní síť – popište mi problém a já se o zbytek postarám.</p>
+  <div class="hero-btns">
+    <a href="#kontakt" class="btn-primary">📞 &nbsp;Zavolat – 605 102 440</a>
+    <a href="#kontakt" class="btn-secondary">Popsat problém</a>
+  </div>
+  <div class="note" style="max-width:520px;margin:20px auto 0;">Nadpis a podnadpis jsou návrh. Chceš něco přeformulovat nebo jinak zdůraznit?</div>
+</section>
+
+<!-- SLUŽBY -->
+<div class="divider-label"><span>03</span> Služby — 6 karet</div>
+<section class="services-section">
+  <div class="section-head">
+    <h2>Co pro tebe vyřeším</h2>
+    <p>Nemusíš vědět, co přesně je špatně – stačí popsat, co se děje.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🖥</div>
+      <h3>Pomalý nebo porouchaný počítač</h3>
+      <p>Diagnostika online nebo osobně, čistění od prachu, výměna komponent, záloha dat.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Nový počítač na míru</h3>
+      <p>Poradím, sestavím, nainstaluju, otestuji. Vybírám jen odzkoušené komponenty.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📶</div>
+      <h3>Wifi a domácí síť</h3>
+      <p>Slabý signál, nové síťové prvky, přemístění routeru, měření pokrytí.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗄</div>
+      <h3>Firemní síť a NAS</h3>
+      <p>Sdílení dat mezi zaměstnanci, automatické zálohy, přístupy ke sdíleným složkám.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🖨</div>
+      <h3>Tiskárny a periferie</h3>
+      <p>Zapojení, instalace ovladačů, nastavení wifi tisku, aktualizace firmware.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛡</div>
+      <h3>Softwarový servis</h3>
+      <p>Odvirování, aktualizace systému a programů, čistění, optimalizace spouštění.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORYBOARD -->
+<div class="divider-label"><span>04</span> Jak Adam pracuje — storyboard (2 příběhy)</div>
+<section class="story-section">
+  <div class="section-head">
+    <h2>Jak to celé funguje</h2>
+    <p>Dva typické příklady zakázky – od prvního kontaktu po vyřešení.</p>
+  </div>
+  <div class="story-tabs" style="max-width:var(--max-w);margin:0 auto 32px;padding:0 24px;">
+    <button class="story-tab active" onclick="showStory('story1', this)">💻 &nbsp;Pomalý PC</button>
+    <button class="story-tab" onclick="showStory('story2', this)">🔧 &nbsp;Nový PC na míru</button>
+  </div>
+
+  <!-- STORY 1 -->
+  <div id="story1" class="story-panel active">
+    <div class="story-steps">
+      <div class="story-step">
+        <div class="step-badge">1</div>
+        <div class="step-content">
+          <h4>Jana popíše problém</h4>
+          <p>Přes formulář na webu vybere <em>„Oprava / servis"</em> a napíše: „Počítač se rozjíždí pět minut, je to nesnošitelné."</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">2</div>
+        <div class="step-content">
+          <h4>Adam zavolá do hodiny</h4>
+          <p>Domluví se na rychlé online diagnostice přes TeamViewer – žádné cestování, žádné čekání na termín.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">3</div>
+        <div class="step-content">
+          <h4>Diagnostika online</h4>
+          <p>Adam se připojí, mrkne na disk, paměť a spouštěcí programy. Zjistí příčinu: starý pomalý HDD a balast v systému. Janě to vysvětlí srozumitelně.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">4</div>
+        <div class="step-content">
+          <h4>Navrhne řešení, Jana se rozhodne</h4>
+          <p>Dvě možnosti: vyčistit software hned (zdarma), nebo vyměnit disk za SSD při osobní návštěvě. Jana chce obojí. Adam objedná SSD a domluví termín.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">5</div>
+        <div class="step-content">
+          <h4>Hotovo, počítač letí</h4>
+          <p>Počítač nastartuje za 12 sekund. Jana platí až po předání – bez skrytých poplatků.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY 2 -->
+  <div id="story2" class="story-panel">
+    <div class="story-steps">
+      <div class="story-step">
+        <div class="step-badge">1</div>
+        <div class="step-content">
+          <h4>Tomáš popíše, co potřebuje</h4>
+          <p>Vyplní formulář: „Potřebuju nový PC na gaming a střih videa, rozpočet cca 30 000 Kč."</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">2</div>
+        <div class="step-content">
+          <h4>Adam zavolá a zjistí detaily</h4>
+          <p>Zeptá se na to podstatné: jaké hry, jaký software na střih, kolik Hz monitor, jestli řeší hlučnost. Žádné zbytečné technické otázky.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">3</div>
+        <div class="step-content">
+          <h4>Návrh sestavy s odůvodněním a cenou</h4>
+          <p>Tomáš dostane konkrétní konfiguraci – každá komponenta s krátkým vysvětlením proč. Cena zahrnuje díly i práci. Nenavrhuje nejlevnější, navrhuje to, co za 3 roky stále stačí.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">4</div>
+        <div class="step-content">
+          <h4>Stavba a zátěžové testy</h4>
+          <p>Po záloze Adam díly objedná a sestaví. Nainstaluje Windows, Steam, DaVinci Resolve. Přes noc pustí zátěžové testy CPU, GPU a RAM. Vše stabilní, nic se nepřehřívá.</p>
+        </div>
+      </div>
+      <div class="story-step">
+        <div class="step-badge">5</div>
+        <div class="step-content">
+          <h4>Předání a doplatek</h4>
+          <p>Tomáš přijde, Adam mu ukáže výsledky testů a vysvětlí, co kde je. Počítač je připravený k použití. Tomáš doplatí zbytek – stroj přesně odpovídá tomu, co potřeboval.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="note" style="max-width:var(--max-w);margin:20px auto 0;">Záložky mezi příběhy jsou interaktivní – klikni na „Nový PC na míru" a uvidíš druhý příběh. Počet kroků nebo znění textů můžeme upravit.</div>
+  </div>
+</section>
+
+<!-- TEAMVIEWER -->
+<div class="divider-label"><span>05</span> Vzdálená pomoc — TeamViewer</div>
+<section class="tv-section">
+  <div class="section-head">
+    <h2>Pomoc online – bez čekání na termín</h2>
+    <p>Spoustu problémů vyřeším na dálku během minut. Bez cestování, bez zbytečného čekání.</p>
+  </div>
+  <div class="tv-box" style="max-width:680px;margin:0 auto;padding:0 24px;">
+    <div class="tv-box-inner">
+      <div class="tv-steps-row">
+        <div class="tv-step">
+          <div class="tv-step-num">1</div>
+          <h4>Stáhněte QuickSupport</h4>
+          <p>Malý soubor, žádná instalace</p>
+        </div>
+        <div class="tv-step">
+          <div class="tv-step-num">2</div>
+          <h4>Spusťte a sdělte ID</h4>
+          <p>Zobrazí se vaše číslo a heslo</p>
+        </div>
+        <div class="tv-step">
+          <div class="tv-step-num">3</div>
+          <h4>Adam se připojí</h4>
+          <p>Vidíte vše, co dělá</p>
+        </div>
+      </div>
+      <div class="tv-cta-area">
+        <a href="#" class="btn-primary">⬇ &nbsp;Spustit vzdálenou pomoc</a>
+        <div class="note">Tlačítko stáhne QuickSupport předkonfigurovaný na Adamův účet. Zákazník nezadává žádnou adresu ani ID – vše je připravené.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROČ ADAM -->
+<div class="divider-label"><span>06</span> Proč Adam — USP</div>
+<section class="usp-section">
+  <div class="section-head">
+    <h2>Proč si vybrat Adama</h2>
+  </div>
+  <div class="usp-list">
+    <div class="usp-item">
+      <div class="usp-num">01</div>
+      <div>
+        <h3>Dlouholetá zkušenost s opravami a sestavováním PC</h3>
+        <p>Nepracuji jen s novými sestavami – vím, co skřípe u starých strojů, a umím odhadnout, co se ještě vyplatí opravit.</p>
+      </div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-num">02</div>
+      <div>
+        <h3>Vybírám kvalitní, odzkoušené komponenty</h3>
+        <p>Nepoužívám nejlevnější díly, které mají své mouchy – hlučnost, nestabilitu, krátkou životnost. Zákazník dostane stroj, který bude spolehlivý.</p>
+      </div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-num">03</div>
+      <div>
+        <h3>Řeším příčinu, ne příznaky</h3>
+        <p>Nestačí mi dočasná oprava. Chci, aby zákazník odešel s vyřešeným problémem – ne s tím, že za měsíc volá znovu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁŘ -->
+<div class="divider-label"><span>07</span> Zákaznický formulář</div>
+<section class="form-section" id="kontakt">
+  <div class="section-head">
+    <h2>Popište mi problém</h2>
+    <p>Ozvu se do 24 hodin. U akutních případů zavolejte přímo.</p>
+  </div>
+  <div class="form-wrap">
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Jméno <span class="req">*</span></label>
+          <input type="text" class="form-control" placeholder="Jana Nováková">
+        </div>
+        <div class="form-group">
+          <label>Telefon nebo e-mail <span class="req">*</span></label>
+          <input type="text" class="form-control" placeholder="604 xxx xxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Typ požadavku</label>
+        <select class="form-control">
+          <option value="">— Vyberte —</option>
+          <option>Oprava / servis počítače</option>
+          <option>Nový počítač na míru</option>
+          <option>Wifi a domácí síť</option>
+          <option>Firemní síť / NAS</option>
+          <option>Tiskárna nebo periferie</option>
+          <option>Jiné</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Popis problému nebo požadavku</label>
+        <textarea class="form-control" placeholder="Popište co nejpodrobněji, co se děje nebo co potřebujete. Čím více napíšete, tím lépe se připravím."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Kdy potřebujete řešit</label>
+        <select class="form-control">
+          <option>Co nejdříve</option>
+          <option>Konkrétní termín (napište do popisu)</option>
+          <option>Nespěchám</option>
+        </select>
+      </div>
+      <button class="form-submit">Odeslat poptávku</button>
+      <p class="form-footer-note">Po odeslání se ozvu do 24 hodin. Žádný spam, žádné předávání dat třetím stranám.</p>
+    </div>
+    <div class="note">Kam mají odpovědi chodit? Na e-mail, nebo do nějakého nástroje (Google Sheets, apod.)? Tohle je potřeba domluvit.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="divider-label"><span>08</span> Patička</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Adam Dušek – Hodinový ajťák</div>
+      <div class="footer-tagline">Servis PC · Sítě · NAS · Sestavy na míru</div>
+    </div>
+    <div class="footer-contact">
+      <a href="tel:+420605102440">605 102 440</a>
+      <a href="mailto:adam.dusek7@seznam.cz">adam.dusek7@seznam.cz</a>
+      <div class="footer-region">Praha a okolí · Servis online i osobně</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showStory(id, btn) {
+  document.querySelectorAll('.story-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.story-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
