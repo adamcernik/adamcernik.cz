@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poznávačka ptáků</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f0;
+            color: #2d3a2d;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 12px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: #2d5a27;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 12px 0 20px;
+            font-size: 0.95rem;
+        }
+
+        .score-bar span {
+            background: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        /* Modes */
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 8px 18px;
+            border: 2px solid #2d5a27;
+            background: white;
+            color: #2d5a27;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active, .mode-btn:hover {
+            background: #2d5a27;
+            color: white;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 350px;
+            object-fit: contain;
+            background: #fafafa;
+            display: block;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Quiz mode */
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 14px 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #2d5a27;
+            background: #f5faf5;
+        }
+
+        .option-btn.correct {
+            border-color: #2d5a27;
+            background: #e8f5e9;
+            color: #2d5a27;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            border-color: #c62828;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        /* Flashcard mode */
+        .flashcard-area {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .bird-name-reveal {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d5a27;
+            margin-bottom: 16px;
+            min-height: 2em;
+        }
+
+        .reveal-btn {
+            padding: 12px 32px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .reveal-btn:hover {
+            background: #1e3d1a;
+        }
+
+        /* Write mode */
+        .write-area {
+            text-align: center;
+        }
+
+        .write-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .write-input:focus {
+            border-color: #2d5a27;
+        }
+
+        .write-input.correct {
+            border-color: #2d5a27;
+            background: #e8f5e9;
+        }
+
+        .write-input.wrong {
+            border-color: #c62828;
+            background: #ffebee;
+        }
+
+        .submit-btn {
+            padding: 12px 32px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #1e3d1a;
+        }
+
+        .hint-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .correct-answer {
+            color: #2d5a27;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        /* Next button */
+        .next-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: background 0.2s;
+        }
+
+        .next-btn:hover {
+            background: #1e3d1a;
+        }
+
+        /* Results */
+        .results {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .results h2 {
+            font-size: 1.8rem;
+            color: #2d5a27;
+            margin-bottom: 12px;
+        }
+
+        .results .big-score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #2d5a27;
+            margin: 16px 0;
+        }
+
+        .results p {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .restart-btn {
+            padding: 14px 40px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+
+        .restart-btn:hover {
+            background: #1e3d1a;
+        }
+
+        /* Browse mode */
+        .browse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .browse-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .browse-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .browse-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .browse-item p {
+            padding: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Detail modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .modal img {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            background: #fafafa;
+        }
+
+        .modal .modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal h3 {
+            font-size: 1.4rem;
+            color: #2d5a27;
+            margin-bottom: 12px;
+        }
+
+        .modal .close-btn {
+            padding: 10px 28px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 480px) {
+            .card img { height: 250px; }
+            .options { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.3rem; }
+            .browse-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app" id="app"></div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <img id="modal-img" src="" alt="">
+            <div class="modal-body">
+                <h3 id="modal-name"></h3>
+                <button class="close-btn" onclick="closeModal()">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const birds = [
+        { name: "Potápka roháč", image: "images/potapka-rohac.png" },
+        { name: "Kormorán velký", image: "images/kormoran-velky.jpg" },
+        { name: "Husa velká", image: "images/husa-velka.jpg" },
+        { name: "Kachna divoká", image: "images/kachna-divoka.jpg" },
+        { name: "Lyska černá", image: "images/lyska-cerna.jpg" },
+        { name: "Polák chocholačka", image: "images/polak-chocholacka.jpg" },
+        { name: "Volavka popelavá", image: "images/volavka-popelava.jpg" },
+        { name: "Čáp černý", image: "images/cap-cerny.jpg" },
+        { name: "Čejka chocholatá", image: "images/cejka-chocholata.jpg" },
+        { name: "Slípka zelenonohá", image: "images/slipka-zelenonoha.jpg" },
+        { name: "Káně lesní", image: "images/kane-lesni.jpg" },
+        { name: "Poštolka obecná", image: "images/postolka-obecna.jpg" },
+        { name: "Puštík obecný", image: "images/pustik-obecny.jpg" },
+        { name: "Kalous ušatý", image: "images/kalous-usaty.jpg" },
+        { name: "Výr velký", image: "images/vyr-velky.jpg" },
+        { name: "Strakapoud velký", image: "images/strakapoud-velky.jpg" },
+        { name: "Datel černý", image: "images/datel-cerny.jpg" },
+        { name: "Sýkora koňadra", image: "images/sykora-konadra.jpg" },
+        { name: "Pěnkava obecná", image: "images/penkava-obecna.jpg" },
+        { name: "Sojka obecná", image: "images/sojka-obecna.jpg" },
+        { name: "Kukačka obecná", image: "images/kukacka-obecna.jpg" },
+        { name: "Vrána obecná", image: "images/vrana-obecna.jpg" },
+        { name: "Havran polní", image: "images/havran-polni.jpg" },
+        { name: "Straka obecná", image: "images/straka-obecna.jpg" },
+        { name: "Bažant obecný", image: "images/bazant-obecny.jpg" },
+        { name: "Koroptev polní", image: "images/koroptev-polni.jpg" },
+        { name: "Vlaštovka obecná", image: "images/vlastovka-obecna.jpg" },
+        { name: "Jiřička obecná", image: "images/jiricka-obecna.jpg" },
+        { name: "Vrabec domácí", image: "images/vrabec-domaci.jpg" },
+        { name: "Vrabec polní", image: "images/vrabec-polni.jpg" },
+        { name: "Ledňáček říční", image: "images/lednacek-ricni.jpg" },
+        { name: "Skorec vodní", image: "images/skorec-vodni.jpg" }
+    ];
+
+    let mode = 'quiz';
+    let current = 0;
+    let score = 0;
+    let total = 0;
+    let shuffled = [];
+    let answered = false;
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function normalize(str) {
+        return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    function startGame() {
+        shuffled = shuffle(birds);
+        current = 0;
+        score = 0;
+        total = 0;
+        answered = false;
+        render();
+    }
+
+    function getOptions(correctBird) {
+        const others = birds.filter(b => b.name !== correctBird.name);
+        const wrong = shuffle(others).slice(0, 3);
+        const options = shuffle([correctBird, ...wrong]);
+        return options;
+    }
+
+    function render() {
+        const app = document.getElementById('app');
+
+        const modeBar = `
+            <header>
+                <h1>Poznávačka ptáků</h1>
+            </header>
+            <div class="mode-selector">
+                <button class="mode-btn ${mode === 'browse' ? 'active' : ''}" onclick="setMode('browse')">Přehled</button>
+                <button class="mode-btn ${mode === 'quiz' ? 'active' : ''}" onclick="setMode('quiz')">Kvíz</button>
+                <button class="mode-btn ${mode === 'flashcard' ? 'active' : ''}" onclick="setMode('flashcard')">Kartičky</button>
+                <button class="mode-btn ${mode === 'write' ? 'active' : ''}" onclick="setMode('write')">Psaní</button>
+            </div>
+        `;
+
+        if (mode === 'browse') {
+            app.innerHTML = modeBar + renderBrowse();
+            return;
+        }
+
+        if (current >= shuffled.length) {
+            app.innerHTML = modeBar + renderResults();
+            return;
+        }
+
+        const bird = shuffled[current];
+        let body = '';
+
+        if (mode === 'quiz') {
+            body = renderQuiz(bird);
+        } else if (mode === 'flashcard') {
+            body = renderFlashcard(bird);
+        } else if (mode === 'write') {
+            body = renderWrite(bird);
+        }
+
+        const scoreBar = mode !== 'browse' ? `
+            <div class="score-bar">
+                <span>Správně: ${score}</span>
+                <span>Špatně: ${total - score}</span>
+            </div>
+            <div class="progress-text">${current + 1} / ${shuffled.length}</div>
+        ` : '';
+
+        app.innerHTML = modeBar + scoreBar + `
+            <div class="card">
+                <img src="${bird.image}" alt="Který je to pták?" loading="lazy">
+                <div class="card-body">${body}</div>
+            </div>
+        `;
+
+        if (mode === 'write' && !answered) {
+            const input = document.getElementById('write-input');
+            if (input) input.focus();
+        }
+    }
+
+    function renderQuiz(bird) {
+        const options = window._currentOptions || getOptions(bird);
+        if (!window._currentOptions) window._currentOptions = options;
+
+        return `
+            <div class="options">
+                ${options.map(o => `
+                    <button class="option-btn" onclick="checkAnswer('${o.name.replace(/'/g, "\\'")}')" ${answered ? 'disabled' : ''}>
+                        ${o.name}
+                    </button>
+                `).join('')}
+            </div>
+            ${answered ? '<button class="next-btn" onclick="nextBird()">Další pták →</button>' : ''}
+        `;
+    }
+
+    function renderFlashcard(bird) {
+        return `
+            <div class="flashcard-area">
+                <div class="bird-name-reveal">${answered ? bird.name : '???'}</div>
+                ${!answered ? `<button class="reveal-btn" onclick="revealCard()">Ukázat název</button>` : ''}
+                <div>
+                    ${answered ? `
+                        <button class="option-btn correct" style="display:inline-block;margin:4px;" onclick="markFlashcard(true)">Věděl/a jsem</button>
+                        <button class="option-btn wrong" style="display:inline-block;margin:4px;" onclick="markFlashcard(false)">Nevěděl/a jsem</button>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderWrite(bird) {
+        return `
+            <div class="write-area">
+                ${!answered ? `
+                    <form onsubmit="checkWritten(event)">
+                        <input type="text" id="write-input" class="write-input" placeholder="Napiš název ptáka..." autocomplete="off" autocapitalize="sentences">
+                        <br>
+                        <button type="submit" class="submit-btn">Zkontrolovat</button>
+                    </form>
+                    <div class="hint-text">Napiš celý název (např. Kachna divoká)</div>
+                ` : `
+                    <div id="write-result"></div>
+                    <button class="next-btn" onclick="nextBird()">Další pták →</button>
+                `}
+            </div>
+        `;
+    }
+
+    function renderBrowse() {
+        const sorted = [...birds].sort((a, b) => a.name.localeCompare(b.name, 'cs'));
+        return `
+            <div class="browse-grid">
+                ${sorted.map(b => `
+                    <div class="browse-item" onclick="showDetail('${b.name.replace(/'/g, "\\'")}', '${b.image}')">
+                        <img src="${b.image}" alt="${b.name}" loading="lazy">
+                        <p>${b.name}</p>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderResults() {
+        const pct = total > 0 ? Math.round(score / total * 100) : 0;
+        let msg = '';
+        if (pct === 100) msg = 'Výborně! Znáš všechny ptáky!';
+        else if (pct >= 80) msg = 'Skvělý výsledek!';
+        else if (pct >= 50) msg = 'Dobrá práce, ještě trochu procvičuj!';
+        else msg = 'Nevadí, zkus to znovu!';
+
+        return `
+            <div class="results">
+                <h2>Hotovo!</h2>
+                <div class="big-score">${pct}%</div>
+                <p>${score} z ${total} správně</p>
+                <p>${msg}</p>
+                <button class="restart-btn" onclick="startGame()">Zkusit znovu</button>
+            </div>
+        `;
+    }
+
+    function setMode(m) {
+        mode = m;
+        startGame();
+    }
+
+    function checkAnswer(name) {
+        if (answered) return;
+        answered = true;
+        total++;
+
+        const bird = shuffled[current];
+        const correct = name === bird.name;
+        if (correct) score++;
+
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            if (btn.textContent.trim() === bird.name) {
+                btn.classList.add('correct');
+            } else if (btn.textContent.trim() === name && !correct) {
+                btn.classList.add('wrong');
+            }
+        });
+
+        const cardBody = document.querySelector('.card-body');
+        cardBody.innerHTML += '<button class="next-btn" onclick="nextBird()">Další pták →</button>';
+    }
+
+    function revealCard() {
+        answered = true;
+        render();
+    }
+
+    function markFlashcard(knew) {
+        total++;
+        if (knew) score++;
+        nextBird();
+    }
+
+    function checkWritten(e) {
+        e.preventDefault();
+        const input = document.getElementById('write-input');
+        const answer = input.value.trim();
+        if (!answer) return;
+
+        answered = true;
+        total++;
+
+        const bird = shuffled[current];
+        const correct = normalize(answer) === normalize(bird.name);
+        if (correct) score++;
+
+        render();
+
+        const result = document.getElementById('write-result');
+        if (result) {
+            if (correct) {
+                result.innerHTML = `<div class="correct-answer">Správně! ${bird.name}</div>`;
+            } else {
+                result.innerHTML = `
+                    <div style="color:#c62828;font-weight:600;font-size:1.1rem;">Špatně: ${answer}</div>
+                    <div class="correct-answer">Správně: ${bird.name}</div>
+                `;
+            }
+        }
+    }
+
+    function nextBird() {
+        current++;
+        answered = false;
+        window._currentOptions = null;
+        render();
+    }
+
+    function showDetail(name, image) {
+        document.getElementById('modal-img').src = image;
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal').classList.add('show');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('show');
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    startGame();
+    </script>
+</body>
+</html>
