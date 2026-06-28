@@ -8,178 +8,364 @@
 <title>Dovolená Lanzarote · 5.–12. 7. 2026</title>
 <style>
   :root{
-    --ocean:#0a6e8a; --ocean-dark:#084e63; --sand:#f6efe3; --sun:#f4a93b;
+    --ocean:#0a6e8a; --ocean-dark:#084e63; --ocean-soft:#e6f1f4; --sand:#f6efe3; --sun:#f4a93b;
     --ink:#1f2933; --muted:#5b6770; --line:#e4ddd0; --ok:#2e8b57; --warn:#c2410c;
-    --card:#ffffff;
+    --card:#ffffff; --shadow:0 10px 30px -12px rgba(8,78,99,.22);
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:var(--ink); background:var(--sand); line-height:1.55; padding:24px 16px 60px;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 500px at 80% -10%, #d8edf2 0%, rgba(216,237,242,0) 60%),
+      var(--sand);
+    line-height:1.55; padding:0 16px 70px;
   }
-  .wrap{max-width:880px;margin:0 auto}
+  .wrap{max-width:920px;margin:0 auto}
   /* HERO */
   .hero{
     background:linear-gradient(135deg,var(--ocean) 0%,var(--ocean-dark) 100%);
-    color:#fff;border-radius:20px;padding:34px 30px;position:relative;overflow:hidden;
+    color:#fff;border-radius:0 0 24px 24px;padding:38px 32px 34px;position:relative;overflow:hidden;
+    box-shadow:var(--shadow);margin:0 -16px 0;
   }
-  .hero::after{content:"🌴";position:absolute;right:18px;top:8px;font-size:120px;opacity:.12}
+  .hero::after{content:"🌴";position:absolute;right:20px;top:6px;font-size:140px;opacity:.12;transform:rotate(-8deg)}
+  .hero::before{content:"";position:absolute;left:-60px;bottom:-80px;width:240px;height:240px;
+    background:radial-gradient(circle,rgba(244,169,59,.35),transparent 70%)}
+  .hero .inner{max-width:920px;margin:0 auto;position:relative}
   .hero .eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;opacity:.85;font-weight:600}
-  .hero h1{font-size:34px;margin:6px 0 4px;line-height:1.1}
+  .hero h1{font-size:38px;margin:6px 0 4px;line-height:1.05;letter-spacing:-.5px}
   .hero .dates{font-size:18px;opacity:.95;font-weight:500}
-  .hero .pills{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .hero .pills{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
   .pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
-    padding:5px 12px;border-radius:999px;font-size:13px;font-weight:600;backdrop-filter:blur(2px)}
+    padding:6px 13px;border-radius:999px;font-size:13px;font-weight:600;backdrop-filter:blur(2px)}
   .pill.price{background:var(--sun);border-color:var(--sun);color:#3a2400}
+  .countdown{margin-top:18px;display:inline-flex;align-items:center;gap:8px;
+    background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.2);padding:7px 14px;border-radius:999px;
+    font-size:13.5px;font-weight:600}
+  .countdown b{font-size:16px}
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;margin:0 -16px 22px;padding:10px 16px;
+    background:rgba(246,239,227,.82);backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:920px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav-inner a{flex:0 0 auto;display:flex;align-items:center;gap:6px;text-decoration:none;
+    color:var(--muted);font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:999px;
+    border:1px solid transparent;white-space:nowrap;transition:.18s}
+  .nav-inner a:hover{color:var(--ocean-dark);background:#fff}
+  .nav-inner a.active{color:#fff;background:var(--ocean);border-color:var(--ocean);box-shadow:var(--shadow)}
+  /* SECTIONS */
+  .section{scroll-margin-top:72px;margin-top:26px}
+  .section > .sec-head{display:flex;align-items:center;gap:10px;margin:0 2px 14px}
+  .sec-head .sec-ico{font-size:20px}
+  .sec-head h2{font-size:20px;letter-spacing:-.2px}
+  .sec-head .stamp{margin-left:auto}
   /* GRID */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   @media(max-width:680px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
-  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;color:var(--ocean);
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+    box-shadow:var(--shadow);transition:.2s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 16px 36px -14px rgba(8,78,99,.3)}
+  .card h3{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;color:var(--ocean);
     margin-bottom:14px;display:flex;align-items:center;gap:8px}
-  .row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
   .row:last-child{border-bottom:0}
   .row .k{color:var(--muted);font-size:14px}
   .row .v{font-weight:600;text-align:right;font-size:14px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+  @media(max-width:560px){.two-col{grid-template-columns:1fr}}
   /* FLIGHTS */
-  .flight{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .flight{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line)}
   .flight:last-child{border-bottom:0}
-  .flight .dir{font-size:22px}
+  .flight .dir{font-size:24px}
   .flight .body{flex:1}
   .flight .when{font-weight:700;font-size:15px}
   .flight .route{color:var(--muted);font-size:13.5px;margin-top:2px}
   .flight .time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ocean);font-size:15px;white-space:nowrap}
   /* TRAVELERS */
-  .trav{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
-  .trav:last-child{border-bottom:0}
-  .avatar{width:34px;height:34px;border-radius:50%;background:var(--ocean);color:#fff;
+  .trav-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+  @media(max-width:560px){.trav-grid{grid-template-columns:1fr}}
+  .trav{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .avatar{width:36px;height:36px;border-radius:50%;background:var(--ocean);color:#fff;
     display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
   .avatar.kid{background:var(--sun);color:#3a2400}
   .trav .nm{font-weight:600;font-size:14.5px}
   .trav .meta{color:var(--muted);font-size:12.5px}
   /* CHECKLIST */
-  .full{grid-column:1 / -1}
-  .check{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .check{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
   .check:last-child{border-bottom:0}
-  .check .ico{width:26px;height:26px;border-radius:7px;flex-shrink:0;display:flex;
-    align-items:center;justify-content:center;font-size:15px;background:#fff4e6;color:var(--warn)}
+  .check .ico{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;
+    align-items:center;justify-content:center;font-size:15px;font-weight:700;background:#fff4e6;color:var(--warn)}
   .check.tip .ico{background:#e7f3ee;color:var(--ok)}
   .check .ct{font-size:14px}
   .check .ct strong{display:block;margin-bottom:2px}
   .note{background:#fff8ec;border:1px solid #f3e2c2;border-radius:12px;padding:14px 16px;
     margin-top:16px;font-size:13.5px;color:#6b4e1f}
   .note b{color:#5a3d12}
-  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:36px;line-height:1.6}
   a{color:var(--ocean)}
   .stamp{display:inline-block;background:var(--ok);color:#fff;font-size:12px;font-weight:700;
-    padding:3px 10px;border-radius:999px;margin-left:8px;vertical-align:middle}
+    padding:3px 11px;border-radius:999px;vertical-align:middle}
+  .stamp.wait{background:var(--sun);color:#3a2400}
+  .to-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;
+    background:var(--ocean);color:#fff;border:0;cursor:pointer;font-size:20px;box-shadow:var(--shadow);
+    opacity:0;pointer-events:none;transition:.25s;z-index:60}
+  .to-top.show{opacity:1;pointer-events:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="hero">
-    <div class="eyebrow">Rodinná dovolená · Kanárské ostrovy</div>
-    <h1>Lanzarote 🇪🇸</h1>
-    <div class="dates">neděle 5. 7. → neděle 12. 7. 2026 · 7 nocí</div>
-    <div class="pills">
-      <span class="pill">✈️ Přímý let z Mnichova</span>
-      <span class="pill">🏨 Hotel Relaxia Olivina ★★★★</span>
-      <span class="pill">🍽️ All Inclusive</span>
-      <span class="pill">👨‍👩‍👧‍👦 4 osoby</span>
-      <span class="pill price">2 133,00 €</span>
+    <div class="inner">
+      <div class="eyebrow">Rodinná dovolená · Kanárské ostrovy</div>
+      <h1>Lanzarote 🇪🇸</h1>
+      <div class="dates">neděle 5. 7. → neděle 12. 7. 2026 · 7 nocí</div>
+      <div class="pills">
+        <span class="pill">✈️ Přímý let z Mnichova</span>
+        <span class="pill">🏨 Relaxia Olivina ★★★★</span>
+        <span class="pill">🍽️ All Inclusive</span>
+        <span class="pill">👨‍👩‍👧‍👦 4 osoby</span>
+        <span class="pill">🚗 Auto Europcar</span>
+        <span class="pill">🛡️ Pojištění UNIQA</span>
+        <span class="pill price">2 133,00 €</span>
+      </div>
+      <div class="countdown" id="countdown">⏳ <span id="cd-text">Počítám…</span></div>
     </div>
   </div>
 
-  <div class="grid">
+</div>
 
-    <!-- REZERVACE -->
-    <div class="card">
-      <h2>📋 Rezervace <span class="stamp">Potvrzeno</span></h2>
-      <div class="row"><span class="k">Pořadatel</span><span class="v">L'TUR</span></div>
-      <div class="row"><span class="k">Číslo rezervace</span><span class="v">80568242</span></div>
-      <div class="row"><span class="k">Prodejce</span><span class="v">CHECK24</span></div>
-      <div class="row"><span class="k">Potvrzeno</span><span class="v">27. 6. 2026</span></div>
-      <div class="row"><span class="k">Storno / přebukování</span><span class="v" style="color:var(--warn)">zpoplatněné</span></div>
-    </div>
-
-    <!-- HOTEL -->
-    <div class="card">
-      <h2>🏨 Ubytování</h2>
-      <div class="row"><span class="k">Hotel</span><span class="v">Relaxia Olivina ★★★★</span></div>
-      <div class="row"><span class="k">Lokalita</span><span class="v">Puerto del Carmen<br>(Playa de los Pocillos)</span></div>
-      <div class="row"><span class="k">Pokoj</span><span class="v">Family Superior</span></div>
-      <div class="row"><span class="k">Strava</span><span class="v">All Inclusive</span></div>
-      <div class="row"><span class="k">Pláž / letiště</span><span class="v">&lt; 400 m / 4 km</span></div>
-    </div>
-
-    <!-- LETY -->
-    <div class="card full">
-      <h2>✈️ Lety · TUIfly (přímé)</h2>
-      <div class="flight">
-        <div class="dir">🛫</div>
-        <div class="body">
-          <div class="when">ne 5. 7. 2026 — Tam</div>
-          <div class="route">Mnichov (MUC) → Lanzarote (ACE) · let X32842 · 15 kg + příruční</div>
-        </div>
-        <div class="time">13:20&nbsp;→&nbsp;16:55</div>
-      </div>
-      <div class="flight">
-        <div class="dir">🛬</div>
-        <div class="body">
-          <div class="when">ne 12. 7. 2026 — Zpět</div>
-          <div class="route">Lanzarote (ACE) → Mnichov (MUC) · let X32843 · 15 kg + příruční</div>
-        </div>
-        <div class="time">17:45&nbsp;→&nbsp;~22:00</div>
-      </div>
-    </div>
-
-    <!-- CESTUJICI -->
-    <div class="card">
-      <h2>👥 Cestující</h2>
-      <div class="trav"><div class="avatar">AČ</div><div><div class="nm">Adam Černík</div><div class="meta">14. 1. 1985 · dospělý</div></div></div>
-      <div class="trav"><div class="avatar">AŠ</div><div><div class="nm">Adéla Švecová</div><div class="meta">25. 8. 1981 · dospělý</div></div></div>
-      <div class="trav"><div class="avatar kid">EČ</div><div><div class="nm">Elíša Černíková</div><div class="meta">5. 7. 2016 · dítě (10)</div></div></div>
-      <div class="trav"><div class="avatar kid">AČ</div><div><div class="nm">Albrecht Černík</div><div class="meta">21. 3. 2013 · dítě (13)</div></div></div>
-    </div>
-
-    <!-- PLATBA -->
-    <div class="card">
-      <h2>💳 Platba</h2>
-      <div class="row"><span class="k">Cena celkem</span><span class="v" style="font-size:18px">2 133,00 €</span></div>
-      <div class="row"><span class="k">Způsob</span><span class="v">Karta Visa **** 3208</span></div>
-      <div class="row"><span class="k">Stržení</span><span class="v">automaticky 29. 6. 2026</span></div>
-      <div class="row"><span class="k">Stav</span><span class="v" style="color:var(--warn)">čeká na stržení</span></div>
-      <div class="note" style="margin-top:14px">⚠️ Je to <b>debetní</b> karta — k 29. 6. mějte na účtu volných ≈ 53 000 Kč a zkontrolujte denní limit pro online platby.</div>
-    </div>
-
-    <!-- CHECKLIST -->
-    <div class="card full">
-      <h2>✅ Co zařídit před cestou</h2>
-      <div class="check">
-        <div class="ico">①</div>
-        <div class="ct"><strong>Ověřit jména s pasy</strong>Pořadatel přepsal jména bez diakritiky: <b>Adam Cernik, Adela Svecova, Elisa Cernikova, Albrecht Cernik</b>. Musí sedět s cestovními doklady kvůli odbavení.</div>
-      </div>
-      <div class="check">
-        <div class="ico">②</div>
-        <div class="ct"><strong>Peníze na kartě k 29. 6.</strong>Zajistit zůstatek ≈ 2 133 € a zvýšit denní limit pro internetové/zahraniční platby, ať stržení projde.</div>
-      </div>
-      <div class="check">
-        <div class="ico">③</div>
-        <div class="ct"><strong>Online check-in u TUIfly</strong>Nutný předem na <a href="https://www.tuifly.com/de/webcheckin/login">tuifly.com/webcheckin</a> — jinak hrozí poplatky na letišti.</div>
-      </div>
-      <div class="check tip">
-        <div class="ico">✓</div>
-        <div class="ct"><strong>Doklady a dokumenty</strong>Faktura a kalendářní soubory letů (.ics) jsou v příloze potvrzovacího e-mailu od Check24. Platné pasy/občanky pro celou rodinu.</div>
-      </div>
-    </div>
-
+<nav>
+  <div class="nav-inner" id="nav">
+    <a href="#rezervace" data-target="rezervace">📋 Rezervace</a>
+    <a href="#ubytovani" data-target="ubytovani">🏨 Ubytování</a>
+    <a href="#lety" data-target="lety">✈️ Lety</a>
+    <a href="#auto" data-target="auto">🚗 Auto</a>
+    <a href="#pojisteni" data-target="pojisteni">🛡️ Pojištění</a>
+    <a href="#cestujici" data-target="cestujici">👥 Cestující</a>
+    <a href="#platba" data-target="platba">💳 Platba</a>
+    <a href="#checklist" data-target="checklist">✅ Checklist</a>
   </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- REZERVACE + UBYTOVÁNÍ -->
+  <section class="section" id="rezervace">
+    <div class="sec-head"><span class="sec-ico">📋</span><h2>Rezervace &amp; ubytování</h2></div>
+    <div class="grid">
+      <div class="card">
+        <h3>📋 Rezervace <span class="stamp" style="margin-left:auto">Potvrzeno</span></h3>
+        <div class="row"><span class="k">Pořadatel</span><span class="v">L'TUR</span></div>
+        <div class="row"><span class="k">Číslo rezervace</span><span class="v">80568242</span></div>
+        <div class="row"><span class="k">Prodejce</span><span class="v">CHECK24</span></div>
+        <div class="row"><span class="k">Potvrzeno</span><span class="v">27. 6. 2026</span></div>
+        <div class="row"><span class="k">Storno / přebukování</span><span class="v" style="color:var(--warn)">zpoplatněné</span></div>
+      </div>
+      <div class="card" id="ubytovani" style="scroll-margin-top:80px">
+        <h3>🏨 Ubytování</h3>
+        <div class="row"><span class="k">Hotel</span><span class="v">Relaxia Olivina ★★★★</span></div>
+        <div class="row"><span class="k">Lokalita</span><span class="v">Puerto del Carmen<br>(Playa de los Pocillos)</span></div>
+        <div class="row"><span class="k">Pokoj</span><span class="v">Family Superior</span></div>
+        <div class="row"><span class="k">Strava</span><span class="v">All Inclusive</span></div>
+        <div class="row"><span class="k">Pláž / letiště</span><span class="v">&lt; 400 m / 4 km</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LETY -->
+  <section class="section" id="lety">
+    <div class="sec-head"><span class="sec-ico">✈️</span><h2>Lety</h2><span class="stamp">TUIfly · přímé</span></div>
+    <div class="grid">
+      <div class="card" style="grid-column:1/-1">
+        <div class="flight">
+          <div class="dir">🛫</div>
+          <div class="body">
+            <div class="when">ne 5. 7. 2026 — Tam</div>
+            <div class="route">Mnichov (MUC) → Lanzarote (ACE) · let X32842 · 15 kg + příruční</div>
+          </div>
+          <div class="time">13:20&nbsp;→&nbsp;16:55</div>
+        </div>
+        <div class="flight">
+          <div class="dir">🛬</div>
+          <div class="body">
+            <div class="when">ne 12. 7. 2026 — Zpět</div>
+            <div class="route">Lanzarote (ACE) → Mnichov (MUC) · let X32843 · 15 kg + příruční</div>
+          </div>
+          <div class="time">17:45&nbsp;→&nbsp;~22:00</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTO -->
+  <section class="section" id="auto">
+    <div class="sec-head"><span class="sec-ico">🚗</span><h2>Půjčené auto</h2><span class="stamp">Potvrzeno</span></div>
+    <div class="grid">
+      <div class="card" style="grid-column:1/-1">
+        <div class="two-col">
+          <div>
+            <div class="row"><span class="k">Půjčovna</span><span class="v">Europcar</span></div>
+            <div class="row"><span class="k">Vůz</span><span class="v">Opel Corsa 5dv. A/C<br>(skupina B, nebo podobný)</span></div>
+            <div class="row"><span class="k">Vyzvednutí</span><span class="v">ne 5. 7. · 17:30<br>Letiště Lanzarote (ACE)</span></div>
+            <div class="row"><span class="k">Vrácení</span><span class="v">ne 12. 7. · 15:00<br>Letiště Lanzarote (ACE)</span></div>
+          </div>
+          <div>
+            <div class="row"><span class="k">Cena (předplaceno)</span><span class="v">117,17 €</span></div>
+            <div class="row"><span class="k">Rezervace</span><span class="v">55818179 / 01</span></div>
+            <div class="row"><span class="k">Řidič</span><span class="v">Adam Černík</span></div>
+            <div class="row"><span class="k">V ceně</span><span class="v">plné kasko bez spoluúčasti,<br>krádež, neomezené km, 1 řidič navíc</span></div>
+          </div>
+        </div>
+        <div class="note">
+          💶 <b>Kauce 100 €</b> (skupina B) — lze složit <b>kartou nebo v hotovosti</b> na jméno hlavního řidiče. Palivo: plná → plná nádrž (jinak poplatek 28,75 €).<br>
+          🪪 K převzetí: <b>originál řidičáku + pasu/občanky</b> (kopie neberou), voucher, karta/hotovost na kauci. Min. věk 21 let.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POJIŠTĚNÍ -->
+  <section class="section" id="pojisteni">
+    <div class="sec-head"><span class="sec-ico">🛡️</span><h2>Cestovní pojištění</h2><span class="stamp">Sjednáno</span></div>
+    <div class="grid">
+      <div class="card" style="grid-column:1/-1">
+        <div class="two-col">
+          <div>
+            <div class="row"><span class="k">Pojišťovna</span><span class="v">UNIQA pojišťovna, a.s.</span></div>
+            <div class="row"><span class="k">Produkt</span><span class="v">Cestovní pojištění NAPLNO</span></div>
+            <div class="row"><span class="k">Sjednáno přes</span><span class="v">Raiffeisenbank (Adéla)</span></div>
+            <div class="row"><span class="k">Rozsah území</span><span class="v">celý svět kromě ČR<br>(Lanzarote kryto)</span></div>
+            <div class="row"><span class="k">Max. délka cesty</span><span class="v">120 dní</span></div>
+          </div>
+          <div>
+            <div class="row"><span class="k">Léčebné výlohy</span><span class="v">8 000 000 Kč</span></div>
+            <div class="row"><span class="k">Repatriace</span><span class="v">8 000 000 Kč</span></div>
+            <div class="row"><span class="k">Odpovědnost za škodu</span><span class="v">5 000 000 Kč</span></div>
+            <div class="row"><span class="k">Úraz (smrt/trvalé n.)</span><span class="v">1 000 000 Kč</span></div>
+            <div class="row"><span class="k">Zavazadla</span><span class="v">30 000 Kč</span></div>
+            <div class="row"><span class="k">Storno zájezdu</span><span class="v">30 000 Kč/os. (spoluúč. 15 %)</span></div>
+            <div class="row"><span class="k">Spoluúčast u auta</span><span class="v">kryta do 15 000 Kč</span></div>
+            <div class="row"><span class="k">Zpoždění letu / zavazadel</span><span class="v">5 000 Kč</span></div>
+          </div>
+        </div>
+        <div class="note">
+          ℹ️ Tento dokument je <b>balík podmínek pojištění</b> — konkrétní pojištěné osoby, přesný termín a cenu najdete v <b>individuálním potvrzení</b> (u Adély / v aplikaci Raiffeisenbank). Před cestou si uložte <b>kontakt na asistenční službu</b> do telefonu.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CESTUJÍCÍ + PLATBA -->
+  <section class="section" id="cestujici">
+    <div class="sec-head"><span class="sec-ico">👥</span><h2>Cestující &amp; platba</h2></div>
+    <div class="grid">
+      <div class="card">
+        <h3>👥 Cestující</h3>
+        <div class="trav-grid">
+          <div class="trav"><div class="avatar">AČ</div><div><div class="nm">Adam Černík</div><div class="meta">14. 1. 1985 · dospělý</div></div></div>
+          <div class="trav"><div class="avatar">AŠ</div><div><div class="nm">Adéla Švecová</div><div class="meta">25. 8. 1981 · dospělý</div></div></div>
+          <div class="trav"><div class="avatar kid">EČ</div><div><div class="nm">Elíša Černíková</div><div class="meta">5. 7. 2016 · dítě (10)</div></div></div>
+          <div class="trav"><div class="avatar kid">AČ</div><div><div class="nm">Albrecht Černík</div><div class="meta">21. 3. 2013 · dítě (13)</div></div></div>
+        </div>
+      </div>
+      <div class="card" id="platba" style="scroll-margin-top:80px">
+        <h3>💳 Platba <span class="stamp wait" style="margin-left:auto">Čeká</span></h3>
+        <div class="row"><span class="k">Cena celkem</span><span class="v" style="font-size:18px">2 133,00 €</span></div>
+        <div class="row"><span class="k">Způsob</span><span class="v">Karta Visa **** 3208</span></div>
+        <div class="row"><span class="k">Stržení</span><span class="v">automaticky 29. 6. 2026</span></div>
+        <div class="row"><span class="k">Stav</span><span class="v" style="color:var(--warn)">čeká na stržení</span></div>
+        <div class="note" style="margin-top:14px">⚠️ Je to <b>debetní</b> karta — k 29. 6. mějte na účtu volných ≈ 53 000 Kč a zkontrolujte denní limit pro online platby.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section class="section" id="checklist">
+    <div class="sec-head"><span class="sec-ico">✅</span><h2>Co zařídit před cestou</h2></div>
+    <div class="grid">
+      <div class="card" style="grid-column:1/-1">
+        <div class="check">
+          <div class="ico">1</div>
+          <div class="ct"><strong>Ověřit jména s pasy</strong>Pořadatel přepsal jména bez diakritiky: <b>Adam Cernik, Adela Svecova, Elisa Cernikova, Albrecht Cernik</b>. Musí sedět s cestovními doklady kvůli odbavení.</div>
+        </div>
+        <div class="check">
+          <div class="ico">2</div>
+          <div class="ct"><strong>Peníze na kartě k 29. 6.</strong>Zajistit zůstatek ≈ 2 133 € a zvýšit denní limit pro internetové/zahraniční platby, ať stržení projde.</div>
+        </div>
+        <div class="check">
+          <div class="ico">3</div>
+          <div class="ct"><strong>Online check-in u TUIfly</strong>Nutný předem na <a href="https://www.tuifly.com/de/webcheckin/login">tuifly.com/webcheckin</a> — jinak hrozí poplatky na letišti.</div>
+        </div>
+        <div class="check">
+          <div class="ico">4</div>
+          <div class="ct"><strong>Kauce na auto</strong>100 € (skupina B) lze složit <b>kartou nebo hotově</b> na jméno hlavního řidiče. Online check-in u Europcar/TUI Cars na <a href="https://www.tuicars.com/online-check-in/">tuicars.com/online-check-in</a>.</div>
+        </div>
+        <div class="check tip">
+          <div class="ico">✓</div>
+          <div class="ct"><strong>Doklady a dokumenty</strong>Faktura a .ics lety jsou v příloze mailu od Check24; voucher na auto v příloze od TUI Cars. K autu nutný <b>originál řidičáku + pasu/občanky</b>. Platné doklady pro celou rodinu.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
-    Přehled vytvořen z potvrzení rezervace Check24 / L'TUR · rezervace 80568242 · ceny a údaje dle e-mailu z 27. 6. 2026
+    Přehled vytvořen z potvrzení rezervace Check24 / L'TUR · rezervace 80568242<br>ceny a údaje dle e-mailu z 27. 6. 2026
   </footer>
 
 </div>
+
+<button class="to-top" id="toTop" aria-label="Nahoru">↑</button>
+
+<script>
+  // Countdown to departure
+  (function(){
+    var dep = new Date(2026, 6, 5, 13, 20, 0); // 5. 7. 2026 13:20
+    var el = document.getElementById('cd-text');
+    function tick(){
+      var now = new Date();
+      var diff = dep - now;
+      if(diff <= 0){ el.textContent = 'Užijte si Lanzarote! 🏖️'; return; }
+      var d = Math.floor(diff/86400000);
+      var h = Math.floor(diff%86400000/3600000);
+      el.innerHTML = 'Do odletu zbývá <b>' + d + '</b> dní a <b>' + h + '</b> h';
+    }
+    tick(); setInterval(tick, 60000);
+  })();
+
+  // Scroll-spy nav highlight
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+    var map = {};
+    links.forEach(function(a){ map[a.dataset.target] = a; });
+    var sections = links.map(function(a){ return document.getElementById(a.dataset.target); }).filter(Boolean);
+    var nav = document.getElementById('nav');
+    function setActive(id){
+      links.forEach(function(a){ a.classList.toggle('active', a.dataset.target === id); });
+      var act = map[id];
+      if(act){ // keep active chip in view
+        var l = act.offsetLeft, r = l + act.offsetWidth;
+        if(l < nav.scrollLeft) nav.scrollTo({left:l-12, behavior:'smooth'});
+        else if(r > nav.scrollLeft + nav.clientWidth) nav.scrollTo({left:r-nav.clientWidth+12, behavior:'smooth'});
+      }
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) setActive(e.target.id); });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    sections.forEach(function(s){ obs.observe(s); });
+  })();
+
+  // Back to top
+  (function(){
+    var btn = document.getElementById('toTop');
+    window.addEventListener('scroll', function(){
+      btn.classList.toggle('show', window.scrollY > 600);
+    }, {passive:true});
+    btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+  })();
+</script>
 </body>
 </html>
